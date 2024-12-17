@@ -1,0 +1,1229 @@
+---
+swagger: '2.0'
+info:
+  title: Portia API
+  description: API documentation for the Portia API
+  contact:
+    email: hello@portialabs.ai
+  version: v1
+host: localhost:8080
+schemes:
+- http
+basePath: "/api/v0"
+consumes:
+- application/json
+produces:
+- application/json
+securityDefinitions:
+  OAuth2:
+    type: oauth2
+    flow: accessCode
+    authorizationUrl: https://dev-6l6ov2qx04v2uyr0.us.auth0.com/oauth/authorize
+    tokenUrl: https://dev-6l6ov2qx04v2uyr0.us.auth0.com/oauth/token
+    scopes: {}
+  API-Key:
+    type: apiKey
+    name: Authorization
+    in: header
+    description: 'Format: Api-Key VALUE'
+security:
+- API-Key: []
+- OAuth2: []
+paths:
+  "/applications/":
+    get:
+      operationId: applications_list
+      summary: List
+      description: ''
+      parameters:
+      - name: x-portia-org-id
+        in: header
+        description: ID of the organization the request is for.
+        type: header
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              "$ref": "#/definitions/Application"
+        '400':
+          description: Bad request
+          schema:
+            description: Error Schema
+            type: object
+            properties:
+              status_code:
+                description: Status code of the error response
+                type: string
+              message:
+                description: Error message
+                type: string
+          examples:
+            application/json:
+              status_code: '400'
+              message: Bad request
+        '401':
+          description: Unauthorized
+          schema:
+            description: Error Schema
+            type: object
+            properties:
+              status_code:
+                description: Status code of the error response
+                type: string
+              message:
+                description: Error message
+                type: string
+          examples:
+            application/json:
+              status_code: '401'
+              message: Unauthorized
+        '409':
+          description: Conflict
+          schema:
+            description: Error Schema
+            type: object
+            properties:
+              status_code:
+                description: Status code of the error response
+                type: string
+              message:
+                description: Error message
+                type: string
+          examples:
+            application/json:
+              status_code: '409'
+              message: Conflict with the current state of the target resource
+        '500':
+          description: Internal Server Error
+          schema:
+            description: Error Schema
+            type: object
+            properties:
+              status_code:
+                description: Status code of the error response
+                type: string
+              message:
+                description: Error message
+                type: string
+          examples:
+            application/json:
+              status_code: '500'
+              message: Internal Server Error
+      tags:
+      - Applications
+      security:
+      - OAuth2: []
+      - API-Key: []
+    parameters: []
+  "/clients/":
+    get:
+      operationId: clients_list
+      summary: List
+      description: ''
+      parameters:
+      - name: x-portia-org-id
+        in: header
+        description: ID of the organization the request is for.
+        type: header
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              "$ref": "#/definitions/Client"
+        '400':
+          description: Bad request
+          schema:
+            description: Error Schema
+            type: object
+            properties:
+              status_code:
+                description: Status code of the error response
+                type: string
+              message:
+                description: Error message
+                type: string
+          examples:
+            application/json:
+              status_code: '400'
+              message: Bad request
+        '401':
+          description: Unauthorized
+          schema:
+            description: Error Schema
+            type: object
+            properties:
+              status_code:
+                description: Status code of the error response
+                type: string
+              message:
+                description: Error message
+                type: string
+          examples:
+            application/json:
+              status_code: '401'
+              message: Unauthorized
+        '409':
+          description: Conflict
+          schema:
+            description: Error Schema
+            type: object
+            properties:
+              status_code:
+                description: Status code of the error response
+                type: string
+              message:
+                description: Error message
+                type: string
+          examples:
+            application/json:
+              status_code: '409'
+              message: Conflict with the current state of the target resource
+        '500':
+          description: Internal Server Error
+          schema:
+            description: Error Schema
+            type: object
+            properties:
+              status_code:
+                description: Status code of the error response
+                type: string
+              message:
+                description: Error message
+                type: string
+          examples:
+            application/json:
+              status_code: '500'
+              message: Internal Server Error
+      tags:
+      - Clients
+      security:
+      - OAuth2: []
+      - API-Key: []
+    parameters: []
+  "/organizations/":
+    get:
+      operationId: organizations_list
+      summary: List
+      description: List organizations that caller is a member of.
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              "$ref": "#/definitions/Organization"
+        '400':
+          description: Bad request
+          schema:
+            description: Error Schema
+            type: object
+            properties:
+              status_code:
+                description: Status code of the error response
+                type: string
+              message:
+                description: Error message
+                type: string
+          examples:
+            application/json:
+              status_code: '400'
+              message: Bad request
+        '401':
+          description: Unauthorized
+          schema:
+            description: Error Schema
+            type: object
+            properties:
+              status_code:
+                description: Status code of the error response
+                type: string
+              message:
+                description: Error message
+                type: string
+          examples:
+            application/json:
+              status_code: '401'
+              message: Unauthorized
+        '409':
+          description: Conflict
+          schema:
+            description: Error Schema
+            type: object
+            properties:
+              status_code:
+                description: Status code of the error response
+                type: string
+              message:
+                description: Error message
+                type: string
+          examples:
+            application/json:
+              status_code: '409'
+              message: Conflict with the current state of the target resource
+        '500':
+          description: Internal Server Error
+          schema:
+            description: Error Schema
+            type: object
+            properties:
+              status_code:
+                description: Status code of the error response
+                type: string
+              message:
+                description: Error message
+                type: string
+          examples:
+            application/json:
+              status_code: '500'
+              message: Internal Server Error
+      tags:
+      - Organizations
+      security:
+      - Bearer: []
+      - API-Key: []
+    post:
+      operationId: organizations_create
+      summary: Create
+      description: Create a new organization.
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          "$ref": "#/definitions/CreateOrganization"
+      responses:
+        '201':
+          description: ''
+          schema:
+            "$ref": "#/definitions/Organization"
+        '400':
+          description: Bad request
+          schema:
+            description: Error Schema
+            type: object
+            properties:
+              status_code:
+                description: Status code of the error response
+                type: string
+              message:
+                description: Error message
+                type: string
+          examples:
+            application/json:
+              status_code: '400'
+              message: Bad request
+        '401':
+          description: Unauthorized
+          schema:
+            description: Error Schema
+            type: object
+            properties:
+              status_code:
+                description: Status code of the error response
+                type: string
+              message:
+                description: Error message
+                type: string
+          examples:
+            application/json:
+              status_code: '401'
+              message: Unauthorized
+        '409':
+          description: Conflict
+          schema:
+            description: Error Schema
+            type: object
+            properties:
+              status_code:
+                description: Status code of the error response
+                type: string
+              message:
+                description: Error message
+                type: string
+          examples:
+            application/json:
+              status_code: '409'
+              message: Conflict with the current state of the target resource
+        '500':
+          description: Internal Server Error
+          schema:
+            description: Error Schema
+            type: object
+            properties:
+              status_code:
+                description: Status code of the error response
+                type: string
+              message:
+                description: Error message
+                type: string
+          examples:
+            application/json:
+              status_code: '500'
+              message: Internal Server Error
+      tags:
+      - Organizations
+      security:
+      - Bearer: []
+      - API-Key: []
+    parameters: []
+  "/organizations/members/":
+    get:
+      operationId: organizations_members_list
+      summary: List
+      description: List all members of a specified organization.
+      parameters:
+      - name: x-portia-org-id
+        in: header
+        description: ID of the organization the request is for.
+        type: header
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              "$ref": "#/definitions/User"
+        '400':
+          description: Bad request
+          schema:
+            description: Error Schema
+            type: object
+            properties:
+              status_code:
+                description: Status code of the error response
+                type: string
+              message:
+                description: Error message
+                type: string
+          examples:
+            application/json:
+              status_code: '400'
+              message: Bad request
+        '401':
+          description: Unauthorized
+          schema:
+            description: Error Schema
+            type: object
+            properties:
+              status_code:
+                description: Status code of the error response
+                type: string
+              message:
+                description: Error message
+                type: string
+          examples:
+            application/json:
+              status_code: '401'
+              message: Unauthorized
+        '409':
+          description: Conflict
+          schema:
+            description: Error Schema
+            type: object
+            properties:
+              status_code:
+                description: Status code of the error response
+                type: string
+              message:
+                description: Error message
+                type: string
+          examples:
+            application/json:
+              status_code: '409'
+              message: Conflict with the current state of the target resource
+        '500':
+          description: Internal Server Error
+          schema:
+            description: Error Schema
+            type: object
+            properties:
+              status_code:
+                description: Status code of the error response
+                type: string
+              message:
+                description: Error message
+                type: string
+          examples:
+            application/json:
+              status_code: '500'
+              message: Internal Server Error
+      tags:
+      - Organization Membership
+      security:
+      - Bearer: []
+      - API-Key: []
+    post:
+      operationId: organizations_members_create
+      summary: Create
+      description: Create a new organization.
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          "$ref": "#/definitions/CreateOrganizationMembership"
+      - name: x-portia-org-id
+        in: header
+        description: ID of the organization the request is for.
+        type: header
+      responses:
+        '201':
+          description: ''
+          schema:
+            "$ref": "#/definitions/OrganizationMembership"
+        '400':
+          description: Bad request
+          schema:
+            description: Error Schema
+            type: object
+            properties:
+              status_code:
+                description: Status code of the error response
+                type: string
+              message:
+                description: Error message
+                type: string
+          examples:
+            application/json:
+              status_code: '400'
+              message: Bad request
+        '401':
+          description: Unauthorized
+          schema:
+            description: Error Schema
+            type: object
+            properties:
+              status_code:
+                description: Status code of the error response
+                type: string
+              message:
+                description: Error message
+                type: string
+          examples:
+            application/json:
+              status_code: '401'
+              message: Unauthorized
+        '409':
+          description: Conflict
+          schema:
+            description: Error Schema
+            type: object
+            properties:
+              status_code:
+                description: Status code of the error response
+                type: string
+              message:
+                description: Error message
+                type: string
+          examples:
+            application/json:
+              status_code: '409'
+              message: Conflict with the current state of the target resource
+        '500':
+          description: Internal Server Error
+          schema:
+            description: Error Schema
+            type: object
+            properties:
+              status_code:
+                description: Status code of the error response
+                type: string
+              message:
+                description: Error message
+                type: string
+          examples:
+            application/json:
+              status_code: '500'
+              message: Internal Server Error
+      tags:
+      - Organization Membership
+      security:
+      - Bearer: []
+      - API-Key: []
+    parameters: []
+  "/user_api_keys/":
+    get:
+      operationId: user_api_keys_list
+      summary: List
+      description: ''
+      parameters:
+      - name: x-portia-org-id
+        in: header
+        description: ID of the organization the request is for.
+        type: header
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              "$ref": "#/definitions/UserAPIKey"
+        '400':
+          description: Bad request
+          schema:
+            description: Error Schema
+            type: object
+            properties:
+              status_code:
+                description: Status code of the error response
+                type: string
+              message:
+                description: Error message
+                type: string
+          examples:
+            application/json:
+              status_code: '400'
+              message: Bad request
+        '401':
+          description: Unauthorized
+          schema:
+            description: Error Schema
+            type: object
+            properties:
+              status_code:
+                description: Status code of the error response
+                type: string
+              message:
+                description: Error message
+                type: string
+          examples:
+            application/json:
+              status_code: '401'
+              message: Unauthorized
+        '409':
+          description: Conflict
+          schema:
+            description: Error Schema
+            type: object
+            properties:
+              status_code:
+                description: Status code of the error response
+                type: string
+              message:
+                description: Error message
+                type: string
+          examples:
+            application/json:
+              status_code: '409'
+              message: Conflict with the current state of the target resource
+        '500':
+          description: Internal Server Error
+          schema:
+            description: Error Schema
+            type: object
+            properties:
+              status_code:
+                description: Status code of the error response
+                type: string
+              message:
+                description: Error message
+                type: string
+          examples:
+            application/json:
+              status_code: '500'
+              message: Internal Server Error
+      tags:
+      - User API Keys
+      security:
+      - OAuth2: []
+      - API-Key: []
+    post:
+      operationId: user_api_keys_create
+      summary: Create
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          "$ref": "#/definitions/CreateUserAPIKey"
+      - name: x-portia-org-id
+        in: header
+        description: ID of the organization the request is for.
+        type: header
+      responses:
+        '201':
+          description: ''
+          schema:
+            "$ref": "#/definitions/UserAPIKeyWithKey"
+        '400':
+          description: Bad request
+          schema:
+            description: Error Schema
+            type: object
+            properties:
+              status_code:
+                description: Status code of the error response
+                type: string
+              message:
+                description: Error message
+                type: string
+          examples:
+            application/json:
+              status_code: '400'
+              message: Bad request
+        '401':
+          description: Unauthorized
+          schema:
+            description: Error Schema
+            type: object
+            properties:
+              status_code:
+                description: Status code of the error response
+                type: string
+              message:
+                description: Error message
+                type: string
+          examples:
+            application/json:
+              status_code: '401'
+              message: Unauthorized
+        '409':
+          description: Conflict
+          schema:
+            description: Error Schema
+            type: object
+            properties:
+              status_code:
+                description: Status code of the error response
+                type: string
+              message:
+                description: Error message
+                type: string
+          examples:
+            application/json:
+              status_code: '409'
+              message: Conflict with the current state of the target resource
+        '500':
+          description: Internal Server Error
+          schema:
+            description: Error Schema
+            type: object
+            properties:
+              status_code:
+                description: Status code of the error response
+                type: string
+              message:
+                description: Error message
+                type: string
+          examples:
+            application/json:
+              status_code: '500'
+              message: Internal Server Error
+      tags:
+      - User API Keys
+      security:
+      - OAuth2: []
+      - API-Key: []
+    parameters: []
+  "/user_api_keys/{id}/":
+    get:
+      operationId: user_api_keys_read
+      summary: Retrieve
+      description: ''
+      parameters:
+      - name: x-portia-org-id
+        in: header
+        description: ID of the organization the request is for.
+        type: header
+      responses:
+        '200':
+          description: ''
+          schema:
+            "$ref": "#/definitions/UserAPIKey"
+        '400':
+          description: Bad request
+          schema:
+            description: Error Schema
+            type: object
+            properties:
+              status_code:
+                description: Status code of the error response
+                type: string
+              message:
+                description: Error message
+                type: string
+          examples:
+            application/json:
+              status_code: '400'
+              message: Bad request
+        '401':
+          description: Unauthorized
+          schema:
+            description: Error Schema
+            type: object
+            properties:
+              status_code:
+                description: Status code of the error response
+                type: string
+              message:
+                description: Error message
+                type: string
+          examples:
+            application/json:
+              status_code: '401'
+              message: Unauthorized
+        '409':
+          description: Conflict
+          schema:
+            description: Error Schema
+            type: object
+            properties:
+              status_code:
+                description: Status code of the error response
+                type: string
+              message:
+                description: Error message
+                type: string
+          examples:
+            application/json:
+              status_code: '409'
+              message: Conflict with the current state of the target resource
+        '500':
+          description: Internal Server Error
+          schema:
+            description: Error Schema
+            type: object
+            properties:
+              status_code:
+                description: Status code of the error response
+                type: string
+              message:
+                description: Error message
+                type: string
+          examples:
+            application/json:
+              status_code: '500'
+              message: Internal Server Error
+      tags:
+      - User API Keys
+      security:
+      - OAuth2: []
+      - API-Key: []
+    put:
+      operationId: user_api_keys_update
+      summary: Update
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          "$ref": "#/definitions/UserAPIKey"
+      - name: x-portia-org-id
+        in: header
+        description: ID of the organization the request is for.
+        type: header
+      responses:
+        '200':
+          description: ''
+          schema:
+            "$ref": "#/definitions/UserAPIKey"
+        '400':
+          description: Bad request
+          schema:
+            description: Error Schema
+            type: object
+            properties:
+              status_code:
+                description: Status code of the error response
+                type: string
+              message:
+                description: Error message
+                type: string
+          examples:
+            application/json:
+              status_code: '400'
+              message: Bad request
+        '401':
+          description: Unauthorized
+          schema:
+            description: Error Schema
+            type: object
+            properties:
+              status_code:
+                description: Status code of the error response
+                type: string
+              message:
+                description: Error message
+                type: string
+          examples:
+            application/json:
+              status_code: '401'
+              message: Unauthorized
+        '409':
+          description: Conflict
+          schema:
+            description: Error Schema
+            type: object
+            properties:
+              status_code:
+                description: Status code of the error response
+                type: string
+              message:
+                description: Error message
+                type: string
+          examples:
+            application/json:
+              status_code: '409'
+              message: Conflict with the current state of the target resource
+        '500':
+          description: Internal Server Error
+          schema:
+            description: Error Schema
+            type: object
+            properties:
+              status_code:
+                description: Status code of the error response
+                type: string
+              message:
+                description: Error message
+                type: string
+          examples:
+            application/json:
+              status_code: '500'
+              message: Internal Server Error
+      tags:
+      - User API Keys
+      security:
+      - OAuth2: []
+      - API-Key: []
+    patch:
+      operationId: user_api_keys_partial_update
+      summary: Partial Update
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          "$ref": "#/definitions/UserAPIKey"
+      - name: x-portia-org-id
+        in: header
+        description: ID of the organization the request is for.
+        type: header
+      responses:
+        '200':
+          description: ''
+          schema:
+            "$ref": "#/definitions/UserAPIKey"
+        '400':
+          description: Bad request
+          schema:
+            description: Error Schema
+            type: object
+            properties:
+              status_code:
+                description: Status code of the error response
+                type: string
+              message:
+                description: Error message
+                type: string
+          examples:
+            application/json:
+              status_code: '400'
+              message: Bad request
+        '401':
+          description: Unauthorized
+          schema:
+            description: Error Schema
+            type: object
+            properties:
+              status_code:
+                description: Status code of the error response
+                type: string
+              message:
+                description: Error message
+                type: string
+          examples:
+            application/json:
+              status_code: '401'
+              message: Unauthorized
+        '409':
+          description: Conflict
+          schema:
+            description: Error Schema
+            type: object
+            properties:
+              status_code:
+                description: Status code of the error response
+                type: string
+              message:
+                description: Error message
+                type: string
+          examples:
+            application/json:
+              status_code: '409'
+              message: Conflict with the current state of the target resource
+        '500':
+          description: Internal Server Error
+          schema:
+            description: Error Schema
+            type: object
+            properties:
+              status_code:
+                description: Status code of the error response
+                type: string
+              message:
+                description: Error message
+                type: string
+          examples:
+            application/json:
+              status_code: '500'
+              message: Internal Server Error
+      tags:
+      - User API Keys
+      security:
+      - OAuth2: []
+      - API-Key: []
+    parameters:
+    - name: id
+      in: path
+      description: A unique value identifying this API key.
+      required: true
+      type: string
+definitions:
+  Application:
+    required:
+    - name
+    - client_name
+    - scopes
+    - tools
+    type: object
+    properties:
+      name:
+        title: Name
+        type: string
+        minLength: 1
+      client_name:
+        title: Client name
+        type: string
+        minLength: 1
+      scopes:
+        type: array
+        items:
+          type: string
+          minLength: 1
+      tools:
+        type: array
+        items:
+          type: object
+          additionalProperties:
+            type: string
+            x-nullable: true
+  Client:
+    required:
+    - name
+    - applications
+    type: object
+    properties:
+      name:
+        title: Name
+        type: string
+        minLength: 1
+      applications:
+        type: array
+        items:
+          "$ref": "#/definitions/Application"
+  Organization:
+    required:
+    - display_name
+    type: object
+    properties:
+      id:
+        title: Id
+        type: string
+        format: uuid
+        readOnly: true
+      name:
+        title: Name
+        type: string
+        format: slug
+        pattern: "^[-a-zA-Z0-9_]+$"
+        readOnly: true
+        minLength: 1
+      display_name:
+        title: Display name
+        type: string
+        minLength: 1
+      created:
+        title: Created
+        type: string
+        format: date-time
+        readOnly: true
+      updated:
+        title: Updated
+        type: string
+        format: date-time
+        readOnly: true
+  CreateOrganization:
+    required:
+    - name
+    type: object
+    properties:
+      name:
+        title: Name
+        type: string
+        format: slug
+        pattern: "^[-a-zA-Z0-9_]+$"
+        minLength: 1
+      display_name:
+        title: Display name
+        type: string
+        minLength: 1
+        x-nullable: true
+  User:
+    type: object
+    properties:
+      id:
+        title: ID
+        type: integer
+        readOnly: true
+      email:
+        title: Email address
+        type: string
+        format: email
+        maxLength: 254
+      first_name:
+        title: First name
+        type: string
+        maxLength: 150
+      last_name:
+        title: Last name
+        type: string
+        maxLength: 150
+      is_active:
+        title: Active
+        description: Designates whether this user should be treated as active. Unselect
+          this instead of deleting accounts.
+        type: boolean
+      last_login:
+        title: Last login
+        type: string
+        format: date-time
+        x-nullable: true
+  CreateOrganizationMembership:
+    required:
+    - email
+    type: object
+    properties:
+      email:
+        title: Email
+        type: string
+        minLength: 1
+  OrganizationMembership:
+    required:
+    - user
+    - org
+    type: object
+    properties:
+      id:
+        title: Id
+        type: string
+        format: uuid
+        readOnly: true
+      created:
+        title: Created
+        type: string
+        format: date-time
+        readOnly: true
+      updated:
+        title: Updated
+        type: string
+        format: date-time
+        readOnly: true
+      user:
+        title: User
+        type: integer
+      org:
+        title: Org
+        type: string
+        format: uuid
+  UserAPIKey:
+    required:
+    - organization
+    type: object
+    properties:
+      id:
+        title: Id
+        type: string
+        readOnly: true
+        minLength: 1
+      prefix:
+        title: Prefix
+        type: string
+        readOnly: true
+        minLength: 1
+      hashed_key:
+        title: Hashed key
+        type: string
+        readOnly: true
+        minLength: 1
+      created:
+        title: Created
+        type: string
+        format: date-time
+        readOnly: true
+      name:
+        title: Name
+        description: A free-form name for the API key. Need not be unique. 50 characters
+          max.
+        type: string
+        maxLength: 50
+        minLength: 1
+      revoked:
+        title: Revoked
+        description: If the API key is revoked, clients cannot use it anymore. (This
+          cannot be undone.)
+        type: boolean
+      expiry_date:
+        title: Expires
+        description: Once API key expires, clients cannot use it anymore.
+        type: string
+        format: date-time
+        x-nullable: true
+      user:
+        title: User
+        type: integer
+        readOnly: true
+      organization:
+        title: Organization
+        type: string
+        format: uuid
+  CreateUserAPIKey:
+    type: object
+    properties:
+      name:
+        title: Name
+        description: A free-form name for the API key. Need not be unique. 50 characters
+          max.
+        type: string
+        maxLength: 50
+        minLength: 1
+  UserAPIKeyWithKey:
+    required:
+    - api_key
+    - key
+    type: object
+    properties:
+      api_key:
+        "$ref": "#/definitions/UserAPIKey"
+      key:
+        title: Key
+        type: string
+        minLength: 1
+tags:
+- name: Tools
+  description: Tools are interfaces that an agent, chain, or LLM can use tointeract
+    with the world.
+  externalDocs:
+    url: https://python.langchain.com/v0.1/docs/modules/tools
+x-tagGroups:
+- name: Tools
+  tags:
+  - Tools
