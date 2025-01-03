@@ -1,14 +1,12 @@
 // @ts-check
 // Note: type annotations allow type checking and IDEs autocompletion
-
-const lightCodeTheme = require("prism-react-renderer/themes/github");
-const darkCodeTheme = require("prism-react-renderer/themes/dracula");
+import {themes} from 'prism-react-renderer';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: "Portia Labs Docs",
-  tagline: "Portia Labs Technical Documentation",
-  favicon: "img/favicon.ico",
+  title: "Portia AI Docs",
+  tagline: "Portia AI Technical Documentation",
+  favicon: "img/Logo_Portia_Symbol_Black.png",
 
   // Set the production url of your site here
   url: `https://app.porita.dev`,
@@ -52,6 +50,7 @@ const config = {
         docs: {
           routeBasePath: "/",
           sidebarPath: require.resolve("./sidebars.js"),
+          sidebarCollapsed: false,
           exclude: [
             // '**/_*.{js,jsx,ts,tsx,md,mdx}',
             // '**/_*/**',
@@ -77,10 +76,11 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       navbar: {
-        title: "Portia Labs Docs",
+        title: "Portia AI Docs",
         logo: {
           alt: "Portia Logo",
           src: "img/logo.png",
+          srcDark: "img/Logo_Portia_Line_White.png"
         },
         items: [
           {
@@ -116,11 +116,12 @@ const config = {
       },
       footer: {
         style: "dark",
-        copyright: `Copyright © ${new Date().getFullYear()} Portia Labs. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} Portia AI.`,
       },
       prism: {
-        theme: lightCodeTheme,
-        darkTheme: darkCodeTheme,
+        theme: themes.nightOwl,
+        darkTheme: themes.nightOwlLight,
+        additionalLanguages: ["python", "bash", "json"],
       },
     }),
 };

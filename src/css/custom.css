@@ -1,30 +1,47 @@
-/**
- * Any CSS included here will be global. The classic template
- * bundles Infima by default. Infima is a CSS framework designed to
- * work well for content-centric websites.
- */
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;700;800;900&display=swap');
 
-/* You can override the default Infima variables here. */
 :root {
-  --ifm-color-primary: #2e8555;
-  --ifm-color-primary-dark: #29784c;
-  --ifm-color-primary-darker: #277148;
-  --ifm-color-primary-darkest: #205d3b;
-  --ifm-color-primary-light: #33925d;
-  --ifm-color-primary-lighter: #359962;
-  --ifm-color-primary-lightest: #3cad6e;
-  --ifm-code-font-size: 95%;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+  --ifm-color-primary: #212121;
+  --ifm-color-primary-dark: #1e1e1e;
+  --ifm-color-primary-darker: #1c1c1c;
+  --ifm-color-primary-darkest: #171717;
+  --ifm-color-primary-light: #242424;
+  --ifm-color-primary-lighter: #262626;
+  --ifm-color-primary-lightest: #2b2b2b;
+  --ifm-font-family-base: 'Manrope', sans-serif;
+  --ifm-heading-font-family: 'Manrope', sans-serif;
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
 [data-theme='dark'] {
-  --ifm-color-primary: #25c2a0;
-  --ifm-color-primary-dark: #21af90;
-  --ifm-color-primary-darker: #1fa588;
-  --ifm-color-primary-darkest: #1a8870;
-  --ifm-color-primary-light: #29d5b0;
-  --ifm-color-primary-lighter: #32d8b4;
-  --ifm-color-primary-lightest: #4fddbf;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+  --ifm-color-primary: #ffffff;
+  --ifm-color-primary-dark: #e6e6e6;
+  --ifm-color-primary-darker: #d9d9d9;
+  --ifm-color-primary-darkest: #b3b3b3;
+  --ifm-color-primary-light: #ffffff;
+  --ifm-color-primary-lighter: #ffffff;
+  --ifm-color-primary-lightest: #ffffff;
+}
+
+table {
+  font-size: 14px;
+}
+
+.menu__list-item-collapsible .menu__link {
+  font-size: 14px;
+  font-weight: 900;
+}
+.menu__link {
+  font-size: 14px;
+  font-weight: 500;
+}
+.menu__link--active {
+  font-weight: 700;
+}
+
+.navbar__item {
+  font-size: 16px; /* Adjust this value as needed */
+}
+.navbar__link--active {
+  font-weight: 700 !important;
 }
