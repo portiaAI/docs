@@ -82,8 +82,8 @@ print(output)
 When you run this file (using `poetry run python3 main.py` in Poetry), you should see a similar output to the the CLI-driven test we ran in step 4.
 
 We will review the various elements in `main.py` in more detail later. For now you should remember that:
-- You will use a `Runner` to handle user prompts using Portia
-- A `Runner` expects a `config`. This is where you can specify things like the model you want to use, where you want to store Workflow states, what `tool_registry` or collections of tools you want to use. You can review these classes in more detail in our (<a href="/SDK/portia/runner" target="_blank">**SDK reference ↗**</a>).
+- You will use a `runner` to handle user prompts using Portia
+- A `runner` expects a `config`. This is where you can specify things like the model you want to use, where you want to store Workflow states, what `tool_registry` or collections of tools you want to use. We will delve into the config options available in more detail later (<a href="product/Plan%20and%20run%20workflows/Manage%20config%20options" target="_blank">**Manage config options ↗**</a>).
 
 If you got this far then we're off to the races :racehorse:. Now let's start exploring the developer abstractions Portia offers in more detail!
 
