@@ -46,7 +46,18 @@ table {
   font-weight: 700 !important;
 }
 
-.prism-code {
-  white-space: pre-wrap;
-  word-wrap: break-word;
+[data-theme='dark'] .prism-code,
+[data-theme='dark'] div[class*="codeBlockTitle"] {
+  background-color: #D6DEEB !important;
+}
+
+[data-theme='dark'] {
+  --docusaurus-highlighted-code-line-bg: #7FDBCA;
+}
+
+[data-theme='dark'] .token.comment,
+[data-theme='dark'] .token.prolog,
+[data-theme='dark'] .token.doctype,
+[data-theme='dark'] .token.cdata {
+  color: #637777 !important;
 }

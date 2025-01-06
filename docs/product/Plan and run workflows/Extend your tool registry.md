@@ -100,6 +100,7 @@ The tool expects a `filename` (including the file path) and the `content` that n
 
 Now we're going to load the demo tools we've looked at in previous sections into their own tool registry, `demo_tool_registry`, while our custom tool (along with any future ones) will be loaded into its own registry `my_custom_tool_registry`. We can easily combine any number of tool registries into a single one as we then do when we define `complete_tool_registry` with `complete_tool_registry = demo_tool_registry + my_custom_tool_registry`.
 ```python title="main.py"
+import json
 from portia.runner import Runner
 from portia.config import default_config
 from portia.tool_registry import InMemoryToolRegistry
@@ -117,8 +118,11 @@ runner = Runner(config=default_config(), tool_registry=complete_tool_registry)
 
 # Execute the workflow from the user query
 output = runner.run_query('Check the temperature in Cooladdi, Australia and write the result to "demo_runs/weather_result.txt"')
-# Serialise into JSON an print the output
-print(output.model_dump_json())
+
+# Serialise into JSON and print the output
+string = output.model_dump_json()
+json_body = json.loads(string)
+print(json.dumps(json_body, indent=2))
 
 ```
 You should expect to see the weather information about the smallest town in Australia printed in a weather_results.text file inside a demo_runs folder as specified.
