@@ -6,7 +6,7 @@ slug: /install
 Let's get you set up and run a test query to make sure everything is in order.
 
 :::info[Requirements]
-Portia requires **python v3.13 and above**. If you need to update your python version please visit their [docs](https://python.org/downloads/).<br/>We also use **Poetry** to manage all project dependencies. Please reference their [docs](https://python-poetry.org/docs/) if you are not familiar with it.
+Portia requires **python v3.12 and above**. If you need to update your python version please visit their [docs](https://python.org/downloads/).<br/>We also use **Poetry** to manage all project dependencies. Please reference their [docs](https://python-poetry.org/docs/) if you are not familiar with it.
 :::
 
 ### 1/ Create a Poetry project
@@ -68,20 +68,22 @@ As a final verification step for your installation, let's replicate the CLI-driv
 from portia.runner import Runner
 from portia.config import default_config
 from portia.tool_registry import InMemoryToolRegistry
-from acme_tools.addition_tool import AdditionTool
+from demo_tools.addition_tool import AdditionTool
 
 # Load required tools into a tool registry.
-local_registry = InMemoryToolRegistry.from_local_tools([AdditionTool()])
+demo_tool_registry = InMemoryToolRegistry.from_local_tools([AdditionTool()])
 # Instantiate a Portia runner. Load it with the default config and with the simple tool above.
-runner = Runner(config=default_config(), tool_registry=local_registry)
+runner = Runner(config=default_config(), tool_registry=demo_tool_registry)
 # Run the test query and print the output!
 output = runner.run_query('add 1 + 2')
 print(output)
 
 ```
-We will review these elements in more detail later. For now you should remember that:
-- You will use a `Runner` to handle user prompts using Portia
-- A `Runner` expects a `config`. This is where you can specify things like the model you want to use, where you want to store Workflow states, what `tool_registry` or collections of tools you want to use.
+When you run this file (using `poetry run python3 main.py` in Poetry), you should see a similar output to the the CLI-driven test we ran in step 4.
 
-If you managed to run this successfully and got a similar output to the CLI test in step 4 then you're off to the races. Now let's start exploring the developer abstractions Portia offers in more detail!
+We will review the various elements in `main.py` in more detail later. For now you should remember that:
+- You will use a `runner` to handle user prompts using Portia
+- A `runner` expects a `config`. This is where you can specify things like the model you want to use, where you want to store Workflow states, what `tool_registry` or collections of tools you want to use. We will delve into the config options available in more detail later (<a href="product/Plan%20and%20run%20workflows/Manage%20config%20options" target="_blank">**Manage config options ↗**</a>).
+
+If you got this far then we're off to the races :racehorse:. Now let's start exploring the developer abstractions Portia offers in more detail!
 

@@ -45,3 +45,8 @@ table {
 .navbar__link--active {
   font-weight: 700 !important;
 }
+
+.prism-code {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
