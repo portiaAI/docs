@@ -166,15 +166,13 @@ from portia.config import default_config
 from portia.tool_registry import InMemoryToolRegistry
 # highlight-next-line
 from portia.workflow import WorkflowState
-from demo_tools.addition_tool import AdditionTool
-from demo_tools.weather_tool import WeatherTool
+from portia.example_tools.registry import example_tool_registry
 from my_custom_tools.file_writer_tool import FileWriterTool
 
-# Load demo tools into a tool registry and custom tools into its own tool registry.
-demo_tool_registry = InMemoryToolRegistry.from_local_tools([AdditionTool(), WeatherTool()])
+# Load custom tools into its own tool registry.
 my_custom_tool_registry = InMemoryToolRegistry.from_local_tools([FileWriterTool()])
 # Aggregate all tools into a single tool registry.
-complete_tool_registry = demo_tool_registry + my_custom_tool_registry
+complete_tool_registry = example_tool_registry + my_custom_tool_registry
 # Instantiate a Portia runner. Load it with the default config and with the tools above
 runner = Runner(config=default_config(), tool_registry=complete_tool_registry)
 

@@ -67,13 +67,10 @@ As a final verification step for your installation, let's replicate the CLI-driv
 ```python title="main.py"
 from portia.runner import Runner
 from portia.config import default_config
-from portia.tool_registry import InMemoryToolRegistry
-from demo_tools.addition_tool import AdditionTool
+from portia.example_tools.registry import example_tool_registry
 
-# Load required tools into a tool registry.
-demo_tool_registry = InMemoryToolRegistry.from_local_tools([AdditionTool()])
-# Instantiate a Portia runner. Load it with the default config and with the simple tool above.
-runner = Runner(config=default_config(), tool_registry=demo_tool_registry)
+# Instantiate a Portia runner. Load it with the default config and with the example tools.
+runner = Runner(config=default_config(), tool_registry=example_tool_registry)
 # Run the test query and print the output!
 output = runner.run_query('add 1 + 2')
 print(output)
@@ -81,9 +78,10 @@ print(output)
 ```
 When you run this file (using `poetry run python3 main.py` in Poetry), you should see a similar output to the the CLI-driven test we ran in step 4.
 
-We will review the various elements in `main.py` in more detail later. For now you should remember that:
+We will review the various elements in `main.py` in more detail in later sections. For now you should remember that:
 - You will use a `runner` to handle user prompts using Portia
-- A `runner` expects a `config`. This is where you can specify things like the model you want to use, where you want to store Workflow states, what `tool_registry` or collections of tools you want to use. We will delve into the config options available in more detail later (<a href="product/Plan%20and%20run%20workflows/Manage%20config%20options" target="_blank">**Manage config options ↗**</a>).
+- A `runner` expects a `config`. This is where you can specify things like the model you want to use and where you want to store Workflow states.
+- A `runner` also expects a tool_registry i.e a collection of tools you want to use.
 
 If you got this far then we're off to the races :racehorse:. Now let's start exploring the developer abstractions Portia offers in more detail!
 
