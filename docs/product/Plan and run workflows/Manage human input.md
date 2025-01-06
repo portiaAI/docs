@@ -8,6 +8,11 @@ import TabItem from '@theme/TabItem';
 # Manage human input
 Define clarifications to handle human input.
 Understand the different types of clarifications and how to use them.
+:::tip[TL;DR]
+- An agent can raise a clarification during a workflow execution to pause it and solicit human input. This pauses the workflow, serialises and saves its state at the step where clarification was raised.
+- We represent a clarification with the `clarification` class (<a href="/SDK/portia/clarification" target="_blank">**SDK reference ↗**</a>). This includes useful information such as guidance to be surfaced to the user when soliciting their input. Because it is a structured object, you can easily serve it to an end user using a front end of your choosing when it is encountered. 
+- The user response is captured in the `clarification` object itself, which is part of the `workflow` state. This means the workflow can be resumed, and the step at which the clarification was required can now be completed.
+:::
 
 # Intro to clarifications
 Portia introduces the concept of clarifications. An agent can raise a clarification during a workflow execution to pause it and solicit human input. This is important because:

@@ -5,7 +5,9 @@ sidebar_position: 3
 # Extend your tool definitions 
 Understand tools at Portia and add your own.
 :::tip[TL;DR]
-- Stuff goes here (<a href="/SDK/portia/runner" target="_blank">**SDK reference ↗**</a>).
+- Tools are used by LLMs as part of their response to indicate that a particular software service or data store is required to fulfil a user's query.
+- We represent a tool with the `tool` class (<a href="/SDK/portia/tool" target="_blank">**SDK reference ↗**</a>). The LLM parses the tool properties, namely its name, description, input and output schemas to determine whether the tool is relevant to its response and how to invoke it.
+- Tool registries are useful to group frequently used tools together. They are represented by the `tool_registry` class (<a href="/SDK/portia/tool_registry" target="_blank">**Run Portia tools ↗**</a>).
 :::
 
 ## Tools at Portia
