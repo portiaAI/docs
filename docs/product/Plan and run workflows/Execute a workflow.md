@@ -104,6 +104,7 @@ If you'd like to inspect the individual state changes for the above workflow, fe
 ## Execute a workflow from a plan
 Let's expand on the plan generation code we wrote the previous section and execute a workflow from that plan. This gives you the opportunity to serve the plan to the user and get their feedback / iterate on the plan before running it for example. Here is the code to do that:
 ```python title="main.py"
+import json
 from portia.runner import Runner
 from portia.config import default_config
 from portia.tool_registry import InMemoryToolRegistry
@@ -123,8 +124,11 @@ plan = runner.plan_query('add the temperature in London to the temperature in Be
 # Execute workflow from the generated plan
 # highlight-next-line
 output = runner.run_plan(plan)
-# Serialise into JSON an print the output
-print(output.model_dump_json())
+
+# Serialise into JSON and print the output
+string = output.model_dump_json()
+json_body = json.loads(string)
+print(json.dumps(json_body, indent=2))
 ```
 
 Here we are storing the `plan` object returned by the `plan_query` method and then using the `run_plan` method to instantiate a workflow from it. 
@@ -132,6 +136,7 @@ Here we are storing the `plan` object returned by the `plan_query` method and th
 ## Execute a workflow directly from a user query
 You can also run a workflow immediately from the user query, without examining the `plan` object in between. This would generate a plan as intermediate step as well but will also immediately spawn a workflow run from it. You would simply use the `run_query` method from your `runner` class like so:
 ```python title="main.py"
+import json
 from portia.runner import Runner
 from portia.config import default_config
 from portia.tool_registry import InMemoryToolRegistry
@@ -146,7 +151,10 @@ runner = Runner(config=default_config(), tool_registry=demo_tool_registry)
 # Execute a workflow directly from the user query
 # highlight-next-line
 output = runner.run_query('add the temperature in London to the temperature in Beirut right now')
-# Serialise into JSON an print the output
-print(output.model_dump_json())
+
+# Serialise into JSON and print the output
+string = output.model_dump_json()
+json_body = json.loads(string)
+print(json.dumps(json_body, indent=2))
 ```
 You should now be able to generate plan and spawn workflow runs from them. We have used a couple of demo tools so far. Head on over to the next section to look at how we can add custom tools to the mix!

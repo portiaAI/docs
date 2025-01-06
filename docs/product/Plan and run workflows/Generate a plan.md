@@ -63,6 +63,7 @@ When responding to a user's prompt with Portia, you can either chain the plan ge
 
 Let's look at how we generate a plan from a user prompt. Paste the code below into your project and run it (using `poetry run python3 main.py` in Poetry)
 ```python title="main.py"
+import json
 from portia.runner import Runner
 from portia.config import default_config
 from portia.tool_registry import InMemoryToolRegistry
@@ -76,7 +77,11 @@ runner = Runner(config=default_config(), tool_registry=demo_tool_registry)
 
 # Generate the plan from the user query
 output = runner.plan_query('add the temperature in London to the temperature in Beirut right now')
-print(output.model_dump_json())
+
+# Serialise into JSON and print the output
+string = output.model_dump_json()
+json_body = json.loads(string)
+print(json.dumps(json_body, indent=2))
 ```
 
 As mentioned earlier in the documentation, the `runner` class is your main entrypoint to interact with Portia's libraries (<a href="/SDK/portia/runner" target="_blank">**SDK reference ↗**</a>). The `plan_query` method is available from the `Runner` class and allows you to generate a plan from the query. Running the `plan_query` method per the code above returns a `plan` object (<a href="/SDK/portia/plan" target="_blank">**SDK reference ↗**</a>) which looks as follows:
