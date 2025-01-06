@@ -97,7 +97,7 @@ Workflow states are captured in the `workflow` class (<a href="/SDK/portia/workf
 
 Note that every workflow has a unique `id` and relates to a unique `plan_id`. If you were to attempt running a workflow from the same plan multiple times, you would generate multiple `Workflow` objects each with a unique `id` but all with the same `plan_id` property.
 
-## Workflow state changes [NEED LOGGING FROM tom@ HERE]
+## Workflow state changes
 If you'd like to inspect the individual state changes for the above workflow, feel free to cycle through them in the video below. Note how the workflow state is enriched with step outputs at every step of the execution.
 <iframe width="931" height="550" title="" src="https://snappify.com/embed/c8eb2bee-f784-4d24-b573-39bfca493eda?responsive=1&p=1&autoplay=1&b=0" allow="clipboard-write" allowfullscreen="" loading="lazy" frameborder="0"></iframe>
 
@@ -107,14 +107,10 @@ Let's expand on the plan generation code we wrote the previous section and execu
 import json
 from portia.runner import Runner
 from portia.config import default_config
-from portia.tool_registry import InMemoryToolRegistry
-from demo_tools.addition_tool import AdditionTool
-from demo_tools.weather_tool import WeatherTool
+from portia.example_tools.registry import example_tool_registry
 
-# Load required tools into a tool registry.
-demo_tool_registry = InMemoryToolRegistry.from_local_tools([AdditionTool(), WeatherTool()])
-# Instantiate a Portia runner. Load it with the default config and with the tools above.
-runner = Runner(config=default_config(), tool_registry=demo_tool_registry)
+# Instantiate a Portia runner. Load it with the default config and with the example tools.
+runner = Runner(config=default_config(), tool_registry=example_tool_registry)
 
 # Generate the plan from the user query
 plan = runner.plan_query('add the temperature in London to the temperature in Beirut right now')
@@ -139,17 +135,12 @@ You can also run a workflow immediately from the user query, without examining t
 import json
 from portia.runner import Runner
 from portia.config import default_config
-from portia.tool_registry import InMemoryToolRegistry
-from demo_tools.addition_tool import AdditionTool
-from demo_tools.weather_tool import WeatherTool
+from portia.example_tools.registry import example_tool_registry
 
-# Load required tools into a tool registry.
-demo_tool_registry = InMemoryToolRegistry.from_local_tools([AdditionTool(), WeatherTool()])
-# Instantiate a Portia runner. Load it with the default config and with the tools above.
-runner = Runner(config=default_config(), tool_registry=demo_tool_registry)
+# Instantiate a Portia runner. Load it with the default config and with the example tools.
+runner = Runner(config=default_config(), tool_registry=example_tool_registry)
 
-# Execute a workflow directly from the user query
-# highlight-next-line
+# Generate the plan from the user query
 output = runner.run_query('add the temperature in London to the temperature in Beirut right now')
 
 # Serialise into JSON and print the output
@@ -157,4 +148,8 @@ string = output.model_dump_json()
 json_body = json.loads(string)
 print(json.dumps(json_body, indent=2))
 ```
-You should now be able to generate plan and spawn workflow runs from them. We have used a couple of demo tools so far. Head on over to the next section to look at how we can add custom tools to the mix!
+:::info[Track workflow states in logs]
+You can track workflow state changes live as they occur through the logs by setting `default_log_level` to DEBUG in the `config` of your Portia `runner` (<a href="/product/Plan%20and%20run%20workflows/Manage%20config%20options#manage-logging)" target="_blank">**Manage logging ↗**</a>).
+:::
+
+You should now be able to generate plans and spawn workflow runs from them. We have used a couple of example tools so far. Head on over to the next section to look at how we can add custom tools to the mix!

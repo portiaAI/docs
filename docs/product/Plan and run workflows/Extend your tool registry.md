@@ -51,8 +51,9 @@ Here are the key points to look out for:
 - The `output_schema` property describes the expected output of the tool. This helps the LLM know what to expect from the tool and informs its sequencing decisions for tool calls as well.
 - Every tool has a `run` function which is the actual tool implementation.
 
-To see how an LLM invokes tools in real-time, we can enable logging and look at the workflow run...
-[NEED LOGGING FROM TOM@ HERE]
+:::info[Track tool calls in logs]
+You can track tool calls live as they occur through the logs by setting `default_log_level` to DEBUG in the `config` of your Portia `runner` (<a href="/product/Plan%20and%20run%20workflows/Manage%20config%20options#manage-logging)" target="_blank">**Manage logging ↗**</a>).
+:::
 
 ## Adding your own custom tools
 
@@ -100,32 +101,29 @@ class FileWriterTool(Tool):
 
 The tool expects a `filename` (including the file path) and the `content` that needs to be written into it. If a file already exists at the specified location its content will be overwritten.
 
-Now we're going to load the demo tools we've looked at in previous sections into their own tool registry, `demo_tool_registry`, while our custom tool (along with any future ones) will be loaded into its own registry `my_custom_tool_registry`. We can easily combine any number of tool registries into a single one as we then do when we define `complete_tool_registry` with `complete_tool_registry = demo_tool_registry + my_custom_tool_registry`.
+Now we're going to load our custom tool (along with any future ones) into its own registry `my_custom_tool_registry` and then combine with our `example_tool_registry`. We can easily combine any number of tool registries into a single one with the `+` operator e.g. `complete_tool_registry = example_tool_registry + my_custom_tool_registry`.
 ```python title="main.py"
 import json
 from portia.runner import Runner
 from portia.config import default_config
 from portia.tool_registry import InMemoryToolRegistry
-from demo_tools.addition_tool import AdditionTool
-from demo_tools.weather_tool import WeatherTool
+from portia.example_tools.registry import example_tool_registry
 from my_custom_tools.file_writer_tool import FileWriterTool
 
-# Load demo tools into a tool registry and custom tools into its own tool registry.
-demo_tool_registry = InMemoryToolRegistry.from_local_tools([AdditionTool(), WeatherTool()])
+# Load custom tools into its own tool registry.
 my_custom_tool_registry = InMemoryToolRegistry.from_local_tools([FileWriterTool()])
 # Aggregate all tools into a single tool registry.
-complete_tool_registry = demo_tool_registry + my_custom_tool_registry
+complete_tool_registry = example_tool_registry + my_custom_tool_registry
 # Instantiate a Portia runner. Load it with the default config and with the tools above
 runner = Runner(config=default_config(), tool_registry=complete_tool_registry)
 
-# Execute the workflow from the user query
+# Generate the plan from the user query
 output = runner.run_query('Check the temperature in Cooladdi, Australia and write the result to "demo_runs/weather_result.txt"')
 
 # Serialise into JSON and print the output
 string = output.model_dump_json()
 json_body = json.loads(string)
 print(json.dumps(json_body, indent=2))
-
 ```
 You should expect to see the weather information about the smallest town in Australia printed in a weather_results.text file inside a demo_runs folder as specified.
 ```text title="demo runs > weather_results.txt"

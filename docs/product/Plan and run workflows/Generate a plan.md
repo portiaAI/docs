@@ -66,14 +66,10 @@ Let's look at how we generate a plan from a user prompt. Paste the code below in
 import json
 from portia.runner import Runner
 from portia.config import default_config
-from portia.tool_registry import InMemoryToolRegistry
-from demo_tools.addition_tool import AdditionTool
-from demo_tools.weather_tool import WeatherTool
+from portia.example_tools.registry import example_tool_registry
 
-# Load required tools into a tool registry.
-demo_tool_registry = InMemoryToolRegistry.from_local_tools([AdditionTool(), WeatherTool()])
-# Instantiate a Portia runner. Load it with the default config and with the simple tool above.
-runner = Runner(config=default_config(), tool_registry=demo_tool_registry)
+# Instantiate a Portia runner. Load it with the default config and with the example tools.
+runner = Runner(config=default_config(), tool_registry=example_tool_registry)
 
 # Generate the plan from the user query
 output = runner.plan_query('add the temperature in London to the temperature in Beirut right now')
