@@ -14,7 +14,7 @@ From your preferred project directory, run the command below from the CLI to ini
 ```bash
 poetry init
 ```
-If you are unsure what python version you have in your Poetry environment, yoou can you can enforce using the correct version as follows:
+If you are unsure what python version you have in your Poetry environment, you can you can enforce using the correct version as follows:
 ```bash
 poetry env use python3.12 
 ```
@@ -79,7 +79,7 @@ print(output)
 When you run this file (using `poetry run python3 main.py` in Poetry), you should see a similar output to the the CLI-driven test we ran in step 4.
 
 We will review the various elements in `main.py` in more detail in later sections. For now you should remember that:
-- You will use a `runner` to handle user prompts using Portia
+- You will use a `runner` to handle user prompts using Portia.
 - A `runner` expects a `config`. This is where you can specify things like the model you want to use and where you want to store Workflow states.
 - A `runner` also expects a tool_registry i.e a collection of tools you want to use.
 

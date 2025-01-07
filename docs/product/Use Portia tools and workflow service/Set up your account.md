@@ -3,14 +3,12 @@ sidebar_position: 1
 ---
 
 # Set up your account
-Set up your Portia cloud account.
-
-Your cloud account allows you to:
-- Store and retrieve workflows in the Portia cloud
-- Access our library of cloud hosted tools
+Set up your Portia cloud account. This will allow you to:
+- Store and retrieve workflows in the Portia cloud.
+- Access our library of cloud hosted tools.
 - Use the Portia dashboard to 
-    - View your workflow history, unhandled clarifications, tool call logs
-    - Manage users, orgs and Portia API keys
+    - View your workflow history, unhandled clarifications, tool call logs.
+    - Manage users, orgs and Portia API keys.
 
 You first need to obtain a Portia API key. Head over to (<a href="https://app.portia.dev" target="_blank">**app.portia.dev ↗**</a>) and navigate to the `Manage API keys` tab from the left hand nav. There you can generate a new API key.
 :::note[On org users]
