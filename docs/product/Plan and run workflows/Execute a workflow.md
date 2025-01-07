@@ -15,11 +15,11 @@ Learn how to run a workflow from an existing plan or end-to-end.
 
 ## Overview of workflows in Portia
 A workflow is a unique instantiation of a plan. The purpose of a workflow is to capture the state of a unique plan run at every step in an auditable way. This includes:
-- A step index tracking at which step we are in the execution of the workflow
-- The actual workflow state e.g. NOT_STARTED, IN_PROGRESS, COMPLETE or NEED_CLARIFICATION
+- A step index tracking at which step we are in the execution of the workflow.
+- The actual workflow state e.g. NOT_STARTED, IN_PROGRESS, COMPLETE or NEED_CLARIFICATION.
 - A list of step outputs that is populated throughout the workflow execution.
 
-In a later section we will also see that the worflow state also tracks a list of instances where human input was solicited during workflow execution, known as `clarification`.
+In a later section we will also see that the workflow state also tracks a list of instances where human input was solicited during workflow execution, known as `clarification`.
 
 Workflow states are captured in the `workflow` class (<a href="/SDK/portia/workflow" target="_blank">**SDK reference ↗**</a>). In the previous section (<a href="/product/Plan%20and%20run%20workflows/Generate%20a%20plan" target="_blank">**Generate a plan ↗**</a>), we generated a plan in response to the query `add the temperature in London to the temperature in Beirut right now`. Let's examine the final state once we run a workflow for that plan:
 <Tabs>
@@ -148,7 +148,7 @@ string = output.model_dump_json()
 json_body = json.loads(string)
 print(json.dumps(json_body, indent=2))
 ```
-:::info[Track workflow states in logs]
+:::note[Track workflow states in logs]
 You can track workflow state changes live as they occur through the logs by setting `default_log_level` to DEBUG in the `config` of your Portia `runner` (<a href="/product/Plan%20and%20run%20workflows/Manage%20config%20options#manage-logging)" target="_blank">**Manage logging ↗**</a>).
 :::
 

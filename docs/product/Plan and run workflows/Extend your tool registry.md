@@ -51,14 +51,14 @@ Here are the key points to look out for:
 - The `output_schema` property describes the expected output of the tool. This helps the LLM know what to expect from the tool and informs its sequencing decisions for tool calls as well.
 - Every tool has a `run` function which is the actual tool implementation.
 
-:::info[Track tool calls in logs]
+:::note[Track tool calls in logs]
 You can track tool calls live as they occur through the logs by setting `default_log_level` to DEBUG in the `config` of your Portia `runner` (<a href="/product/Plan%20and%20run%20workflows/Manage%20config%20options#manage-logging)" target="_blank">**Manage logging ↗**</a>).
 :::
 
 ## Adding your own custom tools
 
 ### Tool registries
-Before we attempt to create custom tools, let's touch on the concept of tool registries. A tool registry is a collection of tools and is represented by the `tool_registry` class (<a href="/product/Use%20Portia%20tools%20and%20workflow%20service/Run%20Portia%20tools" target="_blank">**SDK reference ↗**</a>). Tool registries are useful to group frequently used tools together, e.g. you could imagine having a tool registry by function in your organisation. You can load tool registries from different sources as well e.g. from memory, disk or Portia's cloud (<a href="/SDK/portia/tool_registry" target="_blank">**Run Portia tools ↗**</a>). In the next section we're going to use registries to group our custom tools together.
+Before we attempt to create custom tools, let's touch on the concept of tool registries. A tool registry is a collection of tools and is represented by the `tool_registry` class (<a href="/product/Use%20Portia%20tools%20and%20workflow%20service/Run%20Portia%20tools" target="_blank">**SDK reference ↗**</a>). Tool registries are useful to group frequently used tools together, e.g. you could imagine having a tool registry by function in your organisation. You can load tool registries either from memory (i.e. from within your project) or Portia's cloud (<a href="/SDK/portia/tool_registry" target="_blank">**Run Portia tools ↗**</a>). In the next section we're going to use registries to group our custom tools together.
 
 ### Add a custom tool
 Let's build a custom tool that allows an LLM to write content to a local file. We're going to create our custom tools in a separate folder called `my_custom_tools` at the root of the project directory and create a `file_writer_tool.py` file within it, with the following:
@@ -101,7 +101,9 @@ class FileWriterTool(Tool):
 
 The tool expects a `filename` (including the file path) and the `content` that needs to be written into it. If a file already exists at the specified location its content will be overwritten.
 
-Now we're going to load our custom tool (along with any future ones) into its own registry `my_custom_tool_registry` and then combine with our `example_tool_registry`. We can easily combine any number of tool registries into a single one with the `+` operator e.g. `complete_tool_registry = example_tool_registry + my_custom_tool_registry`.
+Now we're going to load our custom tool (along with any future ones) into its own in-memory registry called `my_custom_tool_registry`. To load a list of local tools into an in-memory tool registry, we can use the `from_local_tools` method, which takes a list of `tool` objects as parameter.<br/>
+We can combine any number of tool registries into a single one with the `+` operator. In this case we will now combine our custom tool(s) with the `example_tool_registry` using `complete_tool_registry = example_tool_registry + my_custom_tool_registry`.
+
 ```python title="main.py"
 import json
 from portia.runner import Runner
@@ -125,7 +127,16 @@ string = output.model_dump_json()
 json_body = json.loads(string)
 print(json.dumps(json_body, indent=2))
 ```
-You should expect to see the weather information about the smallest town in Australia printed in a weather_results.text file inside a demo_runs folder as specified.
+:::note[Register a single tool]
+The `register_tool` method allows you to load individual tools into an in-memory tool registry. In the particular example above where we are looking to add a single local tool to the example ones, we could have started by initialising the `complete_tool_registry` with the tools from the `example_tool_registry`, and then added the `FileWriterTool` using the `register_tool` method like so:
+```python
+# Load custom tools into its own tool registry.
+complete_tool_registry = example_tool_registry
+complete_tool_registry.register_tool(FileWriterTool())
+```
+:::
+
+You should now expect to see the weather information about the smallest town in Australia to be printed in a weather_results.text file inside a `demo_runs` folder as specified.
 ```text title="demo runs > weather_results.txt"
 The current weather in Cooladdi, Australia is clear sky with a temperature of 26.55°C.
 ```

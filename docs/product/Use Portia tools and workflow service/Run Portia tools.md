@@ -9,34 +9,34 @@ import TabItem from '@theme/TabItem';
 Access our library of tools and view logs of previous tool calls.
 
 :::tip[TL;DR]
-stuff
+- Portia offers a cloud-hosted library of tools spanning popular apps like gSuite, Slack, Zendesk etc.
+- We offer several ways of combining tool registries so you can use Portia tools in conjunction with your own custom tools
 :::
 
 In a previous section, we explored the `tool` and `tool_registry` abstractions. We used example tools that are included in the Portia SDK and we introduced custom tools (<a href="product/Plan%20and%20run%20workflows/Extend%20your%20tool%20registry" target="_blank">**Extend your tool definitions ↗**</a>). 
 
 Portia also offers a cloud-hosted library of tools to save you development time. This typically covers popular public SaaS products like gSuite, Zendesk, Hubspot etc. You get a number of Portia tool calls for free when you sign-up to Portia cloud. For more info on our pricing please visit our  (<a href="https://www.porita.dev/pricing" target="_blank">**Pricing page ↗**</a>).  
-:::note[Request a tool]
+:::info[Request a tool]
 If there's a particular product you would like to see tools for in our library, do feel free to request it and we'll do our best to get it done! (<a href="https://tally.so/r/wzWAAg" target="_blank">**Request a tool ↗**</a>).
 :::
 
 You can use Portia tools in conjunction with your own custom tools by combining tool registries. Take the simple example below:
-- We load the `default_config()` and override the `default_log_level` to 'DEBUG' so we can see the tool call logging in the terminal. Note that the tool call logs will also appear in your Portia dashboard
-- We import all of Portia's tool library using the `PortiaToolRegistry` import and combine it with the `example_tool_registry` we've used so far into a `complete_tool_registry`
+- We use the `config.from_default` method to load the `default_config` from the `config` class and override the `default_log_level` to `DEBUG` so we can see the tool call logging in the terminal. Note that the tool call logs will also appear in your Portia dashboard.
+- We import all of Portia's tool library using the `PortiaToolRegistry` import and combine it with the `example_tool_registry` we've used so far into a `complete_tool_registry`.
 - We run a query that necessitates both the `WeatherTool` from the example tool registry and the `search_tool` from Portia's cloud library.
 ```python title="main.py"
 import json
 from portia.runner import Runner
-from portia.config import default_config
+from portia.config import Config
 from portia.example_tools.registry import example_tool_registry
-# highlight-next-line
 from portia.tool_registry import PortiaToolRegistry
 
-# highlight-start
 # Load the default config and add Portia cloud tools and example tools into one registry
-myConfig = default_config()
-myConfig.default_log_level = 'DEBUG'
+myConfig = Config.from_default(
+    default_log_level = 'DEBUG',
+    storage_class = 'CLOUD'
+)
 complete_tool_registry = example_tool_registry + PortiaToolRegistry(myConfig)
-# highlight-end
 
 # Instantiate a Portia runner. Load it with the default config and with the tools above
 runner = Runner(config=myConfig, tool_registry=complete_tool_registry)
@@ -94,7 +94,7 @@ Running the code above should return the weather conditions in Puerto Williams, 
             "value": {
                 "output": {
                 "value": "Puerto Williams, Chile, is currently recognized as the southernmost city in the world. This designation was confirmed by a bilateral agreement between Chile and Argentina, as well as by Chilean and Argentine media. The population of Puerto Williams has been growing, with the town being developed primarily as a naval base for Chile.",
-                "short_summary": "Puerto Williams, Chile, is currently recognized as the southernmost city in the world. This designat",
+                "short_summary": "Puerto Williams, Chile, is currently recognized as the southernmost city in the world.",
                 "long_summary": "Puerto Williams, Chile, is currently recognized as the southernmost city in the world. This designation was confirmed by a bilateral agreement between Chile and Argentina, as well as by Chilean and Argentine media. The population of Puerto Williams has been growing, with the town being developed primarily as a naval base for Chile."
                 }
             }
@@ -110,3 +110,19 @@ Running the code above should return the weather conditions in Puerto Williams, 
     ```
   </TabItem>
 </Tabs>
+
+If you wanted to explore all the tools available in the Portia cloud library, you can use the `get_tools` method of the `tool_registry` class to list them all out. You can alternatively fetch a specific tool by name using the `get_tool` method. Feel to free to try this out.
+```python
+from portia.example_tools import example_tool_registry
+
+# Get all tools in a registry
+for tool in example_tool_registry.get_tools():
+    print(tool)
+
+# Get a specific tool by name
+single_tool = example_tool_registry.get_tool('Weather Tool')
+print(f"\nFetched a single tool:\n{single_tool}")
+```
+
+If you have been following the docs in the recommended order, you have gone through all the basics :star: <br/>
+Why not explore some of our more advanced how-to guides in the documentation or on our YouTube channel.
