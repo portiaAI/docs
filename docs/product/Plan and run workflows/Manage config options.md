@@ -6,10 +6,10 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 # Manage your config
-Learn how to use the runner `config` to configure LLM and agent execution options, and select different plan and workflow storage options.
+Learn how to use the runner `Config` to configure LLM and agent execution options, and select different plan and workflow storage options.
 
 :::tip[TL:DR]
-The `config` class of your `runner` allows you to:
+The `Config` class of your `Runner` allows you to:
 - Configure your LLM provider, model and API key
 - Add more colour e.g. user-specific context to the overall system context
 - Save plans and workflows to disk or the Portia cloud
@@ -17,23 +17,23 @@ The `config` class of your `runner` allows you to:
 :::
 
 ## Configure LLM options
-The `config` class (<a href="/SDK/portia/config" target="_blank">**SDK reference ↗**</a>) allows you to control various LLM and agent execution options.
+The `Config` class (<a href="/SDK/portia/config" target="_blank">**SDK reference ↗**</a>) allows you to control various LLM and agent execution options.
 | Property | Purpose |
 | ----------- | ----------- |
 | `llm_provider` | Select between `OPENAI`, `ANTHROPIC` OR `MISTRALAI`. <br/>This is an ENUM accessible from the `LLMProvider` class. |
 | `llm_model` | Select the relevant LLM model. This is an ENUM accessible via the `LLMModel` class. |
-| `openai_api_key`<br/>`anthropic_api_key`<br/>`mistralai_api_key` | Set the key you want your `runner` instance to use from the relevant provider |
+| `openai_api_key`<br/>`anthropic_api_key`<br/>`mistralai_api_key` | Set the key you want your `Runner` instance to use from the relevant provider |
 | `planner_system_context_extension` | Enrich the system context with more information. For example you can add information specific to a frontend user session such as department, title, timezone etc. |
 | `default_agent_type` | This controls how complex (and therefore how fast or expensive) your agents are. It can be one of <ul><li>`VERIFIER`: This is the default setup. This means the agent validates the inputs it receives and assesses its output to determine if it achieved the task at hand in a particular step. This is the setting that allows an LLM to trigger clarifications where relevant (e.g. missing input).</li><li>`ONE_SHOT`: For a simpler and faster agent implementation where an agent simply takes arguments and makes tool calls where relevant, without any validation of inputs and outputs (e.g. useful for light and repeatable workflows)</li><li>`TOOL_LESS`: For workflows where no tools are required.</li></ul>This ENUM is accessible from the `AgentType` class. |
 
 ## Manage storage options
-You can control where you store and retrieve workflow states using the `storage_class` property in the `config` class (<a href="/SDK/portia/config" target="_blank">**SDK reference ↗**</a>), which is an ENUM accessible from the `StorageClass` class:
+You can control where you store and retrieve workflow states using the `storage_class` property in the `Config` class (<a href="/SDK/portia/config" target="_blank">**SDK reference ↗**</a>), which is an ENUM accessible from the `StorageClass` class:
 - `MEMORY` allows you to use working memory (default).
 - `DISK` allows you to use local storage. You will need to set the `storage_dir` appropriately (defaults to the project's root directory).
 - `CLOUD` uses the Portia cloud (<a href="/category/use-portia-cloud" target="_blank">**How to use Portia cloud ↗**</a>).
 
 ## Manage logging
-You can control logging behaviour with the following `config` properties (<a href="/SDK/portia/config" target="_blank">**SDK reference ↗**</a>):
+You can control logging behaviour with the following `Config` properties (<a href="/SDK/portia/config" target="_blank">**SDK reference ↗**</a>):
 | Property | Purpose |
 | ----------- | ----------- |
 | `default_log_level` | Controls the minimal log level, i.e. setting it to `DEBUG` will print all logs whereas setting it to `ERROR` will only display ERROR logs and above. This defaults to `INFO`. The ENUM is accessible via the `LogLevel` class |
@@ -41,9 +41,9 @@ You can control logging behaviour with the following `config` properties (<a hre
 | `json_log_serialize` | Sets whether logs are JSON serialized before sending them to the log sink. |
 
 ## Bringing it all together
-Let's test out a couple of these parameters. We will start first by loading the default config values within the `config` class using the `from_default` method. This method uses the `default_config` within the `config` class as the baseline and allows you to tweak specific attributes:
+Let's test out a couple of these parameters. We will start first by loading the default config values within the `Config` class using the `from_default` method. This method uses the `default_config` within the `Config` class as the baseline and allows you to tweak specific attributes:
 - We will explicitly save plans and workflows to disk in the `demo_runs` directory. In the default config the `storage_class` is set to `MEMORY` so we will change it to `DISK`.
-- We will enrich the system prompt with note explicitly saying we only want temperature data in Fahrenheit using the `planner_system_context_extension` property. The `WeatherTool` in the `example_too_registry` included in the Portia SDK returns data in Celsius, so we'd expect injecting this additional system prompt information to effect a change in the plan produced and final outcome.
+- We will enrich the system prompt with note explicitly saying we only want temperature data in Fahrenheit using the `planner_system_context_extension` property. The `WeatherTool` in the `example_tool_registry` included in the Portia SDK returns data in Celsius, so we'd expect injecting this additional system prompt information to effect a change in the plan produced and final outcome.
 
 ```python title="main.py"
 import json
@@ -71,7 +71,7 @@ json_body = json.loads(string)
 print(json.dumps(json_body, indent=2))
 ```
 
-In your demo_runs directory, you should now be able to see a plan and a workflow written to disk per the changes made to the `config`. Note how the plan and subsequent workflow run now include a second step to convert the temperature returned by the `WeatherTool` to Fahrenheit!
+In your demo_runs directory, you should now be able to see a plan and a workflow written to disk per the changes made to the `Config`. Note how the plan and subsequent workflow run now include a second step to convert the temperature returned by the `WeatherTool` to Fahrenheit!
 <Tabs>
   <TabItem value="plan" label="Generated plan">
     ```json title="plan-fe3550dd-510a-4d29-b7ff-3f22547f6022.json"
@@ -129,4 +129,4 @@ In your demo_runs directory, you should now be able to see a plan and a workflow
   </TabItem>
 </Tabs>
 
-In the next sections, we will look at how the `config` class can be used to allow you access to Portia's cloud capabilities.
+In the next sections, we will look at how the `Config` class can be used to allow you access to Portia's cloud capabilities.

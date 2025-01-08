@@ -10,12 +10,12 @@ Portia AI allows you to run multi-agent, stateful, authenticated workflows in re
 With our open source capabilities you should be able to:
 - Ingest a user query and augment it with our pre-defined system prompting to generate a structured plan.
 - Execute a workflow based on a structured plan, invoking the relevant tools and updating the workflow state at every step.
-- Build your own tools and / or use our open source tools.
+- Build your own tools.
 - Create clarifications to interrupt a workflow and solicit human input when necessary, e.g. to handle required authentication or missing input.
 
 Our cloud offering works seamlessly with our open source library. It will give you the ability to:
 - Store and retrieve workflow states and review historical workflow logs.
-- Invoke a library of cloud-hosted tools and access tool call logs.
+- Invoke a library of cloud-hosted tools with authentication handled for you, and access tool call logs.
 
 
 ## Core abstractions
