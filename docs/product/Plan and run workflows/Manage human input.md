@@ -10,8 +10,8 @@ Define clarifications to handle human input.
 Understand the different types of clarifications and how to use them.
 :::tip[TL;DR]
 - An agent can raise a clarification during a workflow execution to pause it and solicit human input. This pauses the workflow, serialises and saves its state at the step where clarification was raised.
-- We represent a clarification with the `clarification` class (<a href="/SDK/portia/clarification" target="_blank">**SDK reference ↗**</a>). This includes useful information such as guidance to be surfaced to the user when soliciting their input. Because it is a structured object, you can easily serve it to an end user using a front end of your choosing when it is encountered. 
-- The user response is captured in the `clarification` object itself, which is part of the `workflow` state. This means the workflow can be resumed, and the step at which the clarification was required can now be completed.
+- We represent a clarification with the `Clarification` class (<a href="/SDK/portia/clarification" target="_blank">**SDK reference ↗**</a>). This includes useful information such as guidance to be surfaced to the user when soliciting their input. Because it is a structured object, you can easily serve it to an end user using a front end of your choosing when it is encountered. 
+- The user response is captured in the `Clarification` object itself, which is part of the `Workflow` state. This means the workflow can be resumed, and the step at which the clarification was required can now be completed.
 :::
 
 # Intro to clarifications
@@ -24,7 +24,7 @@ When Portia encounters a clarification and pauses a workflow, it serialises and 
 ![Clarifications at work](/img/clarifications_diagram.png)
 
 # Types of clarifications
-Clarifications are represented by the `clarification` class (<a href="/SDK/portia/clarification" target="_blank">**SDK reference ↗**</a>). Because it is a structured object, you can easily serve it to an end user using a front end of your choosing when it is encountered e.g. a chatbot or app like Slack, email etc.
+Clarifications are represented by the `Clarification` class (<a href="/SDK/portia/clarification" target="_blank">**SDK reference ↗**</a>). Because it is a structured object, you can easily serve it to an end user using a front end of your choosing when it is encountered e.g. a chatbot or app like Slack, email etc.
 
 We offer three types of clarifications at the moment. You can see the properties and behaviours specific to each type in the tabs below. The common properties across all clarifications are:
 - `uuid`: Unique ID for this clarification
@@ -36,7 +36,7 @@ We offer three types of clarifications at the moment. You can see the properties
 
 <Tabs>
     <TabItem value="action_clar" label="Action clarifications" default>
-    Action clarifications are useful when a user action is needed to complete a step e.g. clicking on an `action_url` to complete an authentication flow or a to make a payment. You will need to have a way to receive a callback from such a flow in order to confirm whether the clarification was handled successfully.
+    Action clarifications are useful when a user action is needed to complete a step e.g. clicking on an `action_url` to complete an authentication flow or to make a payment. You will need to have a way to receive a callback from such a flow in order to confirm whether the clarification was handled successfully.
     ```json title="action_clarification.json"
     {
         "uuid": b1c1e1c0-5c3e-9z22,
@@ -89,7 +89,7 @@ Clarifications are raised in one of two scenarios:
 1. LLM-triggered: During workflow execution, an agent attempting to complete a step notices that an input is missing, resulting in an Input clarification.
 2. Tool-triggered: A clarification is explicitly raised in the python class definition of the tool in specific conditions e.g. if a requisite oauth token is missing to complete the underlying API call or if a tool argument is invalid, resulting in Action or a Multiple Choice clarification respectively.
 
-# Define a custom clarification
+# Add a clarification to your custom tool
 Let's build on our `FileWriterTool` definition from the previous section (<a href="[/product](http://localhost:3002/product/Plan%20and%20run%20workflows/Extend%20your%20tool%20registry#add-a-custom-tool)" target="_blank">**Add a custom tool ↗**</a>). Let's add an input clarification that prevents the user from creating files outside the `demo_run` directory. We do that by adding the highlighted lines in the `FileWriterTool` class definition as shown below.
 
 ```python title="file_writer_tool.py"
@@ -158,7 +158,7 @@ if not self.validate_file_path(filename):
     )
 ```
 
-If the agent encounters this condition, the tool call returns a clarification, the workflow is paused and the workflow state becomes `NEED CLARIFICATION`. Portia has now passed control of the workflow execution to you, the developer, along with a `clarification` object in order for you to resolve with human input. At this stage we need to make some changes in the `main.py` file to handle clarifications.
+If the agent encounters this condition, the tool call returns a clarification, the workflow is paused and the workflow state becomes `NEED CLARIFICATION`. Portia has now passed control of the workflow execution to you, the developer, along with a `Clarification` object in order for you to resolve with human input. At this stage we need to make some changes in the `main.py` file to handle clarifications.
 ```python title="main.py"
 import json
 from portia.runner import Runner
@@ -200,11 +200,11 @@ print(json.dumps(json_body, indent=2))
 ```
 
 What you need to do to handle clarifications is:
-1. Check if the state of the `workflow` object returned by the `run_query` method (or `run_plan` if running from plan) is `WorkflowState.NEED_CLARIFICATION`. This means the workflow exited before completion due to a clarification.
-2. Use the `get_outstanding_clarifications` method of the `workflow` object to access all clarifications where `handled` is false.
-3. For each `clarification`, surface the `user_guidance` to the relevant user and collect their input.
-4. Use the `resolve` method of the `clarification` to capture the user input in the `response` attribute of the relevant clarification. Because clarifications are part of the workflow state itself, this means that the workflow now captures the latest human input gathered and can be resumed with the new information.
-5. Once this is done you can resume the workflow using the `resume_workflow` method. This `runner` method takes a `workflow` as a parameter and will kick off once again from the step where the clarifications were encountered.
+1. Check if the state of the `Workflow` object returned by the `run_query` method (or `run_plan` if running from plan) is `WorkflowState.NEED_CLARIFICATION`. This means the workflow exited before completion due to a clarification.
+2. Use the `get_outstanding_clarifications` method of the `Workflow` object to access all clarifications where `handled` is false.
+3. For each `Clarification`, surface the `user_guidance` to the relevant user and collect their input.
+4. Use the `resolve` method of the `Clarification` to capture the user input in the `response` attribute of the relevant clarification. Because clarifications are part of the workflow state itself, this means that the workflow now captures the latest human input gathered and can be resumed with the new information.
+5. Once this is done you can resume the workflow using the `resume_workflow` method. This `Runner` method takes a `Workflow` as a parameter and will kick off once again from the step where the clarifications were encountered.
 
 For the example query above `Check the temperature in Cooladdi, Australia and write the result to "demo_stuns/weather_result.txt"`, where the user resolves the clarification by entering `demo_runs/weather_results.txt`, you should see the following final workflow state (note the clarification object in highlight!).
 ```json title="final_workflow_state.json"

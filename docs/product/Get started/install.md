@@ -49,17 +49,23 @@ poetry shell
 # Submit a simple query to your LLM  via Portia
 portia-cli run "add 1 + 2"
 ```
-Portia will return the final state of the workflow created in response to the submitted prompt. We will delve into workflow states more deeply in a later section but for now you want to be sure you can see `state=WorkflowState.COMPLETE` and `final_output=Output(value=3)` as part of that returned state. Here's an example output:
+Portia will return the final state of the workflow created in response to the submitted prompt. We will delve into workflow states more deeply in a later section but for now you want to be sure you can see `"state": "COMPLETE"` and `"final_output": {"value": 3.0}` as part of that returned state. Here's an example output:
 ```bash
-id=UUID('f5686410-d285-47bf-973a-952cb3281296') 
-plan_id=UUID('53add6f6-f9c5-49ca-903e-7c7b71136aa9'
-current_step_index=0 
-clarifications=[] 
-# highlight-next-line
-state=<WorkflowState.COMPLETE: 'COMPLETE'> 
-step_outputs={'$sum': Output(value=3)} 
-# highlight-next-line
-final_output=Output(value=3)
+{
+    "id": "13a97e70-2ca6-41c9-bc49-b7f84f6d3982",
+    "plan_id": "96693022-598e-458c-8d2f-44ba51d4f0b5",
+    "current_step_index": 0,
+    "clarifications": [],
+    "state": "COMPLETE",
+    "step_outputs": {
+        "$result": {
+            "value": 3.0
+        }
+    },
+    "final_output": {
+        "value": 3.0
+    }
+}
 ```
 
 ### 5/ Test your installation from a python file
@@ -79,9 +85,9 @@ print(output)
 When you run this file (using `poetry run python3 main.py` in Poetry), you should see a similar output to the the CLI-driven test we ran in step 4.
 
 We will review the various elements in `main.py` in more detail in later sections. For now you should remember that:
-- You will use a `runner` to handle user prompts using Portia.
-- A `runner` expects a `config`. This is where you can specify things like the model you want to use and where you want to store Workflow states.
-- A `runner` also expects a tool_registry i.e a collection of tools you want to use.
+- You will use a `Runner` to handle user prompts using Portia.
+- A `Runner` expects a `Config`. This is where you can specify things like the model you want to use and where you want to store Workflow states.
+- A `Runner` also expects a tool_registry i.e a collection of tools you want to use.
 
 If you got this far then we're off to the races :racehorse:. Now let's start exploring the developer abstractions Portia offers in more detail!
 

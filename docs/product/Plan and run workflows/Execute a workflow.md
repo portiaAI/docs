@@ -8,9 +8,9 @@ import TabItem from '@theme/TabItem';
 # Execute a workflow
 Learn how to run a workflow from an existing plan or end-to-end.
 :::tip[TL;DR]
-- A workflow is a unique run of a plan. It is represented by the `workflow` class (<a href="/SDK/portia/workflow" target="_blank">**SDK reference ↗**</a>).
-- An agent is spun up to execute every step in the workflow. The `workflow` object tracks the state of the workflow execution and is enriched at every step by the relevant agent.
-- A workflow can be generated either from a plan using the `run_plan` method or directly from a user prompt using the `run_query` method of the `runner` class (<a href="/SDK/portia/runner" target="_blank">**SDK reference ↗**</a>).
+- A workflow is a unique run of a plan. It is represented by the `Workflow` class (<a href="/SDK/portia/workflow" target="_blank">**SDK reference ↗**</a>).
+- An agent is spun up to execute every step in the workflow. The `Workflow` object tracks the state of the workflow execution and is enriched at every step by the relevant agent.
+- A workflow can be generated either from a plan using the `run_plan` method or directly from a user prompt using the `run_query` method of the `Runner` class (<a href="/SDK/portia/runner" target="_blank">**SDK reference ↗**</a>).
 :::
 
 ## Overview of workflows in Portia
@@ -19,9 +19,9 @@ A workflow is a unique instantiation of a plan. The purpose of a workflow is to 
 - The actual workflow state e.g. NOT_STARTED, IN_PROGRESS, COMPLETE or NEED_CLARIFICATION.
 - A list of step outputs that is populated throughout the workflow execution.
 
-In a later section we will also see that the workflow state also tracks a list of instances where human input was solicited during workflow execution, known as `clarification`.
+In a later section we will also see that the workflow state also tracks a list of instances where human input was solicited during workflow execution, known as `Clarification`.
 
-Workflow states are captured in the `workflow` class (<a href="/SDK/portia/workflow" target="_blank">**SDK reference ↗**</a>). In the previous section (<a href="/product/Plan%20and%20run%20workflows/Generate%20a%20plan" target="_blank">**Generate a plan ↗**</a>), we generated a plan in response to the query `add the temperature in London to the temperature in Beirut right now`. Let's examine the final state once we run a workflow for that plan:
+Workflow states are captured in the `Workflow` class (<a href="/SDK/portia/workflow" target="_blank">**SDK reference ↗**</a>). In the previous section (<a href="/product/Plan%20and%20run%20workflows/Generate%20a%20plan" target="_blank">**Generate a plan ↗**</a>), we generated a plan in response to the query `add the temperature in London to the temperature in Beirut right now`. Let's examine the final state once we run a workflow for that plan:
 <Tabs>
   <TabItem value="plan" label="Generated plan >>">
     ```json title="plan-b5e013e8-6aae-461d-ac01-3a303f56935c.json"
@@ -102,6 +102,12 @@ If you'd like to inspect the individual state changes for the above workflow, fe
 <iframe width="931" height="550" title="" src="https://snappify.com/embed/c8eb2bee-f784-4d24-b573-39bfca493eda?responsive=1&p=1&autoplay=1&b=0" allow="clipboard-write" allowfullscreen="" loading="lazy" frameborder="0"></iframe>
 
 ## Execute a workflow from a plan
+<details>
+<summary>OpenWeatherMap API key required</summary>
+:::info
+We will use a simple GET endpoint from OpenWeatherMap in this section. Please sign up to obtain an API key from them (<a href="https://home.openweathermap.org/users/sign_in" target="_blank">**↗**</a>) and set it in the environment variable `OPENWEATHERMAP_API_KEY`.
+:::
+</details>
 Let's expand on the plan generation code we wrote the previous section and execute a workflow from that plan. This gives you the opportunity to serve the plan to the user and get their feedback / iterate on the plan before running it for example. Here is the code to do that:
 ```python title="main.py"
 import json
@@ -127,10 +133,16 @@ json_body = json.loads(string)
 print(json.dumps(json_body, indent=2))
 ```
 
-Here we are storing the `plan` object returned by the `plan_query` method and then using the `run_plan` method to instantiate a workflow from it. 
+Here we are storing the `Plan` object returned by the `plan_query` method and then using the `run_plan` method to instantiate a workflow from it. 
 
 ## Execute a workflow directly from a user query
-You can also run a workflow immediately from the user query, without examining the `plan` object in between. This would generate a plan as intermediate step as well but will also immediately spawn a workflow run from it. You would simply use the `run_query` method from your `runner` class like so:
+<details>
+<summary>OpenWeatherMap API key required</summary>
+:::info
+We will use a simple GET endpoint from OpenWeatherMap in this section. Please sign up to obtain an API key from them (<a href="https://home.openweathermap.org/users/sign_in" target="_blank">**↗**</a>) and set it in the environment variable `OPENWEATHERMAP_API_KEY`.
+:::
+</details>
+You can also run a workflow immediately from the user query, without examining the `Plan` object in between. This would generate a plan as intermediate step as well but will also immediately spawn a workflow run from it. You would simply use the `run_query` method from your `Runner` class like so:
 ```python title="main.py"
 import json
 from portia.runner import Runner
@@ -149,7 +161,7 @@ json_body = json.loads(string)
 print(json.dumps(json_body, indent=2))
 ```
 :::note[Track workflow states in logs]
-You can track workflow state changes live as they occur through the logs by setting `default_log_level` to DEBUG in the `config` of your Portia `runner` (<a href="/product/Plan%20and%20run%20workflows/Manage%20config%20options#manage-logging)" target="_blank">**Manage logging ↗**</a>).
+You can track workflow state changes live as they occur through the logs by setting `default_log_level` to DEBUG in the `Config` of your Portia `Runner` (<a href="/product/Plan%20and%20run%20workflows/Manage%20config%20options#manage-logging)" target="_blank">**Manage logging ↗**</a>).
 :::
 
 You should now be able to generate plans and spawn workflow runs from them. We have used a couple of example tools so far. Head on over to the next section to look at how we can add custom tools to the mix!

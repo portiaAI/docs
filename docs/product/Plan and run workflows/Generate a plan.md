@@ -6,8 +6,8 @@ sidebar_position: 1
 Learn how to create structured, multi-agent plans using your LLM of choice and familiarise yourself with the structure of plans created using Portia.
 :::tip[TL;DR]
 - A plan is the set of steps an LLM thinks it should take in order to respond to a user prompt.
-- A plan is represented by the `plan` class and can be generated from a user prompt using the `plan_query` method of the `runner` class (<a href="/SDK/portia/runner" target="_blank">**SDK reference ↗**</a>).
-    - Portia uses optimised system prompts to guide the LLM along a simple design language when generating a plan.
+- A plan is represented by the `Plan` class and can be generated from a user prompt using the `plan_query` method of the `Runner` class (<a href="/SDK/portia/runner" target="_blank">**SDK reference ↗**</a>).
+    - Portia uses optimised system prompts and structured outputs to ensure adherence to a simple plan design language.
     - You can create your own plans manually using plan design language, esp. for repeatable workflows.
 :::
 
@@ -49,10 +49,10 @@ Let's bring this one down by looking at an example plan below, created in respon
 ```
 
 A plan includes a series of steps defined by 
-- A task describing the objective of that particular step.
-- The inputs required to achieve the step. Notice how the LLM is guided to weave the outputs of previous steps as inputs to the next ones where applicable e.g. `$spacex_search_results` coming out of the first step acts as an input to the second one.
-- Any relevant tool needed for the completion of the step. Portia is able to filter for the relevant tools during the multi-shot plan generation process. As we will see later on in this tutorial you can specify the tool registries (directories) you want when handling a user prompt, including local / custom tools and ones provided by third parties. In this example we are referencing tools from Portia's cloud-hosted library, prefixed with `portia::`. 
-- The step's final output. As mentioned above, every step output can be referenced in future steps. As we will see shortly, these outputs are serialised and saved in Workflow state as it is being executed.
+- `"task"` A task describing the objective of that particular step.
+- `"input"` The inputs required to achieve the step. Notice how the LLM is guided to weave the outputs of previous steps as inputs to the next ones where applicable e.g. `$spacex_search_results` coming out of the first step acts as an input to the second one.
+- "`tool_name`" Any relevant tool needed for the completion of the step. Portia is able to filter for the relevant tools during the multi-shot plan generation process. As we will see later on in this tutorial you can specify the tool registries (directories) you want when handling a user prompt, including local / custom tools and ones provided by third parties. In this example we are referencing tools from Portia's cloud-hosted library, prefixed with `portia::`. 
+- "`output`" The step's final output. As mentioned above, every step output can be referenced in future steps. As we will see shortly, these outputs are serialised and saved in Workflow state as it is being executed.
 
 :::info[On plan logic]
 While plans are currently a linear sequence of steps, we will be introducing more complex logic soon.
@@ -80,7 +80,7 @@ json_body = json.loads(string)
 print(json.dumps(json_body, indent=2))
 ```
 
-As mentioned earlier in the documentation, the `runner` class is your main entrypoint to interact with Portia's libraries (<a href="/SDK/portia/runner" target="_blank">**SDK reference ↗**</a>). The `plan_query` method is available from the `Runner` class and allows you to generate a plan from the query. Running the `plan_query` method per the code above returns a `plan` object (<a href="/SDK/portia/plan" target="_blank">**SDK reference ↗**</a>) which looks as follows:
+As mentioned earlier in the documentation, the `Runner` class is your main entrypoint to interact with Portia's libraries (<a href="/SDK/portia/runner" target="_blank">**SDK reference ↗**</a>). The `plan_query` method is available from the `Runner` class and allows you to generate a plan from the query. Running the `plan_query` method per the code above returns a `Plan` object (<a href="/SDK/portia/plan" target="_blank">**SDK reference ↗**</a>) which looks as follows:
 ```json title="plan.json"
 {
     "id":"661bf677-3259-46aa-99af-6314db8ee98f",
@@ -120,6 +120,6 @@ As mentioned earlier in the documentation, the `runner` class is your main entry
 
 The `plan_query` method can take the following additional parameters:
 - `tools` in order to confine the plan generation to a narrower set of tools if required (for simplicity or for user-access considerations).
-- `example_plans` expected a list of `plan` objects. This allows you to use existing plans as inspiration or templates, which improves repeatability for more routine workflows.
+- `example_plans` expected a list of `Plan` objects. This allows you to use existing plans as inspiration or templates, which improves repeatability for more routine workflows.
 
 Now that you know how to generate plans in response to a user query, let's take a look at how to instantiate a workflow from a plan in the next section and run it.

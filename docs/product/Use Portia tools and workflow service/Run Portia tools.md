@@ -13,7 +13,7 @@ Access our library of tools and view logs of previous tool calls.
 - We offer several ways of combining tool registries so you can use Portia tools in conjunction with your own custom tools
 :::
 
-In a previous section, we explored the `tool` and `tool_registry` abstractions. We used example tools that are included in the Portia SDK and we introduced custom tools (<a href="product/Plan%20and%20run%20workflows/Extend%20your%20tool%20registry" target="_blank">**Extend your tool definitions ↗**</a>). 
+In a previous section, we explored the `Tool` and `Tool_registry` abstractions. We used example tools that are included in the Portia SDK and we introduced custom tools (<a href="product/Plan%20and%20run%20workflows/Extend%20your%20tool%20registry" target="_blank">**Extend your tool definitions ↗**</a>). 
 
 Portia also offers a cloud-hosted library of tools to save you development time. This typically covers popular public SaaS products like gSuite, Zendesk, Hubspot etc. You get a number of Portia tool calls for free when you sign-up to Portia cloud. For more info on our pricing please visit our  (<a href="https://www.porita.dev/pricing" target="_blank">**Pricing page ↗**</a>).  
 :::info[Request a tool]
@@ -21,7 +21,7 @@ If there's a particular product you would like to see tools for in our library, 
 :::
 
 You can use Portia tools in conjunction with your own custom tools by combining tool registries. Take the simple example below:
-- We use the `config.from_default` method to load the `default_config` from the `config` class and override the `default_log_level` to `DEBUG` so we can see the tool call logging in the terminal. Note that the tool call logs will also appear in your Portia dashboard.
+- We use the `config.from_default` method to load the `default_config` from the `Config` class and override the `default_log_level` to `DEBUG` so we can see the tool call logging in the terminal. Note that the tool call logs will also appear in your Portia dashboard.
 - We import all of Portia's tool library using the `PortiaToolRegistry` import and combine it with the `example_tool_registry` we've used so far into a `complete_tool_registry`.
 - We run a query that necessitates both the `WeatherTool` from the example tool registry and the `search_tool` from Portia's cloud library.
 ```python title="main.py"
@@ -111,7 +111,7 @@ Running the code above should return the weather conditions in Puerto Williams, 
   </TabItem>
 </Tabs>
 
-If you wanted to explore all the tools available in the Portia cloud library, you can use the `get_tools` method of the `tool_registry` class to list them all out. You can alternatively fetch a specific tool by name using the `get_tool` method. Feel to free to try this out.
+If you wanted to explore all the tools available in the Portia cloud library, you can use the `get_tools` method of the `Tool_registry` class to list them all out. You can alternatively fetch a specific tool by name using the `get_tool` method. Feel to free to try this out.
 ```python
 from portia.example_tools import example_tool_registry
 
