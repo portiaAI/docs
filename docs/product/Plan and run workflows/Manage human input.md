@@ -177,7 +177,7 @@ complete_tool_registry = example_tool_registry + my_custom_tool_registry
 runner = Runner(config=default_config(), tool_registry=complete_tool_registry)
 
 # Generate the plan from the user query
-workflow = runner.run_query('Check the temperature in Egypt, Australia and write the result to "demo_stuns/weather_result.txt"')
+workflow = runner.run_query('Check the temperature in Cooladdi, Australia and write the result to "demo_stuns/weather_result.txt"')
 
 #highlight-start
 # Check if the workflow was paused due to raised clarifications
