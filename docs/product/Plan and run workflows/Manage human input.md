@@ -177,20 +177,20 @@ complete_tool_registry = example_tool_registry + my_custom_tool_registry
 runner = Runner(config=default_config(), tool_registry=complete_tool_registry)
 
 # Generate the plan from the user query
-output = runner.run_query('Check the temperature in Cooladdi, Australia and write the result to "demo_stuns/weather_result.txt"')
+workflow = runner.run_query('Check the temperature in Cooladdi, Australia and write the result to "demo_stuns/weather_result.txt"')
 
 #highlight-start
 # Check if the workflow was paused due to raised clarifications
-while output.state == WorkflowState.NEED_CLARIFICATION:
+while workflow.state == WorkflowState.NEED_CLARIFICATION:
     # If clarifications are needed, resolve them before resuming the workflow
-    for clarification in output.get_outstanding_clarifications():
+    for clarification in workflow.get_outstanding_clarifications():
         # For each clarification, prompt the user for input
         user_input = input(f"{clarification.user_guidance}\n")
         # Resolve the clarification with the user input
         clarification.resolve(response=user_input)
 
     # Once clarifications are resolved, resume the workflow
-    runner.resume_workflow(output)
+    workflow = runner.resume_workflow(workflow)
 #highlight-end
 
 # Serialise into JSON and print the output
