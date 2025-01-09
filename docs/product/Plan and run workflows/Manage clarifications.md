@@ -91,7 +91,7 @@ Clarifications are raised in one of two scenarios:
 2. Tool-triggered: A clarification is explicitly raised in the python class definition of the tool in specific conditions e.g. if a requisite oauth token is missing to complete the underlying API call or if a tool argument is invalid, resulting in Action or a Multiple Choice clarification respectively.
 
 # Add a clarification to your custom tool
-Let's build on our `FileWriterTool` definition from the previous section (<a href="[/product](http://localhost:3002/product/Plan%20and%20run%20workflows/Extend%20your%20tool%20registry#add-a-custom-tool)" target="_blank">**Add a custom tool ↗**</a>). Let's add an input clarification that prevents the user from creating files outside the `demo_run` directory. We do that by adding the highlighted lines in the `FileWriterTool` class definition as shown below.
+Let's build on our `FileWriterTool` definition from the previous section (<a href="/extend-tool-definitions#adding-your-own-custom-tools" target="_blank">**Add a custom tool ↗**</a>). Let's add an input clarification that prevents the user from creating files outside the `demo_run` directory. We do that by adding the highlighted lines in the `FileWriterTool` class definition as shown below.
 
 ```python title="file_writer_tool.py"
 from pathlib import Path

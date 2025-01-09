@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-slug: /generate-a-plan
+slug: /generate-plan
 ---
 
 # Generate a plan

@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-slug: /extend-your-tool-definitions
+slug: /extend-tool-definitions
 ---
 
 # Extend your tool definitions 
@@ -53,7 +53,7 @@ Here are the key points to look out for:
 - Every tool has a `run` function which is the actual tool implementation.
 
 :::note[Track tool calls in logs]
-You can track tool calls live as they occur through the logs by setting `default_log_level` to DEBUG in the `Config` of your Portia `Runner` (<a href="/product/Plan%20and%20run%20workflows/Manage%20config%20options#manage-logging)" target="_blank">**Manage logging ↗**</a>).
+You can track tool calls live as they occur through the logs by setting `default_log_level` to DEBUG in the `Config` of your Portia `Runner` (<a href="/manage-config#manage-logging" target="_blank">**Manage logging ↗**</a>).
 :::
 
 ## Adding your own custom tools
@@ -64,7 +64,7 @@ We will use a simple GET endpoint from OpenWeatherMap in this section. Please si
 </details>
 
 ### Tool registries
-Before we attempt to create custom tools, let's touch on the concept of tool registries. A tool registry is a collection of tools and is represented by the `Tool_registry` class (<a href="/product/Use%20Portia%20tools%20and%20workflow%20service/Run%20Portia%20tools" target="_blank">**SDK reference ↗**</a>). Tool registries are useful to group frequently used tools together, e.g. you could imagine having a tool registry by function in your organisation. You can load tool registries either from memory (i.e. from within your project) or Portia's cloud (<a href="/SDK/portia/tool_registry" target="_blank">**Run Portia tools ↗**</a>). In the next section we're going to use registries to group our custom tools together.
+Before we attempt to create custom tools, let's touch on the concept of tool registries. A tool registry is a collection of tools and is represented by the `Tool_registry` class (<a href="/run-portia-tools" target="_blank">**SDK reference ↗**</a>). Tool registries are useful to group frequently used tools together, e.g. you could imagine having a tool registry by function in your organisation. You can load tool registries either from memory (i.e. from within your project) or Portia's cloud (<a href="/SDK/portia/tool_registry" target="_blank">**Run Portia tools ↗**</a>). In the next section we're going to use registries to group our custom tools together.
 
 ### Add a custom tool
 Let's build a custom tool that allows an LLM to write content to a local file. We're going to create our custom tools in a separate folder called `my_custom_tools` at the root of the project directory and create a `file_writer_tool.py` file within it, with the following:
