@@ -1,5 +1,6 @@
 ---
 sidebar_position: 2
+slug: /execute-a-workflow
 ---
 
 import Tabs from '@theme/Tabs';
@@ -103,11 +104,11 @@ If you'd like to inspect the individual state changes for the above workflow, fe
 
 ## Execute a workflow from a plan
 <details>
-<summary>OpenWeatherMap API key required</summary>
-:::info
+<summary>**OpenWeatherMap API key required**</summary>
+
 We will use a simple GET endpoint from OpenWeatherMap in this section. Please sign up to obtain an API key from them (<a href="https://home.openweathermap.org/users/sign_in" target="_blank">**↗**</a>) and set it in the environment variable `OPENWEATHERMAP_API_KEY`.
-:::
 </details>
+
 Let's expand on the plan generation code we wrote the previous section and execute a workflow from that plan. This gives you the opportunity to serve the plan to the user and get their feedback / iterate on the plan before running it for example. Here is the code to do that:
 ```python title="main.py"
 import json
@@ -137,11 +138,11 @@ Here we are storing the `Plan` object returned by the `plan_query` method and th
 
 ## Execute a workflow directly from a user query
 <details>
-<summary>OpenWeatherMap API key required</summary>
-:::info
+<summary>**OpenWeatherMap API key required**</summary>
+
 We will use a simple GET endpoint from OpenWeatherMap in this section. Please sign up to obtain an API key from them (<a href="https://home.openweathermap.org/users/sign_in" target="_blank">**↗**</a>) and set it in the environment variable `OPENWEATHERMAP_API_KEY`.
-:::
 </details>
+
 You can also run a workflow immediately from the user query, without examining the `Plan` object in between. This would generate a plan as intermediate step as well but will also immediately spawn a workflow run from it. You would simply use the `run_query` method from your `Runner` class like so:
 ```python title="main.py"
 import json
