@@ -1,5 +1,6 @@
 ---
 sidebar_position: 1
+slug: /setup-account
 ---
 
 # Set up your account

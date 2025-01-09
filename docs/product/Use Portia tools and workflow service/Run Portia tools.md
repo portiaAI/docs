@@ -1,5 +1,6 @@
 ---
 sidebar_position: 3
+slug: /run-portia-tools
 ---
 
 import Tabs from '@theme/Tabs';
@@ -15,7 +16,7 @@ Access our library of tools and view logs of previous tool calls.
 
 In a previous section, we explored the `Tool` and `Tool_registry` abstractions. We used example tools that are included in the Portia SDK and we introduced custom tools (<a href="product/Plan%20and%20run%20workflows/Extend%20your%20tool%20registry" target="_blank">**Extend your tool definitions ↗**</a>). 
 
-Portia also offers a cloud-hosted library of tools to save you development time. This typically covers popular public SaaS products like gSuite, Zendesk, Hubspot etc. You get a number of Portia tool calls for free when you sign-up to Portia cloud. For more info on our pricing please visit our  (<a href="https://www.porita.dev/pricing" target="_blank">**Pricing page ↗**</a>).  
+Portia also offers a cloud-hosted library of tools to save you development time. This typically covers popular public SaaS products like gSuite, Zendesk, Hubspot etc. You get a number of Portia tool calls for free when you sign-up to Portia cloud. For more info on our pricing please visit our  (<a href="https://www.porita.dev" target="_blank">**Pricing page ↗**</a>).  
 :::info[Request a tool]
 If there's a particular product you would like to see tools for in our library, do feel free to request it and we'll do our best to get it done! (<a href="https://tally.so/r/wzWAAg" target="_blank">**Request a tool ↗**</a>).
 :::

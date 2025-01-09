@@ -1,5 +1,6 @@
 ---
 sidebar_position: 2
+slug: /store-retrieve-workflows
 ---
 
 # Store and retrieve workflow states

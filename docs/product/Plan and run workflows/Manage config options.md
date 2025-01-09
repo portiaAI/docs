@@ -1,5 +1,6 @@
 ---
 sidebar_position: 5
+slug: /manage-config-options
 ---
 
 import Tabs from '@theme/Tabs';

@@ -3,6 +3,7 @@
   "position": 3,
   "link": {
     "type": "generated-index",
+    "slug": "use-portia-cloud",
     "description": "Use our cloud service to store and retrieve workflow states or access our tool library."
   }
 }

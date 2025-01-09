@@ -3,6 +3,7 @@
   "position": 2,
   "link": {
     "type": "generated-index",
+    "slug": "plan-and-run-workflows",
     "description": "Learn how to plan and run workflows end-to-end with Portia AI.\nBy the end of this guide, you should also be able to add custom tools and define custom clarifications."
   }
 }

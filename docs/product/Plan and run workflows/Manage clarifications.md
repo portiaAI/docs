@@ -1,11 +1,12 @@
 ---
 sidebar_position: 4
+slug: /manage-clarifications
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Manage human input
+# Manage clarifications
 Define clarifications to handle human input.
 Understand the different types of clarifications and how to use them.
 :::tip[TL;DR]

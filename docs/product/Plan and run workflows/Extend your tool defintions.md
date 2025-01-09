@@ -1,5 +1,6 @@
 ---
 sidebar_position: 3
+slug: /extend-your-tool-definitions
 ---
 
 # Extend your tool definitions 
@@ -57,10 +58,9 @@ You can track tool calls live as they occur through the logs by setting `default
 
 ## Adding your own custom tools
 <details>
-<summary>OpenWeatherMap API key required</summary>
-:::info
+<summary>**OpenWeatherMap API key required**</summary>
+
 We will use a simple GET endpoint from OpenWeatherMap in this section. Please sign up to obtain an API key from them (<a href="https://home.openweathermap.org/users/sign_in" target="_blank">**↗**</a>) and set it in the environment variable `OPENWEATHERMAP_API_KEY`.
-:::
 </details>
 
 ### Tool registries
