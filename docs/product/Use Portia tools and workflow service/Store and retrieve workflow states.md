@@ -6,7 +6,7 @@ slug: /store-retrieve-workflows
 # Store and retrieve workflow states
 Use our workflow service to save and retrieve serialised workflow states on our cloud.
 
-We have seen how to configure where workflows are stored and retrieved previously (<a href="/product/Plan%20and%20run%20workflows/Manage%20config%20options" target="_blank">**Manage config options ↗**</a>). We can simply set the `storage_class` property of our `Runner`'s `Config` to `CLOUD`. As long as the API key has been set up appropriately as described in the previous section (<a href="product/Use%20Portia%20tools%20and%20workflow%20service/Set%20up%20your%20account" target="_blank">**Set up your account ↗**</a>), you should see the workflow appear in the `Workflows` tab of your Portia dashboard and see a change in the aggregate workflow metrics in the Home page as well. Take a moment to examine those.
+We have seen how to configure where workflows are stored and retrieved previously (<a href="/manage-config" target="_blank">**Manage config options ↗**</a>). We can simply set the `storage_class` property of our `Runner`'s `Config` to `CLOUD`. As long as the API key has been set up appropriately as described in the previous section (<a href="/setup-account" target="_blank">**Set up your account ↗**</a>), you should see the workflow appear in the `Workflows` tab of your Portia dashboard and see a change in the aggregate workflow metrics in the Home page as well. Take a moment to examine those.
 ```python title="main.py"
 import json
 from portia.runner import Runner

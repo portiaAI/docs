@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-slug: /execute-a-workflow
+slug: /execute-workflow
 ---
 
 import Tabs from '@theme/Tabs';
@@ -22,7 +22,7 @@ A workflow is a unique instantiation of a plan. The purpose of a workflow is to 
 
 In a later section we will also see that the workflow state also tracks a list of instances where human input was solicited during workflow execution, known as `Clarification`.
 
-Workflow states are captured in the `Workflow` class (<a href="/SDK/portia/workflow" target="_blank">**SDK reference ↗**</a>). In the previous section (<a href="/product/Plan%20and%20run%20workflows/Generate%20a%20plan" target="_blank">**Generate a plan ↗**</a>), we generated a plan in response to the query `add the temperature in London to the temperature in Beirut right now`. Let's examine the final state once we run a workflow for that plan:
+Workflow states are captured in the `Workflow` class (<a href="/SDK/portia/workflow" target="_blank">**SDK reference ↗**</a>). In the previous section (<a href="/generate-plan" target="_blank">**Generate a plan ↗**</a>), we generated a plan in response to the query `add the temperature in London to the temperature in Beirut right now`. Let's examine the final state once we run a workflow for that plan:
 <Tabs>
   <TabItem value="plan" label="Generated plan >>">
     ```json title="plan-b5e013e8-6aae-461d-ac01-3a303f56935c.json"
@@ -162,7 +162,7 @@ json_body = json.loads(string)
 print(json.dumps(json_body, indent=2))
 ```
 :::note[Track workflow states in logs]
-You can track workflow state changes live as they occur through the logs by setting `default_log_level` to DEBUG in the `Config` of your Portia `Runner` (<a href="/product/Plan%20and%20run%20workflows/Manage%20config%20options#manage-logging)" target="_blank">**Manage logging ↗**</a>).
+You can track workflow state changes live as they occur through the logs by setting `default_log_level` to DEBUG in the `Config` of your Portia `Runner` (<a href="/manage-config#manage-logging" target="_blank">**Manage logging ↗**</a>).
 :::
 
 You should now be able to generate plans and spawn workflow runs from them. We have used a couple of example tools so far. Head on over to the next section to look at how we can add custom tools to the mix!
