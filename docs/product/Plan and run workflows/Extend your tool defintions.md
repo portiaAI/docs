@@ -15,7 +15,7 @@ Understand tools at Portia and add your own.
 A tool is a natural language wrapper around a data source or software service that the LLM can point to in order to accomplish tasks beyond its inherent capabilities. As a simple example, an LLM could respond to the user query `email avrana@kern.ai and tell her that spiders are now sentient` by suggesting a call to the email sending service wrapped in the `send_email` tool.
 
 We represent a tool with the `Tool` class (<a href="/SDK/portia/tool" target="_blank">**SDK reference ↗**</a>). Let's look at the `weather_tool` provided with our SDK as an example:
-```python weather_tool.py
+```python title="weather_tool.py"
 class WeatherToolSchema(BaseModel):
     """Input for WeatherTool."""
 
