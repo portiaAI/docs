@@ -13,11 +13,11 @@ With the above config and as long as the API key has been set up appropriately a
 ```python title="main.py"
 import json
 from portia.runner import Runner
-from portia.config import Config
+from portia.config import Config, StorageClass
 from portia.example_tools.registry import example_tool_registry
 
 # Load the default config and override the storage class to point to the Portia cloud
-myConfig = Config.from_default(storage_class = 'CLOUD')
+myConfig = Config.from_default(storage_class=StorageClass.CLOUD)
 
 # Instantiate a Portia runner. Load it with the default config and with the simple tool above.
 runner = Runner(config=myConfig, tool_registry=example_tool_registry)
