@@ -62,6 +62,15 @@ table {
   color: #637777 !important;
 }
 
+.theme-code-block .clean-btn {
+  opacity: 0.5 !important;
+  visibility: visible !important;
+}
+
+.tabs__item {
+  padding: 0.5rem 1rem;
+}
+
 .footer {
   --ifm-footer-background-color: #242526;
 }

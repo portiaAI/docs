@@ -8,7 +8,7 @@ Understand tools at Portia and add your own.
 :::tip[TL;DR]
 - Tools are used by LLMs as part of their response to indicate that a particular software service or data store is required to fulfil a user's query.
 - We represent a tool with the `Tool` class (<a href="/SDK/portia/tool" target="_blank">**SDK reference ↗**</a>). The LLM parses the tool properties, namely its name, description, input and output schemas to determine whether the tool is relevant to its response and how to invoke it.
-- Tool registries are useful to group frequently used tools together. They are represented by the `Tool_registry` class (<a href="/SDK/portia/tool_registry" target="_blank">**Run Portia tools ↗**</a>).
+- Tool registries are useful to group frequently used tools together. They are represented by the `Tool_registry` class (<a href="/SDK/portia/tool_registry" target="_blank">**SDK reference ↗**</a>).
 :::
 
 ## Tools at Portia
@@ -76,10 +76,10 @@ from portia.tool import Tool
 class FileWriterToolSchema(BaseModel):
     """Schema defining the inputs for the FileWriterTool."""
 
-    filename: str = Field(
+    filename: str = Field(..., 
         description="The location where the file should be saved",
     )
-    content: str = Field(
+    content: str = Field(..., 
         description="The content to write to the file",
     )
 
@@ -129,9 +129,7 @@ runner = Runner(config=default_config(), tool_registry=complete_tool_registry)
 output = runner.run_query('Check the temperature in Cooladdi, Australia and write the result to "demo_runs/weather_result.txt"')
 
 # Serialise into JSON and print the output
-string = output.model_dump_json()
-json_body = json.loads(string)
-print(json.dumps(json_body, indent=2))
+print(output.model_dump_json(indent=2))
 ```
 :::note[Register a single tool]
 The `register_tool` method allows you to load individual tools into an in-memory tool registry. In the particular example above where we are looking to add a single local tool to the example ones, we could have started by initialising the `complete_tool_registry` with the tools from the `example_tool_registry`, and then added the `FileWriterTool` using the `register_tool` method like so:

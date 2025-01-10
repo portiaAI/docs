@@ -67,9 +67,7 @@ runner = Runner(config=myConfig, tool_registry=example_tool_registry)
 output = runner.run_query('Get the temperature in London and share it with me')
 
 # Serialise into JSON an print the output
-string = output.model_dump_json()
-json_body = json.loads(string)
-print(json.dumps(json_body, indent=2))
+print(output.model_dump_json(indent=2))
 ```
 
 In your demo_runs directory, you should now be able to see a plan and a workflow written to disk per the changes made to the `Config`. Note how the plan and subsequent workflow run now include a second step to convert the temperature returned by the `WeatherTool` to Fahrenheit!

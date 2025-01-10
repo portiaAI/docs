@@ -46,9 +46,7 @@ runner = Runner(config=myConfig, tool_registry=complete_tool_registry)
 output = runner.run_query('Get the weather in the southernmost city in the world')
 
 # Serialise into JSON an print the output
-string = output.model_dump_json()
-json_body = json.loads(string)
-print(json.dumps(json_body, indent=2))
+print(output.model_dump_json(indent=2))
 ```
 
 Running the code above should return the weather conditions in Puerto Williams, Chile unless a new city was settled by humans in the far southern hemisphere or the equator tilted (hopefully not). In your logs you should be able to see the tools, as well as a plan and final workflow state similar to the output below. Note again how the planner weaved tools from both the cloud and the example registry.
