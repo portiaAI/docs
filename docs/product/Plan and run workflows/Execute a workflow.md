@@ -129,9 +129,7 @@ plan = runner.plan_query('add the temperature in London to the temperature in Be
 output = runner.run_plan(plan)
 
 # Serialise into JSON and print the output
-string = output.model_dump_json()
-json_body = json.loads(string)
-print(json.dumps(json_body, indent=2))
+print(output.model_dump_json(indent=2))
 ```
 
 Here we are storing the `Plan` object returned by the `plan_query` method and then using the `run_plan` method to instantiate a workflow from it. 
@@ -157,9 +155,7 @@ runner = Runner(config=default_config(), tool_registry=example_tool_registry)
 output = runner.run_query('add the temperature in London to the temperature in Beirut right now')
 
 # Serialise into JSON and print the output
-string = output.model_dump_json()
-json_body = json.loads(string)
-print(json.dumps(json_body, indent=2))
+print(output.model_dump_json(indent=2))
 ```
 :::note[Track workflow states in logs]
 You can track workflow state changes live as they occur through the logs by setting `default_log_level` to DEBUG in the `Config` of your Portia `Runner` (<a href="/manage-config#manage-logging" target="_blank">**Manage logging ↗**</a>).

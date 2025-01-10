@@ -76,9 +76,7 @@ runner = Runner(config=default_config(), tool_registry=example_tool_registry)
 output = runner.plan_query('add the temperature in London to the temperature in Beirut right now')
 
 # Serialise into JSON and print the output
-string = output.model_dump_json()
-json_body = json.loads(string)
-print(json.dumps(json_body, indent=2))
+print(output.model_dump_json(indent=2))
 ```
 
 As mentioned earlier in the documentation, the `Runner` class is your main entrypoint to interact with Portia's libraries (<a href="/SDK/portia/runner" target="_blank">**SDK reference ↗**</a>). The `plan_query` method is available from the `Runner` class and allows you to generate a plan from the query. Running the `plan_query` method per the code above returns a `Plan` object (<a href="/SDK/portia/plan" target="_blank">**SDK reference ↗**</a>) which looks as follows:

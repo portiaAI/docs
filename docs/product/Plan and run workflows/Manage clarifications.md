@@ -89,9 +89,16 @@ We offer three types of clarifications at the moment. You can see the properties
 Clarifications are raised in one of two scenarios:
 1. LLM-triggered: During workflow execution, an agent attempting to complete a step notices that an input is missing, resulting in an Input clarification.
 2. Tool-triggered: A clarification is explicitly raised in the python class definition of the tool in specific conditions e.g. if a requisite oauth token is missing to complete the underlying API call or if a tool argument is invalid, resulting in Action or a Multiple Choice clarification respectively.
+:::info[On missing tool inputs]
+The LLM may sometimes judge that making an assumption on a missing input is reasonable. Take for example this prompt "write 'hello' to file". This should invoke the `FileWriterTool`, where the `content` argument has clear but the `filename` argument is ambiguous. It may result in an LLM-triggered Input clarification or the LLM may assume `hello.txt` as the value for `filename`. The latter would be a reasonable assumption rather than a "hallucination" per se. You can always enforce guardrails on such assumptions using explicit tool-triggered clarifications e.g. ensuring a `filename` is always within a specific directory as we'll see next.
+:::
 
 # Add a clarification to your custom tool
-Let's build on our `FileWriterTool` definition from the previous section (<a href="/extend-tool-definitions#adding-your-own-custom-tools" target="_blank">**Add a custom tool ↗**</a>). Let's add an input clarification that prevents the user from creating files outside the `demo_run` directory. We do that by adding the highlighted lines in the `FileWriterTool` class definition as shown below.
+Let's pick up the custom tool example we looked at previously (<a href="/extend-tool-definitions#adding-your-own-custom-tools" target="_blank">**Add a custom tool ↗**</a>). We will now learn how to:
+- Define a clarification in a tool explicitly
+- Handle clarifications with the `Runner` and `Workflow` classes
+### Define your clarification
+ We're going to add an input clarification that prevents the user from creating files outside the `demo_run` directory to our `FileWriterTool` definition. We do that by adding the highlighted lines in the `FileWriterTool` class definition as shown below.
 
 ```python title="file_writer_tool.py"
 from pathlib import Path
@@ -103,10 +110,10 @@ from portia.clarification import InputClarification
 class FileWriterToolSchema(BaseModel):
     """Schema defining the inputs for the FileWriterTool."""
 
-    filename: str = Field(
+    filename: str = Field(..., 
         description="The location where the file should be saved",
     )
-    content: str = Field(
+    content: str = Field(..., 
         description="The content to write to the file",
     )
 
@@ -159,7 +166,9 @@ if not self.validate_file_path(filename):
     )
 ```
 
-If the agent encounters this condition, the tool call returns a clarification, the workflow is paused and the workflow state becomes `NEED CLARIFICATION`. Portia has now passed control of the workflow execution to you, the developer, along with a `Clarification` object in order for you to resolve with human input. At this stage we need to make some changes in the `main.py` file to handle clarifications.
+### Handle clarifications with your `Runner`
+When the conditions requiring a clarification are met, the relevant tool call returns a `Clarification` object, the workflow is paused and the workflow state becomes `NEED CLARIFICATION`. Portia has now passed control of the workflow execution to you, the developer, along with the `Clarification` object in order for you to resolve with human or machine input. At this stage we need to make some changes in the `main.py` file to handle clarifications.
+
 ```python title="main.py"
 import json
 from portia.runner import Runner
@@ -177,11 +186,13 @@ complete_tool_registry = example_tool_registry + my_custom_tool_registry
 # Instantiate a Portia runner. Load it with the default config and with the tools above
 runner = Runner(config=default_config(), tool_registry=complete_tool_registry)
 
-# Generate the plan from the user query
-workflow = runner.run_query('Check the temperature in Cooladdi, Australia and write the result to "demo_stuns/weather_result.txt"')
+# Generate the plan from the user query, attempting to write results "demo_buns" rather than "demo_runs"
+# highlight-start
+workflow = runner.run_query('Check the temperature in Cooladdi, Australia and write the result to "demo_buns/weather_results.txt"')
+# highlight-end
 
-#highlight-start
 # Check if the workflow was paused due to raised clarifications
+#highlight-start
 while workflow.state == WorkflowState.NEED_CLARIFICATION:
     # If clarifications are needed, resolve them before resuming the workflow
     for clarification in workflow.get_outstanding_clarifications():
@@ -195,36 +206,33 @@ while workflow.state == WorkflowState.NEED_CLARIFICATION:
 #highlight-end
 
 # Serialise into JSON and print the output
-string = output.model_dump_json()
-json_body = json.loads(string)
-print(json.dumps(json_body, indent=2))
+print(output.model_dump_json(indent=2))
 ```
 
-What you need to do to handle clarifications is:
+We're now submitting a prompt where we provide an invalid value for the `filename` argument of the `FileWriterTool`. The tool call will return a `Clarification` object per changes made in the previous section and pause the workflow.<br/>
+The changes you need to make to enable this behaviour are as follows:
 1. Check if the state of the `Workflow` object returned by the `run_query` method (or `run_plan` if running from plan) is `WorkflowState.NEED_CLARIFICATION`. This means the workflow exited before completion due to a clarification.
 2. Use the `get_outstanding_clarifications` method of the `Workflow` object to access all clarifications where `handled` is false.
 3. For each `Clarification`, surface the `user_guidance` to the relevant user and collect their input.
 4. Use the `resolve` method of the `Clarification` to capture the user input in the `response` attribute of the relevant clarification. Because clarifications are part of the workflow state itself, this means that the workflow now captures the latest human input gathered and can be resumed with the new information.
 5. Once this is done you can resume the workflow using the `resume_workflow` method. This `Runner` method takes a `Workflow` as a parameter and will kick off once again from the step where the clarifications were encountered.
 
-For the example query above `Check the temperature in Cooladdi, Australia and write the result to "demo_stuns/weather_result.txt"`, where the user resolves the clarification by entering `demo_runs/weather_results.txt`, you should see the following final workflow state (note the clarification object in highlight!).
+For the example query above `Check the temperature in Cooladdi, Australia and write the result to "demo_buns/weather_result.txt"`, where the user resolves the clarification by entering `demo_runs/weather_results.txt`, you should see the following final workflow state. Note the input clarification in highlight where the `user_guidance` was generated by Portia based on your clarification definition in the `FileWriterTool` class:
 ```json title="final_workflow_state.json"
 {
   "id": "7e01b69e-8c0e-463a-8317-314ba2460c7c",
   "plan_id": "b1c1e1c0-5c3e-4c8b-8c1e-1c0e1c1e1c1e",
   "current_step_index": 1,
-  # highlight-start
   "clarifications": [
     {
       "id": "ea156f1a-58bb-476b-9180-b5f5c5ba0229",
       "type": "Input Clarification",
       "response": "demo_runs/weather_result.txt",
       "step": 1,
-      "user_guidance": "demo_stuns/weather_result.txt is not within the 'demo_runs' directory. Please specify a valid path.",
+      "user_guidance": "demo_buns/weather_result.txt is not within the 'demo_runs' directory. Please specify a valid path.",
       "resolved": true
     }
   ],
-  # highlight-end
   "state": "COMPLETE",
   "step_outputs": {
     "$weather_result": {
