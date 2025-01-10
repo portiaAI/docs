@@ -100,7 +100,7 @@ Note that every workflow has a unique `id` and relates to a unique `plan_id`. If
 
 ## Workflow state changes
 If you'd like to inspect the individual state changes for the above workflow, feel free to cycle through them in the video below. Note how the workflow state is enriched with step outputs at every step of the execution.
-<iframe width="931" height="550" title="" src="https://snappify.com/embed/c8eb2bee-f784-4d24-b573-39bfca493eda?responsive=1&p=1&autoplay=1&b=0" allow="clipboard-write" allowfullscreen="" loading="lazy" frameborder="0"></iframe>
+<iframe width="100%" height="500" title="" src="https://snappify.com/embed/c8eb2bee-f784-4d24-b573-39bfca493eda?responsive=1&p=1&autoplay=1&b=0" allow="clipboard-write" allowfullscreen="" loading="lazy" frameborder="0"></iframe>
 
 ## Execute a workflow from a plan
 <details>
