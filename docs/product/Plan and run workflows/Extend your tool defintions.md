@@ -145,4 +145,109 @@ You should now expect to see the weather information about the smallest town in 
 The current weather in Cooladdi, Australia is clear sky with a temperature of 26.55°C.
 ```
 
+### Tool errors at Portia
+If a tool returns a generic error (e.g. one of the many built-in Python error classes), the LLM may not always detect that an Agent failed at a particular step or adopt the behaviour we want them to. This is where Portia's two `Error` types come in (<a href="/SDK/portia/errors" target="_blank">**SDK reference ↗**</a>):
+- `ToolSoftError` is used when the Agent fails during a tool call but it is worth a retry. For example sometimes the Agent constructs a tool call with incorrect arguments resulting a `400` API error and a useful error code. Passing that error code back to the `Runner` in a `ToolSoftError` informs it where things went wrong and it can often recover by rewriting its tool call as a result.
+- `ToolHardError` is used when we know the Agent encounters a permanent error or exception. One example could be a `401` invalid API key error, or a permission breach. In such cases we return the error in a `ToolHardError` which signals to the `Runner` that it should exit the workflow in a FAILED state.
+
+To test this you could add the following `ToolHardError` calls into the `FileWriterTool` from the previous section like so:
+```python title=file_writer_tool.py
+from pathlib import Path
+from pydantic import BaseModel, Field
+from portia.tool import Tool
+from portia.errors import ToolHardError
+
+class FileWriterToolSchema(BaseModel):
+    """Schema defining the inputs for the FileWriterTool."""
+
+    filename: str = Field(..., 
+        description="The location where the file should be saved",
+    )
+    content: str = Field(..., 
+        description="The content to write to the file",
+    )
+
+class FileWriterTool(Tool):
+    """Writes content to a file."""
+
+    id: str = "file_writer_tool"
+    name: str = "File writer tool"
+    description: str = "Writes content to a file locally"
+    args_schema: type[BaseModel] = FileWriterToolSchema
+    output_schema: tuple[str, str] = ("str", "A string indicating where the content was written to")
+
+    def run(self, filename: str, content: str) -> str:
+        """Run the FileWriterTool."""
+
+        # Check if the file path is valid
+        # highlight-start
+        if filename and not self.validate_file_path(filename):
+            raise ToolHardError(f"{filename} is not within the 'demo_runs' directory. You are now dismissed.")
+        #highlight-end
+
+        filepath = Path(filename)
+        if filepath.is_file():
+            with open(filepath, "w") as file:
+                file.write(content)
+        else:
+            with open(filepath, "x") as file:
+                file.write(content)
+        return f"Content written to {filename}"
+
+    # highlight-start
+    def validate_file_path(self, filename: str) -> bool:
+        """Validate the file path."""
+
+        valid_path = Path("demo_runs").resolve()
+        file_path = Path(filename).resolve()
+        return file_path.is_relative_to(valid_path)
+    #highlight-end
+```
+
+The lines we added will raise a hard error if the file path is not with the `demo_runs` folder per the `validate_file_path` method. Throwing to test this such an error should result in a FAILED workflow state and a `final_output` elucidating the error. To test this you can run the code below where explicitly point the `FileWriterTool` to an invalid directory to trigger the hard error.
+```python title=main.py
+from portia.runner import Runner
+from portia.config import default_config
+from portia.tool_registry import InMemoryToolRegistry
+from my_custom_tools.file_writer_tool import FileWriterTool
+
+# Load demo tools into a tool registry and custom tools into its own tool registry.
+my_custom_tool_registry = InMemoryToolRegistry.from_local_tools([FileWriterTool()])
+# Instantiate a Portia runner. Load it with the default config and with the tools above
+runner = Runner(config=default_config(), tool_registry=my_custom_tool_registry)
+
+# Generate the plan from the user query
+workflow = runner.run_query('Write hello world to a file called "demo_buns/file.txt"')
+print(workflow.model_dump_json(indent=2))
+```
+
+You should expect to see an ERROR raised in the logs like so:
+```bash
+2025-01-13 18:52:06.936 | ERROR | portia.runner:_execute_workflow:156 - error: Tool File writer tool failed: Error: ToolHardError(
+    # highlight-next-line
+    "demo_buns/file.txt is not within the 'demo_runs' directory. You are now dismissed.")
+ Please fix your mistakes.
+ ```
+ And a workflow with a FAILED state and an output outlining the error:
+ ```json title=workflow_error.py
+ {
+  "id": "7fbd90e9-9546-4c42-a01d-c12736aca895",
+  "plan_id": "912dda96-c20e-4c40-9e60-5388fd8055a0",
+  "current_step_index": 0,
+  "clarifications": [],
+  # highlight-next-line
+  "state": "FAILED",
+  "step_outputs": {
+    "$write_status": {
+      "value": "Tool File writer tool failed: Error: ToolHardError(\"demo_buns/file.txt is not within the 'demo_runs' directory. You are now dismissed.\")\n Please fix your mistakes."
+    }
+  },
+  # highlight-start
+  "final_output": {
+    "value": "Tool File writer tool failed: Error: ToolHardError(\"demo_buns/file.txt is not within the 'demo_runs' directory. You are now dismissed.\")\n Please fix your mistakes."
+  # highlight-end
+  }
+}
+```
+
 With custom tools you can now wrap any internal and external utilities, software services and data stores in natural language and expose them to your LLM. There will be instances when you want to signal to the LLM that human input is required before proceeding further. Let's look at how we unlock this feature in the next section.
