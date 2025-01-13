@@ -11,7 +11,6 @@ We have seen how to configure where workflows are stored and retrieved previousl
 ### Store workflows in the cloud
 With the above config and as long as the API key has been set up appropriately as described in the previous section (<a href="/setup-account" target="_blank">**Set up your account ↗**</a>), you should see workflows executed by your `Runner` appear in the `Workflows` tab of your Portia dashboard and see a change in the aggregate workflow metrics in the Home page as well. To examine the workflow created in the code below in your dashboard, you will need the workflow ID, appearing the first attribute of the output e.g. `"id": "f66b141b-5603-4bd9-b827-0c7a41bf5d5c"`. Take a moment to examine those after running the code below.
 ```python title="main.py"
-import json
 from portia.runner import Runner
 from portia.config import Config, StorageClass
 from portia.example_tools.registry import example_tool_registry
