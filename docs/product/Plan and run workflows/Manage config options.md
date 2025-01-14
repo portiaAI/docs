@@ -9,10 +9,9 @@ import TabItem from '@theme/TabItem';
 # Manage your config
 Learn how to use the runner `Config` to configure LLM and agent execution options, and select different plan and workflow storage options.
 
-:::tip[TL:DR]
+:::tip[TL;DR]
 The `Config` class of your `Runner` allows you to:
 - Configure your LLM provider, model and API key
-- Add more colour e.g. user-specific context to the overall system context
 - Save plans and workflows to disk or the Portia cloud
 - Manage logging behaviour
 :::
@@ -43,8 +42,8 @@ You can control logging behaviour with the following `Config` properties (<a hre
 
 ## Bringing it all together
 Let's test out a couple of these parameters. We will start first by loading the default config values within the `Config` class using the `from_default` method. This method uses the `default_config` within the `Config` class as the baseline and allows you to tweak specific attributes:
-- We will explicitly save plans and workflows to disk in the `demo_runs` directory. In the default config the `storage_class` is set to `MEMORY` so we will change it to `DISK`.
-- We will enrich the system prompt with note explicitly saying we only want temperature data in Fahrenheit using the `planner_system_context_extension` property. The `WeatherTool` in the `example_tool_registry` included in the Portia SDK returns data in Celsius, so we'd expect injecting this additional system prompt information to effect a change in the plan produced and final outcome.
+- We will explicitly save plans and workflows to disk in the `demo_runs` directory. In the default config the `storage_class` is set to `MEMORY` so we will change it to `DISK`
+- We will set the `default_log_level` to `DEBUG`, which will result in the generated plan, every change in the workflow state and all tool calls appearing in the logs.
 
 ```python title="main.py"
 import json
@@ -56,8 +55,7 @@ from portia.example_tools.registry import example_tool_registry
 myConfig = Config.from_default(
     storage_class='DISK', 
     storage_dir='demo_runs',
-    default_log_level='DEBUG',
-    planner_system_context_override = "For weather related queries, always convert to Farenheit."
+    default_log_level='DEBUG'
 )
 
 # Instantiate a Portia runner. Load it with the default config and with the simple tool above.
@@ -70,34 +68,44 @@ output = runner.run_query('Get the temperature in London and share it with me')
 print(output.model_dump_json(indent=2))
 ```
 
-In your demo_runs directory, you should now be able to see a plan and a workflow written to disk per the changes made to the `Config`. Note how the plan and subsequent workflow run now include a second step to convert the temperature returned by the `WeatherTool` to Fahrenheit!
+In your `demo_runs` directory, you should now be able to see a plan and a workflow written to disk per the changes made to the `Config` (Note how overly verbose the LLM decide to be with its plan on this occasion :wink:).
 <Tabs>
   <TabItem value="plan" label="Generated plan">
     ```json title="plan-fe3550dd-510a-4d29-b7ff-3f22547f6022.json"
-    {
-        "id": "fe3550dd-510a-4d29-b7ff-3f22547f6022",
-        "query": "Get the temperature in London and share it with me in a tolerable format",
+   {
+        "id": "87c62909-ebda-4adf-9b41-7b8185bf303b",
+        "query": "Get the temperature in London and share it with me",
         "steps": [
             {
-                "task": "Get the weather for London",
-                "input": null,
+                "task": "Get the current weather for London",
+                "inputs": [],
                 "tool_name": "Weather Tool",
                 "output": "$london_weather"
             },
-            # highlight-start
             {
-                "task": "Convert the temperature to Fahrenheit",
-                "input": [
+                "task": "Extract the temperature from the weather data",
+                "inputs": [
                     {
                         "name": "$london_weather",
                         "value": null,
-                        "description": "The weather data retrieved for London, which includes temperature in Celsius."
+                        "description": "The weather data retrieved for London"
                     }
                 ],
                 "tool_name": null,
-                "output": "$temperature_fahrenheit"
+                "output": "$london_temperature"
+            },
+            {
+                "task": "Share the temperature with the user",
+                "inputs": [
+                    {
+                        "name": "$london_temperature",
+                        "value": null,
+                        "description": "The temperature in London"
+                    }
+                ],
+                "tool_name": null,
+                "output": "$shared_temperature"
             }
-            # highlight-end
         ]
     }
     ```
@@ -105,27 +113,28 @@ In your demo_runs directory, you should now be able to see a plan and a workflow
     <TabItem value="workflow" label="Workflow in final state" default>
     ```json title="workflow-b9bf5541-2a2e-42c2-bfa9-f440c33a54f7.json"
     {
-        "id": "b9bf5541-2a2e-42c2-bfa9-f440c33a54f7",
-        "plan_id": "fe3550dd-510a-4d29-b7ff-3f22547f6022",
-        "current_step_index": 1,
-        "clarifications": [],
-        "state": "COMPLETE",
-        "step_outputs": {
-            "$london_weather": {
-                "value": "The current weather in London is broken clouds with a temperature of 3.34°C."
-            },
-            # highlight-start
-            "$temperature_fahrenheit": {
-                "value": "The temperature in London is 37.01°F."
-            }
-            # highlight-end
+    "id": "74b1ba1b-5ef4-4921-b708-7eda83891206",
+    "plan_id": "87c62909-ebda-4adf-9b41-7b8185bf303b",
+    "current_step_index": 2,
+    "clarifications": [],
+    "state": "COMPLETE",
+    "step_outputs": {
+        "$london_weather": {
+        "value": "The current weather in London is overcast clouds with a temperature of 9°C."
         },
-        "final_output": {
-            "value": "The temperature in London is 37.01°F."
+        "$london_temperature": {
+        "value": "The temperature extracted from the weather data is 9°C."
+        },
+        "$shared_temperature": {
+        "value": "The temperature in London is 9°C."
         }
+    },
+    "final_output": {
+        "value": "The temperature in London is 9°C."
+    }
     }
     ```
   </TabItem>
 </Tabs>
 
-In the next sections, we will look at how the `Config` class can be used to allow you access to Portia's cloud capabilities.
+In the next sections, we will look at how the `Context` class can be used to enrich your workflows with end user specific context.

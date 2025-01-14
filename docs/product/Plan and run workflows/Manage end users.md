@@ -8,78 +8,97 @@ import TabItem from '@theme/TabItem';
 
 # Handle multiple end users
 
-Running workflows for a single user is useful, but in most systems you'll want to be able to run a workflow for different users. We call these users `End Users`.
+Pass end user specific context to Portia
 
-:::tip[Providing End Users is optional]
-You can run any workflow without worrying about end users. `End Users` are only relevant when:
-- You want to handle tool OAuth authentication on an end user level to ensure fine grained access control of tool calls.
-- You want to have improved debugging/reporting in the Portia Dashboard.
+:::tip[TL;DR]
+The `Context` class can be used to enrich your `Runner` with pertinent information about the execution context:
+- `end_user_id` in your `Context` object uniquely represents the end user in your system e.g. an internal ID or an email address.
+- `additional_data` can be used to pass user specific info that may be relevant to the response such as title and department. It can also be used to pass execution context specific info e.g. related to the app through which the query was submitted to Portia (e.g. a Slack thread ID).
+- Providing an execution context to the `Runner` is optional. It's mostly relevant when you want end user level traceability.
 :::
 
 
-## Execution Context
+## The workflow execution context at Portia
 
-`End Users` are managed through the runner execution context by providing an `end_user_id`.
+In your agentic workflows, you may want to pass information specific to the person submitting a prompt and / or specific to a current context they are operating in (e.g. a particular app like Slack). 
 
-:::tip[Setting the `end_user_id`]
-The `end_user_id` can be any string value that uniquely represents the end user in your system. For example it could be:
-- An internal ID assigned in your systems
-- An email address for the user
-- Any other attribute or set of attributes that is unique. 
-:::
+We refer to these "person" entities as **end users** and represent the current context in which they submitted their prompt through a `Context` object that is passed to the `Runner`:
+- You can define an `end_user_id` property in your `Context` object. This can be any string value that uniquely represents the end user in your system e.g. an internal ID or an email address.
+- Alongside the `end_user_id` you can also provide a set of additional attributes in the `additional_data` field. You can imagine passing a person's name, department, title etc. You could also pass useful information about the context in which Portia was called for example a Slack or Gmail thread ID so that Portia's planner may fetch the full conversation history if relevant.
 
-We provide a simple interface to pass execution context to the runner. Alongside the `end_user_id` you can also provide a set of additional attributes in the `additional_data` field.
-
-```python title=main.py
-from portia.config import Config, LogLevel
+```python title="main.py"
+from portia.config import default_config
 from portia.context import execution_context
 from portia.example_tools.registry import example_tool_registry
 from portia.runner import Runner
-from portia.workflow import WorkflowState
 
 runner = Runner(
-    Config.from_default(default_log_level=LogLevel.DEBUG),
+    config=default_config(),
     tool_registry=example_tool_registry,
 )
 
-# We can also provide additional execution context to the process
-with execution_context(end_user_id="123", additional_data={"email_address": "hello@portialabs.ai"}):
+# We can provide additional execution context to the process like so
+# highlight-start
+with execution_context(end_user_id="santa123", additional_data={"email_address": "santa@claus.com", "name": "Nicholas of Patara"}):
     plan = runner.plan_query(
-        "Get the temperature in London and Sydney and then add the two temperatures rounded to 2DP",
+        "Get the temperature in Svalbard and write me a personalized greeting with the result.",
     )
     workflow = runner.create_and_execute_workflow(plan)
+# highlight-end
+
+print(workflow.model_dump_json(indent=2))
 ```
 
-Running with execution context like this will:
-- Pass the `end_user_id` and `additional_data` to the planner and agent LLMs. This is useful to provide data that is specific to the user calling.
-- Use the `end_user_id` to uniquely identify the user for Authentication.
-- Persist the `end_user_id` and `additional_data` as part of the Workflow if using Portia Cloud to allow for better debugging/reporting.
+The result of this code block will be the addition of an `execution_context` section within the `Workflow` state, and a `final_output` that is indeed personalised to Saint Nicholas:
+```json title="workflow_state.json"
+{
+  "id": "d9991518-92d7-447f-bf28-4f7b9b8110ce",
+  "plan_id": "4f497c60-c33e-40ea-95b4-cd2054559fff",
+  "current_step_index": 1,
+  "clarifications": [],
+  "state": "COMPLETE",
+  # highlight-start
+  "execution_context": {
+    "end_user_id": "DemoUser123",
+    "additional_data": {
+      "email_address": "demo@portialabs.ai",
+      "name": "Nicholas of Patara"
+    },
+    "planner_system_context_extension": null,
+    "agent_system_context_extension": null
+  },
+  # highlight-end
+  "step_outputs": {
+    "$svalbard_temperature": {
+      "value": "The current weather in Svalbard is light snow with a temperature of -11.53°C."
+    },
+    "$personalized_greeting": {
+      "value": "Hello Nicholas of Patara, I hope you are keeping warm. With the current weather in Svalbard showing light snow and a temperature of -11.53°C, make sure to bundle up and stay cozy!"
+    }
+  },
+  # highlight-start
+  "final_output": {
+    "value": "Hello Nicholas of Patara, I hope you are keeping warm. With the current weather in Svalbard showing light snow and a temperature of -11.53°C, make sure to bundle up and stay cozy!"
+  }
+  # highlight-end
+}
+```
 
+Running `with execution_context` like this will:
+- Pass the `end_user_id` and `additional_data` to the planner and agent LLMs.
+- Persist the `end_user_id` and `additional_data` as part of the `Workflow` as you saw in the output above:
+    - You can use this information for granular usage traceability. if using Portia Cloud, you will be able to see and filter stored workflows down to specific end users (via SDK or in the Dashboard)
+    - You may want to persist the `end_user_id` on your side and use it consistently when interacting with Portia to uniquely identify the end user across workflows. This may also be useful if you build authenticated tools with reusable oauth tokens, so that you can maintain the user association and leverage the tokens' reusability.
 
-It's important when using execution context to remember to restore it if your returning to a workflow later:
-
-```python title=main.py
-from portia.config import Config, LogLevel
-from portia.context import execution_context
-from portia.example_tools.registry import example_tool_registry
-from portia.runner import Runner
-from portia.workflow import WorkflowState
-
-runner = Runner(
-    Config.from_default(default_log_level=LogLevel.DEBUG),
-    tool_registry=example_tool_registry,
-)
-
-# Run the workflow as normal
-with execution_context(end_user_id="123", additional_data={"email_address": "hello@portialabs.ai"}):
-    plan = runner.plan_query(
-        "Get the temperature in London and Sydney and then add the two temperatures rounded to 2DP",
-    )
-    workflow = runner.create_and_execute_workflow(plan)
-
-# Outside with block there is no execution context
-
-# if we want to resume the workflow we need to explicitly re-set the context
-with execution_context(context=workflow.execution_context):
+:::info[On persisting execution context]
+A `Workflow` object inherits the `Context` with which it was created as we have seen from the output above. Whenever such a workflow is resumed it will by default resume with this execution context persisted within it. You may choose to override this execution context with a `with execution_context({your new context definition})` when resuming
+```python
+...
+# if we want to resume the workflow with a new execution context, we can override it
+with execution_context(context={new execution context here}):
     runner.execute_workflow(workflow)
+...
 ```
+:::
+
+In the next sections, we will look at how the `Config` class can be used to allow you access to Portia's cloud capabilities.
