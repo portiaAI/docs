@@ -7,6 +7,14 @@ title: portia.clarification
 
 Clarifications are the general framework for agents to get input.
 
+**Examples**:
+
+  - Authentication via OAuth needs to happen, and the user must go through an OAuth flow.
+  - One argument provided for a tool is missing, and the user needs to provide it.
+  - The user has given an input that is not allowed and needs to choose from a list.
+  
+  
+- `Docs` - [https://docs.porita.dev/manage-clarifications](https://docs.porita.dev/manage-clarifications)
 
 ## Clarification Objects
 
@@ -18,12 +26,12 @@ Base Model for Clarifications.
 
 **Arguments**:
 
-- `id` (`UUID`): A unique ID for this clarification.
-- `type` (`str`): The type of clarification. Should be controlled by classes extending this class.
-- `response` (`SERIALIZABLE_TYPE_VAR | None`): The response from the user to this clarification.
-- `step` (`int | None`): The step this clarification is linked to.
-- `user_guidance` (`str`): Guidance provided to the user to help with clarification.
-- `UUID`0 (`UUID`1): Whether this clarification has been resolved. Defaults to False.
+- `id` _UUID_ - A unique ID for this clarification.
+- `type` _str_ - The type of clarification. Should be controlled by classes extending this class.
+- `response` _SERIALIZABLE_TYPE_VAR | None_ - The response from the user to this clarification.
+- `step` _int | None_ - The step this clarification is linked to.
+- `user_guidance` _str_ - Guidance provided to the user to help with clarification.
+- `resolved` _bool_ - Whether this clarification has been resolved. Defaults to False.
 
 #### resolve
 
@@ -35,7 +43,7 @@ Resolve the clarification with the given response.
 
 **Arguments**:
 
-- `response` (`SERIALIZABLE_TYPE_VAR | None`): The response to resolve the clarification.
+- `response` _SERIALIZABLE_TYPE_VAR | None_ - The response to resolve the clarification.
 
 ## ArgumentClarification Objects
 
@@ -47,13 +55,13 @@ A general class for clarifications for a specific argument of a tool.
 
 **Arguments**:
 
-- `id` (`UUID`): A unique ID for this clarification.
-- `type` (`str`): The type of clarification. Should be controlled by classes extending this class.
-- `response` (`SERIALIZABLE_TYPE_VAR | None`): The response from the user to this clarification.
-- `step` (`int | None`): The step this clarification is linked to.
-- `user_guidance` (`str`): Guidance provided to the user to help with clarification.
-- `UUID`0 (`UUID`1): Whether this clarification has been resolved. Defaults to False.
-- `UUID`2 (`str`): The name of the argument that needs to be clarified.
+- `id` _UUID_ - A unique ID for this clarification.
+- `type` _str_ - The type of clarification. Should be controlled by classes extending this class.
+- `response` _SERIALIZABLE_TYPE_VAR | None_ - The response from the user to this clarification.
+- `step` _int | None_ - The step this clarification is linked to.
+- `user_guidance` _str_ - Guidance provided to the user to help with clarification.
+- `resolved` _bool_ - Whether this clarification has been resolved. Defaults to False.
+- `argument_name` _str_ - The name of the argument that needs to be clarified.
 
 ## ActionClarification Objects
 
@@ -68,13 +76,13 @@ once the user has clicked on the link and done the associated action.
 
 **Arguments**:
 
-- `id` (`UUID`): A unique ID for this clarification.
-- `type` (`str`): The type of clarification. Should be controlled by classes extending this class.
-- `response` (`SERIALIZABLE_TYPE_VAR | None`): The response from the user to this clarification.
-- `step` (`int | None`): The step this clarification is linked to.
-- `user_guidance` (`str`): Guidance provided to the user to help with clarification.
-- `UUID`0 (`UUID`1): Whether this clarification has been resolved. Defaults to False.
-- `UUID`2 (`UUID`3): The URL that the user should be directed to.
+- `id` _UUID_ - A unique ID for this clarification.
+- `type` _str_ - The type of clarification. Should be controlled by classes extending this class.
+- `response` _SERIALIZABLE_TYPE_VAR | None_ - The response from the user to this clarification.
+- `step` _int | None_ - The step this clarification is linked to.
+- `user_guidance` _str_ - Guidance provided to the user to help with clarification.
+- `resolved` _bool_ - Whether this clarification has been resolved. Defaults to False.
+- `action_url` _HttpUrl_ - The URL that the user should be directed to.
 
 #### serialize\_action\_url
 
@@ -84,7 +92,6 @@ def serialize_action_url(action_url: HttpUrl) -> str
 ```
 
 Serialize the action URL to a string.
-
 
 ## InputClarification Objects
 
@@ -98,13 +105,13 @@ Represents a clarification where the user needs to provide a value for a specifi
 
 **Arguments**:
 
-- `id` (`UUID`): A unique ID for this clarification.
-- `type` (`str`): The type of clarification. Should be controlled by classes extending this class.
-- `response` (`SERIALIZABLE_TYPE_VAR | None`): The response from the user to this clarification.
-- `step` (`int | None`): The step this clarification is linked to.
-- `user_guidance` (`str`): Guidance provided to the user to help with clarification.
-- `UUID`0 (`UUID`1): Whether this clarification has been resolved. Defaults to False.
-- `UUID`2 (`str`): The name of the argument that needs to be clarified.
+- `id` _UUID_ - A unique ID for this clarification.
+- `type` _str_ - The type of clarification. Should be controlled by classes extending this class.
+- `response` _SERIALIZABLE_TYPE_VAR | None_ - The response from the user to this clarification.
+- `step` _int | None_ - The step this clarification is linked to.
+- `user_guidance` _str_ - Guidance provided to the user to help with clarification.
+- `resolved` _bool_ - Whether this clarification has been resolved. Defaults to False.
+- `argument_name` _str_ - The name of the argument that needs to be clarified.
 
 ## MultiChoiceClarification Objects
 
@@ -118,14 +125,14 @@ Represents a clarification where the user needs to select an option for a specif
 
 **Arguments**:
 
-- `id` (`UUID`): A unique ID for this clarification.
-- `type` (`str`): The type of clarification. Should be controlled by classes extending this class.
-- `response` (`SERIALIZABLE_TYPE_VAR | None`): The response from the user to this clarification.
-- `step` (`int | None`): The step this clarification is linked to.
-- `user_guidance` (`str`): Guidance provided to the user to help with clarification.
-- `UUID`0 (`UUID`1): Whether this clarification has been resolved. Defaults to False.
-- `UUID`2 (`str`): The name of the argument that needs to be clarified.
-- `UUID`4 (`UUID`5): A set of options from which the user must choose.
+- `id` _UUID_ - A unique ID for this clarification.
+- `type` _str_ - The type of clarification. Should be controlled by classes extending this class.
+- `response` _SERIALIZABLE_TYPE_VAR | None_ - The response from the user to this clarification.
+- `step` _int | None_ - The step this clarification is linked to.
+- `user_guidance` _str_ - Guidance provided to the user to help with clarification.
+- `resolved` _bool_ - Whether this clarification has been resolved. Defaults to False.
+- `argument_name` _str_ - The name of the argument that needs to be clarified.
+- `options` _list[str]_ - A set of options from which the user must choose.
 
 #### resolve
 
@@ -134,14 +141,14 @@ def resolve(response: str | None) -> None
 ```
 
 Resolve the clarification with the given response.
-
 Responses are checked against the provided options.
 
 **Arguments**:
 
-- `response` (`SERIALIZABLE_TYPE_VAR | None`): The response to resolve the clarification.
+- `response` _SERIALIZABLE_TYPE_VAR | None_ - The response to resolve the clarification.
+  
 
 **Raises**:
 
-- `ValueError`: If the provided response is not one of the allowed options
+- `ValueError` - If the provided response is not one of the allowed options
 
