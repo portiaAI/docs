@@ -58,13 +58,13 @@ Let's submit a basic prompt to your LLM using our framework to make sure it's al
     <TabItem value="anthropic" label="Anthropic">
     To use Anthropic from the CLI, just run:
     ```bash
-    portia-cli run "add 1 + 2" --llm-provider="anthropic"
+    portia-cli --llm-provider="anthropic" run "add 1 + 2"
     ```
     </TabItem>
     <TabItem value="mistral" label="Mistral">
     To use Mistral from the CLI, just run:
     ```bash
-    portia-cli run "add 1 + 2" --llm-provider="mistralai"
+    portia-cli --llm-provider="mistralai" run "add 1 + 2"
     ```
     </TabItem>
 </Tabs>
