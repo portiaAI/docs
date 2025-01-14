@@ -76,7 +76,6 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       navbar: {
-        title: "Portia AI Docs",
         logo: {
           alt: "Portia Logo",
           src: "img/logo.png",
@@ -98,19 +97,6 @@ const config = {
           {
             label: "REST API",
             to: "/examples/redoc/",
-          },
-          {
-            type: "dropdown",
-            sidebarId: "resourcesSidebar",
-            position: "left",
-            label: "Resources",
-            items: [
-              {
-                type: "docSidebar",
-                sidebarId: "resourcesSidebar",
-                label: "Technical Resources",
-              },
-            ],
           },
         ],
       },
