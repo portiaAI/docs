@@ -141,3 +141,7 @@ Responses are checked against the provided options.
 
 - `response` (`SERIALIZABLE_TYPE_VAR | None`): The response to resolve the clarification.
 
+**Raises**:
+
+- `ValueError`: If the provided response is not one of the allowed options
+
