@@ -73,13 +73,13 @@ from portia.example_tools.registry import example_tool_registry
 runner = Runner(config=default_config(), tool_registry=example_tool_registry)
 
 # Generate the plan from the user query
-output = runner.plan_query('add the temperature in London to the temperature in Beirut right now')
+plan = runner.generate_plan('add the temperature in London to the temperature in Beirut right now')
 
 # Serialise into JSON and print the output
-print(output.model_dump_json(indent=2))
+print(plan.model_dump_json(indent=2))
 ```
 
-As mentioned earlier in the documentation, the `Runner` class is your main entrypoint to interact with Portia's libraries (<a href="/SDK/portia/runner" target="_blank">**SDK reference ↗**</a>). The `plan_query` method is available from the `Runner` class and allows you to generate a plan from the query. Running the `plan_query` method per the code above returns a `Plan` object (<a href="/SDK/portia/plan" target="_blank">**SDK reference ↗**</a>) which looks as follows:
+As mentioned earlier in the documentation, the `Runner` class is your main entrypoint to interact with Portia's libraries (<a href="/SDK/portia/runner" target="_blank">**SDK reference ↗**</a>). The `generate_plan` method is available from the `Runner` class and allows you to generate a plan from the query. Running the `generate_plan` method per the code above returns a `Plan` object (<a href="/SDK/portia/plan" target="_blank">**SDK reference ↗**</a>) which looks as follows:
 ```json title="plan.json"
 {
     "id":"661bf677-3259-46aa-99af-6314db8ee98f",
@@ -117,7 +117,7 @@ As mentioned earlier in the documentation, the `Runner` class is your main entry
 }
 ```
 
-The `plan_query` method can take the following additional parameters:
+The `generate_plan` method can take the following additional parameters:
 - `tools` in order to confine the plan generation to a narrower set of tools if required (for simplicity or for user-access considerations).
 - `example_plans` expected a list of `Plan` objects. This allows you to use existing plans as inspiration or templates, which improves repeatability for more routine workflows.
 

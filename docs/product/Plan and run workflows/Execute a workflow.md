@@ -154,17 +154,19 @@ runner = Runner(config=default_config(), tool_registry=example_tool_registry)
 # Generate the plan from the user query
 plan = runner.plan_query('add the temperature in London to the temperature in Beirut right now')
 
-# INSERT CODE WHERE YOU SERVE THE PLAN TO THE USER OR ITERATE ON IT IN ANY WAY
+# [OPTIONAL] INSERT CODE WHERE YOU SERVE THE PLAN TO THE USER OR ITERATE ON IT IN ANY WAY
 
-# Execute workflow from the generated plan
-# highlight-next-line
-output = runner.run_plan(plan)
+# Create and execute the workflow from the generated plan
+# highlight-start
+workflow = runner.create_workflow(plan)
+output = runner.execute_workflow(workflow)
+# highlight-end
 
 # Serialise into JSON and print the output
 print(output.model_dump_json(indent=2))
 ```
 
-Here we are storing the `Plan` object returned by the `plan_query` method and then using the `run_plan` method to instantiate a workflow from it. 
+Here we are storing the `Plan` object returned by the `generate_plan` method and then using the `create_workflow` method to instantiate a workflow from it in the `NOT_STARTED` state. And finally we are launching that workflow execution using the equally uncontroversially named method `execute_workflow`.
 
 ## Execute a workflow directly from a user query
 <details>
