@@ -115,10 +115,7 @@ If you wanted to explore all the tools available in the Portia cloud library, yo
 from portia.tool_registry import PortiaToolRegistry 
 from portia.config import Config
 
-portia_tool_registry = PortiaToolRegistry(Config.from_default(
-    storage_class='CLOUD',
-    portia_api_key='bMT7ebEN.XvS8tone5G75rmWGOqyxXx6j2ILeTvFx'
-))
+portia_tool_registry = PortiaToolRegistry(Config.from_default(storage_class='CLOUD'))
 
 # Get all tools in a registry
 for tool in portia_tool_registry.get_tools():
