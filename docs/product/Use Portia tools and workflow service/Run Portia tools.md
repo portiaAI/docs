@@ -33,14 +33,14 @@ from portia.example_tools.registry import example_tool_registry
 from portia.tool_registry import PortiaToolRegistry
 
 # Load the default config and add Portia cloud tools and example tools into one registry
-myConfig = Config.from_default(
+my_config = Config.from_default(
     default_log_level = 'DEBUG',
     storage_class = 'CLOUD'
 )
-complete_tool_registry = example_tool_registry + PortiaToolRegistry(myConfig)
+complete_tool_registry = example_tool_registry + PortiaToolRegistry(my_config)
 
 # Instantiate a Portia runner. Load it with the default config and with the tools above
-runner = Runner(config=myConfig, tool_registry=complete_tool_registry)
+runner = Runner(config=my_config, tool_registry=complete_tool_registry)
 
 # Execute a workflow from the user query
 output = runner.run_query('Get the weather in the southernmost city in the world')
@@ -110,18 +110,19 @@ Running the code above should return the weather conditions in Puerto Williams, 
   </TabItem>
 </Tabs>
 
-If you wanted to explore all the tools available in the Portia cloud library, you can use the `get_tools` method of the `Tool_registry` class to list them all out. You can alternatively fetch a specific tool by name using the `get_tool` method. Feel to free to try this out.
+If you wanted to explore all the tools available in the Portia cloud library, you can use the `get_tools` method of the `Tool_registry` class to list them all out. 
 ```python
-from portia.example_tools import example_tool_registry
+from portia.tool_registry import PortiaToolRegistry 
+from portia.config import Config
+
+portia_tool_registry = PortiaToolRegistry(Config.from_default(
+    storage_class='CLOUD',
+    portia_api_key='bMT7ebEN.XvS8tone5G75rmWGOqyxXx6j2ILeTvFx'
+))
 
 # Get all tools in a registry
-for tool in example_tool_registry.get_tools():
-    print(tool)
-
-# Get a specific tool by name
-single_tool = example_tool_registry.get_tool('Weather Tool')
-print(f"\nFetched a single tool:\n{single_tool}")
+for tool in portia_tool_registry.get_tools():
+    print(f"{tool}\n")
 ```
 
-If you have been following the docs in the recommended order, you have gone through all the basics :star: <br/>
-Why not explore some of our more advanced how-to guides in the documentation or on our YouTube channel.
+Check out the next section for more information about the tools available on Portia cloud.
