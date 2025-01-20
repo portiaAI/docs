@@ -31,7 +31,7 @@ We refer to these "person" entities as **end users** and represent the current c
 ```python title="main.py"
 from portia.config import default_config
 from portia.context import execution_context
-from portia.example_tools.registry import example_tool_registry
+from portia.open_source_tools.registry import example_tool_registry
 from portia.runner import Runner
 
 runner = Runner(

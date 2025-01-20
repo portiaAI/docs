@@ -15,7 +15,7 @@ With this config and as long as the API key has been set up appropriately as des
 ```python title="main.py"
 from portia.runner import Runner
 from portia.config import Config, StorageClass
-from portia.example_tools.registry import example_tool_registry
+from portia.open_source_tools.registry import example_tool_registry
 
 # Load the default config and override the storage class to point to the Portia cloud
 my_config = Config.from_default(storage_class=StorageClass.CLOUD)
@@ -34,11 +34,11 @@ Take a moment to examine the workflow created by the code above in your dashboar
 ### Retrieve workflows from the cloud
 You can retrieve both workflow states and plans for a stored workflow. For that you would use the `get_workflow` and `get_plan` methods of the `Storage` class. You will need to specify the `PortiaCloudStorage` class in particular here. Go ahead and copy your workflow ID from the dashboard entry created in the previous section into the code below.
 ```python title="main.py"
-from portia.config import Config
+from portia.config import Config, StorageClass
 from portia.runner import PortiaCloudStorage
 
 # Load the default config and override the storage class to point to the Portia cloud
-my_config = Config.from_default(storage_class = 'CLOUD')
+my_config = Config.from_default(storage_class=StorageClass.CLOUD)
 # Use the PortiaCloudStorage class to interact with cloud storage
 my_store = PortiaCloudStorage(config=my_config)
 

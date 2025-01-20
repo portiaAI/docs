@@ -67,7 +67,7 @@ Let's look at how we generate a plan from a user prompt. Paste the code below in
 import json
 from portia.runner import Runner
 from portia.config import default_config
-from portia.example_tools.registry import example_tool_registry
+from portia.open_source_tools.registry import example_tool_registry
 
 # Instantiate a Portia runner. Load it with the default config and with the example tools.
 runner = Runner(config=default_config(), tool_registry=example_tool_registry)

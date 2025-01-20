@@ -28,14 +28,14 @@ You can use Portia tools in conjunction with your own custom tools by combining 
 ```python title="main.py"
 import json
 from portia.runner import Runner
-from portia.config import Config
-from portia.example_tools.registry import example_tool_registry
+from portia.config import Config, StorageClass, LogLevel
+from portia.open_source_tools.registry import example_tool_registry
 from portia.tool_registry import PortiaToolRegistry
 
 # Load the default config and add Portia cloud tools and example tools into one registry
 my_config = Config.from_default(
-    default_log_level = 'DEBUG',
-    storage_class = 'CLOUD'
+    default_log_level=LogLevel.DEBUG,
+    storage_class=StorageClass.CLOUD
 )
 complete_tool_registry = example_tool_registry + PortiaToolRegistry(my_config)
 
