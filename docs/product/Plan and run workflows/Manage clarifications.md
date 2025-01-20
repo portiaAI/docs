@@ -178,7 +178,7 @@ from portia.config import default_config
 from portia.tool_registry import InMemoryToolRegistry
 # highlight-next-line
 from portia.workflow import WorkflowState
-from portia.example_tools.registry import example_tool_registry
+from portia.open_source_tools.registry import example_tool_registry
 from my_custom_tools.file_writer_tool import FileWriterTool
 
 # Load custom tools into its own tool registry.

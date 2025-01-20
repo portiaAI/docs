@@ -98,7 +98,7 @@ As a final verification step for your installation, let's set up the elementary 
     ```python title="main.py"
     from portia.runner import Runner
     from portia.config import default_config
-    from portia.example_tools.registry import example_tool_registry
+    from portia.open_source_tools.registry import example_tool_registry
 
     # Create a Portia runner with the default config which uses Open AI, and with the example tools.
     runner = Runner(config=default_config(), tool_registry=example_tool_registry)
@@ -113,7 +113,7 @@ As a final verification step for your installation, let's set up the elementary 
         ```python title="main.py"
         from portia.runner import Runner
         from portia.config import Config
-        from portia.example_tools.registry import example_tool_registry
+        from portia.open_source_tools.registry import example_tool_registry
 
         # Create a default Portia config with LLM provider set to Anthropic. Default to the Sonnet 3.5 model
         anthropic_config = Config.from_default(llm_provider='ANTHROPIC')
@@ -130,7 +130,7 @@ As a final verification step for your installation, let's set up the elementary 
         ```python title="main.py"
         from portia.runner import Runner
         from portia.config import Config
-        from portia.example_tools.registry import example_tool_registry
+        from portia.open_source_tools.registry import example_tool_registry
 
         # Create a default Portia config with LLM provider set to Mistral. Defaults to the Large Latest model
         mistral_config = Config.from_default(llm_provider='MISTRALAI')

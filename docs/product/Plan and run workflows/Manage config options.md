@@ -48,14 +48,14 @@ Let's test out a couple of these parameters. We will start first by loading the 
 ```python title="main.py"
 import json
 from portia.runner import Runner
-from portia.config import Config
-from portia.example_tools.registry import example_tool_registry
+from portia.config import Config, StorageClass, LogLevel
+from portia.open_source_tools.registry import example_tool_registry
 
 # Load the default config then make changes to it
 my_config = Config.from_default(
-    storage_class='DISK', 
+    storage_class=StorageClass.DISK, 
     storage_dir='demo_runs',
-    default_log_level='DEBUG'
+    default_log_level=LogLevel.DEBUG
 )
 
 # Instantiate a Portia runner. Load it with the default config and with the simple tool above.
