@@ -98,6 +98,12 @@ const config = {
             label: "REST API",
             to: "/examples/redoc/",
           },
+          {
+            href: "https://github.com/portiaAI/portia-sdk-python",
+            className: "header-github-link",
+            "aria-label": "GitHub repository",
+            position: "right",
+          },
         ],
       },
       footer: {
