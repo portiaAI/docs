@@ -3,6 +3,9 @@ sidebar_position: 3
 slug: /extend-tool-definitions
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Manage tool definitions 
 Understand tools at Portia and add your own.
 :::tip[TL;DR]
@@ -31,7 +34,7 @@ class WeatherToolSchema(BaseModel):
     city: str = Field(..., description="The city to get the weather for")
 
 
-class WeatherTool(Tool):
+class WeatherTool(Tool[str]):
     """Get the weather for a given city."""
 
     id: str = "weather_tool"
@@ -40,22 +43,26 @@ class WeatherTool(Tool):
     args_schema: type[BaseModel] = WeatherToolSchema
     output_schema: tuple[str, str] = ("str", "String output of the weather with temp and city")
 
-    def run(self, _: ExecutionContext, filename: str, content: str) -> str:
+    def run(self, _: ExecutionContext, city: str) -> str:
         """Run the WeatherTool."""
-        # Function logic here
-        api_key = OPENWEATHERMAP_API_KEY
+        api_key = os.getenv("OPENWEATHERMAP_API_KEY")
+        if not api_key or api_key == "":
+            raise ToolHardError("OPENWEATHERMAP_API_KEY is required")
         url = (
             f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric"
         )
-        client = Client(timeout=10.0, default_encoding="utf-8", transport=HTTPTransport(retries=3))
-        response = client.get(url)
-        
+        response = httpx.get(url)
+        response.raise_for_status()
         data = response.json()
+        if "weather" not in data:
+            raise ToolSoftError(f"No data found for: {city}")
         weather = data["weather"][0]["description"]
+        if "main" not in data:
+            raise ToolSoftError(f"No main data found for city: {city}")
         temp = data["main"]["temp"]
         return f"The current weather in {city} is {weather} with a temperature of {temp}°C."
-
 ```
+
 Here are the key points to look out for:
 - All properties of a tool are parsed by the LLM to determine whether that tool is salient to a user's query and should therefore be invoked in response to it.
 - The `args_schema` property describes the tool inputs. This is important to help the LLM understand what parameters it can invoke a tool with.
@@ -68,94 +75,158 @@ You can track tool calls live as they occur through the logs by setting `default
 
 ## Adding your own custom tools
 <details>
-<summary>**OpenWeatherMap API key required**</summary>
+<summary>**API keys required**</summary>
 
 We will use a simple GET endpoint from OpenWeatherMap in this section. Please sign up to obtain an API key from them (<a href="https://home.openweathermap.org/users/sign_in" target="_blank">**↗**</a>) and set it in the environment variable `OPENWEATHERMAP_API_KEY`.
+
+We're assuming you already have a Tavily key provisioned from the previous sections in this doc. If not, then head over to their website and do so (<a href="https://tavily.com/" target="_blank">**↗**</a>). We will set it in the environment variable `TAVILY_API_KEY`.
 </details>
 
-### Tool registries
-Before we attempt to create custom tools, let's touch on the concept of tool registries. A tool registry is a collection of tools and is represented by the `Tool_registry` class (<a href="/run-portia-tools" target="_blank">**SDK reference ↗**</a>). Tool registries are useful to group frequently used tools together, e.g. you could imagine having a tool registry by function in your organisation. You can load tool registries either from memory (i.e. from within your project) or Portia's cloud (<a href="/SDK/portia/tool_registry" target="_blank">**Run Portia tools ↗**</a>). In the next section we're going to use registries to group our custom tools together.
-
-### Add a custom tool
-Let's build a custom tool that allows an LLM to write content to a local file. We're going to create our custom tools in a separate folder called `my_custom_tools` at the root of the project directory and create a `file_writer_tool.py` file within it, with the following:
-```python title="file_writer_tool.py"
-from pathlib import Path
-from pydantic import BaseModel, Field
-from portia.tool import Tool
-from portia.context import ExecutionContext
-
-
-class FileWriterToolSchema(BaseModel):
-    """Schema defining the inputs for the FileWriterTool."""
-
-    filename: str = Field(..., 
-        description="The location where the file should be saved",
-    )
-    content: str = Field(..., 
-        description="The content to write to the file",
-    )
+### Add custom tools
+Let's build two custom tools that allow an LLM to write / read content to / from a local file. We're going to create our custom tools in a separate folder called `my_custom_tools` at the root of the project directory and create a `file_writer_tool.py` and `file_reader_tool.py` file within it, with the following:
+<Tabs>
+  <TabItem value="file_reader" label="file_reader_tool.py">
+    ```python title="my_custom_tools/file_reader_tool.py"
+    from pathlib import Path
+    import pandas as pd
+    import json
+    from pydantic import BaseModel, Field
+    from portia.tool import Tool
+    from portia.context import ExecutionContext
 
 
-class FileWriterTool(Tool):
-    """Writes content to a file."""
+    class FileReaderToolSchema(BaseModel):
+        """Schema defining the inputs for the FileReaderTool."""
 
-    id: str = "file_writer_tool"
-    name: str = "File writer tool"
-    description: str = "Writes content to a file locally"
-    args_schema: type[BaseModel] = FileWriterToolSchema
-    output_schema: tuple[str, str] = ("str", "A string indicating where the content was written to")
+        filename: str = Field(..., 
+            description="The location where the file should be read from",
+        )
 
-    def run(self, _: ExecutionContext, city: str) -> str:
-        """Run the FileWriterTool."""
-        print(f"Writing content to {filename}")
-        filepath = Path(filename)
-        if filepath.is_file():
-            with open(filepath, "w") as file:
-                file.write(content)
-        else:
-            with open(filepath, "x") as file:
-                file.write(content)
-        return f"Content written to {filename}"
-```
+
+    class FileReaderTool(Tool[str]):
+        """Finds and reads content from a local file on Disk."""
+
+        id: str = "file_reader_tool"
+        name: str = "File reader tool"
+        description: str = "Finds and reads content from a local file on Disk"
+        args_schema: type[BaseModel] = FileReaderToolSchema
+        output_schema: tuple[str, str] = ("str", "A string dump or JSON of the file content")
+
+        def run(self, _: ExecutionContext, filename: str) -> str | dict[str,any]:       
+            """Run the FileReaderTool."""
+            
+            file_path = Path(filename)
+            suffix = file_path.suffix.lower()
+
+            if file_path.is_file():
+                if suffix == '.csv':
+                    return pd.read_csv(file_path).to_string()
+                elif suffix == '.json':
+                    with file_path.open('r', encoding='utf-8') as json_file:
+                        data = json.load(json_file)
+                        return data
+                elif suffix in ['.xls', '.xlsx']:
+                    return pd.read_excel(file_path).to_string
+                elif suffix in ['.txt', '.log']:
+                    return file_path.read_text(encoding="utf-8")
+    ```
+  </TabItem>
+  <TabItem value="file_writer" label="file_writer_tool.py">
+    ```python title="my_custom_tools/file_writer_tool.py"
+    from pathlib import Path
+    from pydantic import BaseModel, Field
+    from portia.tool import Tool
+    from portia.context import ExecutionContext
+
+
+    class FileWriterToolSchema(BaseModel):
+        """Schema defining the inputs for the FileWriterTool."""
+
+        filename: str = Field(..., 
+            description="The location where the file should be saved",
+        )
+        content: str = Field(..., 
+            description="The content to write to the file",
+        )
+
+
+    class FileWriterTool(Tool):
+        """Writes content to a file."""
+
+        id: str = "file_writer_tool"
+        name: str = "File writer tool"
+        description: str = "Writes content to a file locally"
+        args_schema: type[BaseModel] = FileWriterToolSchema
+        output_schema: tuple[str, str] = ("str", "A string indicating where the content was written to")
+
+        def run(self, _: ExecutionContext, city: str) -> str:
+            """Run the FileWriterTool."""
+            print(f"Writing content to {filename}")
+            filepath = Path(filename)
+            if filepath.is_file():
+                with open(filepath, "w") as file:
+                    file.write(content)
+            else:
+                with open(filepath, "x") as file:
+                    file.write(content)
+            return f"Content written to {filename}"
+    ```
+    </TabItem>
+</Tabs>
 
 The tool expects a `filename` (including the file path) and the `content` that needs to be written into it. If a file already exists at the specified location its content will be overwritten.
 
-Now we're going to load our custom tool (along with any future ones) into its own in-memory registry called `my_custom_tool_registry`. To load a list of local tools into an in-memory tool registry, we can use the `from_local_tools` method, which takes a list of `Tool` objects as parameter.<br/>
-We can combine any number of tool registries into a single one with the `+` operator. In this case we will now combine our custom tool(s) with the `example_tool_registry` using `complete_tool_registry = example_tool_registry + my_custom_tool_registry`.
+### Organise tools in registries
+A tool registry is a collection of tools and is represented by the `Tool_registry` class (<a href="/run-portia-tools" target="_blank">**SDK reference ↗**</a>). Tool registries are useful to group frequently used tools together, e.g. you could imagine having a tool registry by function in your organisation. You can load tool registries either from memory (i.e. from within your project) or Portia's cloud (<a href="/SDK/portia/tool_registry" target="_blank">**Run Portia tools ↗**</a>). We actually group a few of our open source tools into an `example_tool_registry`, which is what we've been importing into all the examples we've looked at in the docs so far (<a href="https://github.com/portiaAI/portia-sdk-python/tree/main/portia/open_source_tools" target="_blank">**Open source tools in our SDK repo ↗**</a>).
 
-```python title="main.py"
-import json
-from portia.runner import Runner
-from portia.config import default_config
+Let's group our custom tools into a registry so we can import it into code afterwards. Let's create a `registry.py` file in the `my_custom_tools` directory and declare our registry as follow:
+```python title="registry.py"
+"""Registry containing my custom tools."""
+
 from portia.tool_registry import InMemoryToolRegistry
-from portia.open_source_tools.registry import example_tool_registry
+from my_custom_tools.file_reader_tool import FileReaderTool
 from my_custom_tools.file_writer_tool import FileWriterTool
 
-# Load custom tools into its own tool registry.
-my_custom_tool_registry = InMemoryToolRegistry.from_local_tools([FileWriterTool()])
-# Aggregate all tools into a single tool registry.
-complete_tool_registry = example_tool_registry + my_custom_tool_registry
+custom_tool_registry = InMemoryToolRegistry.from_local_tools(
+    [
+        FileReaderTool(),
+        FileWriterTool(),
+    ],
+)
+```
+
+Here we are loading our freshly minted local tools into an in-memory tool registry called `custom_tool_registry` represented by the `InMemoryToolRegistry` class using the `from_local_tools` method. This method takes a list of `Tool` objects as a parameter.<br/>
+
+### Using custom tools and registries
+
+Now let's bring it all together. We can combine any number of tool registries into a single one with the `+` operator. In this case we will now combine our custom tool(s) from the `custom_tool_registry` we created above with the `example_tool_registry` using `complete_tool_registry = example_tool_registry + custom_tool_registry`.<br/>
+**Note: Make a `demo_runs` directory at this point. We will be using repeatedly.**
+
+```python title="main.py"
+from dotenv import load_dotenv
+from portia.runner import Runner
+from portia.config import default_config
+from portia.open_source_tools.registry import example_tool_registry
+from my_custom_tools.registry import custom_tool_registry
+
+load_dotenv()
+
+# Load example and custom tool registries into a single one
+complete_tool_registry = example_tool_registry + custom_tool_registry
 # Instantiate a Portia runner. Load it with the default config and with the tools above
 runner = Runner(config=default_config(), tool_registry=complete_tool_registry)
 
-# Generate the plan from the user query
-output = runner.run_query('Check the temperature in Cooladdi, Australia and write the result to "demo_runs/weather_result.txt"')
+# Execute the plan from the user query
+workflow = runner.execute_query('Get the weather in the town with the longest name in England' 
+                                + 'and write it to demo_runs/weather.txt.')
 
 # Serialise into JSON and print the output
-print(output.model_dump_json(indent=2))
+print(workflow.model_dump_json(indent=2))
 ```
-:::note[Register a single tool]
-The `register_tool` method allows you to load individual tools into an in-memory tool registry. In the particular example above where we are looking to add a single local tool to the example ones, we could have started by initialising the `complete_tool_registry` with the tools from the `example_tool_registry`, and then added the `FileWriterTool` using the `register_tool` method like so:
-```python
-# Load custom tools into its own tool registry.
-complete_tool_registry = example_tool_registry
-complete_tool_registry.register_tool(FileWriterTool())
-```
-:::
 
-You should now expect to see the weather information about the smallest town in Australia to be printed in a weather_results.text file inside a `demo_runs` folder as specified.
-```text title="demo runs > weather_results.txt"
-The current weather in Cooladdi, Australia is clear sky with a temperature of 26.55°C.
+You should now expect the weather information in Llanfairpwllgwyngyllgogerychwyrndrobwllllantysiliogogogoch to be printed in a weather.txt file inside a `demo_runs` folder as specified (You are hopefully finding that our docs are easier to navigate that the name of said town).
+```text title="demo_runs/weather.txt"
+The current weather in Llanfairpwllgwyngyllgogerychwyrndrobwllllantysiliogogogoch is broken clouds with a temperature of 6.76°C.
 ```
 
 ## Tool errors at Portia
@@ -163,106 +234,112 @@ If a tool returns a generic error (e.g. one of the many built-in Python error cl
 - `ToolSoftError` is used when the Agent fails during a tool call but it is worth a retry. For example sometimes the Agent constructs a tool call with incorrect arguments resulting a `400` API error and a useful error code. Passing that error code back to the `Runner` in a `ToolSoftError` informs it where things went wrong and it can often recover by rewriting its tool call as a result.
 - `ToolHardError` is used when we know the Agent encounters a permanent error or exception. One example could be a `401` invalid API key error, or a permission breach. In such cases we return the error in a `ToolHardError` which signals to the `Runner` that it should exit the workflow in a FAILED state.
 
-To test this you could add the following `ToolHardError` calls into the `FileWriterTool` from the previous section like so:
-```python title=file_writer_tool.py
+Let's test this by adding an error handler to our `FileReaderTool` from the previous section. This tool checks for various file formats but it currently doesn't do anything if either the file is not of a supported format or is not found. Let's go ahead and use `ToolHardError` calls to handle those cases.
+```python title="my_custom_tools/file_reader_tool.py"
 from pathlib import Path
+import pandas as pd
+import json
 from pydantic import BaseModel, Field
 from portia.tool import Tool
 from portia.context import ExecutionContext
+# highlight-next-line
 from portia.errors import ToolHardError
 
 
-class FileWriterToolSchema(BaseModel):
-    """Schema defining the inputs for the FileWriterTool."""
+class FileReaderToolSchema(BaseModel):
+    """Schema defining the inputs for the FileReaderTool."""
 
     filename: str = Field(..., 
-        description="The location where the file should be saved",
-    )
-    content: str = Field(..., 
-        description="The content to write to the file",
+        description="The location where the file should be read from",
     )
 
 
-class FileWriterTool(Tool):
-    """Writes content to a file."""
+class FileReaderTool(Tool[str]):
+    """Finds and reads content from a local file on Disk."""
 
-    id: str = "file_writer_tool"
-    name: str = "File writer tool"
-    description: str = "Writes content to a file locally"
-    args_schema: type[BaseModel] = FileWriterToolSchema
-    output_schema: tuple[str, str] = ("str", "A string indicating where the content was written to")
+    id: str = "file_reader_tool"
+    name: str = "File reader tool"
+    description: str = "Finds and reads content from a local file on Disk"
+    args_schema: type[BaseModel] = FileReaderToolSchema
+    output_schema: tuple[str, str] = ("str", "A string dump or JSON of the file content")
 
-    def run(self, _: ExecutionContext, city: str) -> str:
-        """Run the FileWriterTool."""
+    def run(self, _: ExecutionContext, filename: str) -> str | dict[str,any]:       
+        """Run the FileReaderTool."""
+        
+        file_path = Path(filename)
+        suffix = file_path.suffix.lower()
 
-        # Check if the file path is valid
-        # highlight-start
-        if filename and not self.validate_file_path(filename):
-            raise ToolHardError(f"{filename} is not within the 'demo_runs' directory. You are now dismissed.")
-        #highlight-end
+        if file_path.is_file():
+            if suffix == '.csv':
+                return pd.read_csv(file_path).to_string()
+            elif suffix == '.json':
+                with file_path.open('r', encoding='utf-8') as json_file:
+                    data = json.load(json_file)
+                    return data
+            elif suffix in ['.xls', '.xlsx']:
+                return pd.read_excel(file_path).to_string
+            elif suffix in ['.txt', '.log']:
+                return file_path.read_text(encoding="utf-8")
+            # highlight-start
+            else:
+               raise ToolHardError(f"Unsupported file format: {suffix}. Supported formats are .txt, .log, .csv, .json, .xls, .xlsx.")
+            # highlight-end
 
-        filepath = Path(filename)
-        if filepath.is_file():
-            with open(filepath, "w") as file:
-                file.write(content)
-        else:
-            with open(filepath, "x") as file:
-                file.write(content)
-        return f"Content written to {filename}"
-
-    # highlight-start
-    def validate_file_path(self, filename: str) -> bool:
-        """Validate the file path."""
-
-        valid_path = Path("demo_runs").resolve()
-        file_path = Path(filename).resolve()
-        return file_path.is_relative_to(valid_path)
-    #highlight-end
+        # highlight-next-line
+        raise ToolHardError(f"No file found on disk with the path {filename}.")
 ```
 
-The lines we added will raise a hard error if the file path is not with the `demo_runs` folder per the `validate_file_path` method. Throwing to test this such an error should result in a FAILED workflow state and a `final_output` elucidating the error. To test this you can run the code below where explicitly point the `FileWriterTool` to an invalid directory to trigger the hard error.
+Throwing a hard tool error should result in a FAILED workflow state and a `final_output` elucidating the error. To test this you can run the code below where attempt to read a non-existent file:
 ```python title=main.py
 from portia.runner import Runner
 from portia.config import default_config
-from portia.tool_registry import InMemoryToolRegistry
-from my_custom_tools.file_writer_tool import FileWriterTool
+from portia.open_source_tools.registry import example_tool_registry
+from my_custom_tools.registry import custom_tool_registry
 
-# Load demo tools into a tool registry and custom tools into its own tool registry.
-my_custom_tool_registry = InMemoryToolRegistry.from_local_tools([FileWriterTool()])
+# Load example and custom tool registries into a single one
+complete_tool_registry = example_tool_registry + custom_tool_registry
 # Instantiate a Portia runner. Load it with the default config and with the tools above
-runner = Runner(config=default_config(), tool_registry=my_custom_tool_registry)
+runner = Runner(config=default_config(), tool_registry=complete_tool_registry)
 
-# Generate the plan from the user query
-workflow = runner.run_query('Write hello world to a file called "demo_buns/file.txt"')
+# Execute the plan from the user query
+workflow = runner.execute_query('Read the contents of the file Llanfairpwllgwyngyllgogerychwyrndrobwllllantysiliogogogoch.txt.')
+
+# Serialise into JSON and print the output
 print(workflow.model_dump_json(indent=2))
 ```
 
 You should expect to see an ERROR raised in the logs like so:
 ```bash
-2025-01-13 18:52:06.936 | ERROR | portia.runner:_execute_workflow:156 - error: Tool File writer tool failed: Error: ToolHardError(
-    # highlight-next-line
-    "demo_buns/file.txt is not within the 'demo_runs' directory. You are now dismissed.")
- Please fix your mistakes.
+2025-01-23 17:04:05.868 | ERROR | portia.runner:_execute_workflow:190 - error: Tool File reader tool failed
+Error: ToolHardError('No file found on disk with the path Llanfairpwllgwyngyllgogerychwyrndrobwllllantysiliogogogoch.txt.')
+Please fix your mistakes.
  ```
  And a workflow with a FAILED state and an output outlining the error:
  ```json title=workflow_error.py
- {
-  "id": "7fbd90e9-9546-4c42-a01d-c12736aca895",
-  "plan_id": "912dda96-c20e-4c40-9e60-5388fd8055a0",
-  "current_step_index": 0,
-  "clarifications": [],
-  # highlight-next-line
-  "state": "FAILED",
-  "step_outputs": {
-    "$write_status": {
-      "value": "Tool File writer tool failed: Error: ToolHardError(\"demo_buns/file.txt is not within the 'demo_runs' directory. You are now dismissed.\")\n Please fix your mistakes."
+{
+    "id": "b5837285-d58a-4273-be1a-5aa84b19fd7a",
+    "plan_id": "b08d18a3-2a63-4a7b-ab38-9cceea7a3616",
+    "current_step_index": 0,
+    "state": "FAILED",
+    "execution_context": {
+        "end_user_id": null,
+        "additional_data": {},
+        "planner_system_context_extension": null,
+        "agent_system_context_extension": null
+    },
+    "outputs": {
+        "clarifications": [],
+        "step_outputs": {
+        "$file_contents": {
+            "value": "Tool File reader tool failed: Error: ToolHardError('No file found on disk with the path Llanfairpwllgwyngyllgogerychwyrndrobwllllantysiliogogogoch.txt.')\n Please fix your mistakes.",
+            "summary": null
+        }
+        },
+        "final_output": {
+        "value": "Tool File reader tool failed: Error: ToolHardError('No file found on disk with the path Llanfairpwllgwyngyllgogerychwyrndrobwllllantysiliogogogoch.txt.')\n Please fix your mistakes.",
+        "summary": null
+        }
     }
-  },
-  # highlight-start
-  "final_output": {
-    "value": "Tool File writer tool failed: Error: ToolHardError(\"demo_buns/file.txt is not within the 'demo_runs' directory. You are now dismissed.\")\n Please fix your mistakes."
-  # highlight-end
-  }
 }
 ```
 
@@ -270,14 +347,14 @@ You should expect to see an ERROR raised in the logs like so:
 
 You can fetch all tools in a given `ToolRegistry` using the `get_tools` method or a specific tool by name using the `get_tool` method. Feel to free to try this out.
 ```python
-from portia.example_tools import example_tool_registry
+from my_custom_tools.registry import custom_tool_registry
 
 # Get all tools in a registry
-for tool in example_tool_registry.get_tools():
-    print(tool)
+for tool in custom_tool_registry.get_tools():
+    print(f"{tool}\n")
 
-# Get a specific tool by name
-single_tool = example_tool_registry.get_tool('Weather Tool')
+# # Get a specific tool by name
+single_tool = custom_tool_registry.get_tool('File writer tool')
 print(f"\nFetched a single tool:\n{single_tool}")
 ```
 

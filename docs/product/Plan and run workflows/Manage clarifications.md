@@ -94,78 +94,98 @@ The LLM may sometimes judge that making an assumption on a missing input is reas
 :::
 
 # Add a clarification to your custom tool
-Let's pick up the custom tool example we looked at previously (<a href="/extend-tool-definitions#adding-your-own-custom-tools" target="_blank">**Add a custom tool ↗**</a>). We will now learn how to:
+Let's pick up the custom tool example we looked at previously (<a href="/extend-tool-definitions#adding-your-own-custom-tools" target="_blank">**Adding your own custom tool ↗**</a>). We will now learn how to:
 - Define a clarification in a tool explicitly
 - Handle clarifications with the `Runner` and `Workflow` classes
-### Define your clarification
- We're going to add an input clarification that prevents the user from creating files outside the `demo_run` directory to our `FileWriterTool` definition. We do that by adding the highlighted lines in the `FileWriterTool` class definition as shown below.
 
-```python title="file_writer_tool.py"
+### Define your clarification
+ We're going to add a clarification to our `FileReaderTool` to handle cases where a file is not found. Instead of throwing an error directly, we will attempt to find the file in other folders in the project directory. We do that by adding the highlighted lines in the `FileReaderTool` class definition as shown below.
+
+```python title="my_custom_tools/file_reader_tool.py"
 from pathlib import Path
+import pandas as pd
+import json
 from pydantic import BaseModel, Field
 from portia.tool import Tool
 from portia.context import ExecutionContext
+from portia.errors import ToolHardError
 # highlight-next-line
-from portia.clarification import InputClarification
+from portia.clarification import MultiChoiceClarification
 
 
-class FileWriterToolSchema(BaseModel):
-    """Schema defining the inputs for the FileWriterTool."""
+class FileReaderToolSchema(BaseModel):
+    """Schema defining the inputs for the FileReaderTool."""
 
     filename: str = Field(..., 
-        description="The location where the file should be saved",
-    )
-    content: str = Field(..., 
-        description="The content to write to the file",
+        description="The location where the file should be read from",
     )
 
 
-class FileWriterTool(Tool):
-    """Writes content to a file."""
+class FileReaderTool(Tool[str]):
+    """Finds and reads content from a local file on Disk."""
 
-    id: str = "file_writer_tool"
-    name: str = "File writer tool"
-    description: str = "Writes content to a file locally"
-    args_schema: type[BaseModel] = FileWriterToolSchema
-    output_schema: tuple[str, str] = ("str", "A string indicating where the content was written to")
+    id: str = "file_reader_tool"
+    name: str = "File reader tool"
+    description: str = "Finds and reads content from a local file on Disk"
+    args_schema: type[BaseModel] = FileReaderToolSchema
+    output_schema: tuple[str, str] = ("str", "A string dump or JSON of the file content")
 
-    def run(self, _: ExecutionContext, city: str) -> str:
-        """Run the FileWriterTool."""
+    def run(self, _: ExecutionContext, filename: str) -> str | dict[str,any]:       
+        """Run the FileReaderTool."""
+        
+        file_path = Path(filename)
+        suffix = file_path.suffix.lower()
 
+        if file_path.is_file():
+            if suffix == '.csv':
+                return pd.read_csv(file_path).to_string()
+            elif suffix == '.json':
+                with file_path.open('r', encoding='utf-8') as json_file:
+                    data = json.load(json_file)
+                    return data
+            elif suffix in ['.xls', '.xlsx']:
+                return pd.read_excel(file_path).to_string
+            elif suffix in ['.txt', '.log']:
+                return file_path.read_text(encoding="utf-8")
+            else:
+               raise ToolHardError(f"Unsupported file format: {suffix}. Supported formats are .txt, .log, .csv, .json, .xls, .xlsx.")
+        
         # highlight-start
-        # Check if the file path is valid
-        if not self.validate_file_path(filename):
-            return InputClarification(
+        alt_file_paths = self.find_file(filename)
+        if alt_file_paths:
+            return MultiChoiceClarification(
                 argument_name="filename",
-                user_guidance=f"{filename} is not within the 'demo_runs' directory. Please specify a valid path.",
+                user_guidance=f"Found {filename} in these location(s). Pick one to continue:\n{alt_file_paths}",
+                options=alt_file_paths,
             )
         # highlight-end
-        
-        filepath = Path(filename)
-        if filepath.is_file():
-            with open(filepath, "w") as file:
-                file.write(content)
-        else:
-            with open(filepath, "x") as file:
-                file.write(content)
-        return f"Content written to {filename}"
-    
-    # highlight-start
-    def validate_file_path(self, filename: str) -> bool:
-        """Validate the file path."""
 
-        valid_path = Path("demo_runs").resolve()
-        file_path = Path(filename).resolve()
-        return file_path.is_relative_to(valid_path)
+        raise ToolHardError(f"No file found on disk with the path {filename}.")
+
+    # highlight-start
+    def find_file(self, filename: str) -> list[Path]:
+        """Returns a full file path or None."""
+
+        search_path = Path("../")
+        filepaths = []
+
+        for filepath in search_path.rglob(filename):
+            if filepath.is_file():
+                filepaths.append(str(filepath))
+        if filepaths:
+            return filepaths
+        return None
     # highlight-end
 ```
 
-Most notably, this block below results in the tool using the `validate_file_path` method and raising a clarification if the path is not within the `demo_runs` directory:
+Most notably, this block below results in the tool using the `find_file` method to look for alternative locations and raising a clarification if multiple paths are found in the project directory:
 ```python
-if not self.validate_file_path(filename):
-    return InputClarification(
+alt_file_paths = self.find_file(filename)
+if alt_file_paths:
+    return MultiChoiceClarification(
         argument_name="filename",
-        user_guidance=f"{filename} is not within the 'demo_runs' directory. Please specify a valid path.",
+        user_guidance=f"Found {filename} in these location(s). Pick one to continue:\n{alt_file_paths}",
+        options=alt_file_paths,
     )
 ```
 
@@ -175,26 +195,21 @@ When the conditions requiring a clarification are met, the relevant tool call re
 ```python title="main.py"
 from portia.runner import Runner
 from portia.config import default_config
-from portia.tool_registry import InMemoryToolRegistry
+from portia.open_source_tools.registry import example_tool_registry
+from my_custom_tools.registry import custom_tool_registry
 # highlight-next-line
 from portia.workflow import WorkflowState
-from portia.open_source_tools.registry import example_tool_registry
-from my_custom_tools.file_writer_tool import FileWriterTool
 
-# Load custom tools into its own tool registry.
-my_custom_tool_registry = InMemoryToolRegistry.from_local_tools([FileWriterTool()])
-# Aggregate all tools into a single tool registry.
-complete_tool_registry = example_tool_registry + my_custom_tool_registry
+# Load example and custom tool registries into a single one
+complete_tool_registry = example_tool_registry + custom_tool_registry
 # Instantiate a Portia runner. Load it with the default config and with the tools above
 runner = Runner(config=default_config(), tool_registry=complete_tool_registry)
 
-# Generate the plan from the user query, attempting to write results "demo_buns" rather than "demo_runs"
-# highlight-next-line
-workflow = runner.run_query('Check the temperature in Cooladdi, Australia and write the result to "demo_buns/weather_results.txt"')
-print(f"Workflow state snapshot #1:\n{workflow.model_dump_json(indent=2)}")
+# Execute the plan from the user query
+workflow = runner.execute_query('Read the contents of the file "weather.txt".')
 
+# highlight-start
 # Check if the workflow was paused due to raised clarifications
-#highlight-start
 while workflow.state == WorkflowState.NEED_CLARIFICATION:
     # If clarifications are needed, resolve them before resuming the workflow
     for clarification in workflow.get_outstanding_clarifications():
@@ -203,107 +218,66 @@ while workflow.state == WorkflowState.NEED_CLARIFICATION:
         # Resolve the clarification with the user input
         clarification.resolve(response=user_input)
 
-    # Once clarifications are resolved, resume the workflow using the `execute_workflow` method
+    # Once clarifications are resolved, resume the workflow
     workflow = runner.execute_workflow(workflow)
-#highlight-end
+# highlight-end
 
 # Serialise into JSON and print the output
-print(f"Workflow state snapshot #2:\n{workflow.model_dump_json(indent=2)}")
+print(workflow.model_dump_json(indent=2))
 ```
 
-We're now submitting a prompt where we provide an invalid value for the `filename` argument of the `FileWriterTool`. The tool call will return a `Clarification` object per changes made in the previous section and pause the workflow.<br/>
+For this test to successfully trigger a clarification, make sure you don't have a `weather.txt` file in the same folder as your python file AND try to have a few copies of a `weather.txt` file sprinkled around in other folders of the project directory. This will ensure that the prompt triggers the multiple choice clarifications on the `filename` argument of the `FileReaderTool`. The tool call will return a `Clarification` object per changes made in the previous section and pause the workflow.<br/>
 The changes you need to make to enable this behaviour are as follows:
-1. Check if the state of the `Workflow` object returned by the `run_query` method (or `run_plan` if running from plan) is `WorkflowState.NEED_CLARIFICATION`. This means the workflow exited before completion due to a clarification.
+1. Check if the state of the `Workflow` object returned by the `execute_query` method is `WorkflowState.NEED_CLARIFICATION`. This means the workflow paused before completion due to a clarification.
 2. Use the `get_outstanding_clarifications` method of the `Workflow` object to access all clarifications where `handled` is false.
 3. For each `Clarification`, surface the `user_guidance` to the relevant user and collect their input.
 4. Use the `resolve` method of the `Clarification` to capture the user input in the `response` attribute of the relevant clarification. Because clarifications are part of the workflow state itself, this means that the workflow now captures the latest human input gathered and can be resumed with the new information.
 5. Once this is done you can resume the workflow using the `execute_workflow` method. We have seen this `Runner` method as a way to kick off a `Workflow` object after the `create_workflow` method. In fact `execute_workflow` can take a `Workflow` in any state as a parameter and will kick off that workflow from that current state. In this particular example, it resumes the workflow from the step where the clarifications were encountered.
 
-For the example query above `Check the temperature in Cooladdi, Australia and write the result to "demo_buns/weather_result.txt"`, where the user resolves the clarification by entering `demo_runs/weather_results.txt`, you should see the following workflow states at the two `print` statements inserted in the code above. Note the following highlighted segments:
-- The input clarification where the `user_guidance` was generated by Portia based on your clarification definition in the `FileWriterTool` class (visible in both snapshots),
+For the example query above `Read the contents of the file "weather.txt".`, where the user resolves the clarification by entering one of the options offered by the clarification (in this particular case `demo_runs/weather.txt` in our project directory `momo_sdk_tests`), you should see the following workflow state, nothing that:
+- The multiple choice clarification where the `user_guidance` was generated by Portia based on your clarification definition in the `FileReaderTool` class,
 - The `response` in the second workflow snapshot reflecting the user input, and the change in `handled` to `true` as a result
-- The change of the workflow `state` from `NEED_CLARIFICATION` to `COMPLETE`:
-<Tabs>
-    <TabItem value="snapshot_1" label="Workflow state snapshot #1" default>
-    ```json title="workflow_state_snapshot_#1.json"
-    {
-        "id": "fa187710-2c02-4084-bc91-2012e1171825",
-        "plan_id": "1130d364-734f-4d40-ab59-8dbfa0e378fc",
-        "current_step_index": 1,
-        # highlight-start
-        "clarifications": [
-            {
-                "id": "f940548b-b7ff-4bb8-b78e-d53e47a1b7c7",
-                "type": "Input Clarification",
-                "response": null,
-                "step": 1,
-                "user_guidance": "weather_results.txt is not within the 'demo_runs' directory. Please specify a valid path.",
-                "resolved": false
-            }
-        ],
-        "state": "NEED_CLARIFICATION",
-        # highlight-end
-        "execution_context": {
-            "end_user_id": null,
-            "additional_data": {},
-            "planner_system_context_extension": null,
-            "agent_system_context_extension": null
-        },
-        "step_outputs": {
-            "$current_weather": {
-            "value": "The current weather in Cooladdi is overcast clouds with a temperature of 29.59°C."
-            },
-            "$write_status": {
-                "value": [
-                    {
-                        "id": "f940548b-b7ff-4bb8-b78e-d53e47a1b7c7",
-                        "type": "Input Clarification",
-                        "response": null,
-                        "step": 1,
-                        "user_guidance": "weather_results.txt is not within the 'demo_runs' directory. Please specify a valid path.",
-                        "resolved": false,
-                        "argument_name": "filename"
-                    }
-                ]
-            }
-        },
-        "final_output": null
+- The workflow `state` will appear to `NEED_CLARIFICATION` if you look at the logs at the point when the clarification is raised. It then progresses to `COMPLETE` once you respond to the clarification and the workflow is able to resume:
+```json title="workflow_state.json"
+{
+  "id": "54d157fe-4b99-4dbb-a917-8fd8852df63d",
+  "plan_id": "b87de5ac-41d9-4722-8baa-8015327511db",
+  "current_step_index": 0,
+  "state": "COMPLETE",
+  "execution_context": {
+    "end_user_id": null,
+    "additional_data": {},
+    "planner_system_context_extension": null,
+    "agent_system_context_extension": null
+  },
+  "outputs": {
+    "clarifications": [
+      {
+        "id": "216c13a1-8342-41ca-99e5-59394cbc7008",
+        "type": "Multiple Choice Clarification",
+        "response": "../momo_sdk_tests/demo_runs/weather.txt",
+        "step": 0,
+        "user_guidance": "Found weather.txt in these location(s). Pick one to continue:\n['../momo_sdk_tests/demo_runs/weather.txt', '../momo_sdk_tests/my_custom_tools/__pycache__/weather.txt']",
+        "resolved": true,
+        "argument_name": "filename",
+        "options": [
+          "../momo_sdk_tests/demo_runs/weather.txt",
+          "../momo_sdk_tests/my_custom_tools/__pycache__/weather.txt"
+        ]
+      }
+    ],
+    "step_outputs": {
+      "$file_contents": {
+        "value": "The current weather in Llanfairpwllgwyngyllgogerychwyrndrobwllllantysiliogogogoch is broken clouds with a temperature of 6.76°C.",
+        "summary": null
+      }
+    },
+    "final_output": {
+      "value": "The current weather in Llanfairpwllgwyngyllgogerychwyrndrobwllllantysiliogogogoch is broken clouds with a temperature of 6.76°C.",
+      "summary": null
     }
-    ```
-    </TabItem>
-    <TabItem value="snapshot_2" label="Workflow state snapshot #2">
-    ```json title="workflow_state_snapshot_#2.json"
-    {
-        "id": "7e01b69e-8c0e-463a-8317-314ba2460c7c",
-        "plan_id": "b1c1e1c0-5c3e-4c8b-8c1e-1c0e1c1e1c1e",
-        "current_step_index": 1,
-        # highlight-start
-        "clarifications": [
-            {
-                "id": "ea156f1a-58bb-476b-9180-b5f5c5ba0229",
-                "type": "Input Clarification",
-                "response": "demo_runs/weather_result.txt",
-                "step": 1,
-                "user_guidance": "demo_buns/weather_result.txt is not within the 'demo_runs' directory. Please specify a valid path.",
-                "resolved": true
-            }
-        ],
-        "state": "COMPLETE",
-        # highlight-end
-        "step_outputs": {
-            "$weather_result": {
-            "value": "The current weather in Cooladdi, Australia is overcast clouds with a temperature of 27.92\u00b0C."
-            },
-            "$file_write_status": {
-            "value": "Content written to demo_runs/weather_result.txt"
-            }
-        },
-        "final_output": {
-            "value": "Content written to demo_runs/weather_result.txt"
-        }
-    }
-    ```
-    </TabItem>
-</Tabs>
+  }
+}
+```
 
 You now know how to add your own custom tools and how to raise custom clarifications. In the next section we explore the various configuration options Portia offers for LLM management and for plan and workflow storage.

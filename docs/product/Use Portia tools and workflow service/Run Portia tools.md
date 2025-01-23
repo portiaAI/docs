@@ -43,7 +43,7 @@ complete_tool_registry = example_tool_registry + PortiaToolRegistry(my_config)
 runner = Runner(config=my_config, tool_registry=complete_tool_registry)
 
 # Execute a workflow from the user query
-output = runner.run_query('Get the weather in the southernmost city in the world')
+output = runner.execute_query('Get the weather in the southernmost city in the world')
 
 # Serialise into JSON an print the output
 print(output.model_dump_json(indent=2))

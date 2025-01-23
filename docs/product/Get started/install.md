@@ -47,7 +47,7 @@ Portia allows you to connect to the LLM of your choice using your own API key(s)
 </Tabs>
 
 ### Test your installation from the command line
-Let's submit a basic prompt to your LLM using our framework to make sure it's all working fine. We will do a simple addition, which should invoke one of the demo tools in our SDK:
+Let's submit a basic prompt to your LLM using our framework to make sure it's all working fine. We will submit a simple maths question, which should invoke one of the open source tools in our SDK:
 <Tabs groupId="llm-provider">
     <TabItem value="openai" label="Open AI" default>
     Open AI is the default LLM provider. Just run:
@@ -58,38 +58,41 @@ Let's submit a basic prompt to your LLM using our framework to make sure it's al
     <TabItem value="anthropic" label="Anthropic">
     To use Anthropic from the CLI, just run:
     ```bash
-    portia-cli --llm-provider="anthropic" run "add 1 + 2"
+    portia-cli run --llm-provider="anthropic" "add 1 + 2"
     ```
     </TabItem>
     <TabItem value="mistral" label="Mistral">
     To use Mistral from the CLI, just run:
     ```bash
-    portia-cli --llm-provider="mistralai" run "add 1 + 2"
+    portia-cli run --llm-provider="mistralai" "add 1 + 2"
     ```
     </TabItem>
 </Tabs>
 
-Portia will return the final state of the workflow created in response to the submitted prompt. We will delve into workflow states more deeply in a later section but for now you want to be sure you can see `"state": "COMPLETE"` and `"final_output": {"value": 3.0}` as part of that returned state. Here's an example output:
+Portia will return the final state of the workflow created in response to the submitted prompt. We will delve into workflow states more deeply in a later section but for now you want to be sure you can see `"state": "COMPLETE"` and the answer to your maths question e.g. `"final_output": {"value": 3.0}` as part of that returned state. Here's an example output:
 ```bash
 {
     "id": "13a97e70-2ca6-41c9-bc49-b7f84f6d3982",
     "plan_id": "96693022-598e-458c-8d2f-44ba51d4f0b5",
     "current_step_index": 0,
     "clarifications": [],
+    # highlight-next-line
     "state": "COMPLETE",
     "step_outputs": {
         "$result": {
             "value": 3.0
         }
     },
+    # highlight-start
     "final_output": {
         "value": 3.0
     }
+    # highlight-end
 }
 ```
 
 ### Test your installation from a python file
-As a final verification step for your installation, let's set up the elementary environment variables in a project directory of your choice and replicate the CLI-driven test above from a python file within that directory. 
+As a final verification step for your installation, set up the required environment variables in the `.env` of a project directory of your choice, namely the relevant LLM API keys. We can now replicate the CLI-driven test above from a python file within that directory.
 
 <Tabs groupId="llm-provider">
     <TabItem value="openai" label="Open AI" default>
@@ -100,45 +103,63 @@ As a final verification step for your installation, let's set up the elementary 
     from portia.config import default_config
     from portia.open_source_tools.registry import example_tool_registry
 
-    # Create a Portia runner with the default config which uses Open AI, and with the example tools.
+    # Create a Portia runner with the default config which uses Open AI, and with some example tools.
     runner = Runner(config=default_config(), tool_registry=example_tool_registry)
     # Run the test query and print the output!
-    output = runner.run_query('add 1 + 2')
-    print(output.model_dump_json(indent=2))
+    workflow = runner.execute_query('add 1 + 2')
+    print(workflow.model_dump_json(indent=2))
     ```
     </TabItem>
     <TabItem value="anthropic" label="Anthropic">
         In your local `.env` file, set up your API key as an environment variable using `ANTHROPIC_API_KEY`.<br/>
         Then create a file e.g. `main.py` in your project directory and paste the following code in.
         ```python title="main.py"
+        import os
+        from dotenv import load_dotenv
         from portia.runner import Runner
-        from portia.config import Config
+        from portia.config import Config, LLMProvider, LLMModel
         from portia.open_source_tools.registry import example_tool_registry
 
-        # Create a default Portia config with LLM provider set to Anthropic. Default to the Sonnet 3.5 model
-        anthropic_config = Config.from_default(llm_provider='ANTHROPIC')
+        load_dotenv()
+        ANTHROPIC_API_KEY = os.getenv('ANTHROPIC_API_KEY')
+
+        # Create a default Portia config with LLM provider set to Anthropic and to the Sonnet 3.5 model
+        anthropic_config = Config.from_default(
+            llm_provider=LLMProvider.ANTHROPIC,
+            llm_model=LLMModel.CLAUDE_3_5_SONNET,
+            anthropic_api_key=ANTHROPIC_API_KEY
+            )
         # Instantiate a Portia runner. Load it with the config and with the example tools.
         runner = Runner(config=anthropic_config, tool_registry=example_tool_registry)
         # Run the test query and print the output!
-        output = runner.run_query('add 1 + 2')
-        print(output.model_dump_json(indent=2))
+        workflow = runner.execute_query('add 1 + 2')
+        print(workflow.model_dump_json(indent=2))
         ```
     </TabItem>
     <TabItem value="mistral" label="Mistral">
         In your local `.env` file, set up your API key as an environment variable using `MISTRAL_API_KEY`.<br/>
         Then create a file e.g. `main.py` in your project directory and paste the following code in.
         ```python title="main.py"
+        import os
+        from dotenv import load_dotenv
         from portia.runner import Runner
-        from portia.config import Config
+        from portia.config import Config, LLMProvider, LLMModel
         from portia.open_source_tools.registry import example_tool_registry
 
-        # Create a default Portia config with LLM provider set to Mistral. Defaults to the Large Latest model
-        mistral_config = Config.from_default(llm_provider='MISTRALAI')
+        load_dotenv()
+        MISTRAL_API_KEY = os.getenv('MISTRAL_API_KEY')
+
+        # Create a default Portia config with LLM provider set to Mistral AI and the latest Mistral Large model
+        mistral_config = Config.from_default(
+            llm_provider=LLMProvider.MISTRALAI,
+            llm_model=LLMModel.MISTRAL_LARGE_LATEST,
+            mistralai_api_key=MISTRAL_API_KEY
+        )
         # Instantiate a Portia runner. Load it with the config and with the example tools.
         runner = Runner(config=mistral_config, tool_registry=example_tool_registry)
         # Run the test query and print the output!
-        output = runner.run_query('add 1 + 2')
-        print(output.model_dump_json(indent=2))
+        workflow = runner.execute_query('add 1 + 2')
+        print(workflow.model_dump_json(indent=2))
         ```
     </TabItem>
 </Tabs>

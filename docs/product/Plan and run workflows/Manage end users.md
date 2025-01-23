@@ -29,25 +29,28 @@ We refer to these "person" entities as **end users** and represent the current c
 ## Pass the execution context to the workflow
 
 ```python title="main.py"
+from dotenv import load_dotenv
 from portia.config import default_config
 from portia.context import execution_context
 from portia.open_source_tools.registry import example_tool_registry
 from portia.runner import Runner
+
+load_dotenv()
 
 runner = Runner(
     config=default_config(),
     tool_registry=example_tool_registry,
 )
 
-# We can provide additional execution context to the process like so
+# We can also provide additional execution context to the process
 # highlight-start
-with execution_context(end_user_id="santa123", additional_data={"email_address": "santa@claus.com", "name": "Nicholas of Patara"}):
-    output = runner.run_query(
+with execution_context(end_user_id="DemoUser123", additional_data={"email_address": "demo@portialabs.ai", "name": "Nicholas of Patara"}):
+    workflow = runner.execute_query(
         "Get the temperature in Svalbard and write me a personalized greeting with the result.",
     )
 # highlight-end
 
-print(output.model_dump_json(indent=2))
+print(workflow.model_dump_json(indent=2))
 ```
 
 The result of this code block will be the addition of an `execution_context` section within the `Workflow` state, and a `final_output` that is indeed personalised to Saint Nicholas:

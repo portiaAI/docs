@@ -16,7 +16,7 @@ Create and run plans for queries.
 #### run\_query
 
 ```python
-def run_query(query: str,
+def execute_query(query: str,
               tools: ToolSet | None = None,
               example_workflows: list[Plan] | None = None) -> Workflow
 ```

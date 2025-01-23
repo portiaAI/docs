@@ -24,7 +24,7 @@ my_config = Config.from_default(storage_class=StorageClass.CLOUD)
 runner = Runner(config=my_config, tool_registry=example_tool_registry)
 
 # Execute a workflow from the user query
-output = runner.run_query('Get the temperature in London and share it with a light joke')
+output = runner.execute_query('Get the temperature in London and share it with a light joke')
 
 # Serialise into JSON an print the output
 print(output.model_dump_json(indent=2))

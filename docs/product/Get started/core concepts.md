@@ -14,7 +14,7 @@ With our open source capabilities you should be able to:
 - Create clarifications to interrupt a workflow and solicit human input when necessary, e.g. to handle required authentication or missing input.
 
 Our cloud offering works seamlessly with our open source library. It will give you the ability to:
-- Store and retrieve workflow states and review historical workflow logs.
+- Store and retrieve workflow states and review historical workflow.
 - Invoke a library of cloud-hosted tools with authentication handled for you, and access tool call logs.
 
 
