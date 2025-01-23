@@ -64,7 +64,6 @@ When responding to a user's prompt with Portia, you can either chain the plan ge
 
 Let's look at how we generate a plan from a user prompt. Paste the code below into your project and run it (using `poetry run python3 main.py` in Poetry)
 ```python title="main.py"
-import json
 from portia.runner import Runner
 from portia.config import default_config
 from portia.open_source_tools.registry import example_tool_registry
@@ -73,7 +72,7 @@ from portia.open_source_tools.registry import example_tool_registry
 runner = Runner(config=default_config(), tool_registry=example_tool_registry)
 
 # Generate the plan from the user query
-plan = runner.generate_plan('add the temperature in London to the temperature in Beirut right now')
+plan = runner.generate_plan('Which stock price grew faster in 2024, Amazon or Google?')
 
 # Serialise into JSON and print the output
 print(plan.model_dump_json(indent=2))
@@ -82,43 +81,51 @@ print(plan.model_dump_json(indent=2))
 As mentioned earlier in the documentation, the `Runner` class is your main entrypoint to interact with Portia's libraries (<a href="/SDK/portia/runner" target="_blank">**SDK reference ↗**</a>). The `generate_plan` method is available from the `Runner` class and allows you to generate a plan from the query. Running the `generate_plan` method per the code above returns a `Plan` object (<a href="/SDK/portia/plan" target="_blank">**SDK reference ↗**</a>) which looks as follows:
 ```json title="plan.json"
 {
-    "id":"661bf677-3259-46aa-99af-6314db8ee98f",
-    "query":"add the temperature in London to the temperature in Beirut right now",
-    "steps":
-    [
-        {
-            "task":"Get the current temperature in London.",
-            "input":null,
-            "tool_name":"Weather Tool",
-            "output":"$london_temperature"
-        },
-        {
-            "task":"Get the current temperature in Beirut.",
-            "input":null,
-            "tool_name":"Weather Tool",
-            "output":"$beirut_temperature"
-        },
-        {
-            "task":"Add the temperature in London to the temperature in Beirut.",
-            "input":[
-                {
-                    "name":"$london_temperature",
-                    "description":"The current temperature in London."
-                },
-                {
-                    "name":"$beirut_temperature",
-                    "description":"The current temperature in Beirut."
-                }
-            ],
-            "tool_name":"Add Tool",
-            "output":"$total_temperature"
-        }
+  "id": "1dcd74a4-0af5-490a-a7d0-0df4fd983977",
+  "plan_context": {
+    "query": "Which stock price grew faster, Amazon or Google?",
+    "tool_ids": [
+      "calculator_tool",
+      "weather_tool",
+      "search_tool"
     ]
+  },
+  "steps": [
+    {
+      "task": "Search for the latest stock price growth data for Amazon.",
+      "inputs": [],
+      "tool_name": "Search Tool",
+      "output": "$amazon_stock_growth"
+    },
+    {
+      "task": "Search for the latest stock price growth data for Google.",
+      "inputs": [],
+      "tool_name": "Search Tool",
+      "output": "$google_stock_growth"
+    },
+    {
+      "task": "Compare the stock price growth of Amazon and Google.",
+      "inputs": [
+        {
+          "name": "$amazon_stock_growth",
+          "value": null,
+          "description": "The stock price growth data for Amazon."
+        },
+        {
+          "name": "$google_stock_growth",
+          "value": null,
+          "description": "The stock price growth data for Google."
+        }
+      ],
+      "tool_name": null,
+      "output": "$stock_growth_comparison"
+    }
+  ]
 }
 ```
 
 The `generate_plan` method can take the following additional parameters:
-- `tools` in order to confine the plan generation to a narrower set of tools if required (for simplicity or for user-access considerations).
+- `tools` in order to confine the plan generation to a narrower set of tools if required (for simplicity or for user-access considerations). In our example above we provided the `example_tool_registry`, which is a collection of three open source tools in our SDK.
 - `example_plans` expected a list of `Plan` objects. This allows you to use existing plans as inspiration or templates, which improves repeatability for more routine workflows.
 
 Now that you know how to generate plans in response to a user query, let's take a look at how to instantiate a workflow from a plan in the next section and run it.

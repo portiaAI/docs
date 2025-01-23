@@ -11,7 +11,7 @@ Learn how to run a workflow from an existing plan or end-to-end.
 :::tip[TL;DR]
 - A workflow is a unique run of a plan. It is represented by the `Workflow` class (<a href="/SDK/portia/workflow" target="_blank">**SDK reference ↗**</a>).
 - An agent is spun up to execute every step in the workflow. The `Workflow` object tracks the state of the workflow execution and is enriched at every step by the relevant agent.
-- A workflow can be generated either from a plan using the `run_plan` method or directly from a user prompt using the `run_query` method of the `Runner` class (<a href="/SDK/portia/runner" target="_blank">**SDK reference ↗**</a>).
+- A workflow can be generated either from a plan using the `run_plan` method or directly from a user prompt using the `execute_query` method of the `Runner` class (<a href="/SDK/portia/runner" target="_blank">**SDK reference ↗**</a>).
 :::
 
 ## Overview of workflows in Portia
@@ -22,66 +22,88 @@ A workflow is a unique instantiation of a plan. The purpose of a workflow is to 
 
 In a later section we will also see that the workflow state also tracks a list of instances where human input was solicited during workflow execution, known as `Clarification`.
 
-Workflow states are captured in the `Workflow` class (<a href="/SDK/portia/workflow" target="_blank">**SDK reference ↗**</a>). In the previous section (<a href="/generate-plan" target="_blank">**Generate a plan ↗**</a>), we generated a plan in response to the query `add the temperature in London to the temperature in Beirut right now`. Let's examine the final state once we run a workflow for that plan:
+Workflow states are captured in the `Workflow` class (<a href="/SDK/portia/workflow" target="_blank">**SDK reference ↗**</a>). In the previous section (<a href="/generate-plan" target="_blank">**Generate a plan ↗**</a>), we generated a plan in response to the query `Which stock price grew faster in 2024, Amazon or Google?`. Let's examine the final state once we run a workflow for that plan:
 <Tabs>
   <TabItem value="plan" label="Generated plan >>">
-    ```json title="plan-b5e013e8-6aae-461d-ac01-3a303f56935c.json"
+    ```json title="plan-1dcd74a4-0af5-490a-a7d0-0df4fd983977.json"
     {
-        "id": "b5e013e8-6aae-461d-ac01-3a303f56935c",
-        "query": "add the temperature in London to the temperature in Beirut right now",
-        "steps": [
-            {
-                "task": "Get the current temperature in London.",
-                "tool_name": "Weather Tool",
-                "output": "$london_temperature"
-            },
-            {
-                "task": "Get the current temperature in Beirut.",
-                "tool_name": "Weather Tool",
-                "output": "$beirut_temperature"
-            },
-            {
-                "task": "Add the temperatures from London and Beirut.",
-                "input": [
-                    {
-                        "name": "$london_temperature",
-                        "description": "The current temperature in London."
-                    },
-                    {
-                        "name": "$beirut_temperature",
-                        "description": "The current temperature in Beirut."
-                    }
-                ],
-                "tool_name": "Add Tool",
-                "output": "$total_temperature"
-            }
+      "id": "1dcd74a4-0af5-490a-a7d0-0df4fd983977",
+      "plan_context": {
+        "query": "Which stock price grew faster, Amazon or Google?",
+        "tool_ids": [
+          "calculator_tool",
+          "weather_tool",
+          "search_tool"
         ]
-    }
+      },
+      "steps": [
+        {
+          "task": "Search for the latest stock price growth data for Amazon.",
+          "inputs": [],
+          "tool_name": "Search Tool",
+          "output": "$amazon_stock_growth"
+        },
+        {
+          "task": "Search for the latest stock price growth data for Google.",
+          "inputs": [],
+          "tool_name": "Search Tool",
+          "output": "$google_stock_growth"
+        },
+        {
+          "task": "Compare the stock price growth of Amazon and Google.",
+          "inputs": [
+            {
+              "name": "$amazon_stock_growth",
+              "value": null,
+              "description": "The stock price growth data for Amazon."
+            },
+            {
+              "name": "$google_stock_growth",
+              "value": null,
+              "description": "The stock price growth data for Google."
+            }
+          ],
+          "tool_name": null,
+          "output": "$stock_growth_comparison"
+        }
+      ]
+  }
     ```
   </TabItem>
     <TabItem value="workflow" label="Workflow in final state" default>
-    ```json title="workflow-9b594ac2-fe12-4e91-8283-602821cf8e63.json"
+    ```json title="workflow-18d9aa91-0066-413f-af32-b979bce89821.json"
     {
-        "id": "9b594ac2-fe12-4e91-8283-602821cf8e63",
-        "plan_id": "b5e013e8-6aae-461d-ac01-3a303f56935c",
-        "current_step_index": 2,
+      "id": "18d9aa91-0066-413f-af32-b979bce89821",
+      "plan_id": "a89efeb0-51ef-4f2c-b435-a936c27c3cfc",
+      "current_step_index": 2,
+      "state": "COMPLETE",
+      "execution_context": {
+        "end_user_id": null,
+        "additional_data": {},
+        "planner_system_context_extension": null,
+        "agent_system_context_extension": null
+      },
+      "outputs": {
         "clarifications": [],
-        "state": "COMPLETE",
-        "step_outputs": 
-        {
-            "$london_temperature": {
-                "value": "The current weather in London is clear sky with a temperature of 2.33°C."
-            },
-            "$beirut_temperature": {
-                "value": "The current weather in Beirut is clear sky with a temperature of 14.41°C."
-            },
-            "$total_temperature": {
-                "value": 16.740000000000002
-            }
+        "step_outputs": {
+          "$amazon_stock_growth": {
+            "value": "Amazon stock closed at an all-time high of $214.10 in November...",
+            "summary": null
+          },
+          "$google_stock_growth": {
+            "value": "In 2024, Google's parent company Alphabet surged 35.5% according to...",
+            "summary": null
+          },
+          "$faster_growth": {
+            "value": "In 2024, Amazon's stock price grew by 52%, while Google's parent company Alphabet saw a stock price surge of 35.5%.",
+            "summary": null
+          }
         },
         "final_output": {
-            "value": 16.740000000000002
+          "value": "In 2024, Amazon's stock price grew by 52%, while Google's parent company Alphabet saw a stock price surge of 35.5%.",
+          "summary": null
         }
+      }
     }
 
 
@@ -96,10 +118,11 @@ Workflow states are captured in the `Workflow` class (<a href="/SDK/portia/workf
   </TabItem>
 </Tabs>
 
-Note that every workflow has a unique `id` and relates to a unique `plan_id`. If you were to attempt running a workflow from the same plan multiple times, you would generate multiple `Workflow` objects each with a unique `id` but all with the same `plan_id` property.
+Every workflow has a unique `id` and relates to a unique `plan_id`. If you were to attempt running a workflow from the same plan multiple times, you would generate multiple `Workflow` objects each with a unique `id` but all with the same `plan_id` property.
 
 ## Workflow state changes
-If you'd like to inspect the individual state changes for the above workflow, feel free to cycle through them in the video below. Note how the workflow state is enriched with step outputs at every step of the execution.
+As Portia cycles through a workflow, an agent is instantiated at every step and that agent will call the tool designated for that. The workflow state is enriched with step outputs at every step of the execution as well. Note that in this example the main tool used is the 'Search Tool` provided in this SDK in the `example_tool_registry`, and wraps around the Tavily API. We will discuss tools in more depth in the next section.
+You should be able to inspect the state changes for the above workflow in the logs when you run the code. Alternatively, feel free to cycle through them in the swanky animation below made on the brilliant <a href="www.snappify.com" target="_blank">**snappify.com ↗**</a>.
 <div style={{
   overflow: 'hidden',
   marginLeft: 'auto',
@@ -136,60 +159,62 @@ If you'd like to inspect the individual state changes for the above workflow, fe
 
 ## Execute a workflow from a plan
 <details>
-<summary>**OpenWeatherMap API key required**</summary>
+<summary>**Tavily API key required**</summary>
 
-We will use a simple GET endpoint from OpenWeatherMap in this section. Please sign up to obtain an API key from them (<a href="https://home.openweathermap.org/users/sign_in" target="_blank">**↗**</a>) and set it in the environment variable `OPENWEATHERMAP_API_KEY`.
+We will use a simple GET endpoint from Tavily in this section. Please sign up to obtain an API key from them (<a href="https://tavily.com/" target="_blank">**↗**</a>) and set it in the environment variable `TAVILY_API_KEY`.
 </details>
 
-Let's expand on the plan generation code we wrote the previous section and execute a workflow from that plan. This gives you the opportunity to serve the plan to the user and get their feedback / iterate on the plan before running it for example. Here is the code to do that:
+To get to an output that looks like the workflow example above, let's expand on the code we used to generate a plan in the previous section (<a href="/generate-plan" target="_blank">**↗**</a>) by adding code to create and execute a workflow from that plan. This approach gives you the opportunity to serve that plan to the user and get their feedback / iterate on it before running the workflow for example. Here is the code to do that:
 ```python title="main.py"
-import json
+from dotenv import load_dotenv
 from portia.runner import Runner
 from portia.config import default_config
 from portia.open_source_tools.registry import example_tool_registry
+
+load_dotenv()
 
 # Instantiate a Portia runner. Load it with the default config and with the example tools.
 runner = Runner(config=default_config(), tool_registry=example_tool_registry)
 
 # Generate the plan from the user query
-plan = runner.plan_query('add the temperature in London to the temperature in Beirut right now')
+plan = runner.generate_plan('Which stock price grew faster in 2024, Amazon or Google?')
 
 # [OPTIONAL] INSERT CODE WHERE YOU SERVE THE PLAN TO THE USER OR ITERATE ON IT IN ANY WAY
 
 # Create and execute the workflow from the generated plan
-# highlight-start
 workflow = runner.create_workflow(plan)
-output = runner.execute_workflow(workflow)
-# highlight-end
+workflow = runner.execute_workflow(workflow)
 
 # Serialise into JSON and print the output
-print(output.model_dump_json(indent=2))
+print(workflow.model_dump_json(indent=2))
 ```
 
 Here we are storing the `Plan` object returned by the `generate_plan` method and then using the `create_workflow` method to instantiate a workflow from it in the `NOT_STARTED` state. And finally we are launching that workflow execution using the equally uncontroversially named method `execute_workflow`.
 
 ## Execute a workflow directly from a user query
 <details>
-<summary>**OpenWeatherMap API key required**</summary>
+<summary>**Tavily API key required**</summary>
 
-We will use a simple GET endpoint from OpenWeatherMap in this section. Please sign up to obtain an API key from them (<a href="https://home.openweathermap.org/users/sign_in" target="_blank">**↗**</a>) and set it in the environment variable `OPENWEATHERMAP_API_KEY`.
+We will use a simple GET endpoint from Tavily in this section. Please sign up to obtain an API key from them (<a href="https://tavily.com/" target="_blank">**↗**</a>) and set it in the environment variable `TAVILY_API_KEY`.
 </details>
 
-You can also run a workflow immediately from the user query, without examining the `Plan` object in between. This would generate a plan as intermediate step as well but will also immediately spawn a workflow run from it. You would simply use the `run_query` method from your `Runner` class like so:
+You can also run a workflow immediately from the user query, without examining the `Plan` object in between. This would generate a plan as intermediate step as well but will also immediately spawn a workflow run from it. You would simply use the `execute_query` method from your `Runner` class like so:
 ```python title="main.py"
-import json
+from dotenv import load_dotenv
 from portia.runner import Runner
 from portia.config import default_config
 from portia.open_source_tools.registry import example_tool_registry
+
+load_dotenv()
 
 # Instantiate a Portia runner. Load it with the default config and with the example tools.
 runner = Runner(config=default_config(), tool_registry=example_tool_registry)
 
 # Generate the plan from the user query
-output = runner.run_query('add the temperature in London to the temperature in Beirut right now')
+workflow = runner.execute_query('Which stock price grew faster in 2024, Amazon or Google?')
 
 # Serialise into JSON and print the output
-print(output.model_dump_json(indent=2))
+print(workflow.model_dump_json(indent=2))
 ```
 :::note[Track workflow states in logs]
 You can track workflow state changes live as they occur through the logs by setting `default_log_level` to DEBUG in the `Config` of your Portia `Runner` (<a href="/manage-config#manage-logging" target="_blank">**Manage logging ↗**</a>).

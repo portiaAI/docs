@@ -46,92 +46,112 @@ Let's test out a couple of these parameters. We will start first by loading the 
 - We will set the `default_log_level` to `DEBUG`, which will result in the generated plan, every change in the workflow state and all tool calls appearing in the logs.
 
 ```python title="main.py"
-import json
+from dotenv import load_dotenv
 from portia.runner import Runner
 from portia.config import Config, StorageClass, LogLevel
 from portia.open_source_tools.registry import example_tool_registry
 
+load_dotenv()
+
 # Load the default config then make changes to it
-my_config = Config.from_default(
+myConfig = Config.from_default(
     storage_class=StorageClass.DISK, 
     storage_dir='demo_runs',
-    default_log_level=LogLevel.DEBUG
-)
+    default_log_level=LogLevel.DEBUG,
+    )
 
 # Instantiate a Portia runner. Load it with the default config and with the simple tool above.
-runner = Runner(config=my_config, tool_registry=example_tool_registry)
+runner = Runner(config=myConfig, tool_registry=example_tool_registry)
 
 # Execute the workflow from the user query
-output = runner.run_query('Get the temperature in London and share it with me')
+output = runner.execute_query('Which stock price grew faster in 2024, Amazon or Google?')
 
 # Serialise into JSON an print the output
 print(output.model_dump_json(indent=2))
 ```
 
-In your `demo_runs` directory, you should now be able to see a plan and a workflow written to disk per the changes made to the `Config` (Note how overly verbose the LLM decide to be with its plan on this occasion :wink:).
+In your `demo_runs` directory, you should now be able to see a plan and a workflow written to disk per the changes made to the `Config`.
 <Tabs>
   <TabItem value="plan" label="Generated plan">
-    ```json title="plan-fe3550dd-510a-4d29-b7ff-3f22547f6022.json"
-   {
-        "id": "87c62909-ebda-4adf-9b41-7b8185bf303b",
-        "query": "Get the temperature in London and share it with me",
+    ```json title="plan-72cb538e-6d2b-42ca-a6c2-511a9a4c4f0e.json"
+    {
+        "id": "72cb538e-6d2b-42ca-a6c2-511a9a4c4f0e",
+        "plan_context": {
+            "query": "Which stock price grew faster in 2024, Amazon or Google?",
+            "tool_ids": [
+                "calculator_tool",
+                "weather_tool",
+                "search_tool"
+            ]
+        },
         "steps": [
             {
-                "task": "Get the current weather for London",
+                "task": "Search for the stock price growth of Amazon in 2024.",
                 "inputs": [],
-                "tool_name": "Weather Tool",
-                "output": "$london_weather"
+                "tool_name": "Search Tool",
+                "output": "$amazon_stock_growth_2024"
             },
             {
-                "task": "Extract the temperature from the weather data",
+                "task": "Search for the stock price growth of Google in 2024.",
+                "inputs": [],
+                "tool_name": "Search Tool",
+                "output": "$google_stock_growth_2024"
+            },
+            {
+                "task": "Compare the stock price growth of Amazon and Google in 2024.",
                 "inputs": [
                     {
-                        "name": "$london_weather",
+                        "name": "$amazon_stock_growth_2024",
                         "value": null,
-                        "description": "The weather data retrieved for London"
+                        "description": "The stock price growth of Amazon in 2024."
+                    },
+                    {
+                        "name": "$google_stock_growth_2024",
+                        "value": null,
+                        "description": "The stock price growth of Google in 2024."
                     }
                 ],
                 "tool_name": null,
-                "output": "$london_temperature"
-            },
-            {
-                "task": "Share the temperature with the user",
-                "inputs": [
-                    {
-                        "name": "$london_temperature",
-                        "value": null,
-                        "description": "The temperature in London"
-                    }
-                ],
-                "tool_name": null,
-                "output": "$shared_temperature"
+                "output": "$faster_growth"
             }
         ]
     }
     ```
   </TabItem>
     <TabItem value="workflow" label="Workflow in final state" default>
-    ```json title="workflow-b9bf5541-2a2e-42c2-bfa9-f440c33a54f7.json"
+    ```json title="workflow-e3a77013-2bd4-459c-898c-6a8cc9e77d12.json"
     {
-    "id": "74b1ba1b-5ef4-4921-b708-7eda83891206",
-    "plan_id": "87c62909-ebda-4adf-9b41-7b8185bf303b",
-    "current_step_index": 2,
-    "clarifications": [],
-    "state": "COMPLETE",
-    "step_outputs": {
-        "$london_weather": {
-        "value": "The current weather in London is overcast clouds with a temperature of 9°C."
+        "id": "e3a77013-2bd4-459c-898c-6a8cc9e77d12",
+        "plan_id": "72cb538e-6d2b-42ca-a6c2-511a9a4c4f0e",
+        "current_step_index": 2,
+        "state": "COMPLETE",
+        "execution_context": {
+            "end_user_id": null,
+            "additional_data": {},
+            "planner_system_context_extension": null,
+            "agent_system_context_extension": null
         },
-        "$london_temperature": {
-        "value": "The temperature extracted from the weather data is 9°C."
-        },
-        "$shared_temperature": {
-        "value": "The temperature in London is 9°C."
+        "outputs": {
+            "clarifications": [],
+            "step_outputs": {
+                "$amazon_stock_growth_2024": {
+                    "value": "In 2024, Amazon's stock price reached an all-time high closing price of $214.10 in November, having risen consistently since the start of 2023. Analysts remain optimistic, with many maintaining a 'Buy' rating and predicting further growth. By the end of 2024, Amazon's stock was expected to continue its upward trend, with projections varying but generally positive. The latest closing stock price as of November 14, 2024, was $211.48, just below the all-time high of $214.10.",
+                    "summary": null
+                },
+                "$google_stock_growth_2024": {
+                    "value": "As of today, January 23, 2025, Google's stock has experienced an 18% increase since the beginning of the year, starting at $139.56 and trading at $164.74. Analysts predict the stock price to reach $208 by the end of 2024, marking a year-on-year growth rate of 49.03%. The forecast for the end of 2024 is an estimated increase of 18.18% from today's price.",
+                    "summary": null
+                },
+                "$faster_growth": {
+                    "value": "In 2024, Amazon's stock price growth was positive, reaching an all-time high closing price of $214.10 in November. Google's stock price growth in 2024 was also strong, with a year-on-year growth rate of 49.03% and a forecasted increase of 18.18% by the end of the year.",
+                    "summary": null
+                }
+            },
+            "final_output": {
+                "value": "In 2024, Amazon's stock price growth was positive, reaching an all-time high closing price of $214.10 in November. Google's stock price growth in 2024 was also strong, with a year-on-year growth rate of 49.03% and a forecasted increase of 18.18% by the end of the year.",
+                "summary": null
+            }
         }
-    },
-    "final_output": {
-        "value": "The temperature in London is 9°C."
-    }
     }
     ```
   </TabItem>
