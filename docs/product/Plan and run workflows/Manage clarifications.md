@@ -110,7 +110,7 @@ from portia.tool import Tool
 from portia.context import ExecutionContext
 from portia.errors import ToolHardError
 # highlight-next-line
-from portia.clarification import MultiChoiceClarification
+from portia.clarification import MultipleChoiceClarification
 
 
 class FileReaderToolSchema(BaseModel):
@@ -153,7 +153,7 @@ class FileReaderTool(Tool[str]):
         # highlight-start
         alt_file_paths = self.find_file(filename)
         if alt_file_paths:
-            return MultiChoiceClarification(
+            return MultipleChoiceClarification(
                 argument_name="filename",
                 user_guidance=f"Found {filename} in these location(s). Pick one to continue:\n{alt_file_paths}",
                 options=alt_file_paths,
@@ -182,7 +182,7 @@ Most notably, this block below results in the tool using the `find_file` method 
 ```python
 alt_file_paths = self.find_file(filename)
 if alt_file_paths:
-    return MultiChoiceClarification(
+    return MultipleChoiceClarification(
         argument_name="filename",
         user_guidance=f"Found {filename} in these location(s). Pick one to continue:\n{alt_file_paths}",
         options=alt_file_paths,
@@ -216,7 +216,7 @@ while workflow.state == WorkflowState.NEED_CLARIFICATION:
         # For each clarification, prompt the user for input
         user_input = input(f"{clarification.user_guidance}\n")
         # Resolve the clarification with the user input
-        clarification.resolve(response=user_input)
+        workflow = runner.resolve_clarification(workflow, clarification, user_input)
 
     # Once clarifications are resolved, resume the workflow
     workflow = runner.execute_workflow(workflow)
@@ -231,7 +231,7 @@ The changes you need to make to enable this behaviour are as follows:
 1. Check if the state of the `Workflow` object returned by the `execute_query` method is `WorkflowState.NEED_CLARIFICATION`. This means the workflow paused before completion due to a clarification.
 2. Use the `get_outstanding_clarifications` method of the `Workflow` object to access all clarifications where `handled` is false.
 3. For each `Clarification`, surface the `user_guidance` to the relevant user and collect their input.
-4. Use the `resolve` method of the `Clarification` to capture the user input in the `response` attribute of the relevant clarification. Because clarifications are part of the workflow state itself, this means that the workflow now captures the latest human input gathered and can be resumed with the new information.
+4. Use the `runner.resolve_clarification` method to capture the user input in the `response` attribute of the relevant clarification. Because clarifications are part of the workflow state itself, this means that the workflow now captures the latest human input gathered and can be resumed with the new information.
 5. Once this is done you can resume the workflow using the `execute_workflow` method. We have seen this `Runner` method as a way to kick off a `Workflow` object after the `create_workflow` method. In fact `execute_workflow` can take a `Workflow` in any state as a parameter and will kick off that workflow from that current state. In this particular example, it resumes the workflow from the step where the clarifications were encountered.
 
 For the example query above `Read the contents of the file "weather.txt".`, where the user resolves the clarification by entering one of the options offered by the clarification (in this particular case `demo_runs/weather.txt` in our project directory `momo_sdk_tests`), you should see the following workflow state, nothing that:

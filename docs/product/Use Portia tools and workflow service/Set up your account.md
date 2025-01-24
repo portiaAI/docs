@@ -16,7 +16,7 @@ You first need to obtain a Portia API key. Head over to (<a href="https://app.po
 You will notice a `Manage orgs and users` tab. You can set up multiple orgs in Portia. Users under the same org can all see each others' workflows and tool call logs.
 :::
 
-By default, Portia will look for the API key in the `PORTIA_API_KEY` environment variable. You can choose to override it for a specific `Runner` instance by configuring the `portia_api_key` variable as well. For now let's simply set the environment variable with the key value you generated and proceed to the next section.
+By default, Portia will look for the API key in the `PORTIA_API_KEY` environment variable. You can choose to override it for a specific `Runner` instance by configuring the `portia_api_key` variable as well. For now let's simply set the environment variable with the key value you generated and proceed to the next section. You can use the command below but it's always prefer to set your API keys in a .env file ultimately.
 ```bash
 export PORTIA_API_KEY='your-api-key-here'
 ```

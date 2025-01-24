@@ -16,94 +16,154 @@ Access our library of tools and view logs of previous tool calls.
 
 In a previous section, we explored the `Tool` and `Tool_registry` abstractions. We used example tools that are included in the Portia SDK and we introduced custom tools (<a href="/extend-tool-definitions" target="_blank">**Extend your tool definitions ↗**</a>). 
 
-Portia also offers a cloud-hosted library of tools to save you development time. This typically covers popular public SaaS products like gSuite, Zendesk, Hubspot etc. You get a number of Portia tool calls for free when you sign-up to Portia cloud. For more info on our pricing please visit our  (<a href="https://www.porita.dev" target="_blank">**Pricing page ↗**</a>).  
+Portia also offers a cloud-hosted library of tools to save you development time. This typically covers popular public SaaS products like gSuite, Zendesk, Hubspot etc. You get a number of Portia tool calls for free when you sign-up to Portia cloud. You can find the ever-growing list of Portia tools in the next section (<a href="/portia-tools-catalogue" target="_blank">**Portia tool catalogue ↗**</a>). For more info on the pricing for our cloud offering, please visit our (<a href="https://www.porita.dev" target="_blank">**Pricing page ↗**</a>).  
 :::info[Request a tool]
 If there's a particular product you would like to see tools for in our library, do feel free to request it and we'll do our best to get it done! (<a href="https://tally.so/r/wzWAAg" target="_blank">**Request a tool ↗**</a>).
 :::
 
-You can use Portia tools in conjunction with your own custom tools by combining tool registries. Take the simple example below:
-- We use the `config.from_default` method to load the `default_config` from the `Config` class and override the `default_log_level` to `DEBUG` so we can see the tool call logging in the terminal. Note that the tool call logs will also appear in your Portia dashboard.
-- We import all of Portia's tool library using the `PortiaToolRegistry` import and combine it with the `example_tool_registry` we've used so far into a `complete_tool_registry`.
-- We run a query that necessitates both the `WeatherTool` from the example tool registry and the `search_tool` from Portia's cloud library.
+Now let's try to reproduce the experience that you can see on website's playground (<a href="https:www.portialabs.ai" target="_blank">**↗**</a>). We want to be able to handle a prompt like `Find the github repository of Mastodon and give it a star for me`, so let's take a look at the code below:
+
 ```python title="main.py"
-import json
+from dotenv import load_dotenv
 from portia.runner import Runner
-from portia.config import Config, StorageClass, LogLevel
-from portia.open_source_tools.registry import example_tool_registry
+from portia.config import default_config
+from portia.workflow import WorkflowState
+from portia.clarification import MultipleChoiceClarification, InputClarification, ActionClarification
 from portia.tool_registry import PortiaToolRegistry
 
-# Load the default config and add Portia cloud tools and example tools into one registry
-my_config = Config.from_default(
-    default_log_level=LogLevel.DEBUG,
-    storage_class=StorageClass.CLOUD
-)
-complete_tool_registry = example_tool_registry + PortiaToolRegistry(my_config)
+load_dotenv()
 
-# Instantiate a Portia runner. Load it with the default config and with the tools above
-runner = Runner(config=my_config, tool_registry=complete_tool_registry)
+# Instantiate a Portia runner. Load it with the default config and with Portia cloud tools above
+runner = Runner(config=default_config(), tool_registry=PortiaToolRegistry(default_config()))
 
-# Execute a workflow from the user query
-output = runner.execute_query('Get the weather in the southernmost city in the world')
+# Generate the plan from the user query and print it
+plan = runner.generate_plan('Find the github repository of Mastodon and give it a star for me')
+print(f"{plan.model_dump_json(indent=2)}")
+
+# Execute the workflow
+workflow = runner.create_workflow(plan)
+workflow = runner.execute_workflow(workflow)
+
+while workflow.state == WorkflowState.NEED_CLARIFICATION:
+    # If clarifications are needed, resolve them before resuming the workflow
+    for clarification in workflow.get_outstanding_clarifications():
+        # Usual handling of Input and Multiple Choice clarifications
+        if isinstance(clarification, (InputClarification, MultipleChoiceClarification)):
+            print(f"{clarification.user_guidance}")
+            user_input = input("Please enter a value:\n" 
+                               + (clarification.choices if clarification.choices else ""))
+            workflow = runner.resolve_clarification(workflow, clarification, user_input)
+        
+        # Handling of Action clarifications
+        # highlight-start
+        if isinstance(clarification, ActionClarification):
+            print(f"{clarification.user_guidance} -- Please click on the link below to proceed.")
+            print(clarification.action_url)
+            workflow = runner.wait_for_ready(workflow)
+        # highlight-end
+
+    # Once clarifications are resolved, resume the workflow
+    workflow = runner.execute_workflow(workflow)
 
 # Serialise into JSON an print the output
-print(output.model_dump_json(indent=2))
+print(f"{workflow.model_dump_json(indent=2)}")
 ```
 
-Running the code above should return the weather conditions in Puerto Williams, Chile unless a new city was settled by humans in the far southern hemisphere or the equator tilted (hopefully not). In your logs you should be able to see the tools, as well as a plan and final workflow state similar to the output below. Note again how the planner weaved tools from both the cloud and the example registry.
+Pay attention to the following points:
+- We're importing all of Portia's cloud tool library using the `PortiaToolRegistry` import. Portia will (rightly!) identify that executing on this query necessitates both the `SearchGitHubReposTool` and the `StarGitHubRepoTool` in particular. Like all Portia cloud tools, our Github tools are built with plug and play authentication support. They will raise a `Action Clarification` with a Github Oauth link as the action URL. This Oauth link uses Portia's Github authentication client and a Portia redirect URL.
+- The way we handle clarifications is now conditional on their type. While we continue to resolve `InputClarification` and `MultipleChoiceClarification` using `runner.resolve_clarification()`, we're now introducing the `runner.wait_for_ready()` method to handle clarifications of type `ActionClarification`. This method should be used when the resolution to a clarification relies on a third party system and the runner needs to listen for a change in its state. In our example, Portia's Oauth server listens for the authentication result and resolves the concerned clarification, allowing the workflow to resume again. 
+
+Your workflow will pause and you should see the link in the logs like so
+...
+```bash
+OAuth required -- Please click on the link below to proceed.
+https://github.com/login/oauth/authorize/?redirect_uri=https%3A%2F%2Fapi.porita.dev%2Fapi%2Fv0%2Foauth%2Fgithub%2F&client_id=Ov23liXuuhY9MOePgG8Q&scope=public_repo+starring&state=APP_NAME%3Dgithub%253A%253Agithub%26WORKFLOW_ID%3Daa6019e1-0bde-4d76-935d-b1a64707c64e%26ORG_ID%3Dbfc2c945-4c8a-4a02-847a-1672942e8fc9%26CLARIFICATION_ID%3D9e6b8842-dc39-40be-a298-900383dd5e9e%26SCOPES%3Dpublic_repo%2Bstarring&response_type=code
+```
+
+In your logs you should be able to see the tools, as well as a plan and final workflow state similar to the output below. Note again how the planner weaved tools from both the cloud and the example registry.
 
 <Tabs>
   <TabItem value="plan" label="Generated plan">
     ```json title="plan-71fbe578-0c3f-4266-b5d7-933e8bb10ef2.json"
     {
         "id": "71fbe578-0c3f-4266-b5d7-933e8bb10ef2",
-        "query": "Get the weather in the southernmost city in the world",
+        "plan_context": {
+            "query": "Find the github repository of Mastodon and give it a star for me",
+            "tool_ids": [
+            "portia::list_github_repos_tool",
+            "portia::search_github_repos_tool",
+            "portia::star_github_repo_tool",
+            "portia::send_slack_message",
+            "portia::find_slack_message",
+            "portia::zendesk_list_groups_for_user_tool",
+            ...
+            ]
+        },
         "steps": [
             {
-                "task": "Identify the southernmost city in the world.",
-                "input": null,
-                "tool_name": "Search Tool",
-                "output": "$southernmost_city"
+            "task": "Search for the GitHub repository of Mastodon",
+            "inputs": [],
+            "tool_name": "Portia Search GitHub Repositories",
+            "output": "$mastodon_repository"
             },
             {
-                "task": "Get the weather for the identified southernmost city.",
-                "input": [
-                    {
-                        "name": "$southernmost_city",
-                        "value": null,
-                        "description": "The southernmost city identified in the previous step."
-                    }
-                ],
-                "tool_name": "Weather Tool",
-                "output": "$weather_info"
+            "task": "Star the GitHub repository of Mastodon",
+            "inputs": [
+                {
+                "name": "$mastodon_repository",
+                "value": null,
+                "description": "The GitHub repository of Mastodon"
+                }
+            ],
+            "tool_name": "Portia Star GitHub Repository",
+            "output": "$star_result"
             }
         ]
     }
     ```
   </TabItem>
     <TabItem value="workflow" label="Workflow in final state">
-    ```json title="workflow-21213060-5287-4f57-b4fc-a4d55470d763.json"
+    ```json title="workflow-36945fae-1dcc-4b05-9bc4-4b862748e031.json"
     {
-        "id": "21213060-5287-4f57-b4fc-a4d55470d763",
+        "id": "36945fae-1dcc-4b05-9bc4-4b862748e031",
         "plan_id": "71fbe578-0c3f-4266-b5d7-933e8bb10ef2",
         "current_step_index": 1,
-        "clarifications": [],
         "state": "COMPLETE",
-        "step_outputs": {
-            "$southernmost_city": {
-            "value": {
-                "output": {
-                "value": "Puerto Williams, Chile, is currently recognized as the southernmost city in the world. This designation was confirmed by a bilateral agreement between Chile and Argentina, as well as by Chilean and Argentine media. The population of Puerto Williams has been growing, with the town being developed primarily as a naval base for Chile.",
-                "short_summary": "Puerto Williams, Chile, is currently recognized as the southernmost city in the world.",
-                "long_summary": "Puerto Williams, Chile, is currently recognized as the southernmost city in the world. This designation was confirmed by a bilateral agreement between Chile and Argentina, as well as by Chilean and Argentine media. The population of Puerto Williams has been growing, with the town being developed primarily as a naval base for Chile."
+        "execution_context": {
+            "end_user_id": null,
+            "additional_data": {},
+            "planner_system_context_extension": null,
+            "agent_system_context_extension": null
+        },
+        "outputs": {
+            "clarifications": [
+                {
+                    "uuid": b1c1e1c0-5c3e-1984,
+                    "type": “Multiple Choice Clarification”,
+                    "response": “mastodon/mastodon",
+                    "step": 2, 
+                    "user_guidance": "Please select a repository.", 
+                    "handled": true,
+                    "argument": "$mastodon_repository",
+                    "options": "['mastodon/mastodon', 'idaholab/mastodon', 'mastodon/mastodon-ios', 'mastodon/mastodon-android',
+                                ...']",
                 }
+            ],
+            "step_outputs": {
+            "$mastodon_repository": {
+                "value": "['mastodon/mastodon', 'idaholab/mastodon', 'mastodon/mastodon-ios', 'mastodon/mastodon-android',
+                            ...']",
+                "summary": null
+            },
+            "$star_result": {
+                "value": "Successfully starred the repository 'mastodon/mastodon'.",
+                "summary": null
             }
             },
-            "$weather_info": {
-            "value": "The current weather in Puerto Williams, Chile is clear sky with a temperature of 13.11\u00b0C."
+            "final_output": {
+            "value": "Successfully starred the repository 'mastodon/mastodon'.",
+            "summary": null
             }
-        },
-        "final_output": {
-            "value": "The current weather in Puerto Williams, Chile is clear sky with a temperature of 13.11\u00b0C."
         }
     }
     ```
@@ -119,7 +179,7 @@ portia_tool_registry = PortiaToolRegistry(Config.from_default(storage_class='CLO
 
 # Get all tools in a registry
 for tool in portia_tool_registry.get_tools():
-    print(f"{tool}\n")
+    print(f"{tool.model_dump_json(indent=2)}\n")
 ```
 
 Check out the next section for more information about the tools available on Portia cloud.

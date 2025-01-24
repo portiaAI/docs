@@ -113,10 +113,10 @@ Represents a clarification where the user needs to provide a value for a specifi
 - `resolved` _bool_ - Whether this clarification has been resolved. Defaults to False.
 - `argument_name` _str_ - The name of the argument that needs to be clarified.
 
-## MultiChoiceClarification Objects
+## MultipleChoiceClarification Objects
 
 ```python
-class MultiChoiceClarification(ArgumentClarification[str])
+class MultipleChoiceClarification(ArgumentClarification[str])
 ```
 
 A multiple choice based clarification.
