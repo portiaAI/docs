@@ -224,7 +224,8 @@ workflow = runner.execute_query('Get the weather in the town with the longest na
 print(workflow.model_dump_json(indent=2))
 ```
 
-You should now expect the weather information in Llanfairpwllgwyngyllgogerychwyrndrobwllllantysiliogogogoch to be printed in a weather.txt file inside a `demo_runs` folder as specified (You are hopefully finding that our docs are easier to navigate that the name of said town).
+This should result in a plan and subsequent workflow automatically weaving in the `WeatherTool` and `SearchTool` from the `example_tool_registry` as well as our hot-off-the-press `FileWriterTool` from our `custom_tool_registry`.
+You should expect the weather information in Llanfairpwllgwyngyllgogerychwyrndrobwllllantysiliogogogoch to be printed in a weather.txt file inside a `demo_runs` folder as specified. If you're in the mood, now is a good time to practise your Welsh pronunciation.
 ```text title="demo_runs/weather.txt"
 The current weather in Llanfairpwllgwyngyllgogerychwyrndrobwllllantysiliogogogoch is broken clouds with a temperature of 6.76°C.
 ```

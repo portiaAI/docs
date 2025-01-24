@@ -54,14 +54,14 @@ from portia.open_source_tools.registry import example_tool_registry
 load_dotenv()
 
 # Load the default config then make changes to it
-myConfig = Config.from_default(
+my_config = Config.from_default(
     storage_class=StorageClass.DISK, 
     storage_dir='demo_runs',
     default_log_level=LogLevel.DEBUG,
     )
 
 # Instantiate a Portia runner. Load it with the default config and with the simple tool above.
-runner = Runner(config=myConfig, tool_registry=example_tool_registry)
+runner = Runner(config=my_config, tool_registry=example_tool_registry)
 
 # Execute the workflow from the user query
 output = runner.execute_query('Which stock price grew faster in 2024, Amazon or Google?')
