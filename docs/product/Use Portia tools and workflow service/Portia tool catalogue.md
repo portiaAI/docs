@@ -10,6 +10,11 @@ import TabItem from '@theme/TabItem';
 Here you will find a catalogue of our cloud-hosted tools.
 Click on the shortcuts in the table of contents on the right-hand side of your screen to get to a specific tool provider.<br/>We'll do our best to keep this page up-to-date but as a fail-safe, you can always use the utilities below to explore our cloud tools. 
 
+:::tip[Request a tool]
+We’re working hard to offer you tools off the shelf in the cloud. If you have a pressing need for a tool we don't support yet please let us know by filling this form :pray:
+(<a href="https://tally.so/r/wzWAAg" target="_blank">**Request a tool ↗**</a>).
+:::
+
 <Tabs>
     <TabItem value="all_tools" label="Get all live Portia cloud tools">
     Run the following code to return a nicely formatted panda data frame of our cloud tools:
@@ -47,13 +52,13 @@ Click on the shortcuts in the table of contents on the right-hand side of your s
     # Initialise the tool registry
     portia_tool_registry = PortiaToolRegistry(default_config())
 
-    # Write tool and args schema to a markdown-formatted file
+    # Get tool schema
     # highlight-next-line
     target_tool_id = "target tool id here e.g. portia::list_github_repos_tool"
     single_tool = portia_tool_registry.get_tool(target_tool_id)
     print(f"Tool schema:\n{single_tool.model_dump_json(indent=2)}\n")
 
-    # Prepare the arguments schema as manually formatted JSON string
+    # Get args schema of the tool
     args_schema = single_tool.args_schema.model_json_schema().get('properties', {})
     print(f"Tool args schema: {json.dumps(args_schema, indent=2)}\n")
     ```
