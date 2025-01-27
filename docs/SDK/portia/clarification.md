@@ -3,18 +3,24 @@ sidebar_label: clarification
 title: portia.clarification
 ---
 
-# Clarifications.
+Clarification Primitives.
 
-Clarifications are the general framework for agents to get input.
+This module defines base classes and utilities for handling clarifications in the Portia system.
+Clarifications represent questions or actions requiring user input to resolve, with different types
+of clarifications for various use cases such as arguments, actions, inputs, multiple choices,
+and value confirmations.
 
-**Examples**:
+## ClarificationCategory Objects
 
-  - Authentication via OAuth needs to happen, and the user must go through an OAuth flow.
-  - One argument provided for a tool is missing, and the user needs to provide it.
-  - The user has given an input that is not allowed and needs to choose from a list.
-  
-  
-- `Docs` - [https://docs.porita.dev/manage-clarifications](https://docs.porita.dev/manage-clarifications)
+```python
+class ClarificationCategory(PortiaEnum)
+```
+
+The category of a clarification.
+
+This enum defines the different categories of clarifications that can exist, such as arguments,
+actions, inputs, and more. It helps to categorize clarifications for easier
+handling and processing.
 
 ## Clarification Objects
 
@@ -24,26 +30,17 @@ class Clarification(BaseModel, Generic[SERIALIZABLE_TYPE_VAR])
 
 Base Model for Clarifications.
 
-**Arguments**:
+A Clarification represents a question or action that requires user input to resolve. For example
+it could indicate the need for OAuth authentication, missing arguments for a tool
+or a user choice from a list.
 
-- `id` _UUID_ - A unique ID for this clarification.
-- `type` _str_ - The type of clarification. Should be controlled by classes extending this class.
-- `response` _SERIALIZABLE_TYPE_VAR | None_ - The response from the user to this clarification.
-- `step` _int | None_ - The step this clarification is linked to.
-- `user_guidance` _str_ - Guidance provided to the user to help with clarification.
-- `resolved` _bool_ - Whether this clarification has been resolved. Defaults to False.
-
-#### resolve
-
-```python
-def resolve(response: SERIALIZABLE_TYPE_VAR | None) -> None
-```
-
-Resolve the clarification with the given response.
-
-**Arguments**:
-
-- `response` _SERIALIZABLE_TYPE_VAR | None_ - The response to resolve the clarification.
+Attributes:
+    id (UUID): A unique identifier for this clarification.
+    category (ClarificationCategory): The category of this clarification, indicating its type.
+    response (SERIALIZABLE_TYPE_VAR | None): The user&#x27;s response to this clarification, if any.
+    step (int | None): The step this clarification is associated with, if applicable.
+    user_guidance (str): Guidance provided to the user to assist with the clarification.
+    resolved (bool): Whether the clarification has been resolved by the user.
 
 ## ArgumentClarification Objects
 
@@ -51,38 +48,29 @@ Resolve the clarification with the given response.
 class ArgumentClarification(Clarification[SERIALIZABLE_TYPE_VAR])
 ```
 
-A general class for clarifications for a specific argument of a tool.
+Clarification about a specific argument for a tool.
 
-**Arguments**:
+This clarification is used when a tool&#x27;s argument is missing or requires further clarification.
+The name of the argument is provided within the clarification.
 
-- `id` _UUID_ - A unique ID for this clarification.
-- `type` _str_ - The type of clarification. Should be controlled by classes extending this class.
-- `response` _SERIALIZABLE_TYPE_VAR | None_ - The response from the user to this clarification.
-- `step` _int | None_ - The step this clarification is linked to.
-- `user_guidance` _str_ - Guidance provided to the user to help with clarification.
-- `resolved` _bool_ - Whether this clarification has been resolved. Defaults to False.
-- `argument_name` _str_ - The name of the argument that needs to be clarified.
+Attributes:
+    argument_name (str): The name of the argument that is being clarified.
+    category (ClarificationCategory): The category for this clarification, &#x27;Argument&#x27;.
 
 ## ActionClarification Objects
 
 ```python
-class ActionClarification(Clarification[bool])
+class ActionClarification(Clarification[SERIALIZABLE_TYPE_VAR])
 ```
 
-An action based clarification.
+Action-based clarification.
 
-Represents a clarification where the user needs to click on a link. Set the response to true
-once the user has clicked on the link and done the associated action.
+Represents a clarification that involves an action, such as clicking a link. The response is set
+to `True` once the user has completed the action associated with the link.
 
-**Arguments**:
-
-- `id` _UUID_ - A unique ID for this clarification.
-- `type` _str_ - The type of clarification. Should be controlled by classes extending this class.
-- `response` _SERIALIZABLE_TYPE_VAR | None_ - The response from the user to this clarification.
-- `step` _int | None_ - The step this clarification is linked to.
-- `user_guidance` _str_ - Guidance provided to the user to help with clarification.
-- `resolved` _bool_ - Whether this clarification has been resolved. Defaults to False.
-- `action_url` _HttpUrl_ - The URL that the user should be directed to.
+Attributes:
+    category (ClarificationCategory): The category for this clarification, &#x27;Action&#x27;.
+    action_url (HttpUrl): The URL for the action that the user needs to complete.
 
 #### serialize\_action\_url
 
@@ -93,62 +81,80 @@ def serialize_action_url(action_url: HttpUrl) -> str
 
 Serialize the action URL to a string.
 
+Args:
+    action_url (HttpUrl): The URL to be serialized.
+
+Returns:
+    str: The serialized string representation of the URL.
+
 ## InputClarification Objects
 
 ```python
-class InputClarification(ArgumentClarification[str])
+class InputClarification(ArgumentClarification[SERIALIZABLE_TYPE_VAR])
 ```
 
-An input based clarification.
+Input-based clarification.
 
 Represents a clarification where the user needs to provide a value for a specific argument.
+This type of clarification is used when the user is prompted to enter a value.
 
-**Arguments**:
-
-- `id` _UUID_ - A unique ID for this clarification.
-- `type` _str_ - The type of clarification. Should be controlled by classes extending this class.
-- `response` _SERIALIZABLE_TYPE_VAR | None_ - The response from the user to this clarification.
-- `step` _int | None_ - The step this clarification is linked to.
-- `user_guidance` _str_ - Guidance provided to the user to help with clarification.
-- `resolved` _bool_ - Whether this clarification has been resolved. Defaults to False.
-- `argument_name` _str_ - The name of the argument that needs to be clarified.
+Attributes:
+    category (ClarificationCategory): The category for this clarification, &#x27;Input&#x27;.
 
 ## MultipleChoiceClarification Objects
 
 ```python
-class MultipleChoiceClarification(ArgumentClarification[str])
+class MultipleChoiceClarification(ArgumentClarification[SERIALIZABLE_TYPE_VAR]
+                                  )
 ```
 
-A multiple choice based clarification.
+Multiple choice-based clarification.
 
 Represents a clarification where the user needs to select an option for a specific argument.
+The available options are provided, and the user must select one.
 
-**Arguments**:
+Attributes:
+    category (ClarificationCategory): The category for this clarification &#x27;Multiple Choice&#x27;.
+    options (list[SERIALIZABLE_TYPE_VAR]): The available options for the user to choose from.
 
-- `id` _UUID_ - A unique ID for this clarification.
-- `type` _str_ - The type of clarification. Should be controlled by classes extending this class.
-- `response` _SERIALIZABLE_TYPE_VAR | None_ - The response from the user to this clarification.
-- `step` _int | None_ - The step this clarification is linked to.
-- `user_guidance` _str_ - Guidance provided to the user to help with clarification.
-- `resolved` _bool_ - Whether this clarification has been resolved. Defaults to False.
-- `argument_name` _str_ - The name of the argument that needs to be clarified.
-- `options` _list[str]_ - A set of options from which the user must choose.
+Methods:
+    validate_response: Ensures that the user&#x27;s response is one of the available options.
 
-#### resolve
+#### validate\_response
 
 ```python
-def resolve(response: str | None) -> None
+@model_validator(mode="after")
+def validate_response() -> Self
 ```
 
-Resolve the clarification with the given response.
-Responses are checked against the provided options.
+Ensure the provided response is an option.
 
-**Arguments**:
+This method checks that the response provided by the user is one of the options. If not,
+it raises an error.
 
-- `response` _SERIALIZABLE_TYPE_VAR | None_ - The response to resolve the clarification.
-  
+Returns:
+    Self: The validated instance.
 
-**Raises**:
+Raises:
+    ValueError: If the response is not one of the available options.
 
-- `ValueError` - If the provided response is not one of the allowed options
+## ValueConfirmationClarification Objects
+
+```python
+class ValueConfirmationClarification(
+        ArgumentClarification[SERIALIZABLE_TYPE_VAR])
+```
+
+Value confirmation clarification.
+
+Represents a clarification where the user is presented with a value and must confirm or deny it.
+The clarification should be created with the response field already set, and the user indicates
+acceptance by setting the resolved flag to `True`.
+
+Attributes:
+    category (ClarificationCategory): The category for this clarification, &#x27;Value Confirmation&#x27;.
+
+#### ClarificationType
+
+A list of clarifications of any type.
 

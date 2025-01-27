@@ -3,7 +3,24 @@ sidebar_label: runner
 title: portia.runner
 ---
 
-Runner classes which actually plan + run queries.
+Runner classes that plan and execute workflows for queries.
+
+This module contains the core classes responsible for generating, managing, and executing workflows
+in response to queries. The `Runner` class serves as the main entry point, orchestrating the
+planning and execution process. It uses various agents and tools to carry out tasks step by step,
+saving the state of the workflow at each stage. It also handles error cases, clarification
+requests, and workflow state transitions.
+
+The `Runner` class provides methods to:
+
+- Generate a plan for executing a query.
+- Create and manage workflows.
+- Execute workflows step by step, using agents to handle the execution of tasks.
+- Resolve clarifications required during the execution of workflows.
+- Wait for workflows to reach a state where they can be resumed.
+
+Modules in this file work with different storage backends (memory, disk, cloud) and can handle
+complex queries using various planner and agent configurations.
 
 ## Runner Objects
 
@@ -11,49 +28,122 @@ Runner classes which actually plan + run queries.
 class Runner()
 ```
 
-Create and run plans for queries.
+Runner class is the top level abstraction and entrypoint for most programs using the SDK.
 
-#### run\_query
+The runner is responsible for intermediating planning via Planners and execution via Agents.
+
+#### execute\_query
 
 ```python
 def execute_query(query: str,
-              tools: ToolSet | None = None,
-              example_workflows: list[Plan] | None = None) -> Workflow
+                  tools: list[Tool] | list[str] | None = None,
+                  example_plans: list[Plan] | None = None) -> Workflow
 ```
 
-Plan and run a query in one go.
+End-to-end function to generate a plan and then execute it.
 
-#### plan\_query
+This is the simplest way to plan and execute a query using the SDK.
+
+Args:
+    query (str): The query to be executed.
+    tools (list[Tool] | list[str] | None): List of tools to use for the query.
+    If not provided all tools in the registry will be used.
+    example_plans (list[Plan] | None): Optional list of example plans. If not
+    provide a default set of example plans will be used.
+
+Returns:
+    Workflow: The workflow resulting from executing the query.
+
+#### generate\_plan
 
 ```python
-def plan_query(query: str,
-               tools: ToolSet | None = None,
-               example_plans: list[Plan] | None = None) -> Plan
+def generate_plan(query: str,
+                  tools: list[Tool] | list[str] | None = None,
+                  example_plans: list[Plan] | None = None) -> Plan
 ```
 
 Plans how to do the query given the set of tools and any examples.
 
-#### run\_plan
+Args:
+    query (str): The query to generate the plan for.
+    tools (list[Tool] | list[str] | None): List of tools to use for the query.
+    If not provided all tools in the registry will be used.
+    example_plans (list[Plan] | None): Optional list of example plans. If not
+    provide a default set of example plans will be used.
+
+Returns:
+    Plan: The plan for executing the query.
+
+Raises:
+    PlanError: If there is an error while generating the plan.
+
+#### create\_workflow
 
 ```python
-def run_plan(plan: Plan) -> Workflow
+def create_workflow(plan: Plan) -> Workflow
 ```
 
-Run a plan returning the completed workflow or clarifications if needed.
+Create a workflow from a Plan.
 
-#### resume\_workflow
+Args:
+    plan (Plan): The plan to create a workflow from.
+
+Returns:
+    Workflow: The created workflow.
+
+#### execute\_workflow
 
 ```python
-def resume_workflow(workflow: Workflow) -> Workflow
+def execute_workflow(workflow: Workflow | None = None,
+                     workflow_id: UUID | str | None = None) -> Workflow
 ```
 
-Resume a workflow after an interruption.
+Run a workflow.
 
-#### get\_clarifications\_for\_step
+Args:
+    workflow (Workflow | None): The workflow to execute. Defaults to None.
+    workflow_id (UUID | str | None): The ID of the workflow to execute. Defaults to None.
+
+Returns:
+    Workflow: The resulting workflow after execution.
+
+Raises:
+    ValueError: If neither workflow nor workflow_id is provided.
+    InvalidWorkflowStateError: If the workflow is not in a valid state to be executed.
+
+#### resolve\_clarification
 
 ```python
-def get_clarifications_for_step(workflow: Workflow) -> list[Clarification]
+def resolve_clarification(workflow: Workflow, clarification: Clarification,
+                          response: object) -> Workflow
 ```
 
-get_clarifications_for_step isolates clarifications relevant for the current step.
+Resolve a clarification updating the workflow state as needed.
+
+Args:
+    workflow (Workflow): The workflow being updated.
+    clarification (Clarification): The clarification to resolve.
+    response (object): The response to the clarification.
+
+Returns:
+    Workflow: The updated workflow.
+
+#### wait\_for\_ready
+
+```python
+def wait_for_ready(workflow: Workflow) -> Workflow
+```
+
+Wait for the workflow to be in a state that it can be re-run.
+
+This is generally because there are outstanding clarifications that need to be resolved.
+
+Args:
+    workflow (Workflow): The workflow to wait for.
+
+Returns:
+    Workflow: The updated workflow once it is ready to be re-run.
+
+Raises:
+    InvalidWorkflowStateError: If the workflow cannot be waited for.
 
