@@ -21,7 +21,7 @@ The `Config` class (<a href="/SDK/portia/config" target="_blank">**SDK reference
 | Property | Purpose |
 | ----------- | ----------- |
 | `llm_provider` | Select between `OPENAI`, `ANTHROPIC` OR `MISTRALAI`. <br/>This is an ENUM accessible from the `LLMProvider` class. |
-| `llm_model` | Select the relevant LLM model. This is an ENUM accessible via the `LLMModel` class. |
+| `llm_model_name` | Select the relevant LLM model. This is an ENUM accessible via the `LLMModel` class. |
 | `openai_api_key`<br/>`anthropic_api_key`<br/>`mistralai_api_key` | Set the key you want your `Runner` instance to use from the relevant provider |
 | `planner_system_context_extension` | Enrich the system context with more information. For example you can add information specific to a frontend user session such as department, title, timezone etc. |
 | `default_agent_type` | This controls how complex (and therefore how fast or expensive) your agents are. It can be one of <ul><li>`VERIFIER`: This is the default setup. This means the agent validates the inputs it receives and assesses its output to determine if it achieved the task at hand in a particular step. This is the setting that allows an LLM to trigger clarifications where relevant (e.g. missing input).</li><li>`ONE_SHOT`: For a simpler and faster agent implementation where an agent simply takes arguments and makes tool calls where relevant, without any validation of inputs and outputs (e.g. useful for light and repeatable workflows)</li><li>`TOOL_LESS`: For workflows where no tools are required.</li></ul>This ENUM is accessible from the `AgentType` class. |
