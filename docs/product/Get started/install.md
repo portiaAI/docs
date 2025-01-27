@@ -126,7 +126,7 @@ As a final verification step for your installation, set up the required environm
         # Create a default Portia config with LLM provider set to Anthropic and to the Sonnet 3.5 model
         anthropic_config = Config.from_default(
             llm_provider=LLMProvider.ANTHROPIC,
-            llm_model=LLMModel.CLAUDE_3_5_SONNET,
+            llm_model_name=LLMModel.CLAUDE_3_5_SONNET,
             anthropic_api_key=ANTHROPIC_API_KEY
             )
         # Instantiate a Portia runner. Load it with the config and with the example tools.
@@ -152,7 +152,7 @@ As a final verification step for your installation, set up the required environm
         # Create a default Portia config with LLM provider set to Mistral AI and the latest Mistral Large model
         mistral_config = Config.from_default(
             llm_provider=LLMProvider.MISTRALAI,
-            llm_model=LLMModel.MISTRAL_LARGE_LATEST,
+            llm_model_name=LLMModel.MISTRAL_LARGE_LATEST,
             mistralai_api_key=MISTRAL_API_KEY
         )
         # Instantiate a Portia runner. Load it with the config and with the example tools.
