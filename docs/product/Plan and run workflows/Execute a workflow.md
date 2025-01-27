@@ -154,9 +154,7 @@ You should be able to inspect the state changes for the above workflow in the lo
     frameBorder="0"
   ></iframe>
 </div>
-:::note
-Animation above made on the brilliant <a href="https://snappify.com" target="_blank">**snappify.com ↗**</a>.
-:::
+<small>Animation above made on the brilliant <a href="https://snappify.com" target="_blank">**snappify.com ↗**</a>.</small>
 
 
 
