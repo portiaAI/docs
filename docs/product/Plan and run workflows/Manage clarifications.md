@@ -27,9 +27,9 @@ When Portia encounters a clarification and pauses a workflow, it serialises and 
 # Types of clarifications
 Clarifications are represented by the `Clarification` class (<a href="/SDK/portia/clarification" target="_blank">**SDK reference ↗**</a>). Because it is a structured object, you can easily serve it to an end user using a front end of your choosing when it is encountered e.g. a chatbot or app like Slack, email etc.
 
-We offer three types of clarifications at the moment. You can see the properties and behaviours specific to each type in the tabs below. The common properties across all clarifications are:
+We offer three categories of clarifications at the moment. You can see the properties and behaviours specific to each type in the tabs below. The common properties across all clarifications are:
 - `uuid`: Unique ID for this clarification
-- `type`: Clarification type
+- `category`: The type of clarification
 - `response`: User's response to the clarification
 - `step`: Workflow step where this clarification was raised
 - `user_guidance`: Guidance provided to the user to explain the nature of the clarification
@@ -41,7 +41,7 @@ We offer three types of clarifications at the moment. You can see the properties
     ```json title="action_clarification.json"
     {
         "uuid": b1c1e1c0-5c3e-9z22,
-        "type": “Action Clarification”,
+        "category": “Action”,
         "response": “success”,
         "step": 1,
         "user_guidance": "Click here to authenticate",
@@ -55,7 +55,7 @@ We offer three types of clarifications at the moment. You can see the properties
     ```json title="input_clarification.json"
     {
         "uuid": b1c1e1c0-5c3e-8x97,
-        "type": “Input Clarification”,
+        "cateogry": “Input”,
         "response": “avrana@kern.ai”,
         "step": 2, 
         "user_guidance": "Please provide me with Avrana's email address", 
@@ -69,7 +69,7 @@ We offer three types of clarifications at the moment. You can see the properties
     ```json title="multiple_choice_clarification.json"
     {
         "uuid": b1c1e1c0-5c3e-1984,
-        "type": “Multiple Choice Clarification”,
+        "type": “Multiple Choice”,
         "response": “ron_swanson@pawnee.com,
         "step": 2, 
         "user_guidance": "Please select a recipient.", 
@@ -254,7 +254,7 @@ For the example query above `Read the contents of the file "weather.txt".`, wher
     "clarifications": [
       {
         "id": "216c13a1-8342-41ca-99e5-59394cbc7008",
-        "type": "Multiple Choice Clarification",
+        "category": "Multiple Choice",
         "response": "../momo_sdk_tests/demo_runs/weather.txt",
         "step": 0,
         "user_guidance": "Found weather.txt in these location(s). Pick one to continue:\n['../momo_sdk_tests/demo_runs/weather.txt', '../momo_sdk_tests/my_custom_tools/__pycache__/weather.txt']",
