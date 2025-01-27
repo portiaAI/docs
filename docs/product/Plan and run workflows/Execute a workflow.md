@@ -17,7 +17,7 @@ Learn how to run a workflow from an existing plan or end-to-end.
 ## Overview of workflows in Portia
 A workflow is a unique instantiation of a plan. The purpose of a workflow is to capture the state of a unique plan run at every step in an auditable way. This includes:
 - A step index tracking at which step we are in the execution of the workflow.
-- The actual workflow state e.g. NOT_STARTED, IN_PROGRESS, COMPLETE or NEED_CLARIFICATION.
+- The actual workflow state e.g. NOT_STARTED, IN_PROGRESS, COMPLETE, READY_TO_RESUME or NEED_CLARIFICATION.
 - A list of step outputs that is populated throughout the workflow execution.
 
 In a later section we will also see that the workflow state also tracks a list of instances where human input was solicited during workflow execution, known as `Clarification`.
