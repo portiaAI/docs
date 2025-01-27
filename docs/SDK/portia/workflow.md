@@ -3,15 +3,62 @@ sidebar_label: workflow
 title: portia.workflow
 ---
 
-Workflow primitives.
+Workflows are executing instances of a Plan.
+
+A workflow encapsulates all execution state, serving as the definitive record of its progress.
+As the workflow runs, its `WorkflowState`, `current_step_index`, and `outputs` evolve to reflect
+the current execution state.
+
+The workflow also retains an `ExecutionContext`, which provides valuable insights for debugging
+and analytics, capturing contextual information relevant to the workflow&#x27;s execution.
+
+Key Components
+--------------
+- **WorkflowState**: Tracks the current status of the workflow (e.g., NOT_STARTED, IN_PROGRESS).
+- **current_step_index**: Represents the step within the plan currently being executed.
+- **outputs**: Stores the intermediate and final results of the workflow.
+- **ExecutionContext**: Provides contextual metadata useful for logging and performance analysis.
 
 ## WorkflowState Objects
 
 ```python
-class WorkflowState(str, Enum)
+class WorkflowState(PortiaEnum)
 ```
 
-Progress of the Workflow.
+The current state of the Workflow.
+
+Attributes
+----------
+NOT_STARTED : str
+    The workflow has not been started yet.
+IN_PROGRESS : str
+    The workflow is currently in progress.
+NEED_CLARIFICATION : str
+    The workflow requires further clarification before proceeding.
+READY_TO_RESUME : str
+    The workflow is ready to resume after clarifications have been resolved.
+COMPLETE : str
+    The workflow has been successfully completed.
+FAILED : str
+    The workflow has encountered an error and failed.
+
+## WorkflowOutputs Objects
+
+```python
+class WorkflowOutputs(BaseModel)
+```
+
+Outputs of a workflow, including clarifications.
+
+Attributes
+----------
+clarifications : ClarificationListType
+    Clarifications raise by this workflow.
+step_outputs : dict[str, Output]
+    A dictionary containing outputs of individual workflow steps.
+    Outputs are indexed by the value given by the `step.output` field of the plan.
+final_output : Output | None
+    The final consolidated output of the workflow, if available.
 
 ## Workflow Objects
 
@@ -19,5 +66,63 @@ Progress of the Workflow.
 class Workflow(BaseModel)
 ```
 
-A workflow represent a running instance of a Plan.
+A workflow represents a running instance of a Plan.
+
+Attributes
+----------
+id : UUID
+    A unique ID for this workflow.
+plan_id : UUID
+    The ID of the Plan this Workflow uses.
+current_step_index : int
+    The current step that is being executed.
+state : WorkflowState
+    The current state of the workflow.
+execution_context : ExecutionContext
+    Execution context for the workflow.
+outputs : WorkflowOutputs
+    Outputs of the workflow, including clarifications.
+
+#### get\_outstanding\_clarifications
+
+```python
+def get_outstanding_clarifications() -> ClarificationListType
+```
+
+Return all outstanding clarifications.
+
+Returns
+-------
+ClarificationListType
+    A list of outstanding clarifications that have not been resolved.
+
+## ReadOnlyWorkflow Objects
+
+```python
+class ReadOnlyWorkflow(Workflow)
+```
+
+A read-only copy of a workflow, passed to agents for reference.
+
+This class provides a non-modifiable view of a workflow instance,
+ensuring that agents can access workflow details without altering them.
+
+#### from\_workflow
+
+```python
+@classmethod
+def from_workflow(cls, workflow: Workflow) -> ReadOnlyWorkflow
+```
+
+Create a read-only workflow from a normal workflow.
+
+Parameters
+----------
+workflow : Workflow
+    The original workflow instance to create a read-only copy from.
+
+Returns
+-------
+ReadOnlyWorkflow
+    A new read-only instance of the provided workflow.
 

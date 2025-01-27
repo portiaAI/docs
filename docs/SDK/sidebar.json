@@ -2,13 +2,41 @@
   "items": [
     {
       "items": [
+        {
+          "items": [
+            "SDK/portia/agents/agent_node_utils/summarizer"
+          ],
+          "label": "portia.agents.agent_node_utils",
+          "type": "category"
+        },
         "SDK/portia/agents/base_agent",
-        "SDK/portia/agents/complex_langgraph_agent",
         "SDK/portia/agents/context",
-        "SDK/portia/agents/simple_agent",
-        "SDK/portia/agents/toolless_agent"
+        "SDK/portia/agents/execution_utils",
+        "SDK/portia/agents/one_shot_agent",
+        "SDK/portia/agents/toolless_agent",
+        "SDK/portia/agents/verifier_agent"
       ],
       "label": "portia.agents",
+      "type": "category"
+    },
+    {
+      "items": [
+        "SDK/portia/open_source_tools/calculator_tool",
+        "SDK/portia/open_source_tools/local_file_reader_tool",
+        "SDK/portia/open_source_tools/local_file_writer_tool",
+        "SDK/portia/open_source_tools/search_tool",
+        "SDK/portia/open_source_tools/weather"
+      ],
+      "label": "portia.open_source_tools",
+      "type": "category"
+    },
+    {
+      "items": [
+        "SDK/portia/planners/context",
+        "SDK/portia/planners/one_shot_planner",
+        "SDK/portia/planners/planner"
+      ],
+      "label": "portia.planners",
       "type": "category"
     },
     {
@@ -19,15 +47,20 @@
       "type": "category"
     },
     "SDK/portia/clarification",
+    "SDK/portia/cli",
+    "SDK/portia/common",
     "SDK/portia/config",
     "SDK/portia/errors",
+    "SDK/portia/execution_context",
     "SDK/portia/llm_wrapper",
+    "SDK/portia/logger",
     "SDK/portia/plan",
-    "SDK/portia/planner",
     "SDK/portia/runner",
     "SDK/portia/storage",
     "SDK/portia/tool",
+    "SDK/portia/tool_call",
     "SDK/portia/tool_registry",
+    "SDK/portia/tool_wrapper",
     "SDK/portia/workflow"
   ],
   "label": "portia",

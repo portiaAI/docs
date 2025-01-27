@@ -25,8 +25,7 @@ planner class.
 
 ```python
 def generate_plan_or_error(query: str,
-                           tool_list: ToolSet,
-                           system_context: list[str] | None = None,
+                           tool_list: list[Tool],
                            examples: list[Plan] | None = None) -> PlanOrError
 ```
 
