@@ -121,7 +121,7 @@ Workflow states are captured in the `Workflow` class (<a href="/SDK/portia/workf
 Every workflow has a unique `id` and relates to a unique `plan_id`. If you were to attempt running a workflow from the same plan multiple times, you would generate multiple `Workflow` objects each with a unique `id` but all with the same `plan_id` property.
 
 ## Workflow state changes
-As Portia cycles through a workflow, an agent is instantiated at every step and that agent will call the tool designated for that. The workflow state is enriched with step outputs at every step of the execution as well. Note that in this example the main tool used is the 'Search Tool` provided in this SDK in the `example_tool_registry`, and wraps around the Tavily API. We will discuss tools in more depth in the next section.
+As Portia cycles through a workflow, an agent is instantiated at every step and that agent will call the tool designated for that. The workflow state is enriched with step outputs at every step of the execution as well. Note that in this example the main tool used is the 'Search Tool' provided in this SDK in the `example_tool_registry`, and wraps around the Tavily API. We will discuss tools in more depth in the next section.
 You should be able to inspect the state changes for the above workflow in the logs when you run the code. Alternatively, feel free to cycle through them in the swanky animation below made on the brilliant <a href="www.snappify.com" target="_blank">**snappify.com ↗**</a>.
 <div style={{
   overflow: 'hidden',
