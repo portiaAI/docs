@@ -96,19 +96,22 @@ As a final verification step for your installation, set up the required environm
 
 <Tabs groupId="llm-provider">
     <TabItem value="openai" label="Open AI" default>
-    In your local `.env` file, set up your API key as an environment variable using `OPENAI_API_KEY`.<br/>
-    Then create a file e.g. `main.py` in your project directory and paste the following code in.
-    ```python title="main.py"
-    from portia.runner import Runner
-    from portia.config import default_config
-    from portia.open_source_tools.registry import example_tool_registry
+        In your local `.env` file, set up your API key as an environment variable using `OPENAI_API_KEY`.<br/>
+        Then create a file e.g. `main.py` in your project directory and paste the following code in.
+        ```python title="main.py"
+        from dotenv import load_dotenv
+        from portia.runner import Runner
+        from portia.config import default_config
+        from portia.open_source_tools.registry import example_tool_registry
 
-    # Create a Portia runner with the default config which uses Open AI, and with some example tools.
-    runner = Runner(config=default_config(), tool_registry=example_tool_registry)
-    # Run the test query and print the output!
-    workflow = runner.execute_query('add 1 + 2')
-    print(workflow.model_dump_json(indent=2))
-    ```
+        load_dotenv()
+
+        # Create a Portia runner with the default config which uses Open AI, and with some example tools.
+        runner = Runner(config=default_config(), tool_registry=example_tool_registry)
+        # Run the test query and print the output!
+        workflow = runner.execute_query('add 1 + 2')
+        print(workflow.model_dump_json(indent=2))
+        ```
     </TabItem>
     <TabItem value="anthropic" label="Anthropic">
         In your local `.env` file, set up your API key as an environment variable using `ANTHROPIC_API_KEY`.<br/>
