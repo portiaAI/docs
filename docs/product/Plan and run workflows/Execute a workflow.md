@@ -122,7 +122,7 @@ Every workflow has a unique `id` and relates to a unique `plan_id`. If you were 
 
 ## Workflow state changes
 As Portia cycles through a workflow, an agent is instantiated at every step and that agent will call the tool designated for that. The workflow state is enriched with step outputs at every step of the execution as well. Note that in this example the main tool used is the 'Search Tool' provided in this SDK in the `example_tool_registry`, and wraps around the Tavily API. We will discuss tools in more depth in the next section.
-You should be able to inspect the state changes for the above workflow in the logs when you run the code. Alternatively, feel free to cycle through them in the swanky animation below made on the brilliant <a href="www.snappify.com" target="_blank">**snappify.com ↗**</a>.
+You should be able to inspect the state changes for the above workflow in the logs when you run the code.
 <div style={{
   overflow: 'hidden',
   marginLeft: 'auto',
@@ -154,6 +154,10 @@ You should be able to inspect the state changes for the above workflow in the lo
     frameBorder="0"
   ></iframe>
 </div>
+:::note
+Animation above made on the brilliant <a href="https://snappify.com" target="_blank">**snappify.com ↗**</a>.
+:::
+
 
 
 
