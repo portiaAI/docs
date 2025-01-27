@@ -21,7 +21,7 @@ A plan is the set of steps an LLM thinks it should take in order to respond to a
 While Portia generates a plan in response to a user prompt and then executes it, you also have the option to create plans yourself manually using our plan design language. This is especially suitable for your users' more repeatable routines.
 
 ## Portia's plan design language
-Let's bring this one down by looking at an example plan below, created in response to the query `Send Avrana (avrana@kern.ai) the latest news on SpaceX`.
+Let's bring this one to life by looking at an example plan below, created in response to the query `Send Avrana (avrana@kern.ai) the latest news on SpaceX`.
 ```json title="plan.json"
 {
     "steps": [
@@ -64,9 +64,12 @@ When responding to a user's prompt with Portia, you can either chain the plan ge
 
 Let's look at how we generate a plan from a user prompt. Paste the code below into your project and run it (using `poetry run python3 main.py` in Poetry)
 ```python title="main.py"
+from dotenv import load_dotenv
 from portia.runner import Runner
 from portia.config import default_config
 from portia.open_source_tools.registry import example_tool_registry
+
+load_dotenv()
 
 # Instantiate a Portia runner. Load it with the default config and with the example tools.
 runner = Runner(config=default_config(), tool_registry=example_tool_registry)
