@@ -193,7 +193,7 @@ workflow = runner.execute_workflow(workflow)
 print(workflow.model_dump_json(indent=2))
 ```
 
-Here we are storing the `Plan` object returned by the `generate_plan` method and then using the `create_workflow` method to instantiate a workflow from it in the `NOT_STARTED` state. And finally we are launching that workflow execution using the equally uncontroversially named method `execute_workflow`.
+Here we are storing the `Plan` object returned by the `generate_plan` method and then using the `create_workflow` method to instantiate a workflow from it in the `NOT_STARTED` state. And finally we launch that workflow using the uncontroversially named method `execute_workflow`.
 
 ## Execute a workflow directly from a user query
 <details>
