@@ -19,6 +19,7 @@ Understand the different types of clarifications and how to use them.
 Portia introduces the concept of clarifications. An agent can raise a clarification during a workflow execution to pause it and solicit human input. This is important because:
 1. LLM-driven workflows can be brittle and unreliable e.g. if an input is missing the LLM may hallucinate it. Instead we allow you to pause the workflow and raise a clarification to the user so they can resolve the missing input for the LLM.
 2. During workflow execution, there may be tasks where your organisation's policies require explicit approvals from specific people e.g. allowing bank transfers over a certain amount. Clarifications allow you to define these conditions so the agent running a particular step knows when to pause the workflow and solicit input in line with your policies.
+3. More advanced use cases of clarifications also include hand off to a different part of your system based on certain conditions having been met. The structured nature of clarifications make this handoff easy to manage.
 
 When Portia encounters a clarification and pauses a workflow, it serialises and saves the latest workflow state. Once the clarification is handled, the obtained human input captured during clarification handling is added to the workflow state and the agent can resume step execution.
 
