@@ -21,7 +21,7 @@ Portia introduces the concept of clarifications. An agent can raise a clarificat
 2. During workflow execution, there may be tasks where your organisation's policies require explicit approvals from specific people e.g. allowing bank transfers over a certain amount. Clarifications allow you to define these conditions so the agent running a particular step knows when to pause the workflow and solicit input in line with your policies.
 3. More advanced use cases of clarifications also include hand off to a different part of your system based on certain conditions having been met. The structured nature of clarifications make this handoff easy to manage.
 
-When Portia encounters a clarification and pauses a workflow, it serialises and saves the latest workflow state. Once the clarification is handled, the obtained human input captured during clarification handling is added to the workflow state and the agent can resume step execution.
+When Portia encounters a clarification and pauses a workflow, it serialises and saves the latest workflow state. Once the clarification is resolved, the obtained human input captured during clarification handling is added to the workflow state and the agent can resume step execution.
 
 ![Clarifications at work](/img/clarifications_diagram.png)
 
@@ -34,11 +34,11 @@ We offer three categories of clarifications at the moment. You can see the prope
 - `response`: User's response to the clarification
 - `step`: Workflow step where this clarification was raised
 - `user_guidance`: Guidance provided to the user to explain the nature of the clarification
-- `handled`: Boolean of the clarification state
+- `resolved`: Boolean of the clarification state
 
 <Tabs>
     <TabItem value="action_clar" label="Action clarifications" default>
-    Action clarifications are useful when a user action is needed to complete a step e.g. clicking on an `action_url` to complete an authentication flow or to make a payment. You will need to have a way to receive a callback from such a flow in order to confirm whether the clarification was handled successfully.
+    Action clarifications are useful when a user action is needed to complete a step e.g. clicking on an `action_url` to complete an authentication flow or to make a payment. You will need to have a way to receive a callback from such a flow in order to confirm whether the clarification was resolved successfully.
     ```json title="action_clarification.json"
     {
         "uuid": b1c1e1c0-5c3e-9z22,
@@ -46,7 +46,7 @@ We offer three categories of clarifications at the moment. You can see the prope
         "response": “success”,
         "step": 1,
         "user_guidance": "Click here to authenticate",
-        "handled": true,
+        "resolved": true,
         "action_url": “https://accounts.google.com/o/oauth2/…”,
     }
     ```
@@ -60,7 +60,7 @@ We offer three categories of clarifications at the moment. You can see the prope
         "response": “avrana@kern.ai”,
         "step": 2, 
         "user_guidance": "Please provide me with Avrana's email address", 
-        "handled": true,
+        "resolved": true,
         "argument": "$avrana_email",
     }
     ```
@@ -74,7 +74,7 @@ We offer three categories of clarifications at the moment. You can see the prope
         "response": “ron_swanson@pawnee.com,
         "step": 2, 
         "user_guidance": "Please select a recipient.", 
-        "handled": true,
+        "resolved": true,
         "argument": "$recipient",
         "options": [
                 "ron_swanson@pawnee.com",
@@ -230,14 +230,14 @@ print(workflow.model_dump_json(indent=2))
 For this test to successfully trigger a clarification, make sure you don't have a `weather.txt` file in the same folder as your python file AND try to have a few copies of a `weather.txt` file sprinkled around in other folders of the project directory. This will ensure that the prompt triggers the multiple choice clarifications on the `filename` argument of the `FileReaderTool`. The tool call will return a `Clarification` object per changes made in the previous section and pause the workflow.<br/>
 The changes you need to make to enable this behaviour are as follows:
 1. Check if the state of the `Workflow` object returned by the `execute_query` method is `WorkflowState.NEED_CLARIFICATION`. This means the workflow paused before completion due to a clarification.
-2. Use the `get_outstanding_clarifications` method of the `Workflow` object to access all clarifications where `handled` is false.
+2. Use the `get_outstanding_clarifications` method of the `Workflow` object to access all clarifications where `resolved` is false.
 3. For each `Clarification`, surface the `user_guidance` to the relevant user and collect their input.
 4. Use the `runner.resolve_clarification` method to capture the user input in the `response` attribute of the relevant clarification. Because clarifications are part of the workflow state itself, this means that the workflow now captures the latest human input gathered and can be resumed with the new information.
 5. Once this is done you can resume the workflow using the `execute_workflow` method. We have seen this `Runner` method as a way to kick off a `Workflow` object after the `create_workflow` method. In fact `execute_workflow` can take a `Workflow` in any state as a parameter and will kick off that workflow from that current state. In this particular example, it resumes the workflow from the step where the clarifications were encountered.
 
 For the example query above `Read the contents of the file "weather.txt".`, where the user resolves the clarification by entering one of the options offered by the clarification (in this particular case `demo_runs/weather.txt` in our project directory `momo_sdk_tests`), you should see the following workflow state, nothing that:
 - The multiple choice clarification where the `user_guidance` was generated by Portia based on your clarification definition in the `FileReaderTool` class,
-- The `response` in the second workflow snapshot reflecting the user input, and the change in `handled` to `true` as a result
+- The `response` in the second workflow snapshot reflecting the user input, and the change in `resolved` to `true` as a result
 - The workflow `state` will appear to `NEED_CLARIFICATION` if you look at the logs at the point when the clarification is raised. It then progresses to `COMPLETE` once you respond to the clarification and the workflow is able to resume:
 ```json title="workflow_state.json"
 {
