@@ -25,7 +25,7 @@ import httpx
 from pydantic import BaseModel, Field
 from portia.errors import ToolHardError, ToolSoftError
 from portia.tool import Tool
-from portia.context import ExecutionContext
+from portia.execution_context import ExecutionContext
 
 
 class WeatherToolSchema(BaseModel):
@@ -92,7 +92,7 @@ Let's build two custom tools that allow an LLM to write / read content to / from
     import json
     from pydantic import BaseModel, Field
     from portia.tool import Tool
-    from portia.context import ExecutionContext
+    from portia.execution_context import ExecutionContext
 
 
     class FileReaderToolSchema(BaseModel):
@@ -136,7 +136,7 @@ Let's build two custom tools that allow an LLM to write / read content to / from
     from pathlib import Path
     from pydantic import BaseModel, Field
     from portia.tool import Tool
-    from portia.context import ExecutionContext
+    from portia.execution_context import ExecutionContext
 
 
     class FileWriterToolSchema(BaseModel):
@@ -242,7 +242,7 @@ import pandas as pd
 import json
 from pydantic import BaseModel, Field
 from portia.tool import Tool
-from portia.context import ExecutionContext
+from portia.execution_context import ExecutionContext
 # highlight-next-line
 from portia.errors import ToolHardError
 
