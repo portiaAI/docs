@@ -16,7 +16,7 @@ Access our library of tools and view logs of previous tool calls.
 
 In a previous section, we explored the `Tool` and `Tool_registry` abstractions. We used example tools that are included in the Portia SDK and we introduced custom tools (<a href="/extend-tool-definitions" target="_blank">**Extend your tool definitions ↗**</a>). 
 
-Portia also offers a cloud-hosted library of tools to save you development time. This typically covers popular public SaaS products like gSuite, Zendesk, Hubspot etc. You get a number of Portia tool calls for free when you sign-up to Portia cloud. You can find the ever-growing list of Portia tools in the next section (<a href="/portia-tools-catalogue" target="_blank">**Portia tool catalogue ↗**</a>). For more info on the pricing for our cloud offering, please visit our (<a href="https://www.porita.dev" target="_blank">**Pricing page ↗**</a>).  
+Portia also offers a cloud-hosted library of tools to save you development time. This typically covers popular public SaaS products like gSuite, Zendesk, Hubspot etc. You get a number of Portia tool calls for free when you sign-up to Portia cloud. You can find the ever-growing list of Portia tools in the next section (<a href="/portia-tools-catalogue" target="_blank">**Portia tool catalogue ↗**</a>). For more info on the pricing for our cloud offering, please visit our (<a href="https://www.portialabs.ai/pricing" target="_blank">**Pricing page ↗**</a>).  
 :::info[Request a tool]
 If there's a particular product you would like to see tools for in our library, do feel free to request it and we'll do our best to get it done! (<a href="https://tally.so/r/wzWAAg" target="_blank">**Request a tool ↗**</a>).
 :::
@@ -77,7 +77,7 @@ Your workflow will pause and you should see the link in the logs like so
 ...
 ```bash
 OAuth required -- Please click on the link below to proceed.
-https://github.com/login/oauth/authorize/?redirect_uri=https%3A%2F%2Fapi.porita.dev%2Fapi%2Fv0%2Foauth%2Fgithub%2F&client_id=Ov23liXuuhY9MOePgG8Q&scope=public_repo+starring&state=APP_NAME%3Dgithub%253A%253Agithub%26WORKFLOW_ID%3Daa6019e1-0bde-4d76-935d-b1a64707c64e%26ORG_ID%3Dbfc2c945-4c8a-4a02-847a-1672942e8fc9%26CLARIFICATION_ID%3D9e6b8842-dc39-40be-a298-900383dd5e9e%26SCOPES%3Dpublic_repo%2Bstarring&response_type=code
+https://github.com/login/oauth/authorize/?redirect_uri=https%3A%2F%2Fapi.portialabs.ai%2Fapi%2Fv0%2Foauth%2Fgithub%2F&client_id=Ov23liXuuhY9MOePgG8Q&scope=public_repo+starring&state=APP_NAME%3Dgithub%253A%253Agithub%26WORKFLOW_ID%3Daa6019e1-0bde-4d76-935d-b1a64707c64e%26ORG_ID%3Dbfc2c945-4c8a-4a02-847a-1672942e8fc9%26CLARIFICATION_ID%3D9e6b8842-dc39-40be-a298-900383dd5e9e%26SCOPES%3Dpublic_repo%2Bstarring&response_type=code
 ```
 
 In your logs you should be able to see the tools, as well as a plan and final workflow state similar to the output below. Note again how the planner weaved tools from both the cloud and the example registry.

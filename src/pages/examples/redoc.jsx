@@ -5,7 +5,7 @@ import BrowserOnly from "@docusaurus/BrowserOnly";
 // ClientOnly is a client side rendered redoc
 function ClientOnly() {
   const get_redoc_url = (current_url) => {
-    return "https://api.porita.dev/swagger/?format=openapi";
+    return "https://api.portialabs.ai/swagger/?format=openapi";
   };
   return (
     <BrowserOnly>
