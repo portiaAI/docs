@@ -108,7 +108,7 @@ import pandas as pd
 import json
 from pydantic import BaseModel, Field
 from portia.tool import Tool
-from portia.context import ExecutionContext
+from portia.execution_context import ExecutionContext
 from portia.errors import ToolHardError
 # highlight-next-line
 from portia.clarification import MultipleChoiceClarification
