@@ -1,15 +1,18 @@
 ---
-sidebar_position: 2
+sidebar_position: 3
 slug: /store-retrieve-workflows
 ---
 
-# Store and retrieve workflow states
+# Workflow states on Portia cloud
 Use our workflow service to save and retrieve serialised workflow states on our cloud.
 
 Storing and retrieving workflows on Portia cloud significantly simplifies the management of long lived and / or asynchronous workflows. For example when a clarification is raised, the state of the workflow is automatically maintained in the Portia cloud and retrieving the workflow once the clarification is handled is a single line of code.
 
+
 <details>
-<summary>**OpenWeatherMap API key required**</summary>
+<summary>**API keys required**</summary>
+
+We're assuming you already have a Portia API key from the dashboard and set it in your environment variables. If not please refer to the previous section and do that first (<a href="/setup-account" target="_blank">**Set up your account ↗**</a>).
 
 We will use a simple GET endpoint from OpenWeatherMap in this section. Please sign up to obtain an API key from them (<a href="https://home.openweathermap.org/users/sign_in" target="_blank">**↗**</a>) and set it in the environment variable `OPENWEATHERMAP_API_KEY`.
 
@@ -30,7 +33,7 @@ load_dotenv()
 # Load the default config and override the storage class to point to the Portia cloud
 my_config = Config.from_default(storage_class=StorageClass.CLOUD)
 
-# Instantiate a Portia runner. Load it with the default config and with the simple tool above.
+# Instantiate a Portia runner. Load it with the default config and an example tool registry
 runner = Runner(config=my_config, tool_registry=example_tool_registry)
 
 # Execute a workflow from the user query

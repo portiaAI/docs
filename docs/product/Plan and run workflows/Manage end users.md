@@ -1,5 +1,5 @@
 ---
-sidebar_position: 6
+sidebar_position: 4
 slug: /manage-end-users
 ---
 
@@ -8,11 +8,11 @@ import TabItem from '@theme/TabItem';
 
 # Handle multiple end users
 
-Pass end user specific context to Portia
+How to pass end user specific context to Portia.
 
 :::tip[TL;DR]
-The `Context` class can be used to enrich your `Runner` with pertinent information about the execution context:
-- `end_user_id` in your `Context` object uniquely represents the end user in your system e.g. an internal ID or an email address.
+The `ExecutionContext` class can be used to enrich your `Runner` with pertinent information about the execution context:
+- `end_user_id` in your `ExecutionContext` object uniquely represents the end user in your system e.g. an internal ID or an email address.
 - `additional_data` can be used to pass user specific info that may be relevant to the response such as title and department. It can also be used to pass execution context specific info e.g. related to the app through which the query was submitted to Portia (e.g. a Slack thread ID).
 - Providing an execution context to the `Runner` is optional. It's mostly relevant when you want end user level traceability.
 :::
@@ -53,7 +53,7 @@ with execution_context(end_user_id="DemoUser123", additional_data={"email_addres
 print(workflow.model_dump_json(indent=2))
 ```
 
-The result of this code block will be the addition of an `execution_context` section within the `Workflow` state, and a `final_output` that is indeed personalised to Saint Nicholas:
+The result of this code block will be the addition of an `execution_context` section within the `Workflow` state, and a `final_output` that is indeed personalised to Saint Nicholas (known by his stage name Santa Claus):
 ```json title="workflow_state.json"
 {
   "id": "d9991518-92d7-447f-bf28-4f7b9b8110ce",
@@ -93,10 +93,10 @@ Running `with execution_context` like this will:
 - Persist the `end_user_id` and `additional_data` as part of the `Workflow` as you saw in the output above:
     - You can use this information for granular usage traceability. if using Portia Cloud, you will be able to see and filter stored workflows down to specific end users (via SDK or in the Dashboard).
     - You may want to persist the `end_user_id` on your side and use it consistently when interacting with Portia to uniquely identify the end user across workflows. This may also be useful if you build authenticated tools with reusable oauth tokens, so that you can maintain the user association and leverage the tokens' reusability.
-    - Some Portia cloud tools are Oauth-based. For those tools, we store oauth tokens for reusability if and only if an `end_user_id` was passed with the workflow during which the tokens were created. During any subsequent workflow using this same `end_user_id`, we will be able to identify reusable tokens and leverage those for the relevant tool calls if needed (<a href="/extend-tool-definitions" target="_blank">**Run Portia tools ↗**</a>). .
+    - Some Portia cloud tools are Oauth-based. For those tools, we store oauth tokens for reusability if and only if an `end_user_id` was passed with the workflow during which the tokens were created. During any subsequent workflow using this same `end_user_id`, we will be able to identify reusable tokens and leverage those for the relevant tool calls if needed (<a href="/run-portia-tools" target="_blank">**Run Portia tools ↗**</a>). .
 
 :::info[On persisting execution context]
-A `Workflow` object inherits the `Context` with which it was created as we have seen from the output above. Whenever such a workflow is resumed it will by default resume with this execution context persisted within it. You may choose to override this execution context with a `with execution_context({new execution context here})` when resuming
+A `Workflow` object inherits the `ExecutionContext` with which it was created as we have seen from the output above. Whenever such a workflow is resumed it will by default resume with this execution context persisted within it. You may choose to override this execution context with a `with execution_context({new execution context here})` when resuming
 ```python
 ...
 # if we want to resume the workflow with a new execution context, we can override it
