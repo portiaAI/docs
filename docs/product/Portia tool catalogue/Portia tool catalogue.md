@@ -7,13 +7,12 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 # Portia tool catalogue
-Here you will find a catalogue of our cloud-hosted tools.
-Click on the shortcuts in the table of contents on the right-hand side of your screen to get to a specific tool provider.<br/>We'll do our best to keep this page up-to-date but as a fail-safe, you can always use the utilities below to explore our cloud tools. 
-
-:::tip[Request a tool]
-We’re working hard to offer you tools off the shelf in the cloud. If you have a pressing need for a tool we don't support yet please let us know by filling this form :pray:
-(<a href="https://tally.so/r/wzWAAg" target="_blank">**Request a tool ↗**</a>).
+Portia offers a cloud-hosted library of tools to save you development time. This typically covers popular public SaaS products like gSuite, Zendesk, Hubspot etc. You get a number of Portia tool calls for free when you sign-up to Portia cloud. You can find the ever-growing list of Portia tools on this page. For more info on the pricing for our cloud offering, please visit our (<a href="https://www.portialabs.ai/pricing" target="_blank">**Pricing page ↗**</a>).  
+:::info[Request a tool]
+If there's a particular product you would like to see tools for in our library, do feel free to request it and we'll do our best to get it done! (<a href="https://tally.so/r/wzWAAg" target="_blank">**Request a tool ↗**</a>).
 :::
+
+Click on the shortcuts in the table of contents on the right-hand side of your screen to get to a specific tool provider. We'll do our best to keep this page up-to-date but as a fail-safe, you can always use the utilities below to explore our cloud tools.
 
 <Tabs>
     <TabItem value="all_tools" label="Get all live Portia cloud tools">
