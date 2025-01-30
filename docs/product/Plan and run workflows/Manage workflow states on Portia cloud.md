@@ -18,7 +18,7 @@ We will use a simple GET endpoint from OpenWeatherMap in this section. Please si
 
 </details>
 
-### Store workflows in the cloud
+## Store workflows in the cloud
 We have seen how to configure the location where workflows are stored and retrieved previously (<a href="/manage-config" target="_blank">**Manage config options ↗**</a>). We can simply set the `storage_class` property to `CLOUD` in the config of our `Runner`. 
 With this config and as long as the API key has been set up appropriately as described in the previous section (<a href="/setup-account" target="_blank">**Set up your account ↗**</a>), you should see workflows executed by your `Runner` appear in the `Workflows` tab of your Portia dashboard and see a change in the aggregate workflow metrics in the Home page as well.
 
@@ -44,7 +44,7 @@ print(workflow.model_dump_json(indent=2))
 ```
 Take a moment to examine the workflow created by the code above in your dashboard. To do so you will need the workflow ID, appearing in the first attribute of the output e.g. `"id": "f66b141b-5603-4bd9-b827-0c7a41bf5d5c"`.
 
-### Retrieve workflows from the cloud
+## Retrieve workflows from the cloud
 You can retrieve both workflow states and plans for a stored workflow. For that you would use the `get_workflow` and `get_plan` methods of the `Storage` class. You will need to specify the `PortiaCloudStorage` class in particular here. Go ahead and copy your workflow ID from the dashboard entry created in the previous section into the code below.
 ```python title="main.py"
 from dotenv import load_dotenv

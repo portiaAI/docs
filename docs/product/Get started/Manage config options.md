@@ -30,7 +30,7 @@ The `Config` class (<a href="/SDK/portia/config" target="_blank">**SDK reference
 You can control where you store and retrieve workflow states using the `storage_class` property in the `Config` class (<a href="/SDK/portia/config" target="_blank">**SDK reference ↗**</a>), which is an ENUM accessible from the `StorageClass` class:
 - `MEMORY` allows you to use working memory (default).
 - `DISK` allows you to use local storage. You will need to set the `storage_dir` appropriately (defaults to the project's root directory).
-- `CLOUD` uses the Portia cloud (<a href="/use-portia-cloud" target="_blank">**How to use Portia cloud ↗**</a>).
+- `CLOUD` uses the Portia cloud (<a href="/store-retrieve-workflows" target="_blank">**Use Portia cloud ↗**</a>).
 
 ## Manage logging
 You can control logging behaviour with the following `Config` properties (<a href="/SDK/portia/config" target="_blank">**SDK reference ↗**</a>):
