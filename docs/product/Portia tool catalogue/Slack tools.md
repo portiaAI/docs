@@ -1,124 +1,18 @@
 ---
-sidebar_position: 1
-slug: /portia-tools-catalogue
+sidebar_position: 6
+slug: /slack-tools
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Portia tool catalogue
-Portia offers both open source tools as well as a cloud-hosted library of tools to save you development time. You can dig into the specs of those tools in our open source repo (<a href="https://github.com/portiaAI/portia-sdk-python/tree/main/portia/open_source_tools" target="_blank">**SDK repo ↗**</a>).
-
-The cloud tools typically covers popular public SaaS products like gSuite, Zendesk, Hubspot etc. You get a number of Portia tool calls for free when you sign-up to Portia cloud. You can find the ever-growing list of Portia tools on this page. For more info on the pricing for our cloud offering, please visit our (<a href="https://www.portialabs.ai/pricing" target="_blank">**Pricing page ↗**</a>).  
-:::info[Request a tool]
-If there's a particular product you would like to see tools for in our library, do feel free to request it and we'll do our best to get it done! (<a href="https://tally.so/r/wzWAAg" target="_blank">**Request a tool ↗**</a>).
-:::
-
-<Tabs>
-    <TabItem value="all_tools" label="Get all live Portia cloud tools">
-    Run the following code to return a nicely formatted panda data frame of our cloud tools:
-    ```python
-    from dotenv import load_dotenv
-    import pandas as pd
-    from portia.tool_registry import PortiaToolRegistry
-    from portia.config import default_config
-
-    load_dotenv()
-
-    # Initialise the tool registry
-    portia_tool_registry = PortiaToolRegistry(default_config())
-
-    # Collect tool data into a list
-    tools_data = []
-    for tool in portia_tool_registry.get_tools():
-        tools_data.append(tool.model_dump())
-
-    # Convert the list of dictionaries to a DataFrame and print
-    tools_df = pd.DataFrame(tools_data)
-    print(tools_df)
-    ```
-    </TabItem>
-    <TabItem value="single_tool" label="Explore a single tool by ID">
-    The tables below are admittedly difficult to glean on smaller screens so if you'd like to explore a specific tool, put in the ID of the tool you're interested in from the table below into this handy code snippet:
-    ```python
-    import json
-    from dotenv import load_dotenv
-    from portia.tool_registry import PortiaToolRegistry
-    from portia.config import default_config
-
-    load_dotenv()
-
-    # Initialise the tool registry
-    portia_tool_registry = PortiaToolRegistry(default_config())
-
-    # Get tool schema
-    # highlight-next-line
-    target_tool_id = "target tool id here e.g. portia::list_github_repos_tool"
-    single_tool = portia_tool_registry.get_tool(target_tool_id)
-    print(f"Tool schema:\n{single_tool.model_dump_json(indent=2)}\n")
-
-    # Get args schema of the tool
-    args_schema = single_tool.args_schema.model_json_schema().get('properties', {})
-    print(f"Tool args schema: {json.dumps(args_schema, indent=2)}\n")
-    ```
-    </TabItem>
-</Tabs>
+# Slack tools
 
 ## How Oauth works
 All Portia tools using API endpoints that require Oauth are built with plug and play authentication support. They use Portia client credentials including client ID, client name and redirect URL. Such tools will raise a `Action Clarification` with an Oauth link as the action URL. The `runner.wait_for_ready()` method must be used in this scenario: Portia's Oauth server will listen for the authentication result and resolve the concerned clarification, allowing your workflow to resume again.
 
 For more on this, please visit to the section on running Portia tools (<a href="/run-portia-tools" target="_blank">**↗**</a>). 
 
-## Portia Company Search By Name Tool
-**Tool ID:** portia::company_search_by_name_tool<br/>**Tool description:** Searches for company details and persons of significant control from Companies House API by company name.<br/>**Usage notes:**<br/><br/>**Output schema:** <pre><code>[<br/>  Portia_Company_Search_By_Name_Tool(company_name: 'string') -> json,<br/>  json: Details of the company<br/>]</code></pre>**Args schema:** <pre><code>\{<br/>  "name": "company_name",<br/>  "type": "string",<br/>  "description": "Company name to search"<br/>\}</code></pre>
-## Portia Company Search By Number Tool
-**Tool ID:** portia::company_search_by_number_tool<br/>**Tool description:** Searches for company details and persons of significant control from Companies House API by company number.<br/>**Usage notes:**<br/><br/>**Output schema:** <pre><code>[<br/>  Portia_Company_Search_By_Number_Tool() -> json,<br/>  json: Details of the company<br/>]</code></pre>**Args schema:** <pre><code>\{<br/>  "name": "company_number",<br/>  "type": "unknown",<br/>  "description": "Company number to search"<br/>\}</code></pre>
-## Portia Company PSCs Tool
-**Tool ID:** portia::company_search_psc_tool<br/>**Tool description:** Searches for persons of significant control in a company from Companies House API.<br/>**Usage notes:**<br/><br/>**Output schema:** <pre><code>[<br/>  Portia_Company_PSCs_Tool() -> json,<br/>  json: Exchange rate details for the currencies<br/>]</code></pre>**Args schema:** <pre><code>\{<br/>  "name": "company_name",<br/>  "type": "unknown",<br/>  "description": "Company name to search"<br/>\},<br/>\{<br/>  "name": "company_number",<br/>  "type": "unknown",<br/>  "description": "Company number to search"<br/>\}</code></pre>
-## Portia Company Lookup Tool
-**Tool ID:** portia::company_rating_tool<br/>**Tool description:** Looks up company details based on a stock market code and returns the         company rating. The tool uses the Financial Modeling Prep API and returns that object as             a string.<br/>**Usage notes:**<br/><br/>**Output schema:** <pre><code>[<br/>  Portia_Company_Lookup_Tool(market_code: 'string') -> json,<br/>  Single object containing company ratings from different sources<br/>]</code></pre>**Args schema:** <pre><code>\{<br/>  "name": "market_code",<br/>  "type": "string",<br/>  "description": "The market code of the company (e.g., AAPL for Apple)."<br/>\}</code></pre>
-## Portia Foreign Exchange Rate Tool
-**Tool ID:** portia::foreign_exchange_rate_tool<br/>**Tool description:** Looks up foreign exchange rates based on the currencies provided and         returns the exchange rate. The tool uses the Financial Modeling Prep API and returns that             object as a string.<br/>**Usage notes:**<br/><br/>**Output schema:** <pre><code>[<br/>  Portia_Foreign_Exchange_Rate_Tool(from_currency: 'string', to_currency: 'string') -> json,<br/>  json: Exchange rate details for the currencies<br/>]</code></pre>**Args schema:** <pre><code>\{<br/>  "name": "from_currency",<br/>  "type": "string",<br/>  "description": "The currency to convert from. (e.g., GBP for British Pound)."<br/>\},<br/>\{<br/>  "name": "to_currency",<br/>  "type": "string",<br/>  "description": "The currency to convert to. (e.g., EUR for Euro)."<br/>\}</code></pre>
-## Portia List GitHub Repositories
-**Tool ID:** portia::list_github_repos_tool<br/>**Tool description:** Lists all public repositories for a GitHub organization.<br/>**Usage notes:**<br/><br/>**Output schema:** <pre><code>[<br/>  Portia_List_GitHub_Repositories(org: 'string') -> list,<br/>  A list of public repositories.<br/>]</code></pre>**Args schema:** <pre><code>\{<br/>  "name": "org",<br/>  "type": "string",<br/>  "description": "The organization name."<br/>\}</code></pre>
-## Portia Search GitHub Repositories
-**Tool ID:** portia::search_github_repos_tool<br/>**Tool description:** Searches all public repositories for a specific term.<br/>**Usage notes:**<br/><br/>**Output schema:** <pre><code>[<br/>  Portia_Search_GitHub_Repositories(search_term: 'string') -> list,<br/>  A list of public repositories that match.<br/>]</code></pre>**Args schema:** <pre><code>\{<br/>  "name": "search_term",<br/>  "type": "string",<br/>  "description": "The term to search for."<br/>\}</code></pre>
-## Portia Star GitHub Repository
-**Tool ID:** portia::star_github_repo_tool<br/>**Tool description:** Stars a GitHub repository.<br/>**Usage notes:**<br/><br/>**Output schema:** <pre><code>[<br/>  Portia_Star_GitHub_Repository(repo: 'string') -> str,<br/>  A string indicating successful starring<br/>]</code></pre>**Args schema:** <pre><code>\{<br/>  "name": "repo",<br/>  "type": "string",<br/>  "description": "The repository to star in the form organization/repository.For example: PortiaAI/portia-sdk-python"<br/>\}</code></pre>
-## Portia Google Calendar Check Availability Tool
-**Tool ID:** portia::google_calendar_check_availability_tool<br/>**Tool description:** Checks the availability of this authenticated user for a given time range. DO NOT use this to validate availability of people the user wants to meet with. DO NOT use this unless the user specifically asks for availability checking, e.g by saying 'find when I am free', or 'check my availability'. Either the day or start_time must be provided. You should provide the end_time if one is specifically mentioned.<br/>**Usage notes:**<br/><br/>**Output schema:** <pre><code>[<br/>  Portia_Google_Calendar_Check_Availability_Tool(email: 'string') -> list[dict[str, str]],<br/>  Returns a list of times when the user is busy.<br/>]</code></pre>**Args schema:** <pre><code>\{<br/>  "name": "email",<br/>  "type": "string",<br/>  "description": "Email address to check availability for"<br/>\},<br/>\{<br/>  "name": "start_time",<br/>  "type": "unknown",<br/>  "description": "Start time to check availability in ISO format, e.g 2024-09-20T20:00:00Z"<br/>\},<br/>\{<br/>  "name": "end_time",<br/>  "type": "unknown",<br/>  "description": "End time to check availability in ISO format, can be omitted e.g 2024-09-20T20:00:00Z"<br/>\},<br/>\{<br/>  "name": "day",<br/>  "type": "unknown",<br/>  "description": "The day to check availability for in ISO format, e.g 2024-09-20."<br/>\}</code></pre>
-## Portia Google Calendar Create Event Tool
-**Tool ID:** portia::google_calendar_create_event_tool<br/>**Tool description:** Creates a Google Calendar event. DO NOT call portia::google_calendar_check_availability_tool before using this tool, unless the user explicitly asks you to check their availability.<br/>**Usage notes:**<br/><br/>**Output schema:** <pre><code>[<br/>  Portia_Google_Calendar_Create_Event_Tool(event_title: 'string', start_time: 'string', end_time: 'string', event_description: 'string', attendees: 'array') -> dict,<br/>  dict: Output of the tool<br/>]</code></pre>**Args schema:** <pre><code>\{<br/>  "name": "event_title",<br/>  "type": "string",<br/>  "description": "The title of the calendar event"<br/>\},<br/>\{<br/>  "name": "start_time",<br/>  "type": "string",<br/>  "description": "The start time of the event in ISO format, e.g 2024-09-20T20:00:00Z"<br/>\},<br/>\{<br/>  "name": "end_time",<br/>  "type": "string",<br/>  "description": "The end time of the event in ISO format, e.g 2024-09-20T20:00:00Z"<br/>\},<br/>\{<br/>  "name": "event_description",<br/>  "type": "string",<br/>  "description": "The description of the event"<br/>\},<br/>\{<br/>  "name": "attendees",<br/>  "type": "array",<br/>  "description": "List of attendees' email addresses"<br/>\}</code></pre>
-## Portia Google Calendar Delete Event Tool
-**Tool ID:** portia::google_calendar_delete_event_tool<br/>**Tool description:** Deletes the Google Calendar event associated with the ID.<br/>**Usage notes:**<br/><br/>**Output schema:** <pre><code>[<br/>  Portia_Google_Calendar_Delete_Event_Tool(event_id: 'string') -> dict,<br/>  dict: Output of the tool<br/>]</code></pre>**Args schema:** <pre><code>\{<br/>  "name": "event_id",<br/>  "type": "string",<br/>  "description": "The ID of the event to delete"<br/>\}</code></pre>
-## Portia Google Calendar Get Events Details Tool
-**Tool ID:** portia::google_calendar_get_event_details_tool<br/>**Tool description:** Gets Google Calendar event using an event ID.<br/>**Usage notes:**<br/><br/>**Output schema:** <pre><code>[<br/>  Portia_Google_Calendar_Get_Events_Details_Tool(event_id: 'string') -> dict,<br/>  A dictionary containing information about a single calendar event<br/>]</code></pre>**Args schema:** <pre><code>\{<br/>  "name": "event_id",<br/>  "type": "string",<br/>  "description": "The event details to retrieve"<br/>\}</code></pre>
-## Portia Google Calendar Get Events By Properties Tool
-**Tool ID:** portia::google_calendar_get_events_by_properties_tool<br/>**Tool description:** Gets Google Calendar events by properties, returning the matching event details. You do not need to provide all the properties, only the ones you have provided with.<br/>**Usage notes:**<br/><br/>**Output schema:** <pre><code>[<br/>  Portia_Google_Calendar_Get_Events_By_Properties_Tool(event_title: 'string', event_description: 'string', attendees: 'array', max_results: 'integer') -> list[dict],<br/>  A list of dictionaries containing information about matching calendar events<br/>]</code></pre>**Args schema:** <pre><code>\{<br/>  "name": "event_title",<br/>  "type": "string",<br/>  "description": "The title of the event to get"<br/>\},<br/>\{<br/>  "name": "start_time",<br/>  "type": "unknown",<br/>  "description": "The earliest time of the events to get in ISO format, e.g 2024-09-20T20:00:00Z"<br/>\},<br/>\{<br/>  "name": "end_time",<br/>  "type": "unknown",<br/>  "description": "The latest time of the events to get in ISO format, e.g 2024-09-20T20:00:00Z"<br/>\},<br/>\{<br/>  "name": "event_description",<br/>  "type": "string",<br/>  "description": "The description of the events to get"<br/>\},<br/>\{<br/>  "name": "attendees",<br/>  "type": "array",<br/>  "description": "The attendees' of the events to get"<br/>\},<br/>\{<br/>  "name": "max_results",<br/>  "type": "integer",<br/>  "description": "The maximum number of events to return"<br/>\}</code></pre>
-## Portia Google Calendar Modify Event Tool
-**Tool ID:** portia::google_calendar_modify_event_tool<br/>**Tool description:** Modifies an existing Google Calendar event. You must provide the event ID to modify, and can optionally provide new values if desired for the title, start time, end time, description, and attendees.<br/>**Usage notes:**<br/><br/>**Output schema:** <pre><code>[<br/>  Portia_Google_Calendar_Modify_Event_Tool(event_id: 'string') -> dict,<br/>  dict: Output of the tool<br/>]</code></pre>**Args schema:** <pre><code>\{<br/>  "name": "event_id",<br/>  "type": "string",<br/>  "description": "The ID of the event to modify, likely retrieved from portia::google_calendar_get_events_by_properties_tool"<br/>\},<br/>\{<br/>  "name": "event_title",<br/>  "type": "unknown",<br/>  "description": "The new title of the calendar event"<br/>\},<br/>\{<br/>  "name": "start_time",<br/>  "type": "unknown",<br/>  "description": "The new start time in ISO format, e.g 2024-09-20T20:00:00Z"<br/>\},<br/>\{<br/>  "name": "end_time",<br/>  "type": "unknown",<br/>  "description": "The new end time in ISO format, e.g 2024-09-20T20:00:00Z"<br/>\},<br/>\{<br/>  "name": "event_description",<br/>  "type": "unknown",<br/>  "description": "The new description of the event"<br/>\},<br/>\{<br/>  "name": "attendees",<br/>  "type": "unknown",<br/>  "description": "New list of attendees email addresses"<br/>\}</code></pre>
-## Portia Google Docs Get Document Tool
-**Tool ID:** portia::google_docs_get_document_tool<br/>**Tool description:** Get a document from Google Docs.<br/>**Usage notes:**<br/><br/>**Output schema:** <pre><code>[<br/>  Portia_Google_Docs_Get_Document_Tool(document_id: 'string') -> dict,<br/>  dict: Containing information about the document. Includes title, a structured body and other metadata like file type<br/>]</code></pre>**Args schema:** <pre><code>\{<br/>  "name": "document_id",<br/>  "type": "string",<br/>  "description": "The ID of the document to get. It can contain letters, numbers, and some special characters."<br/>\}</code></pre>
-## Portia Google Drive Search Tool
-**Tool ID:** portia::google_drive_search_tool<br/>**Tool description:** Search for files in Google Drive.<br/>**Usage notes:**<br/><br/>**Output schema:** <pre><code>[<br/>  Portia_Google_Drive_Search_Tool(query: 'string') -> dict,<br/>  dict: Dictionary containing the results of the Google Drive search. Each file result includes metadata like name, id, mimeType and more.<br/>]</code></pre>**Args schema:** <pre><code>\{<br/>  "name": "query",<br/>  "type": "string",<br/>  "description": "The query to search for."<br/>\},<br/>\{<br/>  "name": "mime_type",<br/>  "type": "unknown",<br/>  "description": "The MIME type of the files to search for. Use this if you want to search for files with a specific type of file or file extension. For example, 'application/pdf' or 'pdf'. Uses RFC 6838 standard for MIME types."<br/>\},<br/>\{<br/>  "name": "shared_with_me_by",<br/>  "type": "unknown",<br/>  "description": "The email address of the user who shared the files with me."<br/>\}</code></pre>
-## Portia Draft Email Tool
-**Tool ID:** portia::draft_email_tool<br/>**Tool description:** Drafts an email for the recipients indicated. Should not be used with the send email tool.Instead to send a draft email use the send_draft_email_tool.<br/>**Usage notes:**<br/><br/>**Output schema:** <pre><code>[<br/>  Portia_Draft_Email_Tool(recipients: 'array', email_title: 'string', email_body: 'string') -> dict,<br/>  dict: Output of the email drafted<br/>]</code></pre>**Args schema:** <pre><code>\{<br/>  "name": "recipients",<br/>  "type": "array",<br/>  "description": "The recipients that the email should be drafted for (should be a list of email addresses)"<br/>\},<br/>\{<br/>  "name": "email_title",<br/>  "type": "string",<br/>  "description": "The title of the email draft"<br/>\},<br/>\{<br/>  "name": "email_body",<br/>  "type": "string",<br/>  "description": "The body of the email draft"<br/>\}</code></pre>
-## Portia Search Email Tool
-**Tool ID:** portia::search_email_tool<br/>**Tool description:** Searches for emails in the user's inbox.<br/>**Usage notes:**<br/><br/>**Output schema:** <pre><code>[<br/>  Portia_Search_Email_Tool(query: 'string') -> dict,<br/>  dict: The email search results. These provide limited metadata for fetching full details of the emails (just message ID and thread ID).<br/>]</code></pre>**Args schema:** <pre><code>\{<br/>  "name": "query",<br/>  "type": "string",<br/>  "description": "The query to search for emails. This supports Gmail search syntax (e.g. 'from:jane@example.com' or 'subject:meeting')."<br/>\}</code></pre>
-## Portia Send Draft Email Tool
-**Tool ID:** portia::send_draft_email_tool<br/>**Tool description:** Sends a previously drafted email with the email title, body and recipientsindicated in the draft. Required a draft id which is obtained from the DraftEmailTool.<br/>**Usage notes:**<br/><br/>**Output schema:** <pre><code>[<br/>  Portia_Send_Draft_Email_Tool(draft_id: 'string') -> str,<br/>  str: ID of the email sent<br/>]</code></pre>**Args schema:** <pre><code>\{<br/>  "name": "draft_id",<br/>  "type": "string",<br/>  "description": "The id of the draft email as returned by the DraftEmailTool tool"<br/>\}</code></pre>
-## Portia Send Email Tool
-**Tool ID:** portia::send_email_tool<br/>**Tool description:** Sends an email to the recipients indicated. Should not be used with the draft email tool.<br/>**Usage notes:**<br/><br/>**Output schema:** <pre><code>[<br/>  Portia_Send_Email_Tool(recipients: 'array', email_title: 'string', email_body: 'string') -> dict,<br/>  dict: Output of the email sent<br/>]</code></pre>**Args schema:** <pre><code>\{<br/>  "name": "recipients",<br/>  "type": "array",<br/>  "description": "The recipients that the email should be sent to (should be a list of email addresses)"<br/>\},<br/>\{<br/>  "name": "email_title",<br/>  "type": "string",<br/>  "description": "The title of the email to be sent"<br/>\},<br/>\{<br/>  "name": "email_body",<br/>  "type": "string",<br/>  "description": "The body of the email to be sent"<br/>\}</code></pre>
-## Portia Google People Search Contacts Tool
-**Tool ID:** portia::google_people_search_contacts_tool<br/>**Tool description:** Finds the most relevant matching contacts.<br/>**Usage notes:**<br/><br/>**Output schema:** <pre><code>[<br/>  Portia_Google_People_Search_Contacts_Tool(search_term: 'string') -> dict[str, list[dict[str,str]]],<br/>  A list of contacts<br/>]</code></pre>**Args schema:** <pre><code>\{<br/>  "name": "search_term",<br/>  "type": "string",<br/>  "description": "The term to search for in the contacts"<br/>\}</code></pre>
-## Portia Google Sheets Get Spreadsheet Tool
-**Tool ID:** portia::google_sheets_get_spreadsheet_tool<br/>**Tool description:** Get a spreadsheet from Google Sheets.<br/>**Usage notes:**<br/><br/>**Output schema:** <pre><code>[<br/>  Portia_Google_Sheets_Get_Spreadsheet_Tool(spreadsheet_id: 'string') -> dict,<br/>  dict: Information about the spreadsheet. This is a structured response with a hierarchy including sheets and cells.<br/>]</code></pre>**Args schema:** <pre><code>\{<br/>  "name": "spreadsheet_id",<br/>  "type": "string",<br/>  "description": "The ID of the spreadsheet to get."<br/>\}</code></pre>
-## Portia Google Sheets Get Values for Spreadsheet Tool
-**Tool ID:** portia::google_sheets_get_values_for_spreadsheet_tool<br/>**Tool description:** Get values or content for a spreadsheet from Google Sheets.<br/>**Usage notes:**<br/><br/>**Output schema:** <pre><code>[<br/>  Portia_Google_Sheets_Get_Values_for_Spreadsheet_Tool(spreadsheet_id: 'string', range: 'string') -> dict,<br/>  dict: Information about the spreadsheet. This is a structured response that contains the values of the cells in the spreadsheet.<br/>]</code></pre>**Args schema:** <pre><code>\{<br/>  "name": "spreadsheet_id",<br/>  "type": "string",<br/>  "description": "The ID of the spreadsheet to get."<br/>\},<br/>\{<br/>  "name": "range",<br/>  "type": "string",<br/>  "description": "The range of the spreadsheet to get."<br/>\}</code></pre>
-## Portia Weather Tool
-**Tool ID:** portia::weather_tool<br/>**Tool description:** Get the weather for a given city<br/>**Usage notes:**<br/><br/>**Output schema:** <pre><code>[<br/>  Portia_Weather_Tool(city: 'string') -> str,<br/>  String output of the weather with temp and city<br/>]</code></pre>**Args schema:** <pre><code>\{<br/>  "name": "city",<br/>  "type": "string",<br/>  "description": "The city to get the weather for"<br/>\}</code></pre>
-## Portia Retail Price Lookup Tool
-**Tool ID:** portia::retail_price_lookup_tool<br/>**Tool description:** Looks up offers for a product at a given online retailer and returns the price and other details. The tool uses PriceAPI and returns a list of offers in a JSON object. Retailers include Google Shopping, Amazon etc.<br/>**Usage notes:**<br/><br/>**Output schema:** <pre><code>[<br/>  Portia_Retail_Price_Lookup_Tool(product_search_term: 'string', retailer: 'string') -> list,<br/>  list of json objects sorted by relevance containing shop name, price and currency<br/>]</code></pre>**Args schema:** <pre><code>\{<br/>  "name": "product_search_term",<br/>  "type": "string",<br/>  "description": "The search term to look for a product."<br/>\},<br/>\{<br/>  "name": "retailer",<br/>  "type": "string",<br/>  "description": "The retailer to search for product offers on."<br/>\}</code></pre>
 ## Portia Send Slack Message
 **Tool ID:** portia::send_slack_message<br/>**Tool description:** Send a message to a specific Slack channel.<br/>**Usage notes:**<br/><br/>**Output schema:** <pre><code>[<br/>  Portia_Send_Slack_Message(target: 'string', message: 'string') -> dict,<br/>  dict: Output of the message sent<br/>]</code></pre>**Args schema:** <pre><code>\{<br/>  "name": "target",<br/>  "type": "string",<br/>  "description": "Slack channel ID (i.e. C084F1FSTFC), channel name (#slack-tool-testing)or user name (@tom) where the message will be sent."<br/>\},<br/>\{<br/>  "name": "message",<br/>  "type": "string",<br/>  "description": "The message content to send."<br/>\}</code></pre>
 ## Portia Find Slack Message
