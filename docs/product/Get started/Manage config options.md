@@ -67,7 +67,7 @@ my_config = Config.from_default(
     )
 
 # Instantiate a Portia runner. Load it with the default config and with some example tools
-runner = Runner(config=my_config, tool_registry=example_tool_registry)
+runner = Runner(config=my_config, tools=example_tool_registry)
 
 # Execute the workflow from the user query
 output = runner.execute_query('Which stock price grew faster in 2024, Amazon or Google?')

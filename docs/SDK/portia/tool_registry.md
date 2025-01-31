@@ -35,9 +35,9 @@ Methods:
         Retrieves a tool by its ID.
     get_tools() -&gt; list[Tool]:
         Retrieves all tools in the registry.
-    match_tools(query: str) -&gt; list[Tool]:
-        Optionally, retrieve tools that match a given query. Useful to implement tool filtering.
-        Defaults to returning all tools.
+    match_tools(query: str | None = None, tool_ids: list[str] | None = None) -&gt; list[Tool]:
+        Optionally, retrieve tools that match a given query and tool_ids. Useful to implement
+        tool filtering.
 
 #### register\_tool
 
@@ -84,13 +84,15 @@ Returns:
 #### match\_tools
 
 ```python
-def match_tools(query: str) -> list[Tool]
+def match_tools(query: str | None = None,
+                tool_ids: list[str] | None = None) -> list[Tool]
 ```
 
-Provide a set of tools that match a given query.
+Provide a set of tools that match a given query and tool_ids.
 
 Args:
-    query (str): The query to match tools against.
+    query (str | None): The query to match tools against.
+    tool_ids (list[str] | None): The list of tool ids to match.
 
 Returns:
     list[Tool]: A list of tools matching the query.
@@ -149,13 +151,15 @@ Returns:
 #### match\_tools
 
 ```python
-def match_tools(query: str) -> list[Tool]
+def match_tools(query: str | None = None,
+                tool_ids: list[str] | None = None) -> list[Tool]
 ```
 
-Get all tools from all registries that match the query.
+Get all tools from all registries that match the query and tool_ids.
 
 Args:
-    query (str): The query to match tools against.
+    query (str | None): The query to match tools against.
+    tool_ids (list[str] | None): The list of tool ids to match.
 
 Returns:
     list[Tool]: A list of tools matching the query from all registries.
