@@ -135,7 +135,7 @@ while workflow.state == WorkflowState.NEED_CLARIFICATION:
         # For each clarification, prompt the user for input
         print(f"{clarification.user_guidance}")
         user_input = input("Please enter a value:\n" 
-                            + (("\n".join(clarification.options) + "\n") if clarification.options else ""))
+                            + (("\n".join(clarification.options) + "\n") if "options" in clarification else ""))
         # Resolve the clarification with the user input
         workflow = runner.resolve_clarification(workflow, clarification, user_input)
 

@@ -90,9 +90,9 @@ Let's build two custom tools that allow an LLM to write / read content to / from
         args_schema: type[BaseModel] = FileWriterToolSchema
         output_schema: tuple[str, str] = ("str", "A string indicating where the content was written to")
 
-        def run(self, _: ExecutionContext, city: str) -> str:
+        def run(self, _: ExecutionContext, filename: str, content: str) -> str:
             """Run the FileWriterTool."""
-            print(f"Writing content to {filename}")
+            
             filepath = Path(filename)
             if filepath.is_file():
                 with open(filepath, "w") as file:
