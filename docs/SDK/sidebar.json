@@ -2,14 +2,6 @@
   "items": [
     {
       "items": [
-        {
-          "items": [
-            "SDK/portia/agents/utils/final_output_summarizer",
-            "SDK/portia/agents/utils/step_summarizer"
-          ],
-          "label": "portia.agents.utils",
-          "type": "category"
-        },
         "SDK/portia/agents/base_agent",
         "SDK/portia/agents/context",
         "SDK/portia/agents/execution_utils",
