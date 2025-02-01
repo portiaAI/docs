@@ -39,7 +39,7 @@ load_dotenv()
 
 runner = Runner(
     config=default_config(),
-    tool_registry=example_tool_registry,
+    tools=example_tool_registry,
 )
 
 # We can also provide additional execution context to the process

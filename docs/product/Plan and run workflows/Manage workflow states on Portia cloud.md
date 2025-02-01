@@ -34,7 +34,7 @@ load_dotenv()
 my_config = Config.from_default(storage_class=StorageClass.CLOUD)
 
 # Instantiate a Portia runner. Load it with the default config and an example tool registry
-runner = Runner(config=my_config, tool_registry=example_tool_registry)
+runner = Runner(config=my_config, tools=example_tool_registry)
 
 # Execute a workflow from the user query
 workflow = runner.execute_query('Get the temperature in London and share it with a light joke')

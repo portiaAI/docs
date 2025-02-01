@@ -131,7 +131,10 @@ Returns:
 #### wait\_for\_ready
 
 ```python
-def wait_for_ready(workflow: Workflow) -> Workflow
+def wait_for_ready(workflow: Workflow,
+                   max_retries: int = 6,
+                   backoff_start_time_seconds: int = 7 * 60,
+                   backoff_time_seconds: int = 2) -> Workflow
 ```
 
 Wait for the workflow to be in a state that it can be re-run.
@@ -140,6 +143,11 @@ This is generally because there are outstanding clarifications that need to be r
 
 Args:
     workflow (Workflow): The workflow to wait for.
+    max_retries (int): The maximum number of retries to wait for the workflow to be ready
+        after the backoff period starts.
+    backoff_start_time_seconds (int): The time after which the backoff period starts.
+    backoff_time_seconds (int): The time to wait between retries after the backoff period
+        starts.
 
 Returns:
     Workflow: The updated workflow once it is ready to be re-run.
