@@ -90,6 +90,13 @@ Context Isolation:
     - When the context manager exits, the context for the current task is cleaned up
       to avoid memory leaks or unintended persistence of data.
 
+Example:
+```python
+    with execution_context(end_user_id=&quot;user123&quot;, additional_data={&quot;key&quot;: &quot;value&quot;}):
+        # Code here runs with the specified execution context
+    # Outside the block, the execution context is cleared for the current task.
+```
+
 #### get\_execution\_context
 
 ```python
