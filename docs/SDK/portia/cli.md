@@ -19,23 +19,13 @@ class EnvLocation(Enum)
 
 The location of the environment variables.
 
-## CLIConfig Objects
+## CLIOptions Objects
 
 ```python
-class CLIConfig(BaseModel)
+class CLIOptions(Enum)
 ```
 
-Config for the CLI.
-
-#### generate\_cli\_option\_from\_pydantic\_field
-
-```python
-def generate_cli_option_from_pydantic_field(
-        f: Callable[...,
-                    Any], field: str, info: FieldInfo) -> Callable[..., Any]
-```
-
-Generate a click option from a pydantic field.
+The options for the CLI.
 
 #### common\_options
 
@@ -48,7 +38,7 @@ Define common options for CLI commands.
 #### cli
 
 ```python
-@click.group(context_settings={"max_content_width": 240})
+@click.group()
 def cli() -> None
 ```
 
@@ -60,7 +50,10 @@ Portia CLI.
 @click.command()
 @common_options
 @click.argument("query")
-def run(query: str, **kwargs) -> None
+@click.option("--confirm/--no-confirm", default=True)
+def run(query: str, log_level: str, env_location: str, confirm: bool,
+        llm_provider: str | None, llm_model: str | None,
+        end_user_id: str | None) -> None
 ```
 
 Run a query.
@@ -71,7 +64,9 @@ Run a query.
 @click.command()
 @common_options
 @click.argument("query")
-def plan(query: str, **kwargs) -> None
+def plan(query: str, log_level: str, llm_provider: str | None,
+         llm_model: str | None, end_user_id: str | None,
+         env_location: str) -> None
 ```
 
 Plan a query.
@@ -81,18 +76,9 @@ Plan a query.
 ```python
 @click.command()
 @common_options
-def list_tools(**kwargs) -> None
+def list_tools(log_level: str, llm_provider: str | None, llm_model: str | None,
+               end_user_id: str | None, env_location: str) -> None
 ```
 
-List tools.
-
-#### config\_write
-
-```python
-@click.command()
-@common_options
-def config_write(**kwargs) -> None
-```
-
-Write config file to disk.
+Plan a query.
 

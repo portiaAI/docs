@@ -4,10 +4,9 @@
       "items": [
         {
           "items": [
-            "SDK/portia/agents/utils/final_output_summarizer",
-            "SDK/portia/agents/utils/step_summarizer"
+            "SDK/portia/agents/agent_node_utils/summarizer"
           ],
-          "label": "portia.agents.utils",
+          "label": "portia.agents.agent_node_utils",
           "type": "category"
         },
         "SDK/portia/agents/base_agent",
