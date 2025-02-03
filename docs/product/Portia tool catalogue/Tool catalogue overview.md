@@ -1,12 +1,12 @@
 ---
 sidebar_position: 1
-slug: /portia-tools-catalogue
+slug: /tools-overview
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Portia tool catalogue
+# Tool catalogue overview
 Portia offers both open source tools as well as a cloud-hosted library of tools to save you development time. You can dig into the specs of those tools in our open source repo (<a href="https://github.com/portiaAI/portia-sdk-python/tree/main/portia/open_source_tools" target="_blank">**SDK repo ↗**</a>).
 
 The cloud tools typically covers popular public SaaS products like gSuite, Zendesk, Hubspot etc. You get a number of Portia tool calls for free when you sign-up to Portia cloud. You can find the ever-growing list of Portia tools on this page. For more info on the pricing for our cloud offering, please visit our (<a href="https://www.portialabs.ai/pricing" target="_blank">**Pricing page ↗**</a>).  

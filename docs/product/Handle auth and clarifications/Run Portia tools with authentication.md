@@ -14,7 +14,7 @@ Use clarifications to leverage Portia tools' native authentication support.
 - Agents raise an `ActionClarification` to interrupt a workflow and require use authentication when necessary.
 :::
 
-Portia offers a cloud-hosted library of tools to save you development time. You can find the ever-growing list of Portia tools in the next section (<a href="/portia-tools-catalogue" target="_blank">**Portia tool catalogue ↗**</a>). All Portia tools come with plug and play authentication. Let's delve into how to handle the user authentication flow.
+Portia offers a cloud-hosted library of tools to save you development time. You can find the ever-growing list of Portia tools in the next section (<a href="/portia-tools" target="_blank">**Portia tool catalogue ↗**</a>). All Portia tools come with plug and play authentication. Let's delve into how to handle the user authentication flow.
 
 ## Handling auth with `Clarification`
 
