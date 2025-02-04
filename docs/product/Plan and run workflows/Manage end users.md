@@ -105,5 +105,3 @@ with execution_context(context={new execution context here}):
 ...
 ```
 :::
-
-In the next sections, we will look at how the `Config` class can be used to allow you access to Portia's cloud capabilities.

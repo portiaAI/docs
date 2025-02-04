@@ -86,7 +86,7 @@ const config = {
             type: "docSidebar",
             sidebarId: "productSidebar",
             position: "left",
-            label: "Product",
+            label: "Docs",
           },
           {
             type: 'dropdown',

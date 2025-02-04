@@ -45,6 +45,7 @@ print(workflow.model_dump_json(indent=2))
 Take a moment to examine the workflow created by the code above in your dashboard. To do so you will need the workflow ID, appearing in the first attribute of the output e.g. `"id": "f66b141b-5603-4bd9-b827-0c7a41bf5d5c"`.
 
 ## Retrieve workflows from the cloud
+
 You can retrieve both workflow states and plans for a stored workflow. For that you would use the `get_workflow` and `get_plan` methods of the `Storage` class. You will need to specify the `PortiaCloudStorage` class in particular here. Go ahead and copy your workflow ID from the dashboard entry created in the previous section into the code below.
 ```python title="main.py"
 from dotenv import load_dotenv
@@ -116,4 +117,15 @@ Retrieved plan:
 }
 ```
 
-Now let's look at how to tap into the library of tools accessible on the Portia cloud.
+If you wanted to retrieve workflows in bulk, you can use the `get_workflows` method (plural!) from `StorageClass`. This returns paginated data so you will need to process that information further to cycle through all results. Remember the first page number returned is always 1 (not 0!).
+
+```python
+workflow_list_init = my_store.get_workflows() # again, plural!
+total_pages = workflow_list_init.total_pages
+
+for page in range(1, total_pages+1):
+    print(f"Retrieving workflows from page {page}...")
+    workflow_list = my_store.get_workflows(page=page)
+    for workflow in workflow_list.results:
+        print(f"Workflow ID: {workflow.id}")
+```
