@@ -221,5 +221,3 @@ print(workflow.model_dump_json(indent=2))
 :::note[Track workflow states in logs]
 You can track workflow state changes live as they occur through the logs by setting `default_log_level` to DEBUG in the `Config` of your Portia `Runner` (<a href="/manage-config#manage-logging" target="_blank">**Manage logging ↗**</a>).
 :::
-
-You should now be able to generate plans and spawn workflow runs from them. We have used a couple of example tools so far. Head on over to the next section to look at how we can add custom tools to the mix!
