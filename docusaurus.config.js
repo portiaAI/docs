@@ -86,7 +86,43 @@ const config = {
             type: "docSidebar",
             sidebarId: "productSidebar",
             position: "left",
-            label: "Product",
+            label: "Docs",
+          },
+          {
+            type: 'dropdown',
+            label: 'Tools', // Label for the dropdown
+            position: 'left', // or 'right'
+            items: [
+              {
+                label: 'Overview',
+                to: '/tools-overview',
+              },
+              {
+                label: 'Open source',
+                to: '/open-source-tools',
+              },
+              {
+                label: 'gSuite',
+                to: '/gsuite-tools',
+              },
+              {
+                label: 'Github',
+                to: '/github-tools',
+              },
+              {
+                label: 'Zendesk',
+                to: '/zendesk-tools',
+              },
+              {
+                label: 'Slack',
+                to: '/slack-tools',
+              },
+              {
+                label: 'Spotify',
+                to: '/spotify-tools',
+              },
+              //... more items
+            ],
           },
           {
             type: "docSidebar",

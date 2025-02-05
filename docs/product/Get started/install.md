@@ -107,7 +107,7 @@ As a final verification step for your installation, set up the required environm
         load_dotenv()
 
         # Create a Portia runner with the default config which uses Open AI, and with some example tools.
-        runner = Runner(config=default_config(), tool_registry=example_tool_registry)
+        runner = Runner(config=default_config(), tools=example_tool_registry)
         # Run the test query and print the output!
         workflow = runner.execute_query('add 1 + 2')
         print(workflow.model_dump_json(indent=2))
@@ -133,7 +133,7 @@ As a final verification step for your installation, set up the required environm
             anthropic_api_key=ANTHROPIC_API_KEY
             )
         # Instantiate a Portia runner. Load it with the config and with the example tools.
-        runner = Runner(config=anthropic_config, tool_registry=example_tool_registry)
+        runner = Runner(config=anthropic_config, tools=example_tool_registry)
         # Run the test query and print the output!
         workflow = runner.execute_query('add 1 + 2')
         print(workflow.model_dump_json(indent=2))
@@ -159,7 +159,7 @@ As a final verification step for your installation, set up the required environm
             mistralai_api_key=MISTRAL_API_KEY
         )
         # Instantiate a Portia runner. Load it with the config and with the example tools.
-        runner = Runner(config=mistral_config, tool_registry=example_tool_registry)
+        runner = Runner(config=mistral_config, tools=example_tool_registry)
         # Run the test query and print the output!
         workflow = runner.execute_query('add 1 + 2')
         print(workflow.model_dump_json(indent=2))
@@ -173,7 +173,8 @@ You should see a similar output to the the CLI-driven test we ran in step 4.
 We will review the various elements in `main.py` in more detail in later sections. For now you should remember that:
 - You will use a `Runner` to handle user prompts using Portia.
 - A `Runner` expects a `Config`. This is where you can specify things like the model you want to use and where you want to store Workflow states.
-- A `Runner` also expects a tool_registry i.e a collection of tools you want to use.
+- A `Runner` also expects `tools`. This can be a list of tools, or a `ToolRegistry` (i.e a collection of tools you want to use).
 
-If you got this far then we're off to the races :racehorse:. Now let's start exploring the developer abstractions Portia offers in more detail!
+If you got this far then we're off to the races :racehorse:. Let's get you set up with a Portia account so you can also use our cloud features. 
+Don't worry it comes with a free trial (<a href="https://www.portialabs.ai/pricing" target="_blank">**Pricing page ↗**</a>) :wink:
 

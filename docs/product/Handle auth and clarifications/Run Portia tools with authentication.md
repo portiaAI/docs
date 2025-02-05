@@ -1,27 +1,40 @@
 ---
-sidebar_position: 3
+sidebar_position: 2
 slug: /run-portia-tools
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Run Portia tools
-Access our library of tools and view logs of previous tool calls.
+# Run Portia tools with authentication
+Use clarifications to leverage Portia tools' native authentication support.
 
 :::tip[TL;DR]
-- Portia offers a cloud-hosted library of tools spanning popular apps like gSuite, Slack, Zendesk etc.
-- We offer several ways of combining tool registries so you can use Portia tools in conjunction with your own custom tools
+- All Portia tools come with built-in authentication, typically using Portia Oauth clients for each relevant resource server.
+- Agents raise an `ActionClarification` to interrupt a workflow and require use authentication when necessary.
 :::
 
-In a previous section, we explored the `Tool` and `Tool_registry` abstractions. We used example tools that are included in the Portia SDK and we introduced custom tools (<a href="/extend-tool-definitions" target="_blank">**Extend your tool definitions ↗**</a>). 
+Portia offers a cloud-hosted library of tools to save you development time. You can find the ever-growing list of Portia tools in the next section (<a href="/portia-tools" target="_blank">**Portia tool catalogue ↗**</a>). All Portia tools come with plug and play authentication. Let's delve into how to handle the user authentication flow.
 
-Portia also offers a cloud-hosted library of tools to save you development time. This typically covers popular public SaaS products like gSuite, Zendesk, Hubspot etc. You get a number of Portia tool calls for free when you sign-up to Portia cloud. You can find the ever-growing list of Portia tools in the next section (<a href="/portia-tools-catalogue" target="_blank">**Portia tool catalogue ↗**</a>). For more info on the pricing for our cloud offering, please visit our (<a href="https://www.portialabs.ai/pricing" target="_blank">**Pricing page ↗**</a>).  
-:::info[Request a tool]
-If there's a particular product you would like to see tools for in our library, do feel free to request it and we'll do our best to get it done! (<a href="https://tally.so/r/wzWAAg" target="_blank">**Request a tool ↗**</a>).
-:::
+## Handling auth with `Clarification`
 
-Now let's try to reproduce the experience that you can see on website's playground (<a href="https:www.portialabs.ai" target="_blank">**↗**</a>). We want to be able to handle a prompt like `Find the github repository of Mastodon and give it a star for me`, so let's take a look at the code below:
+We established in the preceding section that clarifications are raised when an agent needs input to progress. This concept lends itself perfectly to tool authentication. Let's break it down:
+- All Portia tools come with built-in authentication, typically using Portia Oauth clients for each relevant resource server.
+- Portia provisions the required token with the relevant scope when a tool call needs to be made.
+- Tokens provisioned by Portia are reusable / long-lived. If a `end_user_id` was passed with the parent `Workflow`, Portia will store the provisioned Oauth token against it. You will need to persist this `end_user_id` and use it consistently across workflows to leverage token reusability (<a href="/manage-end-users" target="_blank">**Manage multiple end users ↗**</a>).
+- When a Portia tool call is made, we first attempt to retrieve an Oauth token against the `end_user_id` if provided. When no Oauth token is found, an `ActionClarification` is raised with an Oauth link as the action URL. This Oauth link uses Portia's authentication client and a Portia redirect URL.
+- Portia's Oauth server listens for the authentication result and resolves the concerned clarification, allowing the workflow to resume again.
+
+## Bringing the concepts together
+
+Now let's bring this to life by reproducing the experience that you can see on website's playground (<a href="https:www.portialabs.ai" target="_blank">**↗**</a>). We want to be able to handle a prompt like `Find the github repository of Mastodon and give it a star for me`, so let's take a look at the code below.
+
+<details>
+<summary>**Portia API key required**</summary>
+
+We're assuming you already have a Portia API key from the dashboard and set it in your environment variables. If not please refer to the previous section and do that first (<a href="/setup-account" target="_blank">**Set up your account ↗**</a>).
+
+</details>
 
 ```python title="main.py"
 from dotenv import load_dotenv
@@ -34,7 +47,7 @@ from portia.tool_registry import PortiaToolRegistry
 load_dotenv()
 
 # Instantiate a Portia runner. Load it with the default config and with Portia cloud tools above
-runner = Runner(config=default_config(), tool_registry=PortiaToolRegistry(default_config()))
+runner = Runner(config=default_config(), tools=PortiaToolRegistry(default_config()))
 
 # Generate the plan from the user query and print it
 plan = runner.generate_plan('Find the github repository of Mastodon and give it a star for me')
@@ -70,8 +83,8 @@ print(f"{workflow.model_dump_json(indent=2)}")
 ```
 
 Pay attention to the following points:
-- We're importing all of Portia's cloud tool library using the `PortiaToolRegistry` import. Portia will (rightly!) identify that executing on this query necessitates both the `SearchGitHubReposTool` and the `StarGitHubRepoTool` in particular. Like all Portia cloud tools, our Github tools are built with plug and play authentication support. They will raise a `Action Clarification` with a Github Oauth link as the action URL. This Oauth link uses Portia's Github authentication client and a Portia redirect URL.
-- The way we handle clarifications is now conditional on their type. While we continue to resolve `InputClarification` and `MultipleChoiceClarification` using `runner.resolve_clarification()`, we're now introducing the `runner.wait_for_ready()` method to handle clarifications of type `ActionClarification`. This method should be used when the resolution to a clarification relies on a third party system and the runner needs to listen for a change in its state. In our example, Portia's Oauth server listens for the authentication result and resolves the concerned clarification, allowing the workflow to resume again. 
+- We're importing all of Portia's cloud tool library using the `PortiaToolRegistry` import. Portia will (rightly!) identify that executing on this query necessitates both the `SearchGitHubReposTool` and the `StarGitHubRepoTool` in particular. Like all Portia cloud tools, our Github tools are built with plug and play authentication support. They will raise a `Action Clarification` with a Github Oauth link as the action URL.
+- We're now introducing the `runner.wait_for_ready()` method to handle clarifications of type `ActionClarification`. This method should be used when the resolution to a clarification relies on a third party system and the runner needs to listen for a change in its state. In our example, Portia's Oauth server listens for the authentication result and resolves the concerned clarification, allowing the workflow to resume again.
 
 Your workflow will pause and you should see the link in the logs like so
 ...
@@ -169,17 +182,3 @@ In your logs you should be able to see the tools, as well as a plan and final wo
     ```
   </TabItem>
 </Tabs>
-
-If you wanted to explore all the tools available in the Portia cloud library, you can use the `get_tools` method of the `Tool_registry` class to list them all out. 
-```python
-from portia.tool_registry import PortiaToolRegistry 
-from portia.config import Config
-
-portia_tool_registry = PortiaToolRegistry(Config.from_default(storage_class='CLOUD'))
-
-# Get all tools in a registry
-for tool in portia_tool_registry.get_tools():
-    print(f"{tool.model_dump_json(indent=2)}\n")
-```
-
-Check out the next section for more information about the tools available on Portia cloud.

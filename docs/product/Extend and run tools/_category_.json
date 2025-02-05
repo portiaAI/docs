@@ -1,9 +1,9 @@
 {
-  "label": "Use Portia cloud",
-  "position": 3,
+  "label": "Extend and run tools",
+  "position": 4,
   "link": {
     "type": "generated-index",
-    "slug": "use-portia-cloud",
+    "slug": "extend-run-tools",
     "description": "Use our cloud service to store and retrieve workflow states or access our tool library."
   }
 }

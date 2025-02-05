@@ -1,0 +1,193 @@
+---
+sidebar_position: 4
+slug: /custom-clarifications
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Define custom clarifications
+Use clarifications in your custom tools
+:::tip[TL;DR]
+You can raise a `Clarification` in any custom tool definition to prompt a workflow to interrupt itself and solicit input (<a href="/SDK/portia/clarification" target="_blank">**SDK reference ↗**</a>).
+:::
+
+
+## Add a clarification to your custom tool
+Let's pick up the custom tool example we looked at previously (<a href="/extend-tool-catalogue" target="_blank">**Extend your tool catalogue ↗**</a>). We will now examine the code that defines a clarification in a tool explicitly. We're going to add a clarification to the `FileReaderTool` custom tool to handle cases where a file is not found. Instead of throwing an error directly, we will attempt to find the file in other folders in the project directory. We do that by adding the highlighted lines in the `FileReaderTool` class definition as shown below.
+
+```python title="my_custom_tools/file_reader_tool.py"
+from pathlib import Path
+import pandas as pd
+import json
+from pydantic import BaseModel, Field
+from portia.tool import Tool
+from portia.execution_context import ExecutionContext
+from portia.errors import ToolHardError
+# highlight-next-line
+from portia.clarification import MultipleChoiceClarification
+
+
+class FileReaderToolSchema(BaseModel):
+    """Schema defining the inputs for the FileReaderTool."""
+
+    filename: str = Field(..., 
+        description="The location where the file should be read from",
+    )
+
+
+class FileReaderTool(Tool[str]):
+    """Finds and reads content from a local file on Disk."""
+
+    id: str = "file_reader_tool"
+    name: str = "File reader tool"
+    description: str = "Finds and reads content from a local file on Disk"
+    args_schema: type[BaseModel] = FileReaderToolSchema
+    output_schema: tuple[str, str] = ("str", "A string dump or JSON of the file content")
+
+    def run(self, _: ExecutionContext, filename: str) -> str | dict[str,any]:       
+        """Run the FileReaderTool."""
+        
+        file_path = Path(filename)
+        suffix = file_path.suffix.lower()
+
+        if file_path.is_file():
+            if suffix == '.csv':
+                return pd.read_csv(file_path).to_string()
+            elif suffix == '.json':
+                with file_path.open('r', encoding='utf-8') as json_file:
+                    data = json.load(json_file)
+                    return data
+            elif suffix in ['.xls', '.xlsx']:
+                return pd.read_excel(file_path).to_string
+            elif suffix in ['.txt', '.log']:
+                return file_path.read_text(encoding="utf-8")
+            else:
+               raise ToolHardError(f"Unsupported file format: {suffix}. Supported formats are .txt, .log, .csv, .json, .xls, .xlsx.")
+        
+        # highlight-start
+        alt_file_paths = self.find_file(filename)
+        if alt_file_paths:
+            return MultipleChoiceClarification(
+                argument_name="filename",
+                user_guidance=f"Found {filename} in these location(s). Pick one to continue:\n{alt_file_paths}",
+                options=alt_file_paths,
+            )
+        # highlight-end
+
+        raise ToolHardError(f"No file found on disk with the path {filename}.")
+
+    # highlight-start
+    def find_file(self, filename: str) -> list[Path]:
+        """Returns a full file path or None."""
+
+        search_path = Path("../")
+        filepaths = []
+
+        for filepath in search_path.rglob(filename):
+            if filepath.is_file():
+                filepaths.append(str(filepath))
+        if filepaths:
+            return filepaths
+        return None
+    # highlight-end
+```
+
+The block below results in the tool using the `find_file` method to look for alternative locations and raising this clarification if multiple paths are found in the project directory. Here we're using `MultipleChoiceClarification` specifically, which takes a `options` property where the paths found are enumerated. You can explore the other types a `Clarification` object can take in our documentation (<a href="/SDK/portia/clarification" target="_blank">**SDK reference ↗**</a>).
+
+```python
+alt_file_paths = self.find_file(filename)
+if alt_file_paths:
+    return MultipleChoiceClarification(
+        argument_name="filename",
+        user_guidance=f"Found {filename} in these location(s). Pick one to continue:\n{alt_file_paths}",
+        options=alt_file_paths,
+    )
+```
+
+## Testing your custom clarification
+We're now ready to put our clarification to the test. We won't revisit how clarifications work and are handled in detail here, For that you can check out the section dedicated to clarifications (<a href="/understand-clarifications" target="_blank">**Understand clarifications↗**</a>).
+
+:::info[Make a `weather.txt` file for this section]
+In this example, our custom tool `FileReaderTool` will attempt to open a non-existent local file `weather.txt`. This should trigger the tool to search for the file across the rest of the project directory and return all matches. Make sure to sprinkle a few copies of a `weather.txt` file around in the project directory. 
+Note: Our `weather.txt` file contains "The current weather in Llanfairpwllgwyngyllgogerychwyrndrobwllllantysiliogogogoch is broken clouds with a temperature of 6.76°C."
+:::
+
+```python title="main.py"
+from portia.runner import Runner
+from portia.config import default_config
+from portia.open_source_tools.registry import example_tool_registry
+from my_custom_tools.registry import custom_tool_registry
+from portia.workflow import WorkflowState
+
+# Load example and custom tool registries into a single one
+complete_tool_registry = example_tool_registry + custom_tool_registry
+# Instantiate a Portia runner. Load it with the default config and with the tools above
+runner = Runner(config=default_config(), tools=complete_tool_registry)
+
+# Execute the plan from the user query
+workflow = runner.execute_query('Read the contents of the file "weather.txt".')
+
+# Check if the workflow was paused due to raised clarifications
+while workflow.state == WorkflowState.NEED_CLARIFICATION:
+    # If clarifications are needed, resolve them before resuming the workflow
+    for clarification in workflow.get_outstanding_clarifications():
+        # For each clarification, prompt the user for input
+        print(f"{clarification.user_guidance}")
+        user_input = input("Please enter a value:\n" 
+                            + (("\n".join(clarification.options) + "\n") if "options" in clarification else ""))
+        # Resolve the clarification with the user input
+        workflow = runner.resolve_clarification(workflow, clarification, user_input)
+
+    # Once clarifications are resolved, resume the workflow
+    workflow = runner.execute_workflow(workflow)
+
+# Serialise into JSON and print the output
+print(workflow.model_dump_json(indent=2))
+```
+
+For the example query above `Read the contents of the file "weather.txt".`, where the user resolves the clarification by entering one of the options offered by the clarification (in this particular case `demo_runs/weather.txt` in our project directory `momo_sdk_tests`), you should see the following workflow state and notice:
+- The multiple choice clarification where the `user_guidance` was generated by Portia based on your clarification definition in the `FileReaderTool` class,
+- The `response` in the second workflow snapshot reflecting the user input, and the change in `resolved` to `true` as a result
+- The workflow `state` will appear to `NEED_CLARIFICATION` if you look at the logs at the point when the clarification is raised. It then progresses to `COMPLETE` once you respond to the clarification and the workflow is able to resume:
+```json title="workflow_state.json"
+{
+  "id": "54d157fe-4b99-4dbb-a917-8fd8852df63d",
+  "plan_id": "b87de5ac-41d9-4722-8baa-8015327511db",
+  "current_step_index": 0,
+  "state": "COMPLETE",
+  "execution_context": {
+    "end_user_id": null,
+    "additional_data": {},
+    "planner_system_context_extension": null,
+    "agent_system_context_extension": null
+  },
+  "outputs": {
+    "clarifications": [
+      {
+        "id": "216c13a1-8342-41ca-99e5-59394cbc7008",
+        "category": "Multiple Choice",
+        "response": "../momo_sdk_tests/demo_runs/weather.txt",
+        "step": 0,
+        "user_guidance": "Found weather.txt in these location(s). Pick one to continue:\n['../momo_sdk_tests/demo_runs/weather.txt', '../momo_sdk_tests/my_custom_tools/__pycache__/weather.txt']",
+        "resolved": true,
+        "argument_name": "filename",
+        "options": [
+          "../momo_sdk_tests/demo_runs/weather.txt",
+          "../momo_sdk_tests/my_custom_tools/__pycache__/weather.txt"
+        ]
+      }
+    ],
+    "step_outputs": {
+      "$file_contents": {
+        "value": "The current weather in Llanfairpwllgwyngyllgogerychwyrndrobwllllantysiliogogogoch is broken clouds with a temperature of 6.76°C.",
+        "summary": null
+      }
+    },
+    "final_output": {
+      "value": "The current weather in Llanfairpwllgwyngyllgogerychwyrndrobwllllantysiliogogogoch is broken clouds with a temperature of 6.76°C.",
+      "summary": null
+    }
+  }
+}
+```

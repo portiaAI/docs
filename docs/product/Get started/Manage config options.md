@@ -1,5 +1,5 @@
 ---
-sidebar_position: 5
+sidebar_position: 4
 slug: /manage-config
 ---
 
@@ -30,7 +30,7 @@ The `Config` class (<a href="/SDK/portia/config" target="_blank">**SDK reference
 You can control where you store and retrieve workflow states using the `storage_class` property in the `Config` class (<a href="/SDK/portia/config" target="_blank">**SDK reference ↗**</a>), which is an ENUM accessible from the `StorageClass` class:
 - `MEMORY` allows you to use working memory (default).
 - `DISK` allows you to use local storage. You will need to set the `storage_dir` appropriately (defaults to the project's root directory).
-- `CLOUD` uses the Portia cloud (<a href="/use-portia-cloud" target="_blank">**How to use Portia cloud ↗**</a>).
+- `CLOUD` uses the Portia cloud (<a href="/store-retrieve-workflows" target="_blank">**Use Portia cloud ↗**</a>).
 
 ## Manage logging
 You can control logging behaviour with the following `Config` properties (<a href="/SDK/portia/config" target="_blank">**SDK reference ↗**</a>):
@@ -41,8 +41,14 @@ You can control logging behaviour with the following `Config` properties (<a hre
 | `json_log_serialize` | Sets whether logs are JSON serialized before sending them to the log sink. |
 
 ## Bringing it all together
+<details>
+<summary>**Tavily API key required**</summary>
+
+We will use a simple GET endpoint from Tavily in this section. Please sign up to obtain an API key from them (<a href="https://tavily.com/" target="_blank">**↗**</a>) and set it in the environment variable `TAVILY_API_KEY`.
+</details>
+
 Let's test out a couple of these parameters. We will start first by loading the default config values within the `Config` class using the `from_default` method. This method uses the `default_config` within the `Config` class as the baseline and allows you to tweak specific attributes:
-- We will explicitly save plans and workflows to disk in the `demo_runs` directory. In the default config the `storage_class` is set to `MEMORY` so we will change it to `DISK`
+- We will explicitly save plans and workflows to disk in a `demo_runs` directory. In the default config the `storage_class` is set to `MEMORY` so we will change it to `DISK`
 - We will set the `default_log_level` to `DEBUG`, which will result in the generated plan, every change in the workflow state and all tool calls appearing in the logs.
 
 ```python title="main.py"
@@ -56,12 +62,12 @@ load_dotenv()
 # Load the default config then make changes to it
 my_config = Config.from_default(
     storage_class=StorageClass.DISK, 
-    storage_dir='demo_runs',
+    storage_dir='demo_runs', # Amend this based on where you'd like your plans and workflows saved!
     default_log_level=LogLevel.DEBUG,
     )
 
-# Instantiate a Portia runner. Load it with the default config and with the simple tool above.
-runner = Runner(config=my_config, tool_registry=example_tool_registry)
+# Instantiate a Portia runner. Load it with the default config and with some example tools
+runner = Runner(config=my_config, tools=example_tool_registry)
 
 # Execute the workflow from the user query
 output = runner.execute_query('Which stock price grew faster in 2024, Amazon or Google?')
@@ -157,4 +163,4 @@ In your `demo_runs` directory, you should now be able to see a plan and a workfl
   </TabItem>
 </Tabs>
 
-In the next sections, we will look at how the `Context` class can be used to enrich your workflows with end user specific context.
+Now let's start exploring the developer abstractions Portia offers in more detail!

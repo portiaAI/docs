@@ -1,0 +1,9 @@
+{
+  "label": "Handle auth and clarifications",
+  "position": 3,
+  "link": {
+    "type": "generated-index",
+    "slug": "handle-auth-clarifications",
+    "description": "Understand the concept of clarifications. Learn how to handle Portia tool Oauth and how to define custom clarifications."
+  }
+}
