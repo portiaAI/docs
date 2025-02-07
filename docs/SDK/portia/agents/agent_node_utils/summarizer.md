@@ -1,21 +1,21 @@
 ---
-sidebar_label: step_summarizer
-title: portia.agents.utils.step_summarizer
+sidebar_label: summarizer
+title: portia.agents.agent_node_utils.summarizer
 ---
 
-StepSummarizer implementation.
+Summarizer model implementation.
 
-The StepSummarizer can be used by agents to summarize the output of a given tool.
+The Summarizer model can be used by agents to summarize the output of a given tool.
 
-## StepSummarizer Objects
+## LLMSummarizer Objects
 
 ```python
-class StepSummarizer()
+class LLMSummarizer()
 ```
 
-Class to summarize the output of a tool using llm.
+Model to generate a summary for the textual output of a tool.
 
-This is used only on the tool output message.
+This model is used only on the tool output message.
 
 Attributes:
     summarizer_prompt (ChatPromptTemplate): The prompt template used to generate the summary.

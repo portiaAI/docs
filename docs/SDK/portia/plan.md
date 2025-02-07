@@ -112,24 +112,9 @@ A plan defines the entire sequence of steps required to process a query and gene
 It also includes the context in which the plan was created.
 
 Args:
-    id (UUID): A unique ID for the plan.
+    id (PlanUUID): A unique ID for the plan.
     plan_context (PlanContext): The context for when the plan was created.
     steps (list[Step]): The set of steps that make up the plan.
-
-#### serialize\_id
-
-```python
-@field_serializer("id")
-def serialize_id(plan_id: UUID) -> str
-```
-
-Serialize the ID to a string.
-
-Args:
-    plan_id (UUID): The UUID of the plan.
-
-Returns:
-    str: The serialized string representation of the plan&#x27;s ID.
 
 ## ReadOnlyPlan Objects
 
