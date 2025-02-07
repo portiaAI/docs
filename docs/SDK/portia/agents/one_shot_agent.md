@@ -72,7 +72,6 @@ Args:
 
 Methods:
     execute_sync(): Executes the core logic of the agent&#x27;s task, using the provided tool
-                    or falling back to the ToolLessAgent if no tool is available.
 
 #### execute\_sync
 
@@ -82,9 +81,7 @@ def execute_sync() -> Output
 
 Run the core execution logic of the task.
 
-This method will either invoke the tool with unverified arguments or fall back
-to the ToolLessAgent if no tool is available. It handles task execution through
-a workflow that includes retries for up to four tool calls.
+This method will invoke the tool with arguments
 
 Returns:
     Output: The result of the agent&#x27;s execution, containing the tool call result.

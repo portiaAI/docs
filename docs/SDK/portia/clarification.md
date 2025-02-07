@@ -35,7 +35,7 @@ it could indicate the need for OAuth authentication, missing arguments for a too
 or a user choice from a list.
 
 Attributes:
-    id (UUID): A unique identifier for this clarification.
+    id (ClarificationUUID): A unique identifier for this clarification.
     category (ClarificationCategory): The category of this clarification, indicating its type.
     response (SERIALIZABLE_TYPE_VAR | None): The user&#x27;s response to this clarification, if any.
     step (int | None): The step this clarification is associated with, if applicable.
@@ -150,6 +150,20 @@ Value confirmation clarification.
 Represents a clarification where the user is presented with a value and must confirm or deny it.
 The clarification should be created with the response field already set, and the user indicates
 acceptance by setting the resolved flag to `True`.
+
+Attributes:
+    category (ClarificationCategory): The category for this clarification, &#x27;Value Confirmation&#x27;.
+
+## CustomClarification Objects
+
+```python
+class CustomClarification(Clarification[SERIALIZABLE_TYPE_VAR])
+```
+
+Custom clarifications.
+
+Allows the user to extend clarifications with arbitrary data.
+The user is responsible for handling this clarification type.
 
 Attributes:
     category (ClarificationCategory): The category for this clarification, &#x27;Value Confirmation&#x27;.

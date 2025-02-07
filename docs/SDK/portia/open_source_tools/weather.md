@@ -24,7 +24,7 @@ Get the weather for a given city.
 #### run
 
 ```python
-def run(_: ExecutionContext, city: str) -> str
+def run(_: ToolRunContext, city: str) -> str
 ```
 
 Run the WeatherTool.
