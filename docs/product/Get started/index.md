@@ -12,7 +12,7 @@ import DocCardList from '@theme/DocCardList';
 </p>
 
 <h1>Welcome to our docs!</h1>
-Portia AI is an open source developer framework aimed at making dead simple for any developer to deploy stateful, authenticated agentic workflows.
+Portia AI is an open source developer framework. We want to make it dead simple for any developer to deploy stateful, authenticated agentic workflows.
 <br/>Get familiar with the product, break things and give us some feedback on our <a href="https://discord.gg/DvAJz9ffaR" target="_blank">**Discord channel (↗)**</a>.<br/>
 
 ## What is Portia AI
