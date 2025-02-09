@@ -2,8 +2,7 @@
   "label": "Get started",
   "position": 1,
   "link": {
-    "type": "generated-index",
-    "slug": "/",
-    "description": "Welcome to our Docs! Start with an intro to the basics of Portia AI and go through the installation process to make sure you're all set up. \nBy the end of this section, you will have a basic understanding of our framework, have a project directory setup with our python SDK installed, and be ready to dive into more in depth examples."
+    "type": "doc",
+    "id": "index"
   }
 }
