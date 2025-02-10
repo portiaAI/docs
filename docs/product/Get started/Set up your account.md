@@ -7,7 +7,7 @@ slug: /setup-account
 Set up your Portia cloud account. This will allow you to:
 - Store and retrieve workflows in the Portia cloud.
 - Access our library of cloud hosted tools.
-- Use the Portia dashboard to 
+- Use the Portia dashboard to:
     - View your workflow history, unhandled clarifications, tool call logs.
     - Manage users, orgs and Portia API keys.
 

@@ -24,7 +24,7 @@ In a later section we will also see that the workflow state also tracks a list o
 
 Workflow states are captured in the `Workflow` class (<a href="/SDK/portia/workflow" target="_blank">**SDK reference ↗**</a>). In the previous section (<a href="/generate-plan" target="_blank">**Generate a plan ↗**</a>), we generated a plan in response to the query `Which stock price grew faster in 2024, Amazon or Google?`. Let's examine the final state once we run a workflow for that plan:
 <Tabs>
-  <TabItem value="plan" label="Generated plan >>">
+  <TabItem value="plan" label="Generated plan">
     ```json title="plan-1dcd74a4-0af5-490a-a7d0-0df4fd983977.json"
     {
       "id": "1dcd74a4-0af5-490a-a7d0-0df4fd983977",

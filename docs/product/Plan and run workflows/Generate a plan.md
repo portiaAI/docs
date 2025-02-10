@@ -129,6 +129,6 @@ As mentioned earlier in the documentation, the `Runner` class is your main entry
 
 The `generate_plan` method can take the following additional parameters:
 - `tools` in order to confine the plan generation to a narrower set of tools if required (for simplicity or for user-access considerations). In our example above we provided the `example_tool_registry`, which is a collection of three open source tools in our SDK.
-- `example_plans` expected a list of `Plan` objects. This allows you to use existing plans as inspiration or templates, which improves repeatability for more routine workflows.
+- `example_plans` expects a list of `Plan` objects. This allows you to use existing plans as inspiration or templates, which improves repeatability for more routine workflows.
 
 Now that you know how to generate plans in response to a user query, let's take a look at how to instantiate a workflow from a plan in the next section and run it.
