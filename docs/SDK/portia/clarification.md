@@ -166,7 +166,7 @@ Allows the user to extend clarifications with arbitrary data.
 The user is responsible for handling this clarification type.
 
 Attributes:
-    category (ClarificationCategory): The category for this clarification, &#x27;Value Confirmation&#x27;.
+    category (ClarificationCategory): The category for this clarification, &#x27;Custom&#x27;.
 
 #### ClarificationType
 

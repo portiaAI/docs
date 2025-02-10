@@ -54,6 +54,15 @@ def cli() -> None
 
 Portia CLI.
 
+#### version
+
+```python
+@click.command()
+def version() -> None
+```
+
+Print the CLI tool version.
+
 #### run
 
 ```python
