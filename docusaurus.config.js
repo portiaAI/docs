@@ -95,7 +95,7 @@ const config = {
             items: [
               {
                 label: 'Overview',
-                to: '/tools-overview',
+                to: '/portia-tools',
               },
               {
                 label: 'Open source',

@@ -22,8 +22,7 @@ Let's build two custom tools that allow an LLM to write / read content to / from
     import pandas as pd
     import json
     from pydantic import BaseModel, Field
-    from portia.tool import Tool
-    from portia.execution_context import ExecutionContext
+    from portia.tool import Tool, ToolRunContext
 
 
     class FileReaderToolSchema(BaseModel):
@@ -43,7 +42,7 @@ Let's build two custom tools that allow an LLM to write / read content to / from
         args_schema: type[BaseModel] = FileReaderToolSchema
         output_schema: tuple[str, str] = ("str", "A string dump or JSON of the file content")
 
-        def run(self, _: ExecutionContext, filename: str) -> str | dict[str,any]:       
+        def run(self, _: ToolRunContext, filename: str) -> str | dict[str,any]:       
             """Run the FileReaderTool."""
             
             file_path = Path(filename)
@@ -66,9 +65,7 @@ Let's build two custom tools that allow an LLM to write / read content to / from
     ```python title="my_custom_tools/file_writer_tool.py"
     from pathlib import Path
     from pydantic import BaseModel, Field
-    from portia.tool import Tool
-    from portia.execution_context import ExecutionContext
-
+    from portia.tool import Tool, ToolRunContext
 
     class FileWriterToolSchema(BaseModel):
         """Schema defining the inputs for the FileWriterTool."""
@@ -90,7 +87,7 @@ Let's build two custom tools that allow an LLM to write / read content to / from
         args_schema: type[BaseModel] = FileWriterToolSchema
         output_schema: tuple[str, str] = ("str", "A string indicating where the content was written to")
 
-        def run(self, _: ExecutionContext, filename: str, content: str) -> str:
+        def run(self, _: ToolRunContext, filename: str, content: str) -> str:
             """Run the FileWriterTool."""
             
             filepath = Path(filename)
