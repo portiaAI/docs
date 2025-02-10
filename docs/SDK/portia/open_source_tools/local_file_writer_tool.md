@@ -24,7 +24,7 @@ Writes content to a file.
 #### run
 
 ```python
-def run(_: ExecutionContext, filename: str, content: str) -> str
+def run(_: ToolRunContext, filename: str, content: str) -> str
 ```
 
 Run the FileWriterTool.

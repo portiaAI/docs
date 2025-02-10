@@ -14,7 +14,6 @@
         "SDK/portia/agents/context",
         "SDK/portia/agents/execution_utils",
         "SDK/portia/agents/one_shot_agent",
-        "SDK/portia/agents/toolless_agent",
         "SDK/portia/agents/verifier_agent"
       ],
       "label": "portia.agents",
@@ -23,6 +22,7 @@
     {
       "items": [
         "SDK/portia/open_source_tools/calculator_tool",
+        "SDK/portia/open_source_tools/llm_tool",
         "SDK/portia/open_source_tools/local_file_reader_tool",
         "SDK/portia/open_source_tools/local_file_writer_tool",
         "SDK/portia/open_source_tools/search_tool",
@@ -56,6 +56,7 @@
     "SDK/portia/llm_wrapper",
     "SDK/portia/logger",
     "SDK/portia/plan",
+    "SDK/portia/prefixed_uuid",
     "SDK/portia/runner",
     "SDK/portia/storage",
     "SDK/portia/tool",
