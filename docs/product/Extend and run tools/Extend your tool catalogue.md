@@ -113,7 +113,7 @@ If those tools look familiar it's because we actually offer them in our open sou
 A tool registry is a collection of tools and is represented by the `Tool_registry` class (<a href="/run-portia-tools" target="_blank">**SDK reference ↗**</a>). Tool registries are useful to group frequently used tools together, e.g. you could imagine having a tool registry by function in your organisation. You can load tool registries either from memory using the `InMemoryToolRegistry` class (i.e. from within your project) or from Portia's cloud using the `PortiaToolRegistry` class (<a href="/run-portia-tools" target="_blank">**Run Portia tools ↗**</a>). We actually group a few of our open source tools into an `example_tool_registry`, which is what we've been importing into all the examples we've looked at in the docs so far (<a href="https://github.com/portiaAI/portia-sdk-python/tree/main/portia/open_source_tools" target="_blank">**Open source tools in our SDK repo ↗**</a>).
 
 Let's group our custom tools into a registry so we can import it into code afterwards. Let's create a `registry.py` file in the `my_custom_tools` directory and declare our registry as follow:
-```python title="registry.py"
+```python title="registry.py" skip=true
 """Registry containing my custom tools."""
 
 from portia.tool_registry import InMemoryToolRegistry
@@ -143,7 +143,7 @@ We will use a simple GET endpoint from OpenWeatherMap in this section. Please si
 We're assuming you already have a Tavily key provisioned from the previous sections in this doc. If not, then head over to their website and do so (<a href="https://tavily.com/" target="_blank">**↗**</a>). We will set it in the environment variable `TAVILY_API_KEY`.
 </details>
 
-```python title="main.py"
+```python title="main.py" skip=true
 from dotenv import load_dotenv
 from portia.runner import Runner
 from portia.config import default_config

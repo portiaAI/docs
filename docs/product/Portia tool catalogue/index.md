@@ -12,7 +12,7 @@ import { CardLayout } from '@theme/DocCard';
 
 ## Open source tools
 Portia offers both open source tools. You can dig into the specs of those tools in our open source repo (<a href="https://github.com/portiaAI/portia-sdk-python/tree/main/portia/open_source_tools" target="_blank">**SDK repo ↗**</a>). We cover some of those tools in the next section as well. For now if you want to pull a list of all the open source tools you can use the `open_source_tool_registry` to do so. Here's a simple code snippet that examines all the tools in that registry.
-```python
+```python skip=true
 import json
 import pandas as pd
 from portia.open_source_tools.registry import open_source_tool_registry
@@ -47,7 +47,7 @@ If there's a particular product you would like to see tools for in our library, 
 <Tabs>
     <TabItem value="all_tools" label="Get all live Portia cloud tools">
     Run the following code to return a nicely formatted panda data frame of our cloud tools:
-    ```python
+    ```python skip=true
     from dotenv import load_dotenv
     import pandas as pd
     from portia.tool_registry import PortiaToolRegistry
@@ -70,7 +70,7 @@ If there's a particular product you would like to see tools for in our library, 
     </TabItem>
     <TabItem value="single_tool" label="Explore a single tool by ID">
     The tables below are admittedly difficult to glean on smaller screens so if you'd like to explore a specific tool, put in the ID of the tool you're interested in from the table below into this handy code snippet:
-    ```python
+    ```python skip=true
     import json
     from dotenv import load_dotenv
     from portia.tool_registry import PortiaToolRegistry
