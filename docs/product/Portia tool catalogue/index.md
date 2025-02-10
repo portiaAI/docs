@@ -6,6 +6,7 @@ slug: /portia-tools
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import DocCardList from '@theme/DocCardList';
+import { CardLayout } from '@theme/DocCard';
 
 # Portia tool catalogue
 
@@ -99,4 +100,60 @@ For more on this, please visit to the section on running Portia tools (<a href="
 
 ## Explore our tools
 
-<DocCardList />
+<div
+  style={{
+    display: "grid",
+    gridTemplateColumns: "repeat(2, 1fr)", // ✅ Ensures 2 cards per row
+    gap: "16px",
+    width: "100%",
+  }}
+>
+    <div>
+      <CardLayout
+        href="/open-source-tools"
+        icon=""
+        title="Open source tools"
+        description="Import and use Portia's open source tools."
+      />
+    </div>
+    <div>
+      <CardLayout
+        href="/gsuite-tools"
+        icon=""
+        title="Google gSuite tools"
+        description="Use Google's productivity suite."
+      />
+    </div>
+    <div>
+      <CardLayout
+        href="/github-tools"
+        icon=""
+        title="Github tools"
+        description="Search for and star Github repos." 
+      />
+    </div>
+        <div>
+      <CardLayout
+        href="/zendesk-tools"
+        icon=""
+        title="Zendesk tools"
+        description="Interact with Zendesk tickets, contacts and more." 
+      />
+    </div>
+        <div>
+      <CardLayout
+        href="/slack-tools"
+        icon=""
+        title="Slack tools"
+        description="Find and send messages on Slack." 
+      />
+    </div>
+        <div>
+      <CardLayout
+        href="/spotify-tools"
+        icon=""
+        title="Spotify tools"
+        description="Search for tracks and create playlists." 
+      />
+    </div>
+</div>
