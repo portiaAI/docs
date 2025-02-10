@@ -95,7 +95,7 @@ class FileReaderTool(Tool[str]):
 
 The block below results in the tool using the `find_file` method to look for alternative locations and raising this clarification if multiple paths are found in the project directory. Here we're using `MultipleChoiceClarification` specifically, which takes a `options` property where the paths found are enumerated. You can explore the other types a `Clarification` object can take in our documentation (<a href="/SDK/portia/clarification" target="_blank">**SDK reference ↗**</a>).
 
-```python
+```python skip=true
 alt_file_paths = self.find_file(filename)
 if alt_file_paths:
     return MultipleChoiceClarification(
@@ -113,7 +113,7 @@ In this example, our custom tool `FileReaderTool` will attempt to open a non-exi
 Note: Our `weather.txt` file contains "The current weather in Llanfairpwllgwyngyllgogerychwyrndrobwllllantysiliogogogoch is broken clouds with a temperature of 6.76°C."
 :::
 
-```python title="main.py"
+```python title="main.py" skip=true
 from portia.runner import Runner
 from portia.config import default_config
 from portia.open_source_tools.registry import example_tool_registry

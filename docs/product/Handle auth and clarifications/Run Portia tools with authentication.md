@@ -36,7 +36,7 @@ We're assuming you already have a Portia API key from the dashboard and set it i
 
 </details>
 
-```python title="main.py"
+```python title="main.py" skip=true
 from dotenv import load_dotenv
 from portia.runner import Runner
 from portia.config import default_config

@@ -97,7 +97,7 @@ Running `with execution_context` like this will:
 
 :::info[On persisting execution context]
 A `Workflow` object inherits the `ExecutionContext` with which it was created as we have seen from the output above. Whenever such a workflow is resumed it will by default resume with this execution context persisted within it. You may choose to override this execution context with a `with execution_context({new execution context here})` when resuming
-```python
+```python skip=true
 ...
 # if we want to resume the workflow with a new execution context, we can override it
 with execution_context(context={new execution context here}):
