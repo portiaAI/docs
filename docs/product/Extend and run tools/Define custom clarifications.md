@@ -44,7 +44,7 @@ class FileReaderTool(Tool[str]):
     args_schema: type[BaseModel] = FileReaderToolSchema
     output_schema: tuple[str, str] = ("str", "A string dump or JSON of the file content")
 
-    def run(self, _: ToolRunContext, filename: str) -> str | dict[str,any]:       
+    def run(self, ctx: ToolRunContext, filename: str) -> str | dict[str,any]:
         """Run the FileReaderTool."""
         
         file_path = Path(filename)
@@ -68,6 +68,7 @@ class FileReaderTool(Tool[str]):
         alt_file_paths = self.find_file(filename)
         if alt_file_paths:
             return MultipleChoiceClarification(
+                workflow_id=ctx.workflow_id,
                 argument_name="filename",
                 user_guidance=f"Found {filename} in these location(s). Pick one to continue:\n{alt_file_paths}",
                 options=alt_file_paths,
@@ -136,7 +137,7 @@ while workflow.state == WorkflowState.NEED_CLARIFICATION:
         user_input = input("Please enter a value:\n" 
                             + (("\n".join(clarification.options) + "\n") if "options" in clarification else ""))
         # Resolve the clarification with the user input
-        workflow = runner.resolve_clarification(workflow, clarification, user_input)
+        workflow = runner.resolve_clarification(clarification, user_input, workflow)
 
     # Once clarifications are resolved, resume the workflow
     workflow = runner.execute_workflow(workflow)

@@ -27,7 +27,7 @@ We established in the preceding section that clarifications are raised when an a
 
 ## Bringing the concepts together
 
-Now let's bring this to life by reproducing the experience that you can see on website's playground (<a href="https:www.portialabs.ai" target="_blank">**↗**</a>). We want to be able to handle a prompt like `Find the github repository of Mastodon and give it a star for me`, so let's take a look at the code below.
+Now let's bring this to life by reproducing the experience that you can see on the website's playground (<a href="https:www.portialabs.ai" target="_blank">**↗**</a>). We want to be able to handle a prompt like `Find the github repository of Mastodon and give it a star for me`, so let's take a look at the code below.
 
 <details>
 <summary>**Portia API key required**</summary>
@@ -65,7 +65,7 @@ while workflow.state == WorkflowState.NEED_CLARIFICATION:
             print(f"{clarification.user_guidance}")
             user_input = input("Please enter a value:\n" 
                                + (clarification.choices if clarification.choices else ""))
-            workflow = runner.resolve_clarification(workflow, clarification, user_input)
+            workflow = runner.resolve_clarification(clarification, user_input, workflow)
         
         # Handling of Action clarifications
         # highlight-start
