@@ -6,6 +6,8 @@ slug: /
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import DocCardList from '@theme/DocCardList';
+import { CardLayout } from '@theme/DocCard';
+import { useColorMode } from '@docusaurus/theme-common';
 
 <p align="center">
     <img src="/img/Logo_Portia_Symbol_Black.png" alt="Portia AI logo" style={{width: "200px"}}/>
@@ -92,4 +94,25 @@ We are beginning our journey as a developer framework by focusing on this proble
 Alright let's roll our sleeves up and get you spinning up them agents :robot:! Next up we'll install 
 the SDK locally and validate your setup, before creating a Portia cloud account.
 
-<DocCardList />
+## Setup and configuration
+
+<div style={{ display: "flex", flexWrap: "nowrap", overflow: "visible", gap: "16px", width: "100%" }}>
+    <div style={{ width: "33%" }}><CardLayout
+      href="/install"
+      icon=""
+      title="Install and setup"
+      description="Get setup and run a query."
+    /></div>
+    <div style={{ width: "34%" }}><CardLayout
+      href="/setup-account"
+      icon=""
+      title="Set up a Portia account"
+      description="Sign up for a Portia cloud account."
+    /></div>
+        <div style={{ width: "33%" }}><CardLayout
+      href="/manage-config"
+      icon=""
+      title="Manage your config"
+      description="Learn how to configure your Portia."
+    /></div>
+</div>
