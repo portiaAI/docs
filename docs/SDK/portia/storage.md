@@ -40,7 +40,7 @@ Subclasses must implement the methods to save and retrieve plans.
 Methods:
     save_plan(self, plan: Plan) -&gt; None:
         Save a plan.
-    get_plan(self, plan_id: UUID) -&gt; Plan:
+    get_plan(self, plan_id: PlanUUID) -&gt; Plan:
         Get a plan by ID.
 
 #### save\_plan
@@ -62,19 +62,27 @@ Raises:
 
 ```python
 @abstractmethod
-def get_plan(plan_id: UUID) -> Plan
+def get_plan(plan_id: PlanUUID) -> Plan
 ```
 
 Retrieve a plan by its ID.
 
 Args:
-    plan_id (UUID): The UUID of the plan to retrieve.
+    plan_id (PlanUUID): The UUID of the plan to retrieve.
 
 Returns:
     Plan: The Plan object associated with the provided plan_id.
 
 Raises:
     NotImplementedError: If the method is not implemented.
+
+## WorkflowListResponse Objects
+
+```python
+class WorkflowListResponse(BaseModel)
+```
+
+Response for the get_workflows operation. Can support pagination.
 
 ## WorkflowStorage Objects
 
@@ -89,9 +97,10 @@ Subclasses must implement the methods to save and retrieve workflows.
 Methods:
     save_workflow(self, workflow: Workflow) -&gt; None:
         Save a workflow.
-    get_workflow(self, workflow_id: UUID) -&gt; Workflow:
+    get_workflow(self, workflow_id: WorkflowUUID) -&gt; Workflow:
         Get a workflow by ID.
-    get_workflows(self, workflow_state: WorkflowState | None = None) -&gt; list[Workflow]:
+    get_workflows(self, workflow_state: WorkflowState | None = None, page=int | None = None)
+        -&gt; WorkflowListResponse:
         Return workflows that match the given workflow_state
 
 #### save\_workflow
@@ -113,13 +122,13 @@ Raises:
 
 ```python
 @abstractmethod
-def get_workflow(workflow_id: UUID) -> Workflow
+def get_workflow(workflow_id: WorkflowUUID) -> Workflow
 ```
 
 Retrieve a workflow by its ID.
 
 Args:
-    workflow_id (UUID): The UUID of the workflow to retrieve.
+    workflow_id (WorkflowUUID): The UUID of the workflow to retrieve.
 
 Returns:
     Workflow: The Workflow object associated with the provided workflow_id.
@@ -131,14 +140,15 @@ Raises:
 
 ```python
 @abstractmethod
-def get_workflows(
-        workflow_state: WorkflowState | None = None) -> list[Workflow]
+def get_workflows(workflow_state: WorkflowState | None = None,
+                  page: int | None = None) -> WorkflowListResponse
 ```
 
 List workflows by their state.
 
 Args:
     workflow_state (WorkflowState | None): Optionally filter workflows by their state.
+    page (int | None): Optional pagination data
 
 Returns:
     list[Workflow]: A list of Workflow objects that match the given state.
@@ -146,15 +156,15 @@ Returns:
 Raises:
     NotImplementedError: If the method is not implemented.
 
-## ToolCallStorage Objects
+## AdditionalStorage Objects
 
 ```python
-class ToolCallStorage(ABC)
+class AdditionalStorage(ABC)
 ```
 
-Abstract base class for storing tool_calls.
+Abstract base class for additional storage.
 
-Subclasses must implement the method to save a tool_call.
+Subclasses must implement the methods.
 
 Methods:
     save_tool_call(self, tool_call: ToolCallRecord) -&gt; None:
@@ -175,15 +185,15 @@ Args:
 Raises:
     NotImplementedError: If the method is not implemented.
 
-## LogToolCallStorage Objects
+## LogAdditionalStorage Objects
 
 ```python
-class LogToolCallStorage(ToolCallStorage)
+class LogAdditionalStorage(AdditionalStorage)
 ```
 
-ToolCallStorage that logs calls rather than persisting them.
+AdditionalStorage that logs calls rather than persisting them.
 
-Useful for storages that don&#x27;t care about tool_calls.
+Useful for storages that don&#x27;t care about tool_calls etc.
 
 #### save\_tool\_call
 
@@ -199,20 +209,20 @@ Args:
 ## Storage Objects
 
 ```python
-class Storage(PlanStorage, WorkflowStorage, ToolCallStorage)
+class Storage(PlanStorage, WorkflowStorage, AdditionalStorage)
 ```
 
-Combined base class for Plan Workflow + Tool storages.
+Combined base class for Plan Workflow + Additional storages.
 
 ## InMemoryStorage Objects
 
 ```python
-class InMemoryStorage(PlanStorage, WorkflowStorage, LogToolCallStorage)
+class InMemoryStorage(PlanStorage, WorkflowStorage, LogAdditionalStorage)
 ```
 
 Simple storage class that keeps plans + workflows in memory.
 
-Tool Calls are logged via the LogToolCallStorage.
+Tool Calls are logged via the LogAdditionalStorage.
 
 #### save\_plan
 
@@ -228,13 +238,13 @@ Args:
 #### get\_plan
 
 ```python
-def get_plan(plan_id: UUID) -> Plan
+def get_plan(plan_id: PlanUUID) -> Plan
 ```
 
 Get plan from dict.
 
 Args:
-    plan_id (UUID): The UUID of the plan to retrieve.
+    plan_id (PlanUUID): The UUID of the plan to retrieve.
 
 Returns:
     Plan: The Plan object associated with the provided plan_id.
@@ -256,13 +266,13 @@ Args:
 #### get\_workflow
 
 ```python
-def get_workflow(workflow_id: UUID) -> Workflow
+def get_workflow(workflow_id: WorkflowUUID) -> Workflow
 ```
 
 Get workflow from dict.
 
 Args:
-    workflow_id (UUID): The UUID of the workflow to retrieve.
+    workflow_id (WorkflowUUID): The UUID of the workflow to retrieve.
 
 Returns:
     Workflow: The Workflow object associated with the provided workflow_id.
@@ -273,14 +283,15 @@ Raises:
 #### get\_workflows
 
 ```python
-def get_workflows(
-        workflow_state: WorkflowState | None = None) -> list[Workflow]
+def get_workflows(workflow_state: WorkflowState | None = None,
+                  page: int | None = None) -> WorkflowListResponse
 ```
 
 Get workflow from dict.
 
 Args:
     workflow_state (WorkflowState | None): Optionally filter workflows by their state.
+    page (int | None): Optional pagination data which is not used for in memory storage.
 
 Returns:
     list[Workflow]: A list of Workflow objects that match the given state.
@@ -288,7 +299,7 @@ Returns:
 ## DiskFileStorage Objects
 
 ```python
-class DiskFileStorage(PlanStorage, WorkflowStorage, LogToolCallStorage)
+class DiskFileStorage(PlanStorage, WorkflowStorage, LogAdditionalStorage)
 ```
 
 Disk-based implementation of the Storage interface.
@@ -309,13 +320,13 @@ Args:
 #### get\_plan
 
 ```python
-def get_plan(plan_id: UUID) -> Plan
+def get_plan(plan_id: PlanUUID) -> Plan
 ```
 
 Retrieve a Plan object by its ID.
 
 Args:
-    plan_id (UUID): The ID of the Plan to retrieve.
+    plan_id (PlanUUID): The ID of the Plan to retrieve.
 
 Returns:
     Plan: The retrieved Plan object.
@@ -337,13 +348,13 @@ Args:
 #### get\_workflow
 
 ```python
-def get_workflow(workflow_id: UUID) -> Workflow
+def get_workflow(workflow_id: WorkflowUUID) -> Workflow
 ```
 
 Retrieve a Workflow object by its ID.
 
 Args:
-    workflow_id (UUID): The ID of the Workflow to retrieve.
+    workflow_id (WorkflowUUID): The ID of the Workflow to retrieve.
 
 Returns:
     Workflow: The retrieved Workflow object.
@@ -354,14 +365,15 @@ Raises:
 #### get\_workflows
 
 ```python
-def get_workflows(
-        workflow_state: WorkflowState | None = None) -> list[Workflow]
+def get_workflows(workflow_state: WorkflowState | None = None,
+                  page: int | None = None) -> WorkflowListResponse
 ```
 
 Find all workflows in storage that match state.
 
 Args:
     workflow_state (WorkflowState | None): Optionally filter workflows by their state.
+    page (int | None): Optional pagination data which is not used for in memory storage.
 
 Returns:
     list[Workflow]: A list of Workflow objects that match the given state.
@@ -405,13 +417,13 @@ Raises:
 #### get\_plan
 
 ```python
-def get_plan(plan_id: UUID) -> Plan
+def get_plan(plan_id: PlanUUID) -> Plan
 ```
 
 Retrieve a plan from Portia Cloud.
 
 Args:
-    plan_id (UUID): The ID of the plan to retrieve.
+    plan_id (PlanUUID): The ID of the plan to retrieve.
 
 Returns:
     Plan: The Plan object retrieved from Portia Cloud.
@@ -436,13 +448,13 @@ Raises:
 #### get\_workflow
 
 ```python
-def get_workflow(workflow_id: UUID) -> Workflow
+def get_workflow(workflow_id: WorkflowUUID) -> Workflow
 ```
 
 Retrieve a workflow from Portia Cloud.
 
 Args:
-    workflow_id (UUID): The ID of the workflow to retrieve.
+    workflow_id (WorkflowUUID): The ID of the workflow to retrieve.
 
 Returns:
     Workflow: The Workflow object retrieved from Portia Cloud.
@@ -453,14 +465,15 @@ Raises:
 #### get\_workflows
 
 ```python
-def get_workflows(
-        workflow_state: WorkflowState | None = None) -> list[Workflow]
+def get_workflows(workflow_state: WorkflowState | None = None,
+                  page: int | None = None) -> WorkflowListResponse
 ```
 
-Retrieve workflows from Portia Cloud.
+Find all workflows in storage that match state.
 
 Args:
     workflow_state (WorkflowState | None): Optionally filter workflows by their state.
+    page (int | None): Optional pagination data which is not used for in memory storage.
 
 Returns:
     list[Workflow]: A list of Workflow objects retrieved from Portia Cloud.

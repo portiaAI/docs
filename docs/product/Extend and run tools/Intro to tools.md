@@ -23,8 +23,7 @@ import os
 import httpx
 from pydantic import BaseModel, Field
 from portia.errors import ToolHardError, ToolSoftError
-from portia.tool import Tool
-from portia.execution_context import ExecutionContext
+from portia.tool import Tool, ToolRunContext
 
 
 class WeatherToolSchema(BaseModel):
@@ -42,7 +41,7 @@ class WeatherTool(Tool[str]):
     args_schema: type[BaseModel] = WeatherToolSchema
     output_schema: tuple[str, str] = ("str", "String output of the weather with temp and city")
 
-    def run(self, _: ExecutionContext, city: str) -> str:
+    def run(self, _: ToolRunContext, city: str) -> str:
         """Run the WeatherTool."""
         api_key = os.getenv("OPENWEATHERMAP_API_KEY")
         if not api_key or api_key == "":
@@ -66,7 +65,7 @@ Here are the key points to look out for:
 - All properties of a tool are parsed by the LLM to determine whether that tool is salient to a user's query and should therefore be invoked in response to it.
 - The `args_schema` property describes the tool inputs. This is important to help the LLM understand what parameters it can invoke a tool with.
 - The `output_schema` property describes the expected output of the tool. This helps the LLM know what to expect from the tool and informs its sequencing decisions for tool calls as well.
-- Every tool has a `run` function which is the actual tool implementation. The method always takes `ExecutionContext` which is contextual information implicitly passed by the runner. We will look into this more deeply in a future section (<a href="/manage-end-users" target="_blank">**Manage execution context ↗**</a>). The only thing to note now is that you have to include this argument and always import the underlying dependency.
+- Every tool has a `run` function which is the actual tool implementation. The method always takes `ToolRunContext` which is contextual information implicitly passed by the runner. We will look into this more deeply in a future section (<a href="/manage-end-users" target="_blank">**Manage execution context ↗**</a>). The only thing to note now is that you have to include this argument and always import the underlying dependency.
 
 :::note[Track tool calls in logs]
 You can track tool calls live as they occur through the logs by setting `default_log_level` to DEBUG in the `Config` of your Portia `Runner` (<a href="/manage-config#manage-logging" target="_blank">**Manage logging ↗**</a>).

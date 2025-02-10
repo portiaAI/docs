@@ -215,9 +215,7 @@ def execute_sync() -> Output
 
 Run the core execution logic of the task.
 
-This method will either invoke the tool with unverified arguments or fall back
-to the ToolLessAgent if no tool is available. It handles task execution through
-a workflow that includes retries for up to four tool calls.
+This method will invoke the tool with arguments that are parsed and verified first.
 
 Returns:
     Output: The result of the agent&#x27;s execution, containing the tool call result.

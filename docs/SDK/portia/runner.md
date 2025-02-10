@@ -94,15 +94,17 @@ Returns:
 #### execute\_workflow
 
 ```python
-def execute_workflow(workflow: Workflow | None = None,
-                     workflow_id: UUID | str | None = None) -> Workflow
+def execute_workflow(
+        workflow: Workflow | None = None,
+        workflow_id: WorkflowUUID | str | None = None) -> Workflow
 ```
 
 Run a workflow.
 
 Args:
     workflow (Workflow | None): The workflow to execute. Defaults to None.
-    workflow_id (UUID | str | None): The ID of the workflow to execute. Defaults to None.
+    workflow_id (WorkflowUUID | str | None): The ID of the workflow to execute. Defaults to
+        None.
 
 Returns:
     Workflow: The resulting workflow after execution.
@@ -114,16 +116,17 @@ Raises:
 #### resolve\_clarification
 
 ```python
-def resolve_clarification(workflow: Workflow, clarification: Clarification,
-                          response: object) -> Workflow
+def resolve_clarification(clarification: Clarification,
+                          response: object,
+                          workflow: Workflow | None = None) -> Workflow
 ```
 
 Resolve a clarification updating the workflow state as needed.
 
 Args:
-    workflow (Workflow): The workflow being updated.
     clarification (Clarification): The clarification to resolve.
     response (object): The response to the clarification.
+    workflow (Workflow | None): Optional - the workflow being updated.
 
 Returns:
     Workflow: The updated workflow.

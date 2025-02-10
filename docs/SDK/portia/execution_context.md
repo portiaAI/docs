@@ -30,12 +30,12 @@ allowing customization at runtime. For example, this can pass end-user-specific
 information to planners and agents for dynamic adjustments.
 
 Attributes:
-    workflow_id (Optional[str]): An identifier for the workflow, if applicable.
     end_user_id (Optional[str]): The identifier of the user for whom the workflow is running.
         Used for authentication and debugging purposes.
     additional_data (dict[str, str]): Arbitrary additional data useful for debugging.
     planner_system_context_extension (Optional[list[str]]): Additional context for planner LLMs.
     agent_system_context_extension (Optional[list[str]]): Additional context for agent LLMs.
+    workflow_run_context (Optional[str]): Additional context for the workflow run.
 
 #### empty\_context
 

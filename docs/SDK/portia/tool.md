@@ -17,6 +17,25 @@ interact with Portia Cloud, including handling API responses and tool errors.
 The tools in this module are designed to be extendable, allowing users to create their own tools
 while relying on common functionality provided by the base class.
 
+## ToolRunContext Objects
+
+```python
+class ToolRunContext(BaseModel)
+```
+
+Context passed to tools when running.
+
+Attributes
+----------
+execution_context : ExecutionContext
+    The execution context the tool is running in.
+workflow_id : WorkflowUUID
+    The workflow id the tool run is part of.
+config : Config
+    The config for the SDK as a whole.
+clarifications : ClarificationListType
+    Relevant clarifications for this tool run.
+
 ## Tool Objects
 
 ```python
@@ -51,11 +70,29 @@ should_summarize : bool
     that fetches the latest news) whereas other tools it&#x27;s not (for example: a tool
     that fetches raw price data).
 
+#### ready
+
+```python
+def ready(ctx: ToolRunContext) -> bool
+```
+
+Check whether the tool can be run.
+
+This method can be implemented by subclasses to allow checking if the tool can be run.
+It may run any authentication logic or other required checks before returning its status.
+If left unimplemented will always return true.
+
+Args:
+    ctx (ToolRunContext): Context of the tool run
+
+Returns:
+    bool: Whether the tool is ready to run
+
 #### run
 
 ```python
 @abstractmethod
-def run(ctx: ExecutionContext, *args: Any,
+def run(ctx: ToolRunContext, *args: Any,
         **kwargs: Any) -> SERIALIZABLE_TYPE_VAR | Clarification
 ```
 
@@ -64,7 +101,7 @@ Run the tool.
 This method must be implemented by subclasses to define the tool&#x27;s specific behavior.
 
 Args:
-    ctx (ExecutionContext): Context of the execution environment
+    ctx (ToolRunContext): Context of the tool execution
     args (Any): The arguments passed to the tool for execution.
     kwargs (Any): The keyword arguments passed to the tool for execution.
 
@@ -93,7 +130,7 @@ Raises:
 #### to\_langchain
 
 ```python
-def to_langchain(ctx: ExecutionContext) -> StructuredTool
+def to_langchain(ctx: ToolRunContext) -> StructuredTool
 ```
 
 Return a LangChain representation of this tool.
@@ -103,7 +140,7 @@ the default one without including artifacts. The ExecutionContext is baked into 
 StructuredTool via a partial run function.
 
 Args:
-    ctx (ExecutionContext): The execution context for the tool.
+    ctx (ToolRunContext): The context for the tool.
 
 Returns:
     StructuredTool: The LangChain-compatible representation of the tool, including the
@@ -113,17 +150,17 @@ Returns:
 #### to\_langchain\_with\_artifact
 
 ```python
-def to_langchain_with_artifact(ctx: ExecutionContext) -> StructuredTool
+def to_langchain_with_artifact(ctx: ToolRunContext) -> StructuredTool
 ```
 
 Return a LangChain representation of this tool with content and artifact.
 
 This function provides a LangChain-compatible version of the tool, where the response format
-includes both the content and the artifact. The ExecutionContext is baked into the
+includes both the content and the artifact. The ToolRunContext is baked into the
 StructuredTool via a partial run function for capturing output directly.
 
 Args:
-    ctx (ExecutionContext): The execution context for the tool.
+    ctx (ToolRunContext): The context for the tool.
 
 Returns:
     StructuredTool: The LangChain-compatible representation of the tool, including the
@@ -172,7 +209,7 @@ Tool that passes run execution to Portia Cloud.
 #### parse\_response
 
 ```python
-def parse_response(response: dict[str, Any]) -> Output
+def parse_response(ctx: ToolRunContext, response: dict[str, Any]) -> Output
 ```
 
 Parse a JSON response into domain models or errors.
@@ -182,6 +219,7 @@ specific models. It also handles errors, including `ToolSoftError` and `ToolHard
 as well as clarifications of different types.
 
 Args:
+    ctx (ToolRunContext): Context of the environment
     response (dict[str, Any]): The JSON response returned by the Portia Cloud API.
 
 Returns:
@@ -191,10 +229,24 @@ Raises:
     ToolSoftError: If a soft error is encountered in the response.
     ToolHardError: If a hard error is encountered in the response.
 
+#### ready
+
+```python
+def ready(ctx: ToolRunContext) -> bool
+```
+
+Check if the remote tool is ready by calling the /ready endpoint.
+
+Args:
+    ctx (ToolRunContext): Context of the environment
+
+Returns:
+    bool: Whether the tool is ready to run
+
 #### run
 
 ```python
-def run(ctx: ExecutionContext, *args: Any,
+def run(ctx: ToolRunContext, *args: Any,
         **kwargs: Any) -> SERIALIZABLE_TYPE_VAR | None | Clarification
 ```
 
@@ -205,7 +257,7 @@ execution context. It then processes the response by calling `parse_response`. E
 during the request or parsing are raised as `ToolHardError`.
 
 Args:
-    ctx (ExecutionContext): The context of the execution, including end user ID, workflow ID
+    ctx (ToolRunContext): The context of the execution, including end user ID, workflow ID
     and additional data.
     *args (Any): The positional arguments for the tool.
     **kwargs (Any): The keyword arguments for the tool.

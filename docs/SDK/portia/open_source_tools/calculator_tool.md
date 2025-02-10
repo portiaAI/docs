@@ -30,7 +30,7 @@ Works best for maths expressions containing only numbers and the operators +, -,
 #### run
 
 ```python
-def run(_: ExecutionContext, math_question: str) -> float
+def run(_: ToolRunContext, math_question: str) -> float
 ```
 
 Run the CalculatorTool.

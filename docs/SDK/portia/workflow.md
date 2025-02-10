@@ -70,9 +70,9 @@ A workflow represents a running instance of a Plan.
 
 Attributes
 ----------
-id : UUID
+id : WorkflowUUID
     A unique ID for this workflow.
-plan_id : UUID
+plan_id : PlanUUID
     The ID of the Plan this Workflow uses.
 current_step_index : int
     The current step that is being executed.
@@ -95,6 +95,24 @@ Returns
 -------
 ClarificationListType
     A list of outstanding clarifications that have not been resolved.
+
+#### get\_clarifications\_for\_step
+
+```python
+def get_clarifications_for_step(
+        step: int | None = None) -> ClarificationListType
+```
+
+Return clarifications for the given step.
+
+Args:
+----
+step( int| None): the step to get clarifications for. Defaults to current step.
+
+Returns:
+-------
+ClarificationListType
+    A list of clarifications for the given step.
 
 ## ReadOnlyWorkflow Objects
 

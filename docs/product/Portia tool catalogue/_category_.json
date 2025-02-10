@@ -2,8 +2,7 @@
   "label": "Portia tool catalogue",
   "position": 5,
   "link": {
-    "type": "generated-index",
-    "slug": "portia-tools",
-    "description": "Use our cloud service to store and retrieve workflow states or access our tool library."
+    "type": "doc",
+    "id": "index"
   }
 }
