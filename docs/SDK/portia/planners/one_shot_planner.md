@@ -13,13 +13,14 @@ class OneShotPlanner(Planner)
 
 planner class.
 
-#### generate\_plan\_or\_error
+#### generate\_steps\_or\_error
 
 ```python
-def generate_plan_or_error(ctx: ExecutionContext,
-                           query: str,
-                           tool_list: list[Tool],
-                           examples: list[Plan] | None = None) -> PlanOrError
+def generate_steps_or_error(
+        ctx: ExecutionContext,
+        query: str,
+        tool_list: list[Tool],
+        examples: list[Plan] | None = None) -> StepsOrError
 ```
 
 Generate a plan or error using an LLM from a query and a list of tools.
