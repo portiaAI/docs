@@ -24,7 +24,7 @@ Finds and reads content from a local file on Disk.
 #### run
 
 ```python
-def run(_: ExecutionContext, filename: str) -> str | Clarification
+def run(ctx: ToolRunContext, filename: str) -> str | Clarification
 ```
 
 Run the FileReaderTool.
@@ -32,7 +32,7 @@ Run the FileReaderTool.
 #### find\_file
 
 ```python
-def find_file(filename: str) -> list[str]
+def find_file(file_path: Path) -> list[str]
 ```
 
 Return a full file path or None.

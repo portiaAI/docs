@@ -24,7 +24,7 @@ Searches the internet to find answers to the search query provided..
 #### run
 
 ```python
-def run(_: ExecutionContext, search_query: str) -> str
+def run(_: ToolRunContext, search_query: str) -> str
 ```
 
 Run the Search Tool.
