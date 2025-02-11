@@ -148,12 +148,4 @@ For more on this, please visit to the section on running Portia tools (<a href="
         description="Find and send messages on Slack." 
       />
     </div>
-        <div>
-      <CardLayout
-        href="/spotify-tools"
-        icon=""
-        title="Spotify tools"
-        description="Search for tracks and create playlists." 
-      />
-    </div>
 </div>
