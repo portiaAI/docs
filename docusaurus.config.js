@@ -117,10 +117,6 @@ const config = {
                 label: 'Slack',
                 to: '/slack-tools',
               },
-              {
-                label: 'Spotify',
-                to: '/spotify-tools',
-              },
               //... more items
             ],
           },
