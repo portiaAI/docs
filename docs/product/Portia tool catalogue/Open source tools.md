@@ -22,11 +22,7 @@ You can import our open source tools into your project using `from portia.open_s
 ```python
 from portia.open_source_tools.llm_tool import LLMTool
 
-llm_tool = LLMTool(
-    model="gpt-4o-mini", 
-    provider="openai", 
-    prompt="You are a helpful assistant"
-)
+llm_tool = LLMTool()
 ```
 **Output schema:** <pre><code>[<br/>  LLMTool(task: 'string') -> str,<br/>  str: output of the LLM<br/>]</code></pre>
 **Args schema:** <pre><code>\{<br/>  "name": "task",<br/>  "type": "string",<br/>  "description": "The prompt to send to the LLM"<br/>\}</code></pre>

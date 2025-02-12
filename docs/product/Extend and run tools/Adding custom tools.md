@@ -110,7 +110,7 @@ If those tools look familiar it's because we actually offer them in our open sou
 ## Manage tool registries
 
 Let's group our custom tools into a registry so we can import it into code afterwards. Let's create a `registry.py` file in the `my_custom_tools` directory and declare our registry as follow:
-```python title="registry.py"
+```python title="registry.py" skip=true
 """Registry containing my custom tools."""
 
 from portia.tool_registry import InMemoryToolRegistry
@@ -140,7 +140,7 @@ We will use a simple GET endpoint from OpenWeatherMap in this section. Please si
 We're assuming you already have a Tavily key provisioned from the previous sections in this doc. If not, then head over to their website and do so (<a href="https://tavily.com/" target="_blank">**↗**</a>). We will set it in the environment variable `TAVILY_API_KEY`.
 </details>
 
-```python title="main.py"
+```python title="main.py" skip=true
 from dotenv import load_dotenv
 from portia.runner import Runner
 from portia.config import default_config

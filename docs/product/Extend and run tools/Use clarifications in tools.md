@@ -43,7 +43,7 @@ class FileReaderTool(Tool[str]):
     args_schema: type[BaseModel] = FileReaderToolSchema
     output_schema: tuple[str, str] = ("str", "A string dump or JSON of the file content")
 
-    def run(self, _: ToolRunContext, filename: str) -> str | dict[str,any] | MultipleChoiceClarification:
+    def run(self, ctx: ToolRunContext, filename: str) -> str | dict[str,any] | MultipleChoiceClarification:
         """Run the FileReaderTool."""
         
         file_path = Path(filename)
@@ -67,6 +67,7 @@ class FileReaderTool(Tool[str]):
         alt_file_paths = self.find_file(filename)
         if alt_file_paths:
             return MultipleChoiceClarification(
+                workflow_id=ctx.workflow_id,
                 argument_name="filename",
                 user_guidance=f"Found {filename} in these location(s). Pick one to continue:\n{alt_file_paths}",
                 options=alt_file_paths,
@@ -93,7 +94,7 @@ class FileReaderTool(Tool[str]):
 
 The block below results in the tool using the `find_file` method to look for alternative locations and raising this clarification if multiple paths are found in the project directory. Here we're using `MultipleChoiceClarification` specifically, which takes a `options` property where the paths found are enumerated. You can explore the other types a `Clarification` object can take in our documentation (<a href="/SDK/portia/clarification" target="_blank">**SDK reference ↗**</a>).
 
-```python
+```python skip=true
 alt_file_paths = self.find_file(filename)
 if alt_file_paths:
     return MultipleChoiceClarification(
@@ -111,7 +112,7 @@ In this example, our custom tool `FileReaderTool` will attempt to open a non-exi
 Note: Our `weather.txt` file contains "The current weather in Llanfairpwllgwyngyllgogerychwyrndrobwllllantysiliogogogoch is broken clouds with a temperature of 6.76°C."
 :::
 
-```python title="main.py"
+```python title="main.py" skip=true
 from portia.runner import Runner
 from portia.config import default_config
 from portia.open_source_tools.registry import example_tool_registry

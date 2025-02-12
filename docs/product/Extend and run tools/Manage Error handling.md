@@ -80,7 +80,7 @@ class FileReaderTool(Tool[str]):
 ```
 
 Throwing a hard tool error should result in a FAILED workflow state and a `final_output` elucidating the error. To test this you can run the code below where attempt to read a non-existent file:
-```python title=main.py
+```python title=main.py skip=true
 from portia.runner import Runner
 from portia.config import default_config
 from portia.open_source_tools.registry import example_tool_registry

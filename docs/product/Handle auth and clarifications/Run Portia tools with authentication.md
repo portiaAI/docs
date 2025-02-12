@@ -27,7 +27,7 @@ We established in the preceding section that clarifications are raised when an a
 
 ## Bringing the concepts together
 
-Now let's bring this to life by reproducing the experience that you can see on website's playground (<a href="https:www.portialabs.ai" target="_blank">**↗**</a>). We want to be able to handle a prompt like `Find the github repository of Mastodon and give it a star for me`, so let's take a look at the code below.
+Now let's bring this to life by reproducing the experience that you can see on the website's playground (<a href="https:www.portialabs.ai" target="_blank">**↗**</a>). We want to be able to handle a prompt like `Find the github repository of Mastodon and give it a star for me`, so let's take a look at the code below.
 
 <details>
 <summary>**Portia API key required**</summary>
@@ -36,7 +36,7 @@ We're assuming you already have a Portia API key from the dashboard and set it i
 
 </details>
 
-```python title="main.py"
+```python title="main.py" skip=true
 from dotenv import load_dotenv
 from portia.runner import Runner
 from portia.config import default_config
