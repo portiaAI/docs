@@ -56,8 +56,8 @@ print(workflow.model_dump_json(indent=2))
 The result of this code block will be the addition of an `execution_context` section within the `Workflow` state, and a `final_output` that is indeed personalised to Saint Nicholas (known by his stage name Santa Claus):
 ```json title="workflow_state.json"
 {
-  "id": "d9991518-92d7-447f-bf28-4f7b9b8110ce",
-  "plan_id": "4f497c60-c33e-40ea-95b4-cd2054559fff",
+  "id": "wkfl-d9991518-92d7-447f-bf28-4f7b9b8110ce",
+  "plan_id": "plan-4f497c60-c33e-40ea-95b4-cd2054559fff",
   "current_step_index": 1,
   "clarifications": [],
   "state": "COMPLETE",

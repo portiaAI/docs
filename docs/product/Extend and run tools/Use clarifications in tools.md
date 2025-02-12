@@ -1,13 +1,12 @@
 ---
 sidebar_position: 4
-slug: /custom-clarifications
+slug: /clarifications-in-tools
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Define custom clarifications
-Use clarifications in your custom tools
+# Use clarifications in your custom tools
 :::tip[TL;DR]
 You can raise a `Clarification` in any custom tool definition to prompt a workflow to interrupt itself and solicit input (<a href="/SDK/portia/clarification" target="_blank">**SDK reference ↗**</a>).
 :::
@@ -44,7 +43,7 @@ class FileReaderTool(Tool[str]):
     args_schema: type[BaseModel] = FileReaderToolSchema
     output_schema: tuple[str, str] = ("str", "A string dump or JSON of the file content")
 
-    def run(self, _: ToolRunContext, filename: str) -> str | dict[str,any]:       
+    def run(self, _: ToolRunContext, filename: str) -> str | dict[str,any] | MultipleChoiceClarification:
         """Run the FileReaderTool."""
         
         file_path = Path(filename)
@@ -104,7 +103,7 @@ if alt_file_paths:
     )
 ```
 
-## Testing your custom clarification
+## Testing your tool with clarifications
 We're now ready to put our clarification to the test. We won't revisit how clarifications work and are handled in detail here, For that you can check out the section dedicated to clarifications (<a href="/understand-clarifications" target="_blank">**Understand clarifications↗**</a>).
 
 :::info[Make a `weather.txt` file for this section]
@@ -133,8 +132,10 @@ while workflow.state == WorkflowState.NEED_CLARIFICATION:
     for clarification in workflow.get_outstanding_clarifications():
         # For each clarification, prompt the user for input
         print(f"{clarification.user_guidance}")
-        user_input = input("Please enter a value:\n" 
-                            + (("\n".join(clarification.options) + "\n") if "options" in clarification else ""))
+        user_input = input("Please enter a value:\n" +
+                               (clarification.choices
+                                if isinstance(clarification, MultipleChoiceClarification)
+                                else ""))
         # Resolve the clarification with the user input
         workflow = runner.resolve_clarification(clarification, user_input, workflow)
 
@@ -151,8 +152,8 @@ For the example query above `Read the contents of the file "weather.txt".`, wher
 - The workflow `state` will appear to `NEED_CLARIFICATION` if you look at the logs at the point when the clarification is raised. It then progresses to `COMPLETE` once you respond to the clarification and the workflow is able to resume:
 ```json title="workflow_state.json"
 {
-  "id": "54d157fe-4b99-4dbb-a917-8fd8852df63d",
-  "plan_id": "b87de5ac-41d9-4722-8baa-8015327511db",
+  "id": "wkfl-54d157fe-4b99-4dbb-a917-8fd8852df63d",
+  "plan_id": "plan-b87de5ac-41d9-4722-8baa-8015327511db",
   "current_step_index": 0,
   "state": "COMPLETE",
   "execution_context": {
@@ -164,7 +165,7 @@ For the example query above `Read the contents of the file "weather.txt".`, wher
   "outputs": {
     "clarifications": [
       {
-        "id": "216c13a1-8342-41ca-99e5-59394cbc7008",
+        "id": "clar-216c13a1-8342-41ca-99e5-59394cbc7008",
         "category": "Multiple Choice",
         "response": "../momo_sdk_tests/demo_runs/weather.txt",
         "step": 0,
@@ -190,3 +191,15 @@ For the example query above `Read the contents of the file "weather.txt".`, wher
   }
 }
 ```
+
+## Accessing clarifications in your custom tool
+The above example showed how you can access a clarification in your custom tool when it relates directly to the tool's arguments. If however you wanted to access a clarification from your tool that is not related to the tool's arguments, you can do so by using the `ToolRunContext` object that is passed to the `run` method of your tool.
+
+```python
+def run(self, ctx: ToolRunContext, filename: str) -> str | dict[str,any] | MultipleChoiceClarification:
+    """Run the FileReaderTool."""
+    clarifications = ctx.clarifications
+```
+
+This allows you to return more complex clarifications from your tool and access them once they have been resolved by the user.
+

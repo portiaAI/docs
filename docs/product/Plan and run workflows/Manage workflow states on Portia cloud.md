@@ -73,8 +73,8 @@ You should expect to see the following output:
 ```bash
 Retrieved workflow:
 {
-  "id": "f66b141b-5603-4bd9-b827-0c7a41bf5d5c",
-  "plan_id": "1eee4bbf-361a-41be-bab7-6dd86a247f48",
+  "id": "wkfl-f66b141b-5603-4bd9-b827-0c7a41bf5d5c",
+  "plan_id": "plan-1eee4bbf-361a-41be-bab7-6dd86a247f48",
   "current_step_index": 1,
   "clarifications": [],
   "state": "COMPLETE",
@@ -92,7 +92,7 @@ Retrieved workflow:
 }
 Retrieved plan:
 {
-  "id": "1eee4bbf-361a-41be-bab7-6dd86a247f48",
+  "id": "plan-1eee4bbf-361a-41be-bab7-6dd86a247f48",
   "query": "Get the temperature in London and share it with a light joke",
   "steps": [
     {

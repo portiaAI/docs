@@ -27,7 +27,7 @@ Workflow states are captured in the `Workflow` class (<a href="/SDK/portia/workf
   <TabItem value="plan" label="Generated plan >>">
     ```json title="plan-1dcd74a4-0af5-490a-a7d0-0df4fd983977.json"
     {
-      "id": "1dcd74a4-0af5-490a-a7d0-0df4fd983977",
+      "id": "plan-1dcd74a4-0af5-490a-a7d0-0df4fd983977",
       "plan_context": {
         "query": "Which stock price grew faster, Amazon or Google?",
         "tool_ids": [
@@ -73,8 +73,8 @@ Workflow states are captured in the `Workflow` class (<a href="/SDK/portia/workf
     <TabItem value="workflow" label="Workflow in final state" default>
     ```json title="workflow-18d9aa91-0066-413f-af32-b979bce89821.json"
     {
-      "id": "18d9aa91-0066-413f-af32-b979bce89821",
-      "plan_id": "a89efeb0-51ef-4f2c-b435-a936c27c3cfc",
+      "id": "wkfl-18d9aa91-0066-413f-af32-b979bce89821",
+      "plan_id": "plan-a89efeb0-51ef-4f2c-b435-a936c27c3cfc",
       "current_step_index": 2,
       "state": "COMPLETE",
       "execution_context": {
