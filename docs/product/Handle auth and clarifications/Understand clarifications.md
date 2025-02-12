@@ -28,7 +28,7 @@ When Portia encounters a clarification and pauses a workflow, it serialises and 
 ## Types of clarifications
 Clarifications are represented by the `Clarification` class (<a href="/SDK/portia/clarification" target="_blank">**SDK reference ↗**</a>). Because it is a structured object, you can easily serve it to an end user using a front end of your choosing when it is encountered e.g. a chatbot or app like Slack, email etc.
 
-We offer three categories of clarifications at the moment. You can see the properties and behaviours specific to each type in the tabs below. The common properties across all clarifications are:
+We offer five categories of clarifications at the moment. You can see the properties and behaviours specific to each type in the tabs below. The common properties across all clarifications are:
 - `uuid`: Unique ID for this clarification
 - `category`: The type of clarification
 - `response`: User's response to the clarification
@@ -100,7 +100,6 @@ We offer three categories of clarifications at the moment. You can see the prope
         "argument": "$email_all_contacts"
     }
     ```
-    </TabItem>
     </TabItem>
     <TabItem value="custom_clar" label="Custom clarifications" default>
     Custom clarifications enable you to attach arbitrary information to a clarification.
