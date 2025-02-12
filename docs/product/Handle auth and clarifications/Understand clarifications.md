@@ -67,7 +67,7 @@ We offer three categories of clarifications at the moment. You can see the prope
     }
     ```
     </TabItem>
-        <TabItem value="multi_clar" label="Multiple choice clarifications" default>
+    <TabItem value="multi_clar" label="Multiple choice clarifications" default>
     Multiple choice clarifications are raised when a tool argument is restricted to a list of values but the agent attempting to invoke the tool is given an argument that falls outside that list. The clarification can be used to serve the acceptable list of values for the user to choose from via the `options` attribute.
     ```json title="multiple_choice_clarification.json"
     {
@@ -87,8 +87,7 @@ We offer three categories of clarifications at the moment. You can see the prope
     }
     ```
     </TabItem>
-    </TabItem>
-        <TabItem value="value_conf" label="Value confirmation clarifications" default>
+    <TabItem value="value_conf" label="Value confirmation clarifications" default>
     Value confirmation clarifications are raised to get the user to confirm or deny if they want to proceed with a particular value. This is particularly useful for 'human in the loop' workflows where you want to get the user to confirm the value before proceeding.
     ```json title="value_confirmation_clarification.json"
     {
