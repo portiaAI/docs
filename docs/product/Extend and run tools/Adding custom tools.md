@@ -1,18 +1,13 @@
 ---
 sidebar_position: 3
-slug: /extend-tool-catalogue
+slug: /add-custom-tools
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Extend your tool catalogue
-Add your own tools and registries.
-:::tip[TL;DR]
-- You can use create and import your own tools to use with our framework.
-:::
+# Add custom tools
 
-## Add custom tools
 Let's build two custom tools that allow an LLM to write / read content to / from a local file. We're going to create our custom tools in a separate folder called `my_custom_tools` at the root of the project directory and create a `file_writer_tool.py` and `file_reader_tool.py` file within it, with the following:
 <Tabs>
   <TabItem value="file_reader" label="file_reader_tool.py">

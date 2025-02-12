@@ -6,7 +6,7 @@ slug: /clarifications-in-tools
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Use clarifications in your custom tools
+# Use clarifications in custom tools
 :::tip[TL;DR]
 You can raise a `Clarification` in any custom tool definition to prompt a workflow to interrupt itself and solicit input (<a href="/SDK/portia/clarification" target="_blank">**SDK reference ↗**</a>).
 :::
