@@ -81,7 +81,7 @@ In your `demo_runs` directory, you should now be able to see a plan and a workfl
   <TabItem value="plan" label="Generated plan">
     ```json title="plan-72cb538e-6d2b-42ca-a6c2-511a9a4c4f0e.json"
     {
-        "id": "72cb538e-6d2b-42ca-a6c2-511a9a4c4f0e",
+        "id": "plan-72cb538e-6d2b-42ca-a6c2-511a9a4c4f0e",
         "plan_context": {
             "query": "Which stock price grew faster in 2024, Amazon or Google?",
             "tool_ids": [
@@ -127,8 +127,8 @@ In your `demo_runs` directory, you should now be able to see a plan and a workfl
     <TabItem value="workflow" label="Workflow in final state" default>
     ```json title="workflow-e3a77013-2bd4-459c-898c-6a8cc9e77d12.json"
     {
-        "id": "e3a77013-2bd4-459c-898c-6a8cc9e77d12",
-        "plan_id": "72cb538e-6d2b-42ca-a6c2-511a9a4c4f0e",
+        "id": "wkfl-e3a77013-2bd4-459c-898c-6a8cc9e77d12",
+        "plan_id": "plan-72cb538e-6d2b-42ca-a6c2-511a9a4c4f0e",
         "current_step_index": 2,
         "state": "COMPLETE",
         "execution_context": {

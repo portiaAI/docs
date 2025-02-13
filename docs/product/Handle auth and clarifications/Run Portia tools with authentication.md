@@ -36,7 +36,7 @@ We're assuming you already have a Portia API key from the dashboard and set it i
 
 </details>
 
-```python title="main.py"
+```python title="main.py" skip=true
 from dotenv import load_dotenv
 from portia.runner import Runner
 from portia.config import default_config
@@ -63,8 +63,10 @@ while workflow.state == WorkflowState.NEED_CLARIFICATION:
         # Usual handling of Input and Multiple Choice clarifications
         if isinstance(clarification, (InputClarification, MultipleChoiceClarification)):
             print(f"{clarification.user_guidance}")
-            user_input = input("Please enter a value:\n" 
-                               + (clarification.choices if clarification.choices else ""))
+            user_input = input("Please enter a value:\n" +
+                               (clarification.choices
+                                if isinstance(clarification, MultipleChoiceClarification)
+                                else ""))
             workflow = runner.resolve_clarification(clarification, user_input, workflow)
         
         # Handling of Action clarifications
@@ -99,7 +101,7 @@ In your logs you should be able to see the tools, as well as a plan and final wo
   <TabItem value="plan" label="Generated plan">
     ```json title="plan-71fbe578-0c3f-4266-b5d7-933e8bb10ef2.json"
     {
-        "id": "71fbe578-0c3f-4266-b5d7-933e8bb10ef2",
+        "id": "plan-71fbe578-0c3f-4266-b5d7-933e8bb10ef2",
         "plan_context": {
             "query": "Find the github repository of Mastodon and give it a star for me",
             "tool_ids": [
@@ -136,10 +138,10 @@ In your logs you should be able to see the tools, as well as a plan and final wo
     ```
   </TabItem>
     <TabItem value="workflow" label="Workflow in final state">
-    ```json title="workflow-36945fae-1dcc-4b05-9bc4-4b862748e031.json"
+    ```json title="wkfl-36945fae-1dcc-4b05-9bc4-4b862748e031.json"
     {
-        "id": "36945fae-1dcc-4b05-9bc4-4b862748e031",
-        "plan_id": "71fbe578-0c3f-4266-b5d7-933e8bb10ef2",
+        "id": "wkfl-36945fae-1dcc-4b05-9bc4-4b862748e031",
+        "plan_id": "plan-71fbe578-0c3f-4266-b5d7-933e8bb10ef2",
         "current_step_index": 1,
         "state": "COMPLETE",
         "execution_context": {
@@ -151,8 +153,8 @@ In your logs you should be able to see the tools, as well as a plan and final wo
         "outputs": {
             "clarifications": [
                 {
-                    "uuid": b1c1e1c0-5c3e-1984,
-                    "type": “Multiple Choice Clarification”,
+                    "uuid": "clar-f873b9be-10ee-4184-a717-3a7559416499",
+                    "category": “Multiple Choice”,
                     "response": “mastodon/mastodon",
                     "step": 2, 
                     "user_guidance": "Please select a repository.", 

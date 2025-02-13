@@ -66,8 +66,8 @@ We are beginning our journey as a developer framework by focusing on this proble
         [`Workflow`](https://docs.portia.dev/execute-workflow) to execute on generated plans and 
         track their state throughout execution. Using our 
         [`Clarification`](https://docs.portia.dev/manage-clarifications) abstraction you can 
-        define points where you want to take control of workflow execution e.g. to resolve missing i
-        nformation or multiple choice decisions. Portia serialises the workflow state, and you can 
+        define points where you want to take control of workflow execution e.g. to resolve missing 
+        information or multiple choice decisions. Portia serialises the workflow state, and you can 
         manage its storage / retrieval yourself or use our cloud offering for simplicity.
       </td>
     </tr>

@@ -84,7 +84,7 @@ print(plan.model_dump_json(indent=2))
 As mentioned earlier in the documentation, the `Runner` class is your main entrypoint to interact with Portia's libraries (<a href="/SDK/portia/runner" target="_blank">**SDK reference ↗**</a>). The `generate_plan` method is available from the `Runner` class and allows you to generate a plan from the query. Running the `generate_plan` method per the code above returns a `Plan` object (<a href="/SDK/portia/plan" target="_blank">**SDK reference ↗**</a>) which looks as follows:
 ```json title="plan.json"
 {
-  "id": "1dcd74a4-0af5-490a-a7d0-0df4fd983977",
+  "id": "plan-1dcd74a4-0af5-490a-a7d0-0df4fd983977",
   "plan_context": {
     "query": "Which stock price grew faster, Amazon or Google?",
     "tool_ids": [

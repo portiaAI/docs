@@ -47,7 +47,7 @@ Take a moment to examine the workflow created by the code above in your dashboar
 ## Retrieve workflows from the cloud
 
 You can retrieve both workflow states and plans for a stored workflow. For that you would use the `get_workflow` and `get_plan` methods of the `Storage` class. You will need to specify the `PortiaCloudStorage` class in particular here. Go ahead and copy your workflow ID from the dashboard entry created in the previous section into the code below.
-```python title="main.py"
+```python title="main.py" skip=true
 from dotenv import load_dotenv
 from portia.config import Config, StorageClass
 from portia.runner import PortiaCloudStorage
@@ -73,8 +73,8 @@ You should expect to see the following output:
 ```bash
 Retrieved workflow:
 {
-  "id": "f66b141b-5603-4bd9-b827-0c7a41bf5d5c",
-  "plan_id": "1eee4bbf-361a-41be-bab7-6dd86a247f48",
+  "id": "wkfl-f66b141b-5603-4bd9-b827-0c7a41bf5d5c",
+  "plan_id": "plan-1eee4bbf-361a-41be-bab7-6dd86a247f48",
   "current_step_index": 1,
   "clarifications": [],
   "state": "COMPLETE",
@@ -92,7 +92,7 @@ Retrieved workflow:
 }
 Retrieved plan:
 {
-  "id": "1eee4bbf-361a-41be-bab7-6dd86a247f48",
+  "id": "plan-1eee4bbf-361a-41be-bab7-6dd86a247f48",
   "query": "Get the temperature in London and share it with a light joke",
   "steps": [
     {
@@ -119,7 +119,7 @@ Retrieved plan:
 
 If you wanted to retrieve workflows in bulk, you can use the `get_workflows` method (plural!) from `StorageClass`. This returns paginated data so you will need to process that information further to cycle through all results. Remember the first page number returned is always 1 (not 0!).
 
-```python
+```python skip=true
 workflow_list_init = my_store.get_workflows() # again, plural!
 total_pages = workflow_list_init.total_pages
 

@@ -56,8 +56,8 @@ print(workflow.model_dump_json(indent=2))
 The result of this code block will be the addition of an `execution_context` section within the `Workflow` state, and a `final_output` that is indeed personalised to Saint Nicholas (known by his stage name Santa Claus):
 ```json title="workflow_state.json"
 {
-  "id": "d9991518-92d7-447f-bf28-4f7b9b8110ce",
-  "plan_id": "4f497c60-c33e-40ea-95b4-cd2054559fff",
+  "id": "wkfl-d9991518-92d7-447f-bf28-4f7b9b8110ce",
+  "plan_id": "plan-4f497c60-c33e-40ea-95b4-cd2054559fff",
   "current_step_index": 1,
   "clarifications": [],
   "state": "COMPLETE",
@@ -97,7 +97,7 @@ Running `with execution_context` like this will:
 
 :::info[On persisting execution context]
 A `Workflow` object inherits the `ExecutionContext` with which it was created as we have seen from the output above. Whenever such a workflow is resumed it will by default resume with this execution context persisted within it. You may choose to override this execution context with a `with execution_context({new execution context here})` when resuming
-```python
+```python skip=true
 ...
 # if we want to resume the workflow with a new execution context, we can override it
 with execution_context(context={new execution context here}):

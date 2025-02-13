@@ -72,8 +72,8 @@ Let's submit a basic prompt to your LLM using our framework to make sure it's al
 Portia will return the final state of the workflow created in response to the submitted prompt. We will delve into workflow states more deeply in a later section but for now you want to be sure you can see `"state": "COMPLETE"` and the answer to your maths question e.g. `"final_output": {"value": 3.0}` as part of that returned state. Here's an example output:
 ```bash
 {
-    "id": "13a97e70-2ca6-41c9-bc49-b7f84f6d3982",
-    "plan_id": "96693022-598e-458c-8d2f-44ba51d4f0b5",
+    "id": "wkfl-13a97e70-2ca6-41c9-bc49-b7f84f6d3982",
+    "plan_id": "plan-96693022-598e-458c-8d2f-44ba51d4f0b5",
     "current_step_index": 0,
     "clarifications": [],
     # highlight-next-line
