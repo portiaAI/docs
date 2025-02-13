@@ -28,7 +28,7 @@ When Portia encounters a clarification and pauses a workflow, it serialises and 
 ## Types of clarifications
 Clarifications are represented by the `Clarification` class (<a href="/SDK/portia/clarification" target="_blank">**SDK reference ↗**</a>). Because it is a structured object, you can easily serve it to an end user using a front end of your choosing when it is encountered e.g. a chatbot or app like Slack, email etc.
 
-We offer three categories of clarifications at the moment. You can see the properties and behaviours specific to each type in the tabs below. The common properties across all clarifications are:
+We offer five categories of clarifications at the moment. You can see the properties and behaviours specific to each type in the tabs below. The common properties across all clarifications are:
 - `uuid`: Unique ID for this clarification
 - `category`: The type of clarification
 - `response`: User's response to the clarification
@@ -41,7 +41,8 @@ We offer three categories of clarifications at the moment. You can see the prope
     Action clarifications are useful when a user action is needed to complete a step e.g. clicking on an `action_url` to complete an authentication flow or to make a payment. You will need to have a way to receive a callback from such a flow in order to confirm whether the clarification was resolved successfully.
     ```json title="action_clarification.json"
     {
-        "uuid": b1c1e1c0-5c3e-9z22,
+        "uuid": "clar-425c8ce9-8fc9-43af-b99e-64903043c5df",
+        "workflow_id": "wkfl-89c6bd4f-29d2-4aad-bf59-8ba3229fd258",
         "category": “Action”,
         "response": “success”,
         "step": 1,
@@ -55,8 +56,9 @@ We offer three categories of clarifications at the moment. You can see the prope
     Input clarifications are used when a tool call is missing one argument and the user needs to provide it e.g. a `send_email` tool needs to be invoked but no email is resolvable from the user query. The `argument` attribute points to the tool argument this clarification resolves.
     ```json title="input_clarification.json"
     {
-        "uuid": b1c1e1c0-5c3e-8x97,
-        "cateogry": “Input”,
+        "uuid": "clar-425c8ce9-8fc9-43af-b99e-64903043c5df",
+        "workflow_id": "wkfl-89c6bd4f-29d2-4aad-bf59-8ba3229fd258",
+        "category": “Input”,
         "response": “avrana@kern.ai”,
         "step": 2, 
         "user_guidance": "Please provide me with Avrana's email address", 
@@ -65,12 +67,13 @@ We offer three categories of clarifications at the moment. You can see the prope
     }
     ```
     </TabItem>
-        <TabItem value="multi_clar" label="Multiple choice clarifications" default>
+    <TabItem value="multi_clar" label="Multiple choice clarifications" default>
     Multiple choice clarifications are raised when a tool argument is restricted to a list of values but the agent attempting to invoke the tool is given an argument that falls outside that list. The clarification can be used to serve the acceptable list of values for the user to choose from via the `options` attribute.
     ```json title="multiple_choice_clarification.json"
     {
-        "uuid": b1c1e1c0-5c3e-1984,
-        "type": “Multiple Choice”,
+        "uuid": "clar-425c8ce9-8fc9-43af-b99e-64903043c5df",
+        "workflow_id": "wkfl-89c6bd4f-29d2-4aad-bf59-8ba3229fd258",
+        "category": “Multiple Choice”,
         "response": “ron_swanson@pawnee.com,
         "step": 2, 
         "user_guidance": "Please select a recipient.", 
@@ -81,6 +84,36 @@ We offer three categories of clarifications at the moment. You can see the prope
                 "ron_burgundy@kvwnchannel4.com",
                 "ron@gone_wrong.com"
             ]
+    }
+    ```
+    </TabItem>
+    <TabItem value="value_conf" label="Value confirmation clarifications" default>
+    Value confirmation clarifications are raised to get the user to confirm or deny if they want to proceed with a particular value. This is particularly useful for 'human in the loop' workflows where you want to get the user to confirm the value before proceeding.
+    ```json title="value_confirmation_clarification.json"
+    {
+        "uuid": "clar-425c8ce9-8fc9-43af-b99e-64903043c5df",
+        "workflow_id": "wkfl-89c6bd4f-29d2-4aad-bf59-8ba3229fd258",
+        "category": “Value Confirmation”,
+        "step": 2, 
+        "user_guidance": "This will email all contacts in your database. Are you sure you want to proceed?", 
+        "resolved": true,
+        "argument": "$email_all_contacts"
+    }
+    ```
+    </TabItem>
+    <TabItem value="custom_clar" label="Custom clarifications" default>
+    Custom clarifications enable you to attach arbitrary information to a clarification.
+    ```json title="custom_clarification.json"
+    {
+        "uuid": "clar-425c8ce9-8fc9-43af-b99e-64903043c5df",
+        "workflow_id": "wkfl-89c6bd4f-29d2-4aad-bf59-8ba3229fd258",
+        "category": “Custom”,
+        "step": 2, 
+        "user_guidance": "Which product did you want to buy?", 
+        "resolved": true,
+        "data": {
+            "product_id": "prod-1234567890"
+        }
     }
     ```
     </TabItem>
@@ -123,8 +156,10 @@ while workflow.state == WorkflowState.NEED_CLARIFICATION:
     for clarification in workflow.get_outstanding_clarifications():
         # For each clarification, prompt the user for input
         print(f"{clarification.user_guidance}")
-        user_input = input("Please enter a value:\n" 
-                            + (("\n".join(clarification.options) + "\n") if "options" in clarification else ""))
+        user_input = input("Please enter a value:\n" +
+                               (clarification.choices
+                                if isinstance(clarification, MultipleChoiceClarification)
+                                else ""))
         # Resolve the clarification with the user input
         workflow = runner.resolve_clarification(clarification, user_input, workflow)
 
@@ -151,8 +186,8 @@ For the example query above `Read the contents of the file "weather.txt".`, wher
 - The workflow `state` will appear to `NEED_CLARIFICATION` if you look at the logs at the point when the clarification is raised. It then progresses to `COMPLETE` once you respond to the clarification and the workflow is able to resume:
 ```json title="workflow_state.json"
 {
-  "id": "54d157fe-4b99-4dbb-a917-8fd8852df63d",
-  "plan_id": "b87de5ac-41d9-4722-8baa-8015327511db",
+  "id": "wkfl-54d157fe-4b99-4dbb-a917-8fd8852df63d",
+  "plan_id": "plan-b87de5ac-41d9-4722-8baa-8015327511db",
   "current_step_index": 0,
   "state": "COMPLETE",
   "execution_context": {
@@ -164,7 +199,7 @@ For the example query above `Read the contents of the file "weather.txt".`, wher
   "outputs": {
     "clarifications": [
       {
-        "id": "216c13a1-8342-41ca-99e5-59394cbc7008",
+        "id": "clar-216c13a1-8342-41ca-99e5-59394cbc7008",
         "category": "Multiple Choice",
         "response": "../momo_sdk_tests/demo_runs/weather.txt",
         "step": 0,

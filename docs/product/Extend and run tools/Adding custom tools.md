@@ -1,19 +1,13 @@
 ---
 sidebar_position: 3
-slug: /extend-tool-catalogue
+slug: /add-custom-tools
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Extend your tool catalogue
-Add your own tools and registries.
-:::tip[TL;DR]
-- You can use create and import your own tools to use with our framework.
-- Tool registries are useful to group frequently used tools together. They are represented by the `Tool_registry` class (<a href="/SDK/portia/tool_registry" target="_blank">**SDK reference ↗**</a>).
-:::
+# Add custom tools
 
-## Add custom tools
 Let's build two custom tools that allow an LLM to write / read content to / from a local file. We're going to create our custom tools in a separate folder called `my_custom_tools` at the root of the project directory and create a `file_writer_tool.py` and `file_reader_tool.py` file within it, with the following:
 <Tabs>
   <TabItem value="file_reader" label="file_reader_tool.py">
@@ -109,8 +103,6 @@ If those tools look familiar it's because we actually offer them in our open sou
 :::
 
 ## Manage tool registries
-
-A tool registry is a collection of tools and is represented by the `Tool_registry` class (<a href="/run-portia-tools" target="_blank">**SDK reference ↗**</a>). Tool registries are useful to group frequently used tools together, e.g. you could imagine having a tool registry by function in your organisation. You can load tool registries either from memory using the `InMemoryToolRegistry` class (i.e. from within your project) or from Portia's cloud using the `PortiaToolRegistry` class (<a href="/run-portia-tools" target="_blank">**Run Portia tools ↗**</a>). We actually group a few of our open source tools into an `example_tool_registry`, which is what we've been importing into all the examples we've looked at in the docs so far (<a href="https://github.com/portiaAI/portia-sdk-python/tree/main/portia/open_source_tools" target="_blank">**Open source tools in our SDK repo ↗**</a>).
 
 Let's group our custom tools into a registry so we can import it into code afterwards. Let's create a `registry.py` file in the `my_custom_tools` directory and declare our registry as follow:
 ```python title="registry.py" skip=true
