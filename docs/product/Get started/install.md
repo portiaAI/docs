@@ -17,13 +17,13 @@ python3 --version
 :::
 
 ### Install the Portia Python SDK
-Run the following command to install our SDK and its dependencies.
+Run the following command to install our SDK and its dependencies. For `pip` users that's
 ```bash
 pip install portia-sdk-python
 ```
 
 ### Configure access to your preferred LLM
-Portia allows you to connect to the LLM of your choice using your own API key(s). We are working to support a broader set of models but for now here are the models that our libraries support and how to set the API keys for them.
+Set environment variables to connect to one of our currently supported LLMs. We are currently expanding this list. 
 
 <Tabs groupId="llm-provider">
     <TabItem value="openai" label="Open AI" default>
