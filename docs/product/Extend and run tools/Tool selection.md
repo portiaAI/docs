@@ -29,6 +29,7 @@ runner = Runner(config=default_config(), tools=[CalculatorTool(), SearchTool(), 
 A tool registry is a collection of tools and is represented by the `Tool_registry` class (<a href="/run-portia-tools" target="_blank">**SDK reference ↗**</a>). Tool registries are useful to group frequently used tools together, e.g. you could imagine having a tool registry by function in your organisation. You can access all of the Portia Cloud tools in the `PortiaToolRegistry` class (<a href="/run-portia-tools" target="_blank">**SDK reference ↗**</a>).
 
 ```python
+from dotenv import load_dotenv
 from portia.runner import Runner
 from portia.config import default_config
 from portia.tool_registry import PortiaToolRegistry
@@ -66,7 +67,7 @@ runner = Runner(config=default_config(),
 
 If you wanted to group these into a tool registry for future use, you could do so like this:
 
-```python
+```python skip=true
 from portia.tool_registry import InMemoryToolRegistry
 
 my_registry = InMemoryToolRegistry().from_local_tools(
