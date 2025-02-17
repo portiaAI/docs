@@ -17,7 +17,7 @@ python3 --version
 :::
 
 ### Install the Portia Python SDK
-Run the following command to install our SDK and its dependencies. For `pip` users that's
+Run the following command to install our SDK and its dependencies.
 ```bash
 pip install portia-sdk-python
 ```
