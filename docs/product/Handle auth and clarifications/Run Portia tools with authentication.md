@@ -63,10 +63,8 @@ while workflow.state == WorkflowState.NEED_CLARIFICATION:
         # Usual handling of Input and Multiple Choice clarifications
         if isinstance(clarification, (InputClarification, MultipleChoiceClarification)):
             print(f"{clarification.user_guidance}")
-            user_input = input("Please enter a value:\n" +
-                               (clarification.options
-                                if isinstance(clarification, MultipleChoiceClarification)
-                                else ""))
+            user_input = input("Please enter a value:\n" 
+                            + (("\n".join(clarification.options) + "\n") if "options" in clarification else ""))
             workflow = runner.resolve_clarification(clarification, user_input, workflow)
         
         # Handling of Action clarifications

@@ -27,20 +27,14 @@ class WorkflowState(PortiaEnum)
 
 The current state of the Workflow.
 
-Attributes
-----------
-NOT_STARTED : str
-    The workflow has not been started yet.
-IN_PROGRESS : str
-    The workflow is currently in progress.
-NEED_CLARIFICATION : str
-    The workflow requires further clarification before proceeding.
-READY_TO_RESUME : str
-    The workflow is ready to resume after clarifications have been resolved.
-COMPLETE : str
-    The workflow has been successfully completed.
-FAILED : str
-    The workflow has encountered an error and failed.
+**Attributes**:
+
+- `NOT_STARTED` - The workflow has not been started yet.
+- `IN_PROGRESS` - The workflow is currently in progress.
+- `NEED_CLARIFICATION` - The workflow requires further clarification before proceeding.
+- `READY_TO_RESUME` - The workflow is ready to resume after clarifications have been resolved.
+- `COMPLETE` - The workflow has been successfully completed.
+- `FAILED` - The workflow has encountered an error and failed.
 
 ## WorkflowOutputs Objects
 
@@ -50,15 +44,12 @@ class WorkflowOutputs(BaseModel)
 
 Outputs of a workflow, including clarifications.
 
-Attributes
-----------
-clarifications : ClarificationListType
-    Clarifications raise by this workflow.
-step_outputs : dict[str, Output]
-    A dictionary containing outputs of individual workflow steps.
-    Outputs are indexed by the value given by the `step.output` field of the plan.
-final_output : Output | None
-    The final consolidated output of the workflow, if available.
+**Attributes**:
+
+- `clarifications` _ClarificationListType_ - Clarifications raised by this workflow.
+- `step_outputs` _dict[str, Output]_ - A dictionary containing outputs of individual steps.
+  Outputs are indexed by the value given by the `step.output` field of the plan.
+- `final_output` _Output | None_ - The final consolidated output of the workflow, if available.
 
 ## Workflow Objects
 
@@ -68,20 +59,14 @@ class Workflow(BaseModel)
 
 A workflow represents a running instance of a Plan.
 
-Attributes
-----------
-id : WorkflowUUID
-    A unique ID for this workflow.
-plan_id : PlanUUID
-    The ID of the Plan this Workflow uses.
-current_step_index : int
-    The current step that is being executed.
-state : WorkflowState
-    The current state of the workflow.
-execution_context : ExecutionContext
-    Execution context for the workflow.
-outputs : WorkflowOutputs
-    Outputs of the workflow, including clarifications.
+**Attributes**:
+
+- `id` _WorkflowUUID_ - A unique ID for this workflow.
+- `plan_id` _PlanUUID_ - The ID of the Plan this Workflow uses.
+- `current_step_index` _int_ - The current step that is being executed.
+- `state` _WorkflowState_ - The current state of the workflow.
+- `execution_context` _ExecutionContext_ - Execution context for the workflow.
+- `outputs` _WorkflowOutputs_ - Outputs of the workflow, including clarifications.
 
 #### get\_outstanding\_clarifications
 
@@ -91,10 +76,9 @@ def get_outstanding_clarifications() -> ClarificationListType
 
 Return all outstanding clarifications.
 
-Returns
--------
-ClarificationListType
-    A list of outstanding clarifications that have not been resolved.
+**Returns**:
+
+- `ClarificationListType` - A list of outstanding clarifications that have not been resolved.
 
 #### get\_clarifications\_for\_step
 
@@ -105,14 +89,26 @@ def get_clarifications_for_step(
 
 Return clarifications for the given step.
 
-Args:
-----
-step( int| None): the step to get clarifications for. Defaults to current step.
+**Arguments**:
 
-Returns:
--------
-ClarificationListType
-    A list of clarifications for the given step.
+- `step` _int | None_ - the step to get clarifications for. Defaults to current step.
+  
+
+**Returns**:
+
+- `ClarificationListType` - A list of clarifications for the given step.
+
+#### \_\_str\_\_
+
+```python
+def __str__() -> str
+```
+
+Return the string representation of the workflow.
+
+**Returns**:
+
+- `str` - A string representation containing key workflow attributes.
 
 ## ReadOnlyWorkflow Objects
 
@@ -134,13 +130,12 @@ def from_workflow(cls, workflow: Workflow) -> ReadOnlyWorkflow
 
 Create a read-only workflow from a normal workflow.
 
-Parameters
-----------
-workflow : Workflow
-    The original workflow instance to create a read-only copy from.
+**Arguments**:
 
-Returns
--------
-ReadOnlyWorkflow
-    A new read-only instance of the provided workflow.
+- `workflow` _Workflow_ - The original workflow instance to create a read-only copy from.
+  
+
+**Returns**:
+
+- `ReadOnlyWorkflow` - A new read-only instance of the provided workflow.
 

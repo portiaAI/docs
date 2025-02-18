@@ -16,11 +16,12 @@ class ToolArgument(BaseModel)
 
 Represents an argument for a tool as extracted from the goal and context.
 
-Attributes:
-    name (str): The name of the argument, as requested by the tool.
-    value (Any | None): The value of the argument, as provided in the goal or context.
-    valid (bool): Whether the value is a valid type and/or format for the given argument.
-    explanation (str): Explanation of the source for the value of the argument.
+**Attributes**:
+
+- `name` _str_ - The name of the argument, as requested by the tool.
+- `value` _Any | None_ - The value of the argument, as provided in the goal or context.
+- `valid` _bool_ - Whether the value is a valid type and/or format for the given argument.
+- `explanation` _str_ - Explanation of the source for the value of the argument.
 
 ## ToolInputs Objects
 
@@ -30,8 +31,9 @@ class ToolInputs(BaseModel)
 
 Represents the inputs for a tool.
 
-Attributes:
-    args (list[ToolArgument]): Arguments for the tool.
+**Attributes**:
+
+- `args` _list[ToolArgument]_ - Arguments for the tool.
 
 ## VerifiedToolArgument Objects
 
@@ -41,11 +43,12 @@ class VerifiedToolArgument(BaseModel)
 
 Represents an argument for a tool after being verified by an agent.
 
-Attributes:
-    name (str): The name of the argument, as requested by the tool.
-    value (Any | None): The value of the argument, as provided in the goal or context.
-    made_up (bool): Whether the value was made up or not. Should be false if the value was
-    provided by the user.
+**Attributes**:
+
+- `name` _str_ - The name of the argument, as requested by the tool.
+- `value` _Any | None_ - The value of the argument, as provided in the goal or context.
+- `made_up` _bool_ - Whether the value was made up or not. Should be false if the value was
+  provided by the user.
 
 ## VerifiedToolInputs Objects
 
@@ -55,8 +58,9 @@ class VerifiedToolInputs(BaseModel)
 
 Represents the inputs for a tool after being verified by an agent.
 
-Attributes:
-    args (list[VerifiedToolArgument]): Arguments for the tool.
+**Attributes**:
+
+- `args` _list[VerifiedToolArgument]_ - Arguments for the tool.
 
 ## ParserModel Objects
 
@@ -66,18 +70,35 @@ class ParserModel()
 
 Model to parse the arguments for a tool.
 
-Args:
-    llm (BaseChatModel): The language model used for argument parsing.
-    context (str): The context for argument generation.
-    agent (VerifierAgent): The agent using the parser model.
+**Arguments**:
 
-Attributes:
-    arg_parser_prompt (ChatPromptTemplate): The prompt template for argument parsing.
-    llm (BaseChatModel): The language model used.
-    context (str): The context for argument generation.
-    agent (VerifierAgent): The agent using the parser model.
-    previous_errors (list[str]): A list of previous errors encountered during parsing.
-    retries (int): The number of retries attempted for parsing.
+- `llm` _BaseChatModel_ - The language model used for argument parsing.
+- `context` _str_ - The context for argument generation.
+- `agent` _VerifierAgent_ - The agent using the parser model.
+  
+
+**Attributes**:
+
+- `arg_parser_prompt` _ChatPromptTemplate_ - The prompt template for argument parsing.
+- `llm` _BaseChatModel_ - The language model used.
+- `context` _str_ - The context for argument generation.
+- `agent` _VerifierAgent_ - The agent using the parser model.
+- `previous_errors` _list[str]_ - A list of previous errors encountered during parsing.
+- `retries` _int_ - The number of retries attempted for parsing.
+
+#### \_\_init\_\_
+
+```python
+def __init__(llm: BaseChatModel, context: str, agent: VerifierAgent) -> None
+```
+
+Initialize the model.
+
+**Arguments**:
+
+- `llm` _BaseChatModel_ - The language model used for argument parsing.
+- `context` _str_ - The context for argument generation.
+- `agent` _VerifierAgent_ - The agent using the parser model.
 
 #### invoke
 
@@ -87,14 +108,19 @@ def invoke(state: MessagesState) -> dict[str, Any]
 
 Invoke the model with the given message state.
 
-Args:
-    state (MessagesState): The current state of the conversation.
+**Arguments**:
 
-Returns:
-    dict[str, Any]: The response after invoking the model.
+- `state` _MessagesState_ - The current state of the conversation.
+  
 
-Raises:
-    InvalidWorkflowStateError: If the agent&#x27;s tool is not available.
+**Returns**:
+
+  dict[str, Any]: The response after invoking the model.
+  
+
+**Raises**:
+
+- `InvalidWorkflowStateError` - If the agent&#x27;s tool is not available.
 
 ## VerifierModel Objects
 
@@ -108,11 +134,26 @@ This model ensures that the arguments passed to a tool are valid, determining wh
 &quot;made up&quot; or not based on the context and specific rules. The verification process uses an LLM
 to analyze the context and tool arguments and returns a structured validation output.
 
-Attributes:
-    arg_verifier_prompt (ChatPromptTemplate): The prompt template used for arg verification.
-    llm (BaseChatModel): The language model used to invoke the verification process.
-    context (str): The context in which the tool arguments are being validated.
-    agent (VerifierAgent): The agent responsible for handling the verification process.
+**Attributes**:
+
+- `arg_verifier_prompt` _ChatPromptTemplate_ - The prompt template used for arg verification.
+- `llm` _BaseChatModel_ - The language model used to invoke the verification process.
+- `context` _str_ - The context in which the tool arguments are being validated.
+- `agent` _VerifierAgent_ - The agent responsible for handling the verification process.
+
+#### \_\_init\_\_
+
+```python
+def __init__(llm: BaseChatModel, context: str, agent: VerifierAgent) -> None
+```
+
+Initialize the model.
+
+**Arguments**:
+
+- `llm` _BaseChatModel_ - The language model used for argument parsing.
+- `context` _str_ - The context for argument generation.
+- `agent` _VerifierAgent_ - The agent using the parser model.
 
 #### invoke
 
@@ -122,14 +163,19 @@ def invoke(state: MessagesState) -> dict[str, Any]
 
 Invoke the model with the given message state.
 
-Args:
-    state (MessagesState): The current state of the conversation.
+**Arguments**:
 
-Returns:
-    dict[str, Any]: The response after invoking the model.
+- `state` _MessagesState_ - The current state of the conversation.
+  
 
-Raises:
-    InvalidWorkflowStateError: If the agent&#x27;s tool is not available.
+**Returns**:
+
+  dict[str, Any]: The response after invoking the model.
+  
+
+**Raises**:
+
+- `InvalidWorkflowStateError` - If the agent&#x27;s tool is not available.
 
 ## ToolCallingModel Objects
 
@@ -139,6 +185,22 @@ class ToolCallingModel()
 
 Model to call the tool with the verified arguments.
 
+#### \_\_init\_\_
+
+```python
+def __init__(llm: BaseChatModel, context: str, tools: list[StructuredTool],
+             agent: VerifierAgent) -> None
+```
+
+Initialize the model.
+
+**Arguments**:
+
+- `llm` _BaseChatModel_ - The language model used for argument parsing.
+- `context` _str_ - The context for argument generation.
+- `agent` _VerifierAgent_ - The agent using the parser model.
+- `tools` _list[StructuredTool]_ - The tools to pass to the model.
+
 #### invoke
 
 ```python
@@ -147,14 +209,19 @@ def invoke(state: MessagesState) -> dict[str, Any]
 
 Invoke the model with the given message state.
 
-Args:
-    state (MessagesState): The current state of the conversation.
+**Arguments**:
 
-Returns:
-    dict[str, Any]: The response after invoking the model.
+- `state` _MessagesState_ - The current state of the conversation.
+  
 
-Raises:
-    InvalidWorkflowStateError: If the agent&#x27;s tool is not available.
+**Returns**:
+
+  dict[str, Any]: The response after invoking the model.
+  
+
+**Raises**:
+
+- `InvalidWorkflowStateError` - If the agent&#x27;s tool is not available.
 
 ## VerifierAgent Objects
 
@@ -178,6 +245,24 @@ Also, if the agent is being called a second time, it will just jump to step 4.
 Possible improvements:
  1. This approach (as well as the other agents) could be improved for arguments that are lists
 
+#### \_\_init\_\_
+
+```python
+def __init__(step: Step,
+             workflow: Workflow,
+             config: Config,
+             tool: Tool | None = None) -> None
+```
+
+Initialize the agent.
+
+**Arguments**:
+
+- `step` _Step_ - The current step in the task plan.
+- `workflow` _Workflow_ - The workflow that defines the task execution process.
+- `config` _Config_ - The configuration settings for the agent.
+- `tool` _Tool | None_ - The tool to be used for the task (optional).
+
 #### clarifications\_or\_continue
 
 ```python
@@ -187,11 +272,14 @@ def clarifications_or_continue(
 
 Determine if we should continue with the tool call or request clarifications instead.
 
-Args:
-    state (MessagesState): The current state of the conversation.
+**Arguments**:
 
-Returns:
-    Literal[AgentNode.TOOL_AGENT, END]: The next node we should route to.
+- `state` _MessagesState_ - The current state of the conversation.
+  
+
+**Returns**:
+
+  Literal[AgentNode.TOOL_AGENT, END]: The next node we should route to.
 
 #### get\_last\_resolved\_clarification
 
@@ -201,11 +289,14 @@ def get_last_resolved_clarification(arg_name: str) -> Clarification | None
 
 Return the last argument clarification that matches the given arg_name.
 
-Args:
-    arg_name (str): The name of the argument to match clarifications for
+**Arguments**:
 
-Returns:
-    Clarification | None: The matched clarification
+- `arg_name` _str_ - The name of the argument to match clarifications for
+  
+
+**Returns**:
+
+  Clarification | None: The matched clarification
 
 #### execute\_sync
 
@@ -217,6 +308,7 @@ Run the core execution logic of the task.
 
 This method will invoke the tool with arguments that are parsed and verified first.
 
-Returns:
-    Output: The result of the agent&#x27;s execution, containing the tool call result.
+**Returns**:
+
+- `Output` - The result of the agent&#x27;s execution, containing the tool call result.
 

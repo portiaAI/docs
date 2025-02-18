@@ -135,7 +135,11 @@ while workflow.state == WorkflowState.NEED_CLARIFICATION:
         # For each clarification, prompt the user for input
         print(f"{clarification.user_guidance}")
         user_input = input("Please enter a value:\n" +
+<<<<<<< HEAD
                                (("\n".join(clarification.options) + "\n") 
+=======
+                               (str(clarification.options)
+>>>>>>> main
                                 if isinstance(clarification, MultipleChoiceClarification)
                                 else ""))
         # Resolve the clarification with the user input
@@ -197,7 +201,7 @@ For the example query above `Read the contents of the file "weather.txt".`, wher
 ## Accessing clarifications in your custom tool
 The above example showed how you can access a clarification in your custom tool when it relates directly to the tool's arguments. If however you wanted to access a clarification from your tool that is not related to the tool's arguments, you can do so by using the `ToolRunContext` object that is passed to the `run` method of your tool.
 
-```python
+```python skip=true
 def run(self, ctx: ToolRunContext, filename: str) -> str | dict[str,any] | MultipleChoiceClarification:
     """Run the FileReaderTool."""
     clarifications = ctx.clarifications

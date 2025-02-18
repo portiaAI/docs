@@ -28,16 +28,17 @@ This class defines the essential methods for interacting with tool registries, i
 registering, retrieving, and listing tools. Specific tool registries should implement these
 methods.
 
-Methods:
-    register_tool(tool: Tool) -&gt; None:
-        Registers a new tool in the registry.
-    get_tool(tool_id: str) -&gt; Tool:
-        Retrieves a tool by its ID.
-    get_tools() -&gt; list[Tool]:
-        Retrieves all tools in the registry.
-    match_tools(query: str | None = None, tool_ids: list[str] | None = None) -&gt; list[Tool]:
-        Optionally, retrieve tools that match a given query and tool_ids. Useful to implement
-        tool filtering.
+**Methods**:
+
+- `register_tool(tool` - Tool) -&gt; None:
+  Registers a new tool in the registry.
+- `get_tool(tool_id` - str) -&gt; Tool:
+  Retrieves a tool by its ID.
+  get_tools() -&gt; list[Tool]:
+  Retrieves all tools in the registry.
+- `match_tools(query` - str | None = None, tool_ids: list[str] | None = None) -&gt; list[Tool]:
+  Optionally, retrieve tools that match a given query and tool_ids. Useful to implement
+  tool filtering.
 
 #### register\_tool
 
@@ -48,8 +49,9 @@ def register_tool(tool: Tool) -> None
 
 Register a new tool.
 
-Args:
-    tool (Tool): The tool to be registered.
+**Arguments**:
+
+- `tool` _Tool_ - The tool to be registered.
 
 #### get\_tool
 
@@ -60,14 +62,19 @@ def get_tool(tool_id: str) -> Tool
 
 Retrieve a tool&#x27;s information.
 
-Args:
-    tool_id (str): The ID of the tool to retrieve.
+**Arguments**:
 
-Returns:
-    Tool: The requested tool.
+- `tool_id` _str_ - The ID of the tool to retrieve.
+  
 
-Raises:
-    ToolNotFoundError: If the tool with the given ID does not exist.
+**Returns**:
+
+- `Tool` - The requested tool.
+  
+
+**Raises**:
+
+- `ToolNotFoundError` - If the tool with the given ID does not exist.
 
 #### get\_tools
 
@@ -78,8 +85,9 @@ def get_tools() -> list[Tool]
 
 Get all tools registered with the registry.
 
-Returns:
-    list[Tool]: A list of all tools in the registry.
+**Returns**:
+
+- `list[Tool]` - A list of all tools in the registry.
 
 #### match\_tools
 
@@ -90,16 +98,57 @@ def match_tools(query: str | None = None,
 
 Provide a set of tools that match a given query and tool_ids.
 
-Args:
-    query (str | None): The query to match tools against.
-    tool_ids (list[str] | None): The list of tool ids to match.
+**Arguments**:
 
-Returns:
-    list[Tool]: A list of tools matching the query.
+- `query` _str | None_ - The query to match tools against.
+- `tool_ids` _list[str] | None_ - The list of tool ids to match.
+  
 
-This method is useful to implement tool filtering whereby only a selection of tools are
-passed to the Planner based on the query.
-This method is optional to implement and will default to providing all tools.
+**Returns**:
+
+- `list[Tool]` - A list of tools matching the query.
+  
+  This method is useful to implement tool filtering whereby only a selection of tools are
+  passed to the Planner based on the query.
+  This method is optional to implement and will default to providing all tools.
+
+#### \_\_add\_\_
+
+```python
+def __add__(other: ToolRegistry | list[Tool]) -> ToolRegistry
+```
+
+Return an aggregated tool registry combining two registries or a registry and tool list.
+
+Tool IDs must be unique across the two registries otherwise an error will be thrown.
+
+**Arguments**:
+
+- `other` _ToolRegistry_ - Another tool registry to be combined.
+  
+
+**Returns**:
+
+- `AggregatedToolRegistry` - A new tool registry containing tools from both registries.
+
+#### \_\_radd\_\_
+
+```python
+def __radd__(other: ToolRegistry | list[Tool]) -> ToolRegistry
+```
+
+Return an aggregated tool registry combining two registries or a registry and tool list.
+
+Tool IDs must be unique across the two registries otherwise an error will be thrown.
+
+**Arguments**:
+
+- `other` _ToolRegistry_ - Another tool registry to be combined.
+  
+
+**Returns**:
+
+- `AggregatedToolRegistry` - A new tool registry containing tools from both registries.
 
 ## AggregatedToolRegistry Objects
 
@@ -111,6 +160,18 @@ An interface over a set of tool registries.
 
 This class aggregates multiple tool registries, allowing the user to retrieve tools from
 any of the registries in the collection.
+
+#### \_\_init\_\_
+
+```python
+def __init__(registries: list[ToolRegistry]) -> None
+```
+
+Initialize the aggregated tool registry with a list of registries.
+
+**Arguments**:
+
+- `registries` _list[ToolRegistry]_ - A list of tool registries to aggregate.
 
 #### register\_tool
 
@@ -128,14 +189,19 @@ def get_tool(tool_id: str) -> Tool
 
 Search across all registries for a given tool, returning the first match.
 
-Args:
-    tool_id (str): The ID of the tool to retrieve.
+**Arguments**:
 
-Returns:
-    Tool: The requested tool.
+- `tool_id` _str_ - The ID of the tool to retrieve.
+  
 
-Raises:
-    ToolNotFoundError: If the tool with the given ID does not exist in any registry.
+**Returns**:
+
+- `Tool` - The requested tool.
+  
+
+**Raises**:
+
+- `ToolNotFoundError` - If the tool with the given ID does not exist in any registry.
 
 #### get\_tools
 
@@ -145,8 +211,9 @@ def get_tools() -> list[Tool]
 
 Get all tools from all registries.
 
-Returns:
-    list[Tool]: A list of all tools across all registries.
+**Returns**:
+
+- `list[Tool]` - A list of all tools across all registries.
 
 #### match\_tools
 
@@ -157,12 +224,15 @@ def match_tools(query: str | None = None,
 
 Get all tools from all registries that match the query and tool_ids.
 
-Args:
-    query (str | None): The query to match tools against.
-    tool_ids (list[str] | None): The list of tool ids to match.
+**Arguments**:
 
-Returns:
-    list[Tool]: A list of tools matching the query from all registries.
+- `query` _str | None_ - The query to match tools against.
+- `tool_ids` _list[str] | None_ - The list of tool ids to match.
+  
+
+**Returns**:
+
+- `list[Tool]` - A list of tools matching the query from all registries.
 
 ## InMemoryToolRegistry Objects
 
@@ -174,6 +244,14 @@ Provides a simple in-memory tool registry.
 
 This class stores tools in memory, allowing for quick access without persistence.
 
+#### \_\_init\_\_
+
+```python
+def __init__() -> None
+```
+
+Initialize the registry with an empty list of tools.
+
 #### from\_local\_tools
 
 ```python
@@ -183,11 +261,14 @@ def from_local_tools(cls, tools: Sequence[Tool]) -> InMemoryToolRegistry
 
 Easily create a local tool registry from a sequence of tools.
 
-Args:
-    tools (Sequence[Tool]): A sequence of tools to initialize the registry.
+**Arguments**:
 
-Returns:
-    InMemoryToolRegistry: A new in-memory tool registry.
+- `tools` _Sequence[Tool]_ - A sequence of tools to initialize the registry.
+  
+
+**Returns**:
+
+- `InMemoryToolRegistry` - A new in-memory tool registry.
 
 #### register\_tool
 
@@ -197,11 +278,14 @@ def register_tool(tool: Tool) -> None
 
 Register tool in the in-memory registry.
 
-Args:
-    tool (Tool): The tool to register.
+**Arguments**:
 
-Raises:
-    DuplicateToolError: If the tool ID already exists in the registry.
+- `tool` _Tool_ - The tool to register.
+  
+
+**Raises**:
+
+- `DuplicateToolError` - If the tool ID already exists in the registry.
 
 #### get\_tool
 
@@ -211,14 +295,19 @@ def get_tool(tool_id: str) -> Tool
 
 Get the tool from the in-memory registry.
 
-Args:
-    tool_id (str): The ID of the tool to retrieve.
+**Arguments**:
 
-Returns:
-    Tool: The requested tool.
+- `tool_id` _str_ - The ID of the tool to retrieve.
+  
 
-Raises:
-    ToolNotFoundError: If the tool with the given ID does not exist.
+**Returns**:
+
+- `Tool` - The requested tool.
+  
+
+**Raises**:
+
+- `ToolNotFoundError` - If the tool with the given ID does not exist.
 
 #### get\_tools
 
@@ -228,8 +317,9 @@ def get_tools() -> list[Tool]
 
 Get all tools in the in-memory registry.
 
-Returns:
-    list[Tool]: A list of all tools in the registry.
+**Returns**:
+
+- `list[Tool]` - A list of all tools in the registry.
 
 ## PortiaToolRegistry Objects
 
@@ -240,6 +330,18 @@ class PortiaToolRegistry(ToolRegistry)
 Provides access to Portia tools.
 
 This class interacts with the Portia API to retrieve and manage tools.
+
+#### \_\_init\_\_
+
+```python
+def __init__(config: Config) -> None
+```
+
+Initialize the PortiaToolRegistry with the given configuration.
+
+**Arguments**:
+
+- `config` _Config_ - The configuration containing the API key and endpoint.
 
 #### register\_tool
 
@@ -257,14 +359,19 @@ def get_tool(tool_id: str) -> PortiaRemoteTool
 
 Get the tool from the tool set.
 
-Args:
-    tool_id (str): The ID of the tool to retrieve.
+**Arguments**:
 
-Returns:
-    Tool: The requested tool.
+- `tool_id` _str_ - The ID of the tool to retrieve.
+  
 
-Raises:
-    ToolNotFoundError: If the tool with the given ID does not exist.
+**Returns**:
+
+- `Tool` - The requested tool.
+  
+
+**Raises**:
+
+- `ToolNotFoundError` - If the tool with the given ID does not exist.
 
 #### get\_tools
 
@@ -274,6 +381,7 @@ def get_tools() -> list[Tool]
 
 Get all tools in the registry.
 
-Returns:
-    list[Tool]: A list of all tools in the registry.
+**Returns**:
+
+- `list[Tool]` - A list of all tools in the registry.
 

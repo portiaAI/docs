@@ -13,6 +13,14 @@ class OneShotPlanner(Planner)
 
 planner class.
 
+#### \_\_init\_\_
+
+```python
+def __init__(config: Config) -> None
+```
+
+Init with the config.
+
 #### generate\_steps\_or\_error
 
 ```python
