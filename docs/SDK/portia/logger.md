@@ -50,18 +50,35 @@ The `LoggerManager` is responsible for initializing and managing the logger used
 the application. It provides functionality to configure the logger, set a custom logger,
 and adjust logging settings based on the application&#x27;s configuration.
 
-Args:
-    custom_logger (LoggerInterface | None): A custom logger to be used. If not provided,
-                                             the default `loguru` logger will be used.
+**Arguments**:
 
-Attributes:
-    logger (LoggerInterface): The current active logger.
-    custom_logger (bool): A flag indicating whether a custom logger is in use.
+- `custom_logger` _LoggerInterface | None_ - A custom logger to be used. If not provided,
+  the default `loguru` logger will be used.
+  
 
-Methods:
-    logger: Returns the active logger.
-    set_logger: Sets a custom logger.
-    configure_from_config: Configures the logger based on the provided configuration.
+**Attributes**:
+
+- `logger` _LoggerInterface_ - The current active logger.
+- `custom_logger` _bool_ - A flag indicating whether a custom logger is in use.
+  
+
+**Methods**:
+
+- `logger` - Returns the active logger.
+- `set_logger` - Sets a custom logger.
+- `configure_from_config` - Configures the logger based on the provided configuration.
+
+#### \_\_init\_\_
+
+```python
+def __init__(custom_logger: LoggerInterface | None = None) -> None
+```
+
+Initialize the LoggerManager.
+
+**Arguments**:
+
+- `custom_logger` _LoggerInterface | None_ - A custom logger to use. Defaults to None.
 
 #### logger
 
@@ -72,8 +89,9 @@ def logger() -> LoggerInterface
 
 Get the current logger.
 
-Returns:
-    LoggerInterface: The active logger being used.
+**Returns**:
+
+- `LoggerInterface` - The active logger being used.
 
 #### set\_logger
 
@@ -83,8 +101,9 @@ def set_logger(custom_logger: LoggerInterface) -> None
 
 Set a custom logger.
 
-Args:
-    custom_logger (LoggerInterface): The custom logger to be used.
+**Arguments**:
+
+- `custom_logger` _LoggerInterface_ - The custom logger to be used.
 
 #### configure\_from\_config
 
@@ -97,8 +116,9 @@ Configure the global logger based on the library&#x27;s configuration.
 This method configures the logger&#x27;s log level and output sink based on the application&#x27;s
 settings. If a custom logger is in use, it will skip the configuration and log a warning.
 
-Args:
-    config (Config): The configuration object containing the logging settings.
+**Arguments**:
+
+- `config` _Config_ - The configuration object containing the logging settings.
 
 #### logger
 
@@ -108,6 +128,7 @@ def logger() -> LoggerInterface
 
 Return the active logger.
 
-Returns:
-    LoggerInterface: The current active logger being used.
+**Returns**:
+
+- `LoggerInterface` - The current active logger being used.
 

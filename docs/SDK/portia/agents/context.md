@@ -20,12 +20,15 @@ def generate_main_system_context(
 
 Generate the main system context.
 
-Args:
-    system_context_extensions (list[str] | None): Optional list of strings to extend
-                                                 the system context.
+**Arguments**:
 
-Returns:
-    list[str]: A list of strings representing the system context.
+- `system_context_extensions` _list[str] | None_ - Optional list of strings to extend
+  the system context.
+  
+
+**Returns**:
+
+- `list[str]` - A list of strings representing the system context.
 
 #### generate\_input\_context
 
@@ -36,12 +39,15 @@ def generate_input_context(inputs: list[Variable],
 
 Generate context for the inputs and indicate which ones were used.
 
-Args:
-    inputs (list[Variable]): The list of input variables for the current step.
-    previous_outputs (dict[str, Output]): A dictionary of previous step outputs.
+**Arguments**:
 
-Returns:
-    list[str]: A list of strings representing the input context.
+- `inputs` _list[Variable]_ - The list of input variables for the current step.
+- `previous_outputs` _dict[str, Output]_ - A dictionary of previous step outputs.
+  
+
+**Returns**:
+
+- `list[str]` - A list of strings representing the input context.
 
 #### generate\_clarification\_context
 
@@ -52,12 +58,15 @@ def generate_clarification_context(clarifications: ClarificationListType,
 
 Generate context from clarifications for the given step.
 
-Args:
-    clarifications (ClarificationListType): A list of clarification objects.
-    step (int): The step index for which clarifications are being generated.
+**Arguments**:
 
-Returns:
-    list[str]: A list of strings representing the clarification context.
+- `clarifications` _ClarificationListType_ - A list of clarification objects.
+- `step` _int_ - The step index for which clarifications are being generated.
+  
+
+**Returns**:
+
+- `list[str]` - A list of strings representing the clarification context.
 
 #### generate\_context\_from\_execution\_context
 
@@ -68,11 +77,14 @@ def generate_context_from_execution_context(
 
 Generate context from the execution context.
 
-Args:
-    context (ExecutionContext): The execution context containing metadata and additional data.
+**Arguments**:
 
-Returns:
-    list[str]: A list of strings representing the execution context.
+- `context` _ExecutionContext_ - The execution context containing metadata and additional data.
+  
+
+**Returns**:
+
+- `list[str]` - A list of strings representing the execution context.
 
 #### build\_context
 
@@ -83,11 +95,14 @@ def build_context(ctx: ExecutionContext, step: Step,
 
 Build the context string for the agent using inputs/outputs/clarifications/ctx.
 
-Args:
-    ctx (ExecutionContext): The execution context containing agent and system metadata.
-    step (Step): The current step in the workflow, including inputs.
-    workflow (Workflow): The current workflow containing outputs and clarifications.
+**Arguments**:
 
-Returns:
-    str: A string containing all relevant context information.
+- `ctx` _ExecutionContext_ - The execution context containing agent and system metadata.
+- `step` _Step_ - The current step in the workflow, including inputs.
+- `workflow` _Workflow_ - The current workflow containing outputs and clarifications.
+  
+
+**Returns**:
+
+- `str` - A string containing all relevant context information.
 

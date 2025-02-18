@@ -37,11 +37,12 @@ Abstract base class for storing and retrieving plans.
 
 Subclasses must implement the methods to save and retrieve plans.
 
-Methods:
-    save_plan(self, plan: Plan) -&gt; None:
-        Save a plan.
-    get_plan(self, plan_id: PlanUUID) -&gt; Plan:
-        Get a plan by ID.
+**Methods**:
+
+  save_plan(self, plan: Plan) -&gt; None:
+  Save a plan.
+  get_plan(self, plan_id: PlanUUID) -&gt; Plan:
+  Get a plan by ID.
 
 #### save\_plan
 
@@ -52,11 +53,14 @@ def save_plan(plan: Plan) -> None
 
 Save a plan.
 
-Args:
-    plan (Plan): The Plan object to save.
+**Arguments**:
 
-Raises:
-    NotImplementedError: If the method is not implemented.
+- `plan` _Plan_ - The Plan object to save.
+  
+
+**Raises**:
+
+- `NotImplementedError` - If the method is not implemented.
 
 #### get\_plan
 
@@ -67,14 +71,19 @@ def get_plan(plan_id: PlanUUID) -> Plan
 
 Retrieve a plan by its ID.
 
-Args:
-    plan_id (PlanUUID): The UUID of the plan to retrieve.
+**Arguments**:
 
-Returns:
-    Plan: The Plan object associated with the provided plan_id.
+- `plan_id` _PlanUUID_ - The UUID of the plan to retrieve.
+  
 
-Raises:
-    NotImplementedError: If the method is not implemented.
+**Returns**:
+
+- `Plan` - The Plan object associated with the provided plan_id.
+  
+
+**Raises**:
+
+- `NotImplementedError` - If the method is not implemented.
 
 ## WorkflowListResponse Objects
 
@@ -94,14 +103,15 @@ Abstract base class for storing and retrieving workflows.
 
 Subclasses must implement the methods to save and retrieve workflows.
 
-Methods:
-    save_workflow(self, workflow: Workflow) -&gt; None:
-        Save a workflow.
-    get_workflow(self, workflow_id: WorkflowUUID) -&gt; Workflow:
-        Get a workflow by ID.
-    get_workflows(self, workflow_state: WorkflowState | None = None, page=int | None = None)
-        -&gt; WorkflowListResponse:
-        Return workflows that match the given workflow_state
+**Methods**:
+
+  save_workflow(self, workflow: Workflow) -&gt; None:
+  Save a workflow.
+  get_workflow(self, workflow_id: WorkflowUUID) -&gt; Workflow:
+  Get a workflow by ID.
+  get_workflows(self, workflow_state: WorkflowState | None = None, page=int | None = None)
+  -&gt; WorkflowListResponse:
+  Return workflows that match the given workflow_state
 
 #### save\_workflow
 
@@ -112,11 +122,14 @@ def save_workflow(workflow: Workflow) -> None
 
 Save a workflow.
 
-Args:
-    workflow (Workflow): The Workflow object to save.
+**Arguments**:
 
-Raises:
-    NotImplementedError: If the method is not implemented.
+- `workflow` _Workflow_ - The Workflow object to save.
+  
+
+**Raises**:
+
+- `NotImplementedError` - If the method is not implemented.
 
 #### get\_workflow
 
@@ -127,14 +140,19 @@ def get_workflow(workflow_id: WorkflowUUID) -> Workflow
 
 Retrieve a workflow by its ID.
 
-Args:
-    workflow_id (WorkflowUUID): The UUID of the workflow to retrieve.
+**Arguments**:
 
-Returns:
-    Workflow: The Workflow object associated with the provided workflow_id.
+- `workflow_id` _WorkflowUUID_ - The UUID of the workflow to retrieve.
+  
 
-Raises:
-    NotImplementedError: If the method is not implemented.
+**Returns**:
+
+- `Workflow` - The Workflow object associated with the provided workflow_id.
+  
+
+**Raises**:
+
+- `NotImplementedError` - If the method is not implemented.
 
 #### get\_workflows
 
@@ -146,15 +164,20 @@ def get_workflows(workflow_state: WorkflowState | None = None,
 
 List workflows by their state.
 
-Args:
-    workflow_state (WorkflowState | None): Optionally filter workflows by their state.
-    page (int | None): Optional pagination data
+**Arguments**:
 
-Returns:
-    list[Workflow]: A list of Workflow objects that match the given state.
+- `workflow_state` _WorkflowState | None_ - Optionally filter workflows by their state.
+- `page` _int | None_ - Optional pagination data
+  
 
-Raises:
-    NotImplementedError: If the method is not implemented.
+**Returns**:
+
+- `list[Workflow]` - A list of Workflow objects that match the given state.
+  
+
+**Raises**:
+
+- `NotImplementedError` - If the method is not implemented.
 
 ## AdditionalStorage Objects
 
@@ -166,9 +189,10 @@ Abstract base class for additional storage.
 
 Subclasses must implement the methods.
 
-Methods:
-    save_tool_call(self, tool_call: ToolCallRecord) -&gt; None:
-        Save a tool_call.
+**Methods**:
+
+  save_tool_call(self, tool_call: ToolCallRecord) -&gt; None:
+  Save a tool_call.
 
 #### save\_tool\_call
 
@@ -179,11 +203,14 @@ def save_tool_call(tool_call: ToolCallRecord) -> None
 
 Save a ToolCall.
 
-Args:
-    tool_call (ToolCallRecord): The ToolCallRecord object to save.
+**Arguments**:
 
-Raises:
-    NotImplementedError: If the method is not implemented.
+- `tool_call` _ToolCallRecord_ - The ToolCallRecord object to save.
+  
+
+**Raises**:
+
+- `NotImplementedError` - If the method is not implemented.
 
 ## LogAdditionalStorage Objects
 
@@ -203,8 +230,9 @@ def save_tool_call(tool_call: ToolCallRecord) -> None
 
 Log the tool call.
 
-Args:
-    tool_call (ToolCallRecord): The ToolCallRecord object to log.
+**Arguments**:
+
+- `tool_call` _ToolCallRecord_ - The ToolCallRecord object to log.
 
 ## Storage Objects
 
@@ -224,6 +252,14 @@ Simple storage class that keeps plans + workflows in memory.
 
 Tool Calls are logged via the LogAdditionalStorage.
 
+#### \_\_init\_\_
+
+```python
+def __init__() -> None
+```
+
+Initialize Storage.
+
 #### save\_plan
 
 ```python
@@ -232,8 +268,9 @@ def save_plan(plan: Plan) -> None
 
 Add plan to dict.
 
-Args:
-    plan (Plan): The Plan object to save.
+**Arguments**:
+
+- `plan` _Plan_ - The Plan object to save.
 
 #### get\_plan
 
@@ -243,14 +280,19 @@ def get_plan(plan_id: PlanUUID) -> Plan
 
 Get plan from dict.
 
-Args:
-    plan_id (PlanUUID): The UUID of the plan to retrieve.
+**Arguments**:
 
-Returns:
-    Plan: The Plan object associated with the provided plan_id.
+- `plan_id` _PlanUUID_ - The UUID of the plan to retrieve.
+  
 
-Raises:
-    PlanNotFoundError: If the plan is not found.
+**Returns**:
+
+- `Plan` - The Plan object associated with the provided plan_id.
+  
+
+**Raises**:
+
+- `PlanNotFoundError` - If the plan is not found.
 
 #### save\_workflow
 
@@ -260,8 +302,9 @@ def save_workflow(workflow: Workflow) -> None
 
 Add workflow to dict.
 
-Args:
-    workflow (Workflow): The Workflow object to save.
+**Arguments**:
+
+- `workflow` _Workflow_ - The Workflow object to save.
 
 #### get\_workflow
 
@@ -271,14 +314,19 @@ def get_workflow(workflow_id: WorkflowUUID) -> Workflow
 
 Get workflow from dict.
 
-Args:
-    workflow_id (WorkflowUUID): The UUID of the workflow to retrieve.
+**Arguments**:
 
-Returns:
-    Workflow: The Workflow object associated with the provided workflow_id.
+- `workflow_id` _WorkflowUUID_ - The UUID of the workflow to retrieve.
+  
 
-Raises:
-    WorkflowNotFoundError: If the workflow is not found.
+**Returns**:
+
+- `Workflow` - The Workflow object associated with the provided workflow_id.
+  
+
+**Raises**:
+
+- `WorkflowNotFoundError` - If the workflow is not found.
 
 #### get\_workflows
 
@@ -289,12 +337,15 @@ def get_workflows(workflow_state: WorkflowState | None = None,
 
 Get workflow from dict.
 
-Args:
-    workflow_state (WorkflowState | None): Optionally filter workflows by their state.
-    page (int | None): Optional pagination data which is not used for in memory storage.
+**Arguments**:
 
-Returns:
-    list[Workflow]: A list of Workflow objects that match the given state.
+- `workflow_state` _WorkflowState | None_ - Optionally filter workflows by their state.
+- `page` _int | None_ - Optional pagination data which is not used for in memory storage.
+  
+
+**Returns**:
+
+- `list[Workflow]` - A list of Workflow objects that match the given state.
 
 ## DiskFileStorage Objects
 
@@ -306,6 +357,18 @@ Disk-based implementation of the Storage interface.
 
 Stores serialized Plan and Workflow objects as JSON files on disk.
 
+#### \_\_init\_\_
+
+```python
+def __init__(storage_dir: str | None) -> None
+```
+
+Set storage dir.
+
+**Arguments**:
+
+- `storage_dir` _str | None_ - Optional directory for storing files.
+
 #### save\_plan
 
 ```python
@@ -314,8 +377,9 @@ def save_plan(plan: Plan) -> None
 
 Save a Plan object to the storage.
 
-Args:
-    plan (Plan): The Plan object to save.
+**Arguments**:
+
+- `plan` _Plan_ - The Plan object to save.
 
 #### get\_plan
 
@@ -325,14 +389,19 @@ def get_plan(plan_id: PlanUUID) -> Plan
 
 Retrieve a Plan object by its ID.
 
-Args:
-    plan_id (PlanUUID): The ID of the Plan to retrieve.
+**Arguments**:
 
-Returns:
-    Plan: The retrieved Plan object.
+- `plan_id` _PlanUUID_ - The ID of the Plan to retrieve.
+  
 
-Raises:
-    PlanNotFoundError: If the Plan is not found or validation fails.
+**Returns**:
+
+- `Plan` - The retrieved Plan object.
+  
+
+**Raises**:
+
+- `PlanNotFoundError` - If the Plan is not found or validation fails.
 
 #### save\_workflow
 
@@ -342,8 +411,9 @@ def save_workflow(workflow: Workflow) -> None
 
 Save a Workflow object to the storage.
 
-Args:
-    workflow (Workflow): The Workflow object to save.
+**Arguments**:
+
+- `workflow` _Workflow_ - The Workflow object to save.
 
 #### get\_workflow
 
@@ -353,14 +423,19 @@ def get_workflow(workflow_id: WorkflowUUID) -> Workflow
 
 Retrieve a Workflow object by its ID.
 
-Args:
-    workflow_id (WorkflowUUID): The ID of the Workflow to retrieve.
+**Arguments**:
 
-Returns:
-    Workflow: The retrieved Workflow object.
+- `workflow_id` _WorkflowUUID_ - The ID of the Workflow to retrieve.
+  
 
-Raises:
-    WorkflowNotFoundError: If the Workflow is not found or validation fails.
+**Returns**:
+
+- `Workflow` - The retrieved Workflow object.
+  
+
+**Raises**:
+
+- `WorkflowNotFoundError` - If the Workflow is not found or validation fails.
 
 #### get\_workflows
 
@@ -371,12 +446,15 @@ def get_workflows(workflow_state: WorkflowState | None = None,
 
 Find all workflows in storage that match state.
 
-Args:
-    workflow_state (WorkflowState | None): Optionally filter workflows by their state.
-    page (int | None): Optional pagination data which is not used for in memory storage.
+**Arguments**:
 
-Returns:
-    list[Workflow]: A list of Workflow objects that match the given state.
+- `workflow_state` _WorkflowState | None_ - Optionally filter workflows by their state.
+- `page` _int | None_ - Optional pagination data which is not used for in memory storage.
+  
+
+**Returns**:
+
+- `list[Workflow]` - A list of Workflow objects that match the given state.
 
 ## PortiaCloudStorage Objects
 
@@ -386,6 +464,18 @@ class PortiaCloudStorage(Storage)
 
 Save plans, workflows and tool calls to portia cloud.
 
+#### \_\_init\_\_
+
+```python
+def __init__(config: Config) -> None
+```
+
+Initialize the PortiaCloudStorage instance.
+
+**Arguments**:
+
+- `config` _Config_ - The configuration containing API details for Portia Cloud.
+
 #### check\_response
 
 ```python
@@ -394,11 +484,14 @@ def check_response(response: httpx.Response) -> None
 
 Validate the response from Portia API.
 
-Args:
-    response (httpx.Response): The response from the Portia API to check.
+**Arguments**:
 
-Raises:
-    StorageError: If the response from the Portia API indicates an error.
+- `response` _httpx.Response_ - The response from the Portia API to check.
+  
+
+**Raises**:
+
+- `StorageError` - If the response from the Portia API indicates an error.
 
 #### save\_plan
 
@@ -408,11 +501,14 @@ def save_plan(plan: Plan) -> None
 
 Save a plan to Portia Cloud.
 
-Args:
-    plan (Plan): The Plan object to save to the cloud.
+**Arguments**:
 
-Raises:
-    StorageError: If the request to Portia Cloud fails.
+- `plan` _Plan_ - The Plan object to save to the cloud.
+  
+
+**Raises**:
+
+- `StorageError` - If the request to Portia Cloud fails.
 
 #### get\_plan
 
@@ -422,14 +518,19 @@ def get_plan(plan_id: PlanUUID) -> Plan
 
 Retrieve a plan from Portia Cloud.
 
-Args:
-    plan_id (PlanUUID): The ID of the plan to retrieve.
+**Arguments**:
 
-Returns:
-    Plan: The Plan object retrieved from Portia Cloud.
+- `plan_id` _PlanUUID_ - The ID of the plan to retrieve.
+  
 
-Raises:
-    StorageError: If the request to Portia Cloud fails or the plan does not exist.
+**Returns**:
+
+- `Plan` - The Plan object retrieved from Portia Cloud.
+  
+
+**Raises**:
+
+- `StorageError` - If the request to Portia Cloud fails or the plan does not exist.
 
 #### save\_workflow
 
@@ -439,11 +540,14 @@ def save_workflow(workflow: Workflow) -> None
 
 Save a workflow to Portia Cloud.
 
-Args:
-    workflow (Workflow): The Workflow object to save to the cloud.
+**Arguments**:
 
-Raises:
-    StorageError: If the request to Portia Cloud fails.
+- `workflow` _Workflow_ - The Workflow object to save to the cloud.
+  
+
+**Raises**:
+
+- `StorageError` - If the request to Portia Cloud fails.
 
 #### get\_workflow
 
@@ -453,14 +557,19 @@ def get_workflow(workflow_id: WorkflowUUID) -> Workflow
 
 Retrieve a workflow from Portia Cloud.
 
-Args:
-    workflow_id (WorkflowUUID): The ID of the workflow to retrieve.
+**Arguments**:
 
-Returns:
-    Workflow: The Workflow object retrieved from Portia Cloud.
+- `workflow_id` _WorkflowUUID_ - The ID of the workflow to retrieve.
+  
 
-Raises:
-    StorageError: If the request to Portia Cloud fails or the workflow does not exist.
+**Returns**:
+
+- `Workflow` - The Workflow object retrieved from Portia Cloud.
+  
+
+**Raises**:
+
+- `StorageError` - If the request to Portia Cloud fails or the workflow does not exist.
 
 #### get\_workflows
 
@@ -471,15 +580,20 @@ def get_workflows(workflow_state: WorkflowState | None = None,
 
 Find all workflows in storage that match state.
 
-Args:
-    workflow_state (WorkflowState | None): Optionally filter workflows by their state.
-    page (int | None): Optional pagination data which is not used for in memory storage.
+**Arguments**:
 
-Returns:
-    list[Workflow]: A list of Workflow objects retrieved from Portia Cloud.
+- `workflow_state` _WorkflowState | None_ - Optionally filter workflows by their state.
+- `page` _int | None_ - Optional pagination data which is not used for in memory storage.
+  
 
-Raises:
-    StorageError: If the request to Portia Cloud fails.
+**Returns**:
+
+- `list[Workflow]` - A list of Workflow objects retrieved from Portia Cloud.
+  
+
+**Raises**:
+
+- `StorageError` - If the request to Portia Cloud fails.
 
 #### save\_tool\_call
 
@@ -489,9 +603,12 @@ def save_tool_call(tool_call: ToolCallRecord) -> None
 
 Save a tool call to Portia Cloud.
 
-Args:
-    tool_call (ToolCallRecord): The ToolCallRecord object to save to the cloud.
+**Arguments**:
 
-Raises:
-    StorageError: If the request to Portia Cloud fails.
+- `tool_call` _ToolCallRecord_ - The ToolCallRecord object to save to the cloud.
+  
+
+**Raises**:
+
+- `StorageError` - If the request to Portia Cloud fails.
 

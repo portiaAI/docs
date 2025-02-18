@@ -24,12 +24,27 @@ This class is a wrapper around a child tool. It captures the input and output, m
 and records the status of the execution. The results are then stored in the provided
 `AdditionalStorage`.
 
-Attributes
-----------
-    model_config (ConfigDict): Pydantic configuration that allows arbitrary types.
-    _child_tool (Tool): The child tool to be wrapped and executed.
-    _storage (AdditionalStorage): Storage mechanism to save tool call records.
-    _workflow (Workflow): The workflow context for the current execution.
+**Attributes**:
+
+- `model_config` _ConfigDict_ - Pydantic configuration that allows arbitrary types.
+- `_child_tool` _Tool_ - The child tool to be wrapped and executed.
+- `_storage` _AdditionalStorage_ - Storage mechanism to save tool call records.
+- `_workflow` _Workflow_ - The workflow context for the current execution.
+
+#### \_\_init\_\_
+
+```python
+def __init__(child_tool: Tool, storage: AdditionalStorage,
+             workflow: Workflow) -> None
+```
+
+Initialize parent fields using child_tool&#x27;s attributes.
+
+**Arguments**:
+
+- `child_tool` _Tool_ - The child tool to be wrapped.
+- `storage` _AdditionalStorage_ - The storage to save execution records.
+- `workflow` _Workflow_ - The current workflow for the execution.
 
 #### ready
 
@@ -39,11 +54,14 @@ def ready(ctx: ToolRunContext) -> bool
 
 Check if the child tool is ready.
 
-Args:
-    ctx (ToolRunContext): Context of the tool run
+**Arguments**:
 
-Returns:
-    bool: Whether the tool is ready to run
+- `ctx` _ToolRunContext_ - Context of the tool run
+  
+
+**Returns**:
+
+- `bool` - Whether the tool is ready to run
 
 #### run
 
@@ -56,15 +74,20 @@ Run the child tool and store the outcome.
 This method executes the child tool with the provided arguments, records the input,
 output, latency, and status of the execution, and stores the details in `AdditionalStorage`.
 
-Args:
-    ctx (ToolRunContext): The context containing user data and metadata.
-    *args (Any): Positional arguments for the child tool.
-    **kwargs (Any): Keyword arguments for the child tool.
+**Arguments**:
 
-Returns:
-    Any | Clarification: The output of the child tool or a clarification request.
+- `ctx` _ToolRunContext_ - The context containing user data and metadata.
+- `*args` _Any_ - Positional arguments for the child tool.
+- `**kwargs` _Any_ - Keyword arguments for the child tool.
+  
 
-Raises:
-    Exception: If an error occurs during execution, the exception is logged, and the
-        status is set to `FAILED`.
+**Returns**:
+
+  Any | Clarification: The output of the child tool or a clarification request.
+  
+
+**Raises**:
+
+- `Exception` - If an error occurs during execution, the exception is logged, and the
+  status is set to `FAILED`.
 
