@@ -117,6 +117,7 @@ from portia.runner import Runner
 from portia.config import default_config
 from portia.open_source_tools.registry import example_tool_registry
 from my_custom_tools.registry import custom_tool_registry
+from portia.clarification import MultipleChoiceClarification
 from portia.workflow import WorkflowState
 
 # Load example and custom tool registries into a single one
@@ -134,7 +135,11 @@ while workflow.state == WorkflowState.NEED_CLARIFICATION:
         # For each clarification, prompt the user for input
         print(f"{clarification.user_guidance}")
         user_input = input("Please enter a value:\n" +
+<<<<<<< HEAD
+                               (("\n".join(clarification.options) + "\n") 
+=======
                                (str(clarification.options)
+>>>>>>> main
                                 if isinstance(clarification, MultipleChoiceClarification)
                                 else ""))
         # Resolve the clarification with the user input

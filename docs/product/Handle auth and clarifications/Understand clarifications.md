@@ -138,8 +138,10 @@ from portia.config import default_config
 from portia.tool_registry import InMemoryToolRegistry
 from portia.open_source_tools.local_file_reader_tool import FileReaderTool
 from portia.open_source_tools.local_file_writer_tool import FileWriterTool
-# highlight-next-line
+# highlight-start
+from portia.clarification import MultipleChoiceClarification
 from portia.workflow import WorkflowState
+# highlight-end
 
 # Load open source tools into a tool registry. More on tool registries later in the docs!
 my_tool_registry = InMemoryToolRegistry.from_local_tools([FileReaderTool(), FileWriterTool()])
@@ -157,7 +159,7 @@ while workflow.state == WorkflowState.NEED_CLARIFICATION:
         # For each clarification, prompt the user for input
         print(f"{clarification.user_guidance}")
         user_input = input("Please enter a value:\n" +
-                               (str(clarification.options)
+                               (("\n".join(clarification.options) + "\n") 
                                 if isinstance(clarification, MultipleChoiceClarification)
                                 else ""))
         # Resolve the clarification with the user input
