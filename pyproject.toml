@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "docs-test"
+version = "0.1.0"
+description = ""
+authors = []
+package-mode = false
+
+[tool.poetry.dependencies]
+python = ">=3.11,<3.14"
+pytest-examples = "^0.0.15"
+portia-sdk-python = "^0.0.1a53"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
