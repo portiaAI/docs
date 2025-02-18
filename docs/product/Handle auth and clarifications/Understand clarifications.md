@@ -157,7 +157,7 @@ while workflow.state == WorkflowState.NEED_CLARIFICATION:
         # For each clarification, prompt the user for input
         print(f"{clarification.user_guidance}")
         user_input = input("Please enter a value:\n" +
-                               (clarification.choices
+                               (str(clarification.options)
                                 if isinstance(clarification, MultipleChoiceClarification)
                                 else ""))
         # Resolve the clarification with the user input
