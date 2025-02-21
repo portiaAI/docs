@@ -334,7 +334,7 @@ This class interacts with the Portia API to retrieve and manage tools.
 #### \_\_init\_\_
 
 ```python
-def __init__(config: Config) -> None
+def __init__(config: Config, tools: dict[str, Tool] | None = None) -> None
 ```
 
 Initialize the PortiaToolRegistry with the given configuration.
@@ -342,6 +342,8 @@ Initialize the PortiaToolRegistry with the given configuration.
 **Arguments**:
 
 - `config` _Config_ - The configuration containing the API key and endpoint.
+- `tools` _list[Tool] | None_ - A list of tools to create the registry with.
+  If not provided, all tools will be loaded from the Portia API.
 
 #### register\_tool
 
@@ -354,7 +356,7 @@ Throw not implemented error as registration can&#x27;t be done in this registry.
 #### get\_tool
 
 ```python
-def get_tool(tool_id: str) -> PortiaRemoteTool
+def get_tool(tool_id: str) -> Tool
 ```
 
 Get the tool from the tool set.
@@ -384,4 +386,34 @@ Get all tools in the registry.
 **Returns**:
 
 - `list[Tool]` - A list of all tools in the registry.
+
+#### filter\_tools
+
+```python
+def filter_tools(filter_func: Callable[[Tool], bool]) -> ToolRegistry
+```
+
+Return a new registry with the tools filtered by the filter function.
+
+## DefaultToolRegistry Objects
+
+```python
+class DefaultToolRegistry(AggregatedToolRegistry)
+```
+
+A registry providing a default set of tools.
+
+This includes the following tools:
+- All open source tools that don&#x27;t require API keys
+- Search tool if you have a Tavily API key
+- Weather tool if you have an OpenWeatherMap API key
+- Portia cloud tools if you have a Portia cloud API key
+
+#### \_\_init\_\_
+
+```python
+def __init__(config: Config) -> None
+```
+
+Initialize the default tool registry with the given configuration.
 
