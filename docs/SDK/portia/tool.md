@@ -25,16 +25,12 @@ class ToolRunContext(BaseModel)
 
 Context passed to tools when running.
 
-Attributes
-----------
-execution_context : ExecutionContext
-    The execution context the tool is running in.
-workflow_id : WorkflowUUID
-    The workflow id the tool run is part of.
-config : Config
-    The config for the SDK as a whole.
-clarifications : ClarificationListType
-    Relevant clarifications for this tool run.
+**Attributes**:
+
+- `execution_context(ExecutionContext)` - The execution context the tool is running in.
+- `workflow_id(WorkflowUUID)` - The workflow id the tool run is part of.
+- `config(Config)` - The config for the SDK as a whole.
+- `clarifications(ClarificationListType)` - Relevant clarifications for this tool run.
 
 ## Tool Objects
 
@@ -46,29 +42,23 @@ Abstract base class for a tool.
 
 This class serves as the blueprint for all tools. Child classes must implement the `run` method.
 
-Attributes
-----------
-id : str
-    A unique identifier for the tool.
-    This must be unique as collisions in a tool registry will lead to errors.
-name : str
-    The name of the tool. The name is informational only but useful for debugging.
-description : str
-    Purpose of the tool and usage.
-    This is important information for the planner module to know when and how to use this tool.
-args_schema : type[BaseModel]
-    The schema defining the expected input arguments for the tool.
-    We use Pydantic models to define these types.
-output_schema : tuple[str, str]
-    A tuple containing the type and description of the tool&#x27;s output.
-    To maximize the advantages of using an agentic approach this doesn&#x27;t need to be
-    tightly defined. Instead it should give just a high level overview of the type and
-    contents of the tools output.
-should_summarize : bool
-    Indicates whether the tool&#x27;s output should be automatically summarized by the
-    summarizer agent. For some tools summarization is useful (for example: a tool
-    that fetches the latest news) whereas other tools it&#x27;s not (for example: a tool
-    that fetches raw price data).
+**Attributes**:
+
+- `id` _str_ - A unique identifier for the tool.
+  This must be unique as collisions in a tool registry will lead to errors.
+- `name` _str_ - The name of the tool. The name is informational only but useful for debugging.
+- `description` _str_ - Purpose of the tool and usage.
+  This is important information for the planner module to know when and how to use this tool.
+- `args_schema` _type[BaseModel]_ - The schema defining the expected input arguments for the tool.
+  We use Pydantic models to define these types.
+- `output_schema` _tuple[str, str]_ - A tuple containing the type and description of the tool&#x27;s
+  output. To maximize the advantages of using an agentic approach this doesn&#x27;t need to be
+  tightly defined. Instead it should give just a high level overview of the type and
+  contents of the tools output.
+- `should_summarize` _bool_ - Indicates whether the tool&#x27;s output should be automatically summarized
+  by the summarizer agent. For some tools summarization is useful (for example: a tool
+  that fetches the latest news) whereas other tools it&#x27;s not (for example: a tool
+  that fetches raw price data).
 
 #### ready
 
@@ -82,11 +72,14 @@ This method can be implemented by subclasses to allow checking if the tool can b
 It may run any authentication logic or other required checks before returning its status.
 If left unimplemented will always return true.
 
-Args:
-    ctx (ToolRunContext): Context of the tool run
+**Arguments**:
 
-Returns:
-    bool: Whether the tool is ready to run
+- `ctx` _ToolRunContext_ - Context of the tool run
+  
+
+**Returns**:
+
+- `bool` - Whether the tool is ready to run
 
 #### run
 
@@ -100,14 +93,17 @@ Run the tool.
 
 This method must be implemented by subclasses to define the tool&#x27;s specific behavior.
 
-Args:
-    ctx (ToolRunContext): Context of the tool execution
-    args (Any): The arguments passed to the tool for execution.
-    kwargs (Any): The keyword arguments passed to the tool for execution.
+**Arguments**:
 
-Returns:
-    Any: The result of the tool&#x27;s execution which can be any serializable type
-    or a clarification.
+- `ctx` _ToolRunContext_ - Context of the tool execution
+- `args` _Any_ - The arguments passed to the tool for execution.
+- `kwargs` _Any_ - The keyword arguments passed to the tool for execution.
+  
+
+**Returns**:
+
+- `Any` - The result of the tool&#x27;s execution which can be any serializable type
+  or a clarification.
 
 #### check\_description\_length
 
@@ -121,11 +117,14 @@ Check that the description is less than 1024 characters.
 OpenAI has a maximum function description length of 1024 characters. This validator
 ensures that the tool description does not exceed this limit.
 
-Returns:
-    Self: The current instance of the tool.
+**Returns**:
 
-Raises:
-    InvalidToolDescriptionError: If the description exceeds the maximum length.
+- `Self` - The current instance of the tool.
+  
+
+**Raises**:
+
+- `InvalidToolDescriptionError` - If the description exceeds the maximum length.
 
 #### to\_langchain
 
@@ -139,13 +138,16 @@ This function provides a LangChain-compatible version of the tool. The response 
 the default one without including artifacts. The ExecutionContext is baked into the
 StructuredTool via a partial run function.
 
-Args:
-    ctx (ToolRunContext): The context for the tool.
+**Arguments**:
 
-Returns:
-    StructuredTool: The LangChain-compatible representation of the tool, including the
-    tool&#x27;s name, description, and argument schema, with the execution context baked
-    into the function.
+- `ctx` _ToolRunContext_ - The context for the tool.
+  
+
+**Returns**:
+
+- `StructuredTool` - The LangChain-compatible representation of the tool, including the
+  tool&#x27;s name, description, and argument schema, with the execution context baked
+  into the function.
 
 #### to\_langchain\_with\_artifact
 
@@ -159,13 +161,16 @@ This function provides a LangChain-compatible version of the tool, where the res
 includes both the content and the artifact. The ToolRunContext is baked into the
 StructuredTool via a partial run function for capturing output directly.
 
-Args:
-    ctx (ToolRunContext): The context for the tool.
+**Arguments**:
 
-Returns:
-    StructuredTool: The LangChain-compatible representation of the tool, including the
-    tool&#x27;s name, description, argument schema, and the ability to return both content
-    and artifact.
+- `ctx` _ToolRunContext_ - The context for the tool.
+  
+
+**Returns**:
+
+- `StructuredTool` - The LangChain-compatible representation of the tool, including the
+  tool&#x27;s name, description, argument schema, and the ability to return both content
+  and artifact.
 
 #### args\_json\_schema
 
@@ -178,8 +183,24 @@ Return the json_schema for the tool args.
 This function retrieves the JSON schema for the tool&#x27;s arguments, which defines the expected
 input structure.
 
-Returns:
-    dict[str, Any]: The JSON schema representing the tool&#x27;s arguments.
+**Returns**:
+
+  dict[str, Any]: The JSON schema representing the tool&#x27;s arguments.
+
+#### \_\_str\_\_
+
+```python
+def __str__() -> str
+```
+
+Return the string representation.
+
+This method generates a string representation of the tool, including its ID, name,
+description, argument schema, and output schema.
+
+**Returns**:
+
+- `str` - A string representation of the tool.
 
 #### serialize\_args\_schema
 
@@ -192,11 +213,14 @@ Serialize the args_schema by returning its class name.
 
 This function serializes the arguments schema by returning the class name of the schema.
 
-Args:
-    value (type[BaseModel]): The argument schema class.
+**Arguments**:
 
-Returns:
-    str: The class name of the argument schema.
+- `value` _type[BaseModel]_ - The argument schema class.
+  
+
+**Returns**:
+
+- `str` - The class name of the argument schema.
 
 ## PortiaRemoteTool Objects
 
@@ -218,16 +242,21 @@ This method handles the response from the Portia Cloud API, converting it into d
 specific models. It also handles errors, including `ToolSoftError` and `ToolHardError`,
 as well as clarifications of different types.
 
-Args:
-    ctx (ToolRunContext): Context of the environment
-    response (dict[str, Any]): The JSON response returned by the Portia Cloud API.
+**Arguments**:
 
-Returns:
-    Output: The parsed output wrapped in an `Output` object.
+- `ctx` _ToolRunContext_ - Context of the environment
+- `response` _dict[str, Any]_ - The JSON response returned by the Portia Cloud API.
+  
 
-Raises:
-    ToolSoftError: If a soft error is encountered in the response.
-    ToolHardError: If a hard error is encountered in the response.
+**Returns**:
+
+- `Output` - The parsed output wrapped in an `Output` object.
+  
+
+**Raises**:
+
+- `ToolSoftError` - If a soft error is encountered in the response.
+- `ToolHardError` - If a hard error is encountered in the response.
 
 #### ready
 
@@ -237,11 +266,14 @@ def ready(ctx: ToolRunContext) -> bool
 
 Check if the remote tool is ready by calling the /ready endpoint.
 
-Args:
-    ctx (ToolRunContext): Context of the environment
+**Arguments**:
 
-Returns:
-    bool: Whether the tool is ready to run
+- `ctx` _ToolRunContext_ - Context of the environment
+  
+
+**Returns**:
+
+- `bool` - Whether the tool is ready to run
 
 #### run
 
@@ -256,16 +288,21 @@ This method sends the execution request to the Portia Cloud API, passing the arg
 execution context. It then processes the response by calling `parse_response`. Errors
 during the request or parsing are raised as `ToolHardError`.
 
-Args:
-    ctx (ToolRunContext): The context of the execution, including end user ID, workflow ID
-    and additional data.
-    *args (Any): The positional arguments for the tool.
-    **kwargs (Any): The keyword arguments for the tool.
+**Arguments**:
 
-Returns:
-    SERIALIZABLE_TYPE_VAR | None | Clarification: The result of the run execution, which
-    could either be a serialized value, None, or a `Clarification` object.
+- `ctx` _ToolRunContext_ - The context of the execution, including end user ID, workflow ID
+  and additional data.
+- `*args` _Any_ - The positional arguments for the tool.
+- `**kwargs` _Any_ - The keyword arguments for the tool.
+  
 
-Raises:
-    ToolHardError: If the request fails or there is an error parsing the response.
+**Returns**:
+
+  SERIALIZABLE_TYPE_VAR | None | Clarification: The result of the run execution, which
+  could either be a serialized value, None, or a `Clarification` object.
+  
+
+**Raises**:
+
+- `ToolHardError` - If the request fails or there is an error parsing the response.
 

@@ -18,12 +18,13 @@ Nodes for agent execution.
 This enumeration defines the different types of nodes that can be encountered
 during the agent execution process.
 
-Attributes:
-    TOOL_AGENT (str): A node representing the tool agent.
-    SUMMARIZER (str): A node representing the summarizer.
-    TOOLS (str): A node representing the tools.
-    ARGUMENT_VERIFIER (str): A node representing the argument verifier.
-    ARGUMENT_PARSER (str): A node representing the argument parser.
+**Attributes**:
+
+- `TOOL_AGENT` _str_ - A node representing the tool agent.
+- `SUMMARIZER` _str_ - A node representing the summarizer.
+- `TOOLS` _str_ - A node representing the tools.
+- `ARGUMENT_VERIFIER` _str_ - A node representing the argument verifier.
+- `ARGUMENT_PARSER` _str_ - A node representing the argument parser.
 
 #### next\_state\_after\_tool\_call
 
@@ -39,15 +40,20 @@ Determine the next state after a tool call.
 This function checks the state after a tool call to determine if the workflow
 should proceed to the tool agent again, to the summarizer, or end.
 
-Args:
-    state (MessagesState): The current state of the messages.
-    tool (Tool | None): The tool involved in the call, if any.
+**Arguments**:
 
-Returns:
-    Literal[AgentNode.TOOL_AGENT, AgentNode.SUMMARIZER, END]: The next state to transition to.
+- `state` _MessagesState_ - The current state of the messages.
+- `tool` _Tool | None_ - The tool involved in the call, if any.
+  
 
-Raises:
-    ToolRetryError: If the tool has an error and the maximum retry limit has not been reached.
+**Returns**:
+
+  Literal[AgentNode.TOOL_AGENT, AgentNode.SUMMARIZER, END]: The next state to transition to.
+  
+
+**Raises**:
+
+- `ToolRetryError` - If the tool has an error and the maximum retry limit has not been reached.
 
 #### tool\_call\_or\_end
 
@@ -60,11 +66,14 @@ Determine if tool execution should continue.
 This function checks if the current state indicates that the tool execution
 should continue, or if the workflow should end.
 
-Args:
-    state (MessagesState): The current state of the messages.
+**Arguments**:
 
-Returns:
-    Literal[AgentNode.TOOLS, END]: The next state to transition to.
+- `state` _MessagesState_ - The current state of the messages.
+  
+
+**Returns**:
+
+  Literal[AgentNode.TOOLS, END]: The next state to transition to.
 
 #### process\_output
 
@@ -80,16 +89,21 @@ Process the output of the agent.
 This function processes the agent&#x27;s output based on the type of message received.
 It raises errors if the tool encounters issues and returns the appropriate output.
 
-Args:
-    last_message (BaseMessage): The last message received in the agent&#x27;s workflow.
-    tool (Tool | None): The tool associated with the agent, if any.
-    clarifications (list[Clarification] | None): A list of clarifications, if any.
+**Arguments**:
 
-Returns:
-    Output: The processed output, which can be an error, tool output, or clarification.
+- `last_message` _BaseMessage_ - The last message received in the agent&#x27;s workflow.
+- `tool` _Tool | None_ - The tool associated with the agent, if any.
+- `clarifications` _list[Clarification] | None_ - A list of clarifications, if any.
+  
 
-Raises:
-    ToolRetryError: If there was a soft error with the tool and retries are allowed.
-    ToolFailedError: If there was a hard error with the tool.
-    InvalidAgentOutputError: If the output from the agent is invalid.
+**Returns**:
+
+- `Output` - The processed output, which can be an error, tool output, or clarification.
+  
+
+**Raises**:
+
+- `ToolRetryError` - If there was a soft error with the tool and retries are allowed.
+- `ToolFailedError` - If there was a hard error with the tool.
+- `InvalidAgentOutputError` - If the output from the agent is invalid.
 

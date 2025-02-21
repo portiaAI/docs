@@ -117,6 +117,7 @@ from portia.runner import Runner
 from portia.config import default_config
 from portia.open_source_tools.registry import example_tool_registry
 from my_custom_tools.registry import custom_tool_registry
+from portia.clarification import MultipleChoiceClarification
 from portia.workflow import WorkflowState
 
 # Load example and custom tool registries into a single one
@@ -133,10 +134,8 @@ while workflow.state == WorkflowState.NEED_CLARIFICATION:
     for clarification in workflow.get_outstanding_clarifications():
         # For each clarification, prompt the user for input
         print(f"{clarification.user_guidance}")
-        user_input = input("Please enter a value:\n" +
-                               (clarification.choices
-                                if isinstance(clarification, MultipleChoiceClarification)
-                                else ""))
+        user_input = input("Please enter a value:\n" 
+                        + (("\n".join(clarification.options) + "\n") if "options" in clarification else ""))
         # Resolve the clarification with the user input
         workflow = runner.resolve_clarification(clarification, user_input, workflow)
 
@@ -196,7 +195,7 @@ For the example query above `Read the contents of the file "weather.txt".`, wher
 ## Accessing clarifications in your custom tool
 The above example showed how you can access a clarification in your custom tool when it relates directly to the tool's arguments. If however you wanted to access a clarification from your tool that is not related to the tool's arguments, you can do so by using the `ToolRunContext` object that is passed to the `run` method of your tool.
 
-```python
+```python skip=true
 def run(self, ctx: ToolRunContext, filename: str) -> str | dict[str,any] | MultipleChoiceClarification:
     """Run the FileReaderTool."""
     clarifications = ctx.clarifications
