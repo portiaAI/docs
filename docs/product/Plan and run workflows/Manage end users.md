@@ -37,10 +37,7 @@ from portia.runner import Runner
 
 load_dotenv()
 
-runner = Runner(
-    config=default_config(),
-    tools=example_tool_registry,
-)
+runner = Runner(tools=example_tool_registry)
 
 # We can also provide additional execution context to the process
 # highlight-start
