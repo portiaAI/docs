@@ -40,10 +40,6 @@ The default tool set comprises:
 
 A tool registry is a collection of tools and is represented by the `ToolRegistry` class (<a href="/run-portia-tools" target="_blank">**SDK reference ↗**</a>). Tool registries are useful to group frequently used tools together, e.g. you could imagine having a tool registry by function in your organisation. Portial's default tool registry can be accessed by calling `DefaultToolRegistry(config=default_config())`.
 
-You can access Portia's default tool registry by calling `DefaultToolRegistry(config=default_config())`, or all of Portia's Cloud tools in the `PortiaToolRegistry` class.
-
-You can access all of the Portia Cloud tools in the `PortiaToolRegistry` class (<a href="/run-portia-tools" target="_blank">**SDK reference ↗**</a>).
-
 ```python
 from dotenv import load_dotenv
 from portia.runner import Runner
@@ -56,7 +52,7 @@ load_dotenv()
 runner = Runner(tools=DefaultToolRegistry(default_config()))
 ```
 
-All of Portia's Cloud tools are available in the `PortiaToolRegistry` class. You can access individual tools from this registry and combine them with your own tools to produce a new tool registry:
+All of Portia's Cloud tools are available in the `PortiaToolRegistry` class (<a href="/run-portia-tools" target="_blank">**SDK reference ↗**</a>). You can access individual tools from this registry and combine them with your own tools to produce a new tool registry:
 
 ```python
 from dotenv import load_dotenv
@@ -77,7 +73,7 @@ my_registry = InMemoryToolRegistry().from_local_tools(
 runner = Runner(tools=([CalculatorTool(), SearchTool(), WeatherTool(), github_search_tool]))
 ```
 
-You can also create a new tool registry by filtering tools from `PortiaToolRegistry` to create the subset you want. For example, the default tool registry includes Gmail as the email client but you might want to instead use Outlook. This can be done by filtering out the gmail tools and leaving the Outlook tools in the registry:
+You can also create a new tool registry by filtering tools from `PortiaToolRegistry` to create the subset you want. For example, the default tool registry includes Gmail as the email client but you might want to instead use Outlook. This can be done by setting up a filter to only include the Outlook tools from the registry:
 
 ```python
 from dotenv import load_dotenv
@@ -87,10 +83,10 @@ from portia.tool_registry import PortiaToolRegistry
 
 load_dotenv()
 
-def exclude_gmail_filter(tool: Tool) -> bool:
-    return not tool.id.startswith("portia:google:gmail:")
+def include_outlook_filter(tool: Tool) -> bool:
+    return tool.id.startswith("portia:microsoft:outlook:")
 
-registry = PortiaToolRegistry(config=default_config()).filter_tools(exclude_gmail_filter)
+registry = PortiaToolRegistry(config=default_config()).filter_tools(include_outlook_filter)
 runner = Runner(tools=registry)
 ```
 
