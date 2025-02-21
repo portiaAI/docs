@@ -35,15 +35,19 @@ The runner is responsible for intermediating planning via Planners and execution
 #### \_\_init\_\_
 
 ```python
-def __init__(config: Config, tools: ToolRegistry | list[Tool]) -> None
+def __init__(config: Config | None = None,
+             tools: ToolRegistry | list[Tool] | None = None) -> None
 ```
 
 Initialize storage and tools.
 
 **Arguments**:
 
-- `config` _Config_ - The configuration to initialize the runner.
-- `tools` _ToolRegistry | list[Tool]_ - The registry or list of tools to use.
+- `config` _Config_ - The configuration to initialize the runner. If not provided, the
+  default configuration will be used.
+- `tools` _ToolRegistry | list[Tool]_ - The registry or list of tools to use. If not
+  provided, the open source tool registry will be used, alongside the default tools
+  from Portia cloud if a Portia API key is set.
 
 #### execute\_query
 
