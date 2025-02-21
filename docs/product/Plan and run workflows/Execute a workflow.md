@@ -176,7 +176,7 @@ from portia.open_source_tools.registry import example_tool_registry
 load_dotenv()
 
 # Instantiate a Portia runner. Load it with the default config and with the example tools.
-runner = Runner(config=default_config(), tools=example_tool_registry)
+runner = Runner(tools=example_tool_registry)
 
 # Generate the plan from the user query
 plan = runner.generate_plan('Which stock price grew faster in 2024, Amazon or Google?')
@@ -210,7 +210,7 @@ from portia.open_source_tools.registry import example_tool_registry
 load_dotenv()
 
 # Instantiate a Portia runner. Load it with the default config and with the example tools.
-runner = Runner(config=default_config(), tools=example_tool_registry)
+runner = Runner(tools=example_tool_registry)
 
 # Generate the plan from the user query
 workflow = runner.execute_query('Which stock price grew faster in 2024, Amazon or Google?')

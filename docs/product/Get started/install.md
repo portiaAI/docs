@@ -107,7 +107,7 @@ As a final verification step for your installation, set up the required environm
         load_dotenv()
 
         # Create a Portia runner with the default config which uses Open AI, and with some example tools.
-        runner = Runner(config=default_config(), tools=example_tool_registry)
+        runner = Runner(tools=example_tool_registry)
         # Run the test query and print the output!
         workflow = runner.execute_query('add 1 + 2')
         print(workflow.model_dump_json(indent=2))

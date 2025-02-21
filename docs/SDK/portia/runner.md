@@ -35,15 +35,15 @@ The runner is responsible for intermediating planning via Planners and execution
 #### \_\_init\_\_
 
 ```python
-def __init__(config: Config, tools: ToolRegistry | list[Tool]) -> None
+def __init__(config: Config, tools: ToolRegistry | list[Tool] | None) -> None
 ```
 
 Initialize storage and tools.
 
 **Arguments**:
 
-- `config` _Config_ - The configuration to initialize the runner.
-- `tools` _ToolRegistry | list[Tool]_ - The registry or list of tools to use.
+- `config` _Config | None_ - The configuration to initialize the runner. If this is left empty, the default configuration will be used.
+- `tools` _ToolRegistry | list[Tool] | None_ - The registry or list of tools to use. If this is left empty, a default set of tools will be used. This will consist of our open source tools (including search and weather if you have tavily / openweather API keys specified) and, if you have a Portia API key specified, also the default set of Portia cloud tools.
 
 #### execute\_query
 
