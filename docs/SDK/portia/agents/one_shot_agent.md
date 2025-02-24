@@ -25,15 +25,34 @@ arguments (e.g., it will not catch missing arguments).
 
 It is recommended to use the VerifierAgent for more complex tasks.
 
-Args:
-    llm (BaseChatModel): The language model to use for generating responses.
-    context (str): The context to provide to the language model when generating a response.
-    tools (list[StructuredTool]): A list of tools that can be used during the task.
-    agent (OneShotAgent): The agent responsible for managing the task.
+**Arguments**:
 
-Methods:
-    invoke(MessagesState): Invokes the LLM to generate a response based on the query, context,
-                           and past errors.
+- `llm` _BaseChatModel_ - The language model to use for generating responses.
+- `context` _str_ - The context to provide to the language model when generating a response.
+- `tools` _list[StructuredTool]_ - A list of tools that can be used during the task.
+- `agent` _OneShotAgent_ - The agent responsible for managing the task.
+  
+
+**Methods**:
+
+- `invoke(MessagesState)` - Invokes the LLM to generate a response based on the query, context,
+  and past errors.
+
+#### \_\_init\_\_
+
+```python
+def __init__(llm: BaseChatModel, context: str, tools: list[StructuredTool],
+             agent: OneShotAgent) -> None
+```
+
+Initialize the OneShotToolCallingModel.
+
+**Arguments**:
+
+- `llm` _BaseChatModel_ - The language model to use for generating responses.
+- `context` _str_ - The context to be used when generating the response.
+- `tools` _list[StructuredTool]_ - A list of tools that can be used during the task.
+- `agent` _OneShotAgent_ - The agent that is managing the task.
 
 #### invoke
 
@@ -46,11 +65,14 @@ Invoke the model with the given message state.
 This method formats the input for the language model using the query, context,
 and past errors, then generates a response by invoking the model.
 
-Args:
-    state (MessagesState): The state containing the messages and other necessary data.
+**Arguments**:
 
-Returns:
-    dict[str, Any]: A dictionary containing the model&#x27;s generated response.
+- `state` _MessagesState_ - The state containing the messages and other necessary data.
+  
+
+**Returns**:
+
+  dict[str, Any]: A dictionary containing the model&#x27;s generated response.
 
 ## OneShotAgent Objects
 
@@ -64,14 +86,35 @@ This agent performs the following steps:
 1. Calls the tool with unverified arguments.
 2. Retries tool calls up to 4 times.
 
-Args:
-    step (Step): The current step in the task plan.
-    workflow (Workflow): The workflow that defines the task execution process.
-    config (Config): The configuration settings for the agent.
-    tool (Tool | None): The tool to be used for the task (optional).
+**Arguments**:
 
-Methods:
-    execute_sync(): Executes the core logic of the agent&#x27;s task, using the provided tool
+- `step` _Step_ - The current step in the task plan.
+- `workflow` _Workflow_ - The workflow that defines the task execution process.
+- `config` _Config_ - The configuration settings for the agent.
+- `tool` _Tool | None_ - The tool to be used for the task (optional).
+  
+
+**Methods**:
+
+- `execute_sync()` - Executes the core logic of the agent&#x27;s task, using the provided tool
+
+#### \_\_init\_\_
+
+```python
+def __init__(step: Step,
+             workflow: Workflow,
+             config: Config,
+             tool: Tool | None = None) -> None
+```
+
+Initialize the OneShotAgent.
+
+**Arguments**:
+
+- `step` _Step_ - The current step in the task plan.
+- `workflow` _Workflow_ - The workflow that defines the task execution process.
+- `config` _Config_ - The configuration settings for the agent.
+- `tool` _Tool | None_ - The tool to be used for the task (optional).
 
 #### execute\_sync
 
@@ -83,6 +126,7 @@ Run the core execution logic of the task.
 
 This method will invoke the tool with arguments
 
-Returns:
-    Output: The result of the agent&#x27;s execution, containing the tool call result.
+**Returns**:
+
+- `Output` - The result of the agent&#x27;s execution, containing the tool call result.
 

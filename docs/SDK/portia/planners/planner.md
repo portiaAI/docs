@@ -22,8 +22,21 @@ This class defines the interface for planners that generate plans based on queri
 A planner will implement the logic to generate a plan or an error given a query,
 a list of tools, and optionally, some example plans.
 
-Attributes:
-    config (Config): Configuration settings for the planner.
+**Attributes**:
+
+- `config` _Config_ - Configuration settings for the planner.
+
+#### \_\_init\_\_
+
+```python
+def __init__(config: Config) -> None
+```
+
+Initialize the planner with configuration.
+
+**Arguments**:
+
+- `config` _Config_ - The configuration to initialize the planner.
 
 #### generate\_steps\_or\_error
 
@@ -41,14 +54,17 @@ Generate a list of steps for the given query.
 This method should be implemented to generate a list of steps to accomplish the query based
 on the provided query and tools.
 
-Args:
-    ctx (ExecutionContext): The context for execution.
-    query (str): The user query to generate a list of steps for.
-    tool_list (list[Tool]): A list of tools available for the plan.
-    examples (list[Plan] | None): Optional list of example plans to guide the planner.
+**Arguments**:
 
-Returns:
-    StepsOrError: A StepsOrError instance containing either the generated steps or an error.
+- `ctx` _ExecutionContext_ - The context for execution.
+- `query` _str_ - The user query to generate a list of steps for.
+- `tool_list` _list[Tool]_ - A list of tools available for the plan.
+- `examples` _list[Plan] | None_ - Optional list of example plans to guide the planner.
+  
+
+**Returns**:
+
+- `StepsOrError` - A StepsOrError instance containing either the generated steps or an error.
 
 ## StepsOrError Objects
 
@@ -61,7 +77,8 @@ A list of steps or an error.
 This model represents either a list of steps for a plan or an error message if
 the steps could not be created.
 
-Attributes:
-    steps (list[Step]): The generated steps if successful.
-    error (str | None): An error message if the steps could not be created.
+**Attributes**:
+
+- `steps` _list[Step]_ - The generated steps if successful.
+- `error` _str | None_ - An error message if the steps could not be created.
 

@@ -43,8 +43,17 @@ class ConfigNotFoundError(PortiaBaseError)
 
 Raised when a required configuration value is not found.
 
-Args:
-    value (str): The name of the configuration value that is missing.
+**Arguments**:
+
+- `value` _str_ - The name of the configuration value that is missing.
+
+#### \_\_init\_\_
+
+```python
+def __init__(value: str) -> None
+```
+
+Set custom error message.
 
 ## InvalidConfigError Objects
 
@@ -54,9 +63,18 @@ class InvalidConfigError(PortiaBaseError)
 
 Raised when a configuration value is invalid.
 
-Args:
-    value (str): The name of the invalid configuration value.
-    issue (str): A description of the issue with the configuration value.
+**Arguments**:
+
+- `value` _str_ - The name of the invalid configuration value.
+- `issue` _str_ - A description of the issue with the configuration value.
+
+#### \_\_init\_\_
+
+```python
+def __init__(value: str, issue: str) -> None
+```
+
+Set custom error message.
 
 ## PlanError Objects
 
@@ -68,8 +86,17 @@ Base class for exceptions in the query planner module.
 
 This exception indicates an error that occurred during the planning phase.
 
-Args:
-    error_string (str): A description of the error encountered during planning.
+**Arguments**:
+
+- `error_string` _str_ - A description of the error encountered during planning.
+
+#### \_\_init\_\_
+
+```python
+def __init__(error_string: str) -> None
+```
+
+Set custom error message.
 
 ## PlanNotFoundError Objects
 
@@ -79,8 +106,17 @@ class PlanNotFoundError(PortiaBaseError)
 
 Raised when a plan with a specific ID is not found.
 
-Args:
-    plan_id (PlanUUID): The ID of the plan that was not found.
+**Arguments**:
+
+- `plan_id` _PlanUUID_ - The ID of the plan that was not found.
+
+#### \_\_init\_\_
+
+```python
+def __init__(plan_id: PlanUUID) -> None
+```
+
+Set custom error message.
 
 ## WorkflowNotFoundError Objects
 
@@ -90,8 +126,17 @@ class WorkflowNotFoundError(PortiaBaseError)
 
 Raised when a workflow with a specific ID is not found.
 
-Args:
-    workflow_id (UUID | str | None): The ID or name of the workflow that was not found.
+**Arguments**:
+
+- `workflow_id` _UUID | str | None_ - The ID or name of the workflow that was not found.
+
+#### \_\_init\_\_
+
+```python
+def __init__(workflow_id: WorkflowUUID | str | None) -> None
+```
+
+Set custom error message.
 
 ## ToolNotFoundError Objects
 
@@ -101,8 +146,17 @@ class ToolNotFoundError(PortiaBaseError)
 
 Raised when a tool with a specific ID is not found.
 
-Args:
-    tool_id (str): The ID of the tool that was not found.
+**Arguments**:
+
+- `tool_id` _str_ - The ID of the tool that was not found.
+
+#### \_\_init\_\_
+
+```python
+def __init__(tool_id: str) -> None
+```
+
+Set custom error message.
 
 ## DuplicateToolError Objects
 
@@ -112,8 +166,17 @@ class DuplicateToolError(PortiaBaseError)
 
 Raised when a tool is registered with the same name.
 
-Args:
-    tool_id (str): The ID of the tool that already exists.
+**Arguments**:
+
+- `tool_id` _str_ - The ID of the tool that already exists.
+
+#### \_\_init\_\_
+
+```python
+def __init__(tool_id: str) -> None
+```
+
+Set custom error message.
 
 ## InvalidToolDescriptionError Objects
 
@@ -123,8 +186,17 @@ class InvalidToolDescriptionError(PortiaBaseError)
 
 Raised when a tool description is invalid.
 
-Args:
-    tool_id (str): The ID of the tool with an invalid description.
+**Arguments**:
+
+- `tool_id` _str_ - The ID of the tool with an invalid description.
+
+#### \_\_init\_\_
+
+```python
+def __init__(tool_id: str) -> None
+```
+
+Set custom error message.
 
 ## ToolRetryError Objects
 
@@ -134,9 +206,18 @@ class ToolRetryError(PortiaBaseError)
 
 Raised when a tool fails after retrying.
 
-Args:
-    tool_id (str): The ID of the tool that failed.
-    error_string (str): A description of the error that occurred.
+**Arguments**:
+
+- `tool_id` _str_ - The ID of the tool that failed.
+- `error_string` _str_ - A description of the error that occurred.
+
+#### \_\_init\_\_
+
+```python
+def __init__(tool_id: str, error_string: str) -> None
+```
+
+Set custom error message.
 
 ## ToolFailedError Objects
 
@@ -146,9 +227,18 @@ class ToolFailedError(PortiaBaseError)
 
 Raised when a tool fails with a hard error.
 
-Args:
-    tool_id (str): The ID of the tool that failed.
-    error_string (str): A description of the error that occurred.
+**Arguments**:
+
+- `tool_id` _str_ - The ID of the tool that failed.
+- `error_string` _str_ - A description of the error that occurred.
+
+#### \_\_init\_\_
+
+```python
+def __init__(tool_id: str, error_string: str) -> None
+```
+
+Set custom error message.
 
 ## InvalidWorkflowStateError Objects
 
@@ -166,6 +256,14 @@ class InvalidAgentError(PortiaBaseError)
 
 Raised when an agent is in an invalid state.
 
+#### \_\_init\_\_
+
+```python
+def __init__(state: str) -> None
+```
+
+Set custom error message.
+
 ## InvalidAgentOutputError Objects
 
 ```python
@@ -174,8 +272,17 @@ class InvalidAgentOutputError(PortiaBaseError)
 
 Raised when the agent produces invalid output.
 
-Args:
-    content (str): The invalid content returned by the agent.
+**Arguments**:
+
+- `content` _str_ - The invalid content returned by the agent.
+
+#### \_\_init\_\_
+
+```python
+def __init__(content: str) -> None
+```
+
+Set custom error message.
 
 ## ToolHardError Objects
 
@@ -185,8 +292,17 @@ class ToolHardError(PortiaBaseError)
 
 Raised when a tool encounters an error it cannot retry.
 
-Args:
-    cause (Exception | str): The underlying exception or error message.
+**Arguments**:
+
+- `cause` _Exception | str_ - The underlying exception or error message.
+
+#### \_\_init\_\_
+
+```python
+def __init__(cause: Exception | str) -> None
+```
+
+Set custom error message.
 
 ## ToolSoftError Objects
 
@@ -196,8 +312,17 @@ class ToolSoftError(PortiaBaseError)
 
 Raised when a tool encounters an error that can be retried.
 
-Args:
-    cause (Exception | str): The underlying exception or error message.
+**Arguments**:
+
+- `cause` _Exception | str_ - The underlying exception or error message.
+
+#### \_\_init\_\_
+
+```python
+def __init__(cause: Exception | str) -> None
+```
+
+Set custom error message.
 
 ## StorageError Objects
 
@@ -207,6 +332,15 @@ class StorageError(PortiaBaseError)
 
 Raised when there&#x27;s an issue with storage.
 
-Args:
-    cause (Exception | str): The underlying exception or error message.
+**Arguments**:
+
+- `cause` _Exception | str_ - The underlying exception or error message.
+
+#### \_\_init\_\_
+
+```python
+def __init__(cause: Exception | str) -> None
+```
+
+Set custom error message.
 

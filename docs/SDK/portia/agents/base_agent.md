@@ -24,6 +24,29 @@ Optionally, new agents may also override the get_context function, which is resp
 the system context for the agent. This should be done with thought, as the details of the system
 context are critically important for LLM performance.
 
+#### \_\_init\_\_
+
+```python
+def __init__(step: Step,
+             workflow: Workflow,
+             config: Config,
+             tool: Tool | None = None) -> None
+```
+
+Initialize the base agent with the given args.
+
+Importantly, the models here are frozen copies of those used in the Runner.
+They are meant as read-only references, useful for execution of the task
+but cannot be edited. The agent should return output via the response
+of the execute_sync method.
+
+**Arguments**:
+
+- `step` _Step_ - The step that defines the task to be executed.
+- `workflow` _Workflow_ - The workflow that contains the step and related data.
+- `config` _Config_ - The configuration settings for the agent.
+- `tool` _Tool | None_ - An optional tool associated with the agent (default is None).
+
 #### execute\_sync
 
 ```python
@@ -36,8 +59,9 @@ Run the core execution logic of the task synchronously.
 Implementation of this function is deferred to individual agent implementations,
 making it simple to write new ones.
 
-Returns:
-    Output: The output of the task execution.
+**Returns**:
+
+- `Output` - The output of the task execution.
 
 #### get\_system\_context
 
@@ -50,8 +74,9 @@ Build a generic system context string from the step and workflow provided.
 This function retrieves the execution context and generates a system context
 based on the step and workflow provided to the agent.
 
-Returns:
-    str: A string containing the system context for the agent.
+**Returns**:
+
+- `str` - A string containing the system context for the agent.
 
 ## Output Objects
 
@@ -63,9 +88,10 @@ Output of a tool with a wrapper for data, summaries, and LLM interpretation.
 
 This class contains a generic value `T` bound to `Serializable`.
 
-Attributes:
-    value (SERIALIZABLE_TYPE_VAR | None): The output of the tool.
-    summary (str | None): A textual summary of the output. Not all tools generate summaries.
+**Attributes**:
+
+- `value` _SERIALIZABLE_TYPE_VAR | None_ - The output of the tool.
+- `summary` _str | None_ - A textual summary of the output. Not all tools generate summaries.
 
 #### serialize\_value
 
@@ -76,9 +102,12 @@ def serialize_value(value: SERIALIZABLE_TYPE_VAR | None) -> str
 
 Serialize the value to a string.
 
-Args:
-    value (SERIALIZABLE_TYPE_VAR | None): The value to serialize.
+**Arguments**:
 
-Returns:
-    str: The serialized value as a string.
+- `value` _SERIALIZABLE_TYPE_VAR | None_ - The value to serialize.
+  
+
+**Returns**:
+
+- `str` - The serialized value as a string.
 

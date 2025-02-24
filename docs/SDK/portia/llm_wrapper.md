@@ -32,9 +32,22 @@ This abstract class defines the interface that all LLM wrappers should implement
 It requires conversion methods for LangChain models (`to_langchain`) and for generating
 responses using the instructor tool (`to_instructor`).
 
-Methods:
-    to_langchain: Convert the LLM to a LangChain-compatible model.
-    to_instructor: Generate a response using the instructor tool.
+**Methods**:
+
+- `to_langchain` - Convert the LLM to a LangChain-compatible model.
+- `to_instructor` - Generate a response using the instructor tool.
+
+#### \_\_init\_\_
+
+```python
+def __init__(config: Config) -> None
+```
+
+Initialize the base LLM wrapper.
+
+**Arguments**:
+
+- `config` _Config_ - The configuration object containing settings for the LLM.
 
 #### to\_langchain
 
@@ -48,11 +61,14 @@ Return a LangChain chat model based on the LLM provider.
 Converts the LLM provider&#x27;s model to a LangChain-compatible model for interaction
 within the LangChain framework.
 
-Returns:
-    BaseChatModel: A LangChain-compatible model.
+**Returns**:
 
-Raises:
-    NotImplementedError: If the function is not implemented
+- `BaseChatModel` - A LangChain-compatible model.
+  
+
+**Raises**:
+
+- `NotImplementedError` - If the function is not implemented
 
 #### to\_instructor
 
@@ -64,15 +80,20 @@ def to_instructor(response_model: type[T],
 
 Generate a response using instructor.
 
-Args:
-    response_model (type[T]): The Pydantic model to deserialize the response into.
-    messages (list[ChatCompletionMessageParam]): The messages to send to the LLM.
+**Arguments**:
 
-Returns:
-    T: The deserialized response.
+- `response_model` _type[T]_ - The Pydantic model to deserialize the response into.
+- `messages` _list[ChatCompletionMessageParam]_ - The messages to send to the LLM.
+  
 
-Raises:
-    NotImplementedError: If the function is not implemented
+**Returns**:
+
+- `T` - The deserialized response.
+  
+
+**Raises**:
+
+- `NotImplementedError` - If the function is not implemented
 
 ## LLMWrapper Objects
 
@@ -86,15 +107,30 @@ This class provides functionality for working with various LLM providers, such a
 Anthropic, and MistralAI. It includes methods to convert the LLM provider&#x27;s model to a
 LangChain-compatible model and to generate responses using the instructor tool.
 
-Attributes:
-    llm_provider (LLMProvider): The LLM provider to use (e.g., OpenAI, Anthropic, MistralAI).
-    model_name (str): The name of the model to use.
-    model_temperature (float): The temperature setting for the model.
-    model_seed (int): The seed for the model&#x27;s random generation.
+**Attributes**:
 
-Methods:
-    to_langchain: Converts the LLM provider&#x27;s model to a LangChain-compatible model.
-    to_instructor: Generates a response using instructor for the selected LLM provider.
+- `llm_provider` _LLMProvider_ - The LLM provider to use (e.g., OpenAI, Anthropic, MistralAI).
+- `model_name` _str_ - The name of the model to use.
+- `model_temperature` _float_ - The temperature setting for the model.
+- `model_seed` _int_ - The seed for the model&#x27;s random generation.
+  
+
+**Methods**:
+
+- `to_langchain` - Converts the LLM provider&#x27;s model to a LangChain-compatible model.
+- `to_instructor` - Generates a response using instructor for the selected LLM provider.
+
+#### \_\_init\_\_
+
+```python
+def __init__(config: Config) -> None
+```
+
+Initialize the wrapper.
+
+**Arguments**:
+
+- `config` _Config_ - The configuration object containing settings for the LLM.
 
 #### to\_langchain
 
@@ -107,8 +143,9 @@ Return a LangChain chat model based on the LLM provider.
 Converts the LLM provider&#x27;s model to a LangChain-compatible model for interaction
 within the LangChain framework.
 
-Returns:
-    BaseChatModel: A LangChain-compatible model.
+**Returns**:
+
+- `BaseChatModel` - A LangChain-compatible model.
 
 #### to\_instructor
 
@@ -119,10 +156,13 @@ def to_instructor(response_model: type[T],
 
 Use instructor to generate an object of the specified response model type.
 
-Args:
-    response_model (type[T]): The Pydantic model to deserialize the response into.
-    messages (list[ChatCompletionMessageParam]): The messages to send to the LLM.
+**Arguments**:
 
-Returns:
-    T: The deserialized response from the LLM provider.
+- `response_model` _type[T]_ - The Pydantic model to deserialize the response into.
+- `messages` _list[ChatCompletionMessageParam]_ - The messages to send to the LLM.
+  
+
+**Returns**:
+
+- `T` - The deserialized response from the LLM provider.
 

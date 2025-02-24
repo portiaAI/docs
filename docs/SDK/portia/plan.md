@@ -32,12 +32,13 @@ A variable in the plan.
 A variable is a way of referencing other parts of the plan, usually either another step&#x27;s output
 or a constant input variable.
 
-Args:
-    name (str): The name of the variable starting with &#x27;$&#x27;. The variable should be the output
-                of another step, or be a constant.
-    value (Any): The value of the variable, which may be set by other preceding steps if not
-                 defined.
-    description (str): A description of the variable.
+**Arguments**:
+
+- `name` _str_ - The name of the variable starting with &#x27;$&#x27;. The variable should be the output
+  of another step, or be a constant.
+- `value` _Any_ - The value of the variable, which may be set by other preceding steps if not
+  defined.
+- `description` _str_ - A description of the variable.
 
 ## Step Objects
 
@@ -50,11 +51,12 @@ A step in a workflow.
 A step represents a task in the workflow to be executed. It contains inputs (variables) and
 outputs, and may reference a tool to complete the task.
 
-Args:
-    task (str): The task that needs to be completed by this step.
-    inputs (list[Variable]): The input to the step, which can include constants and variables.
-    tool_id (str | None): The ID of the tool used in this step, if applicable.
-    output (str): The unique output ID for the result of this step.
+**Arguments**:
+
+- `task` _str_ - The task that needs to be completed by this step.
+- `inputs` _list[Variable]_ - The input to the step, which can include constants and variables.
+- `tool_id` _str | None_ - The ID of the tool used in this step, if applicable.
+- `output` _str_ - The unique output ID for the result of this step.
 
 ## ReadOnlyStep Objects
 
@@ -67,8 +69,9 @@ A read-only copy of a step, passed to agents for reference.
 This class creates an immutable representation of a step, which is used to ensure agents
 do not modify the original plan during execution.
 
-Args:
-    step (Step): A step object from which to create a read-only version.
+**Arguments**:
+
+- `step` _Step_ - A step object from which to create a read-only version.
 
 #### from\_step
 
@@ -79,11 +82,14 @@ def from_step(cls, step: Step) -> ReadOnlyStep
 
 Create a read-only step from a normal step.
 
-Args:
-    step (Step): The step to be converted to read-only.
+**Arguments**:
 
-Returns:
-    ReadOnlyStep: A new read-only step.
+- `step` _Step_ - The step to be converted to read-only.
+  
+
+**Returns**:
+
+- `ReadOnlyStep` - A new read-only step.
 
 ## PlanContext Objects
 
@@ -96,9 +102,10 @@ Context for a plan.
 The plan context contains information about the original query and the tools available
 for the planner to use when generating the plan.
 
-Args:
-    query (str): The original query given by the user.
-    tool_ids (list[str]): A list of tool IDs available to the planner.
+**Arguments**:
+
+- `query` _str_ - The original query given by the user.
+- `tool_ids` _list[str]_ - A list of tool IDs available to the planner.
 
 ## Plan Objects
 
@@ -111,10 +118,23 @@ A plan represents a series of steps that an agent should follow to execute the q
 A plan defines the entire sequence of steps required to process a query and generate a result.
 It also includes the context in which the plan was created.
 
-Args:
-    id (PlanUUID): A unique ID for the plan.
-    plan_context (PlanContext): The context for when the plan was created.
-    steps (list[Step]): The set of steps that make up the plan.
+**Arguments**:
+
+- `id` _PlanUUID_ - A unique ID for the plan.
+- `plan_context` _PlanContext_ - The context for when the plan was created.
+- `steps` _list[Step]_ - The set of steps that make up the plan.
+
+#### \_\_str\_\_
+
+```python
+def __str__() -> str
+```
+
+Return the string representation of the plan.
+
+**Returns**:
+
+- `str` - A string representation of the plan&#x27;s ID, context, and steps.
 
 ## ReadOnlyPlan Objects
 
@@ -136,9 +156,12 @@ def from_plan(cls, plan: Plan) -> ReadOnlyPlan
 
 Create a read-only plan from a normal plan.
 
-Args:
-    plan (Plan): The original plan instance to create a read-only copy from.
+**Arguments**:
 
-Returns:
-    ReadOnlyPlan: A new read-only instance of the provided plan.
+- `plan` _Plan_ - The original plan instance to create a read-only copy from.
+  
+
+**Returns**:
+
+- `ReadOnlyPlan` - A new read-only instance of the provided plan.
 

@@ -27,7 +27,7 @@ We established in the preceding section that clarifications are raised when an a
 
 ## Bringing the concepts together
 
-Now let's bring this to life by reproducing the experience that you can see on the website's playground (<a href="https:www.portialabs.ai" target="_blank">**↗**</a>). We want to be able to handle a prompt like `Find the github repository of Mastodon and give it a star for me`, so let's take a look at the code below.
+Now let's bring this to life by reproducing the experience that you can see on the website's playground (<a href="https://www.portialabs.ai" target="_blank">**↗**</a>). We want to be able to handle a prompt like `Find the github repository of Mastodon and give it a star for me`, so let's take a look at the code below.
 
 <details>
 <summary>**Portia API key required**</summary>
@@ -47,10 +47,10 @@ from portia.tool_registry import PortiaToolRegistry
 load_dotenv()
 
 # Instantiate a Portia runner. Load it with the default config and with Portia cloud tools above
-runner = Runner(config=default_config(), tools=PortiaToolRegistry(default_config()))
+runner = Runner(tools=PortiaToolRegistry(default_config()))
 
 # Generate the plan from the user query and print it
-plan = runner.generate_plan('Find the github repository of Mastodon and give it a star for me')
+plan = runner.generate_plan('Find the github repository of PortiaAI and give it a star for me')
 print(f"{plan.model_dump_json(indent=2)}")
 
 # Execute the workflow
@@ -63,10 +63,8 @@ while workflow.state == WorkflowState.NEED_CLARIFICATION:
         # Usual handling of Input and Multiple Choice clarifications
         if isinstance(clarification, (InputClarification, MultipleChoiceClarification)):
             print(f"{clarification.user_guidance}")
-            user_input = input("Please enter a value:\n" +
-                               (clarification.choices
-                                if isinstance(clarification, MultipleChoiceClarification)
-                                else ""))
+            user_input = input("Please enter a value:\n" 
+                            + (("\n".join(clarification.options) + "\n") if "options" in clarification else ""))
             workflow = runner.resolve_clarification(clarification, user_input, workflow)
         
         # Handling of Action clarifications
@@ -103,7 +101,7 @@ In your logs you should be able to see the tools, as well as a plan and final wo
     {
         "id": "plan-71fbe578-0c3f-4266-b5d7-933e8bb10ef2",
         "plan_context": {
-            "query": "Find the github repository of Mastodon and give it a star for me",
+            "query": "Find the github repository of PortiaAI and give it a star for me",
             "tool_ids": [
             "portia::list_github_repos_tool",
             "portia::search_github_repos_tool",
@@ -116,18 +114,18 @@ In your logs you should be able to see the tools, as well as a plan and final wo
         },
         "steps": [
             {
-            "task": "Search for the GitHub repository of Mastodon",
-            "inputs": [],
-            "tool_name": "Portia Search GitHub Repositories",
-            "output": "$mastodon_repository"
+                "task": "Search for the GitHub repository of PortiaAI",
+                "inputs": [],
+                "tool_name": "Portia Search GitHub Repositories",
+                "output": "$portiaai_repository"
             },
             {
-            "task": "Star the GitHub repository of Mastodon",
+            "task": "Star the GitHub repository of PortiaAI",
             "inputs": [
                 {
-                "name": "$mastodon_repository",
-                "value": null,
-                "description": "The GitHub repository of Mastodon"
+                    "name": "$portiaai_repository",
+                    "value": null,
+                    "description": "The GitHub repository of PortiaAI"
                 }
             ],
             "tool_name": "Portia Star GitHub Repository",
@@ -155,28 +153,26 @@ In your logs you should be able to see the tools, as well as a plan and final wo
                 {
                     "uuid": "clar-f873b9be-10ee-4184-a717-3a7559416499",
                     "category": “Multiple Choice”,
-                    "response": “mastodon/mastodon",
+                    "response": “portiaAI/portia-sdk-python",
                     "step": 2, 
                     "user_guidance": "Please select a repository.", 
                     "handled": true,
-                    "argument": "$mastodon_repository",
-                    "options": "['mastodon/mastodon', 'idaholab/mastodon', 'mastodon/mastodon-ios', 'mastodon/mastodon-android',
-                                ...']",
+                    "argument": "$portiaai_repository",
+                    "options": "[\"portiaAI/portia-sdk-python\", \"portiaAI/docs\", \"portiaAI/portia-agent-examples\"]",
                 }
             ],
             "step_outputs": {
-            "$mastodon_repository": {
-                "value": "['mastodon/mastodon', 'idaholab/mastodon', 'mastodon/mastodon-ios', 'mastodon/mastodon-android',
-                            ...']",
+            "$portiaai_repository": {
+                "value": "[\"portiaAI/portia-sdk-python\", \"portiaAI/docs\", \"portiaAI/portia-agent-examples\"]",
                 "summary": null
             },
             "$star_result": {
-                "value": "Successfully starred the repository 'mastodon/mastodon'.",
+                "value": "Successfully starred the repository 'portiaAI/portia-sdk-python'.",
                 "summary": null
             }
             },
             "final_output": {
-            "value": "Successfully starred the repository 'mastodon/mastodon'.",
+            "value": "Successfully starred the repository 'portiaAI/portia-sdk-python'.",
             "summary": null
             }
         }
@@ -184,3 +180,7 @@ In your logs you should be able to see the tools, as well as a plan and final wo
     ```
   </TabItem>
 </Tabs>
+
+:::info
+Now that you're familiar with running Portia tools, why not try your hand at the intro example in our <a href="https://github.com/portiaAI/portia-agent-examples/blob/main/get_started_google_tools/README.md" target="_blank">**examples repo (↗)**</a>. In the example ee use the Google Calendar tools to schedule a meeting and handle the authentication process to execute those tool calls.
+:::

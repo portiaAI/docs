@@ -20,6 +20,14 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-__pycache__
+# Poetry
+dist/
+*.pyc
+__pycache__/
+.pytest_cache/
+.coverage
+htmlcov/
+.python-version
+poetry.lock
 
 demo_runs/

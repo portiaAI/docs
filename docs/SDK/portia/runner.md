@@ -32,6 +32,23 @@ Runner class is the top level abstraction and entrypoint for most programs using
 
 The runner is responsible for intermediating planning via Planners and execution via Agents.
 
+#### \_\_init\_\_
+
+```python
+def __init__(config: Config | None = None,
+             tools: ToolRegistry | list[Tool] | None = None) -> None
+```
+
+Initialize storage and tools.
+
+**Arguments**:
+
+- `config` _Config_ - The configuration to initialize the runner. If not provided, the
+  default configuration will be used.
+- `tools` _ToolRegistry | list[Tool]_ - The registry or list of tools to use. If not
+  provided, the open source tool registry will be used, alongside the default tools
+  from Portia cloud if a Portia API key is set.
+
 #### execute\_query
 
 ```python
@@ -44,15 +61,18 @@ End-to-end function to generate a plan and then execute it.
 
 This is the simplest way to plan and execute a query using the SDK.
 
-Args:
-    query (str): The query to be executed.
-    tools (list[Tool] | list[str] | None): List of tools to use for the query.
-    If not provided all tools in the registry will be used.
-    example_plans (list[Plan] | None): Optional list of example plans. If not
-    provide a default set of example plans will be used.
+**Arguments**:
 
-Returns:
-    Workflow: The workflow resulting from executing the query.
+- `query` _str_ - The query to be executed.
+- `tools` _list[Tool] | list[str] | None_ - List of tools to use for the query.
+  If not provided all tools in the registry will be used.
+- `example_plans` _list[Plan] | None_ - Optional list of example plans. If not
+  provide a default set of example plans will be used.
+  
+
+**Returns**:
+
+- `Workflow` - The workflow resulting from executing the query.
 
 #### generate\_plan
 
@@ -64,18 +84,23 @@ def generate_plan(query: str,
 
 Plans how to do the query given the set of tools and any examples.
 
-Args:
-    query (str): The query to generate the plan for.
-    tools (list[Tool] | list[str] | None): List of tools to use for the query.
-    If not provided all tools in the registry will be used.
-    example_plans (list[Plan] | None): Optional list of example plans. If not
-    provide a default set of example plans will be used.
+**Arguments**:
 
-Returns:
-    Plan: The plan for executing the query.
+- `query` _str_ - The query to generate the plan for.
+- `tools` _list[Tool] | list[str] | None_ - List of tools to use for the query.
+  If not provided all tools in the registry will be used.
+- `example_plans` _list[Plan] | None_ - Optional list of example plans. If not
+  provide a default set of example plans will be used.
+  
 
-Raises:
-    PlanError: If there is an error while generating the plan.
+**Returns**:
+
+- `Plan` - The plan for executing the query.
+  
+
+**Raises**:
+
+- `PlanError` - If there is an error while generating the plan.
 
 #### create\_workflow
 
@@ -85,11 +110,14 @@ def create_workflow(plan: Plan) -> Workflow
 
 Create a workflow from a Plan.
 
-Args:
-    plan (Plan): The plan to create a workflow from.
+**Arguments**:
 
-Returns:
-    Workflow: The created workflow.
+- `plan` _Plan_ - The plan to create a workflow from.
+  
+
+**Returns**:
+
+- `Workflow` - The created workflow.
 
 #### execute\_workflow
 
@@ -101,17 +129,22 @@ def execute_workflow(
 
 Run a workflow.
 
-Args:
-    workflow (Workflow | None): The workflow to execute. Defaults to None.
-    workflow_id (WorkflowUUID | str | None): The ID of the workflow to execute. Defaults to
-        None.
+**Arguments**:
 
-Returns:
-    Workflow: The resulting workflow after execution.
+- `workflow` _Workflow | None_ - The workflow to execute. Defaults to None.
+- `workflow_id` _WorkflowUUID | str | None_ - The ID of the workflow to execute. Defaults to
+  None.
+  
 
-Raises:
-    ValueError: If neither workflow nor workflow_id is provided.
-    InvalidWorkflowStateError: If the workflow is not in a valid state to be executed.
+**Returns**:
+
+- `Workflow` - The resulting workflow after execution.
+  
+
+**Raises**:
+
+- `ValueError` - If neither workflow nor workflow_id is provided.
+- `InvalidWorkflowStateError` - If the workflow is not in a valid state to be executed.
 
 #### resolve\_clarification
 
@@ -123,13 +156,16 @@ def resolve_clarification(clarification: Clarification,
 
 Resolve a clarification updating the workflow state as needed.
 
-Args:
-    clarification (Clarification): The clarification to resolve.
-    response (object): The response to the clarification.
-    workflow (Workflow | None): Optional - the workflow being updated.
+**Arguments**:
 
-Returns:
-    Workflow: The updated workflow.
+- `clarification` _Clarification_ - The clarification to resolve.
+- `response` _object_ - The response to the clarification.
+- `workflow` _Workflow | None_ - Optional - the workflow being updated.
+  
+
+**Returns**:
+
+- `Workflow` - The updated workflow.
 
 #### wait\_for\_ready
 
@@ -144,17 +180,22 @@ Wait for the workflow to be in a state that it can be re-run.
 
 This is generally because there are outstanding clarifications that need to be resolved.
 
-Args:
-    workflow (Workflow): The workflow to wait for.
-    max_retries (int): The maximum number of retries to wait for the workflow to be ready
-        after the backoff period starts.
-    backoff_start_time_seconds (int): The time after which the backoff period starts.
-    backoff_time_seconds (int): The time to wait between retries after the backoff period
-        starts.
+**Arguments**:
 
-Returns:
-    Workflow: The updated workflow once it is ready to be re-run.
+- `workflow` _Workflow_ - The workflow to wait for.
+- `max_retries` _int_ - The maximum number of retries to wait for the workflow to be ready
+  after the backoff period starts.
+- `backoff_start_time_seconds` _int_ - The time after which the backoff period starts.
+- `backoff_time_seconds` _int_ - The time to wait between retries after the backoff period
+  starts.
+  
 
-Raises:
-    InvalidWorkflowStateError: If the workflow cannot be waited for.
+**Returns**:
+
+- `Workflow` - The updated workflow once it is ready to be re-run.
+  
+
+**Raises**:
+
+- `InvalidWorkflowStateError` - If the workflow cannot be waited for.
 

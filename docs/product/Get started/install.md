@@ -23,7 +23,7 @@ pip install portia-sdk-python
 ```
 
 ### Configure access to your preferred LLM
-Portia allows you to connect to the LLM of your choice using your own API key(s). We are working to support a broader set of models but for now here are the models that our libraries support and how to set the API keys for them.
+Set environment variables to connect to one of our currently supported LLMs. We are currently expanding this list. 
 
 <Tabs groupId="llm-provider">
     <TabItem value="openai" label="Open AI" default>
@@ -107,7 +107,7 @@ As a final verification step for your installation, set up the required environm
         load_dotenv()
 
         # Create a Portia runner with the default config which uses Open AI, and with some example tools.
-        runner = Runner(config=default_config(), tools=example_tool_registry)
+        runner = Runner(tools=example_tool_registry)
         # Run the test query and print the output!
         workflow = runner.execute_query('add 1 + 2')
         print(workflow.model_dump_json(indent=2))

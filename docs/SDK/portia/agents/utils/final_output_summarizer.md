@@ -13,8 +13,21 @@ class FinalOutputSummarizer()
 
 Utility class responsible for summarizing the workflow outputs for final output&#x27;s summary.
 
-Attributes:
-    config (Config): The configuration for the llm.
+**Attributes**:
+
+- `config` _Config_ - The configuration for the llm.
+
+#### \_\_init\_\_
+
+```python
+def __init__(config: Config) -> None
+```
+
+Initialize the summarizer agent.
+
+**Arguments**:
+
+- `config` _Config_ - The configuration for the llm.
 
 #### create\_summary
 
@@ -24,10 +37,13 @@ def create_summary(plan: Plan, workflow: Workflow) -> str | None
 
 Execute the summarizer llm and return the summary as a string.
 
-Args:
-    plan (Plan): The plan containing the steps.
-    workflow (Workflow): The workflow to summarize.
+**Arguments**:
 
-Returns:
-    str | None: The generated summary or None if generation fails.
+- `plan` _Plan_ - The plan containing the steps.
+- `workflow` _Workflow_ - The workflow to summarize.
+  
+
+**Returns**:
+
+  str | None: The generated summary or None if generation fails.
 

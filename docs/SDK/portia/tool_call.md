@@ -19,16 +19,12 @@ class ToolCallStatus(PortiaEnum)
 
 The status of the tool call.
 
-Attributes
-----------
-IN_PROGRESS : str
-    The tool is currently in progress.
-NEED_CLARIFICATION : str
-    The tool raise a clarification.
-SUCCESS : str
-    The tool executed successfully.
-FAILED : str
-    The tool raised an error.
+**Attributes**:
+
+- `IN_PROGRESS` - The tool is currently in progress.
+- `NEED_CLARIFICATION` - The tool raise a clarification.
+- `SUCCESS` - The tool executed successfully.
+- `FAILED` - The tool raised an error.
 
 ## ToolCallRecord Objects
 
@@ -41,16 +37,16 @@ Model that records the details of an individual tool call.
 This class captures all relevant information about a single tool call
 within a workflow, including metadata, input and output data, and status.
 
-Attributes
-----------
-    tool_name (str): The name of the tool being called.
-    workflow_id (WorkflowUUID): The unique identifier of the workflow to which this tool call
-        belongs.
-    step (int): The step number of the tool call in the workflow.
-    end_user_id (str | None): The ID of the end user, if applicable. Can be None.
-    additional_data (dict[str, str]): Additional data from the execution context.
-    status (ToolCallStatus): The current status of the tool call (e.g., IN_PROGRESS, SUCCESS).
-    input (Any): The input data passed to the tool call.
-    output (Any): The output data returned from the tool call.
-    latency_seconds (float): The latency in seconds for the tool call to complete.
+**Attributes**:
+
+- `tool_name` _str_ - The name of the tool being called.
+- `workflow_id` _WorkflowUUID_ - The unique identifier of the workflow to which this tool call
+  belongs.
+- `step` _int_ - The step number of the tool call in the workflow.
+- `end_user_id` _str | None_ - The ID of the end user, if applicable. Can be None.
+- `additional_data` _dict[str, str]_ - Additional data from the execution context.
+- `status` _ToolCallStatus_ - The current status of the tool call (e.g., IN_PROGRESS, SUCCESS).
+- `input` _Any_ - The input data passed to the tool call.
+- `output` _Any_ - The output data returned from the tool call.
+- `latency_seconds` _float_ - The latency in seconds for the tool call to complete.
 
