@@ -44,7 +44,6 @@ A tool registry is a collection of tools and is represented by the `ToolRegistry
 from dotenv import load_dotenv
 from portia.runner import Runner
 from portia.config import default_config
-from portia.tool import Tool
 from portia.tool_registry import DefaultToolRegistry
 
 load_dotenv()
@@ -80,6 +79,7 @@ You can also create a new tool registry by filtering tools from `PortiaToolRegis
 from dotenv import load_dotenv
 from portia.runner import Runner
 from portia.config import default_config
+from portia.tool import Tool
 from portia.tool_registry import PortiaToolRegistry
 
 load_dotenv()
