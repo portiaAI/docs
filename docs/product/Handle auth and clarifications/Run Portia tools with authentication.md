@@ -47,7 +47,7 @@ from portia.tool_registry import PortiaToolRegistry
 load_dotenv()
 
 # Instantiate a Portia runner. Load it with the default config and with Portia cloud tools above
-runner = Runner(config=default_config(), tools=PortiaToolRegistry(default_config()))
+runner = Runner(tools=PortiaToolRegistry(default_config()))
 
 # Generate the plan from the user query and print it
 plan = runner.generate_plan('Find the github repository of PortiaAI and give it a star for me')
