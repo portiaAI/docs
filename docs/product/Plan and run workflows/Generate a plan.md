@@ -62,7 +62,7 @@ While plans are currently a linear sequence of steps, we will be introducing mor
 ## Create a plan from a user prompt
 When responding to a user's prompt with Portia, you can either chain the plan generation process to the subsequent instantiation of a workflow run from it, or you can choose to decouple them. The latter option allows you for example to display the plan to the user and tweak it before running a workflow.
 
-Let's look at how we generate a plan from a user prompt. Paste the code below into your project and run it (using `poetry run python3 main.py` in Poetry)
+Let's look at how we generate a plan from a user prompt. Paste the code below into your project and run it:
 ```python title="main.py"
 from dotenv import load_dotenv
 from portia.runner import Runner
