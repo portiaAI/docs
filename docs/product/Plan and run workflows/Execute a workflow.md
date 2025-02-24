@@ -193,6 +193,10 @@ print(workflow.model_dump_json(indent=2))
 
 Here we are storing the `Plan` object returned by the `generate_plan` method and then using the `create_workflow` method to instantiate a workflow from it in the `NOT_STARTED` state. And finally we launch that workflow using the uncontroversially named method `execute_workflow`.
 
+:::info
+If you want to see an example where a user iterates on a plan before we proceed with workflow execution, take a look at the intro example in our <a href="https://github.com/portiaAI/portia-agent-examples/blob/main/get_started_google_tools/README.md" target="_blank">**examples repo (↗)**</a>.
+:::
+
 ## Execute a workflow directly from a user query
 <details>
 <summary>**Tavily API key required**</summary>

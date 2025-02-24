@@ -180,3 +180,7 @@ In your logs you should be able to see the tools, as well as a plan and final wo
     ```
   </TabItem>
 </Tabs>
+
+:::info
+Now that you're familiar with running Portia tools, why not try your hand at the intro example in our <a href="https://github.com/portiaAI/portia-agent-examples/blob/main/get_started_google_tools/README.md" target="_blank">**examples repo (↗)**</a>. In the example ee use the Google Calendar tools to schedule a meeting and handle the authentication process to execute those tool calls.
+:::
