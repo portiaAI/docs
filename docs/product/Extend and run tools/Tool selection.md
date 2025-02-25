@@ -66,7 +66,7 @@ from portia.open_source_tools.weather import WeatherTool
 load_dotenv()
 
 # Instantiate a Portia runner. Load it with the example tools and Portia's github search tool.
-github_search_tool = PortiaToolRegistry(config=default_config()).get_tool("portia::search_github_repos_tool")
+github_search_tool = PortiaToolRegistry(config=default_config()).get_tool("portia:github::search_repos")
 my_registry = InMemoryToolRegistry().from_local_tools(
     [CalculatorTool(), SearchTool(), WeatherTool(), github_search_tool])
 

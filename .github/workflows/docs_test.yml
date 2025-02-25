@@ -38,7 +38,7 @@ jobs:
       if: failure()
       uses: slackapi/slack-github-action@v1.27.0
       env:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
       with:
         slack-message: "Docs testing failed! See https://github.com/portiaAI/docs/actions/runs/${{ github.run_id }} for more details."
         channel-id: C07V8NK09RC
