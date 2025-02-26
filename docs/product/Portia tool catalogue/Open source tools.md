@@ -9,7 +9,7 @@ import TabItem from '@theme/TabItem';
 # Open source tools
 Portia offers both open source tools as well as a cloud-hosted library of tools to save you development time. You can dig into the specs of those tools in our open source repo (<a href="https://github.com/portiaAI/portia-sdk-python/tree/main/portia/open_source_tools" target="_blank">**SDK repo ↗**</a>).
 
-You can import our open source tools into your project using `from portia.open_source_tools.registry import open_source_tool_registry` and load them into an `InMemoryToolRegistry` object. You can also combine their use with cloud or custom tools as explained in the docs (<a href="/extend-tool-catalogue" target="_blank">**Extend your catalogue ↗**</a>).
+You can import our open source tools into your project using `from portia.open_source_tools.registry import open_source_tool_registry` and load them into an `InMemoryToolRegistry` object. You can also combine their use with cloud or custom tools as explained in the docs (<a href="/add-custom-tools" target="_blank">**Add custom tools ↗**</a>).
 
 ## Weather Tool
 **Tool ID:** portia::weather_tool<br/>**Tool description:** Get the weather for a given city<br/>**Usage notes:**<br/>This tool uses a simple GET endpoint from OpenWeatherMap. Please sign up to obtain an API key from them (<a href="https://home.openweathermap.org/users/sign_in" target="_blank">**↗**</a>) and set it in the environment variable `OPENWEATHERMAP_API_KEY`.<br/>**Output schema:** <pre><code>[<br/>  Portia_Weather_Tool(city: 'string') -> str,<br/>  String output of the weather with temp and city<br/>]</code></pre>**Args schema:** <pre><code>\{<br/>  "name": "city",<br/>  "type": "string",<br/>  "description": "The city to get the weather for"<br/>\}</code></pre>

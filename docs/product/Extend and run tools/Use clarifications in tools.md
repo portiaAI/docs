@@ -13,7 +13,7 @@ You can raise a `Clarification` in any custom tool definition to prompt a workfl
 
 
 ## Add a clarification to your custom tool
-Let's pick up the custom tool example we looked at previously (<a href="/extend-tool-catalogue" target="_blank">**Extend your tool catalogue ↗**</a>). We will now examine the code that defines a clarification in a tool explicitly. We're going to add a clarification to the `FileReaderTool` custom tool to handle cases where a file is not found. Instead of throwing an error directly, we will attempt to find the file in other folders in the project directory. We do that by adding the highlighted lines in the `FileReaderTool` class definition as shown below.
+Let's pick up the custom tool example we looked at previously (<a href="/add-custom-tools" target="_blank">**Add custom tools ↗**</a>). We will now examine the code that defines a clarification in a tool explicitly. We're going to add a clarification to the `FileReaderTool` custom tool to handle cases where a file is not found. Instead of throwing an error directly, we will attempt to find the file in other folders in the project directory. We do that by adding the highlighted lines in the `FileReaderTool` class definition as shown below.
 
 ```python title="my_custom_tools/file_reader_tool.py"
 from pathlib import Path
