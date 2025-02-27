@@ -8,7 +8,7 @@ Learn how to create structured, multi-agent plans using your LLM of choice and f
 :::tip[TL;DR]
 - A plan is the set of steps an LLM thinks it should take in order to respond to a user prompt.
 - A plan is represented by the `Plan` class and can be generated from a user prompt using the `plan_query` method of the `Runner` class (<a href="/SDK/portia/runner" target="_blank">**SDK reference ↗**</a>).
-    - Portia uses optimised system prompts and structured outputs to ensure adherence to a simple.
+    - Portia uses optimised system prompts and structured outputs to ensure adherence to a plan.
     - You can create your own plans manually or reload existing plans, which is especially useful for repeatable workflows.
 :::
 
