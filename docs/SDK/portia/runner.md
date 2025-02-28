@@ -6,12 +6,12 @@ title: portia.runner
 Runner classes that plan and execute workflows for queries.
 
 This module contains the core classes responsible for generating, managing, and executing workflows
-in response to queries. The `Runner` class serves as the main entry point, orchestrating the
+in response to queries. The `Portia` instance class serves as the main entry point, orchestrating the
 planning and execution process. It uses various agents and tools to carry out tasks step by step,
 saving the state of the workflow at each stage. It also handles error cases, clarification
 requests, and workflow state transitions.
 
-The `Runner` class provides methods to:
+The `Portia` instance class provides methods to:
 
 - Generate a plan for executing a query.
 - Create and manage workflows.
@@ -43,7 +43,7 @@ Initialize storage and tools.
 
 **Arguments**:
 
-- `config` _Config_ - The configuration to initialize the runner. If not provided, the
+- `config` _Config_ - The configuration to initialize the portia. If not provided, the
   default configuration will be used.
 - `tools` _ToolRegistry | list[Tool]_ - The registry or list of tools to use. If not
   provided, the open source tool registry will be used, alongside the default tools
@@ -72,7 +72,7 @@ This is the simplest way to plan and execute a query using the SDK.
 
 **Returns**:
 
-- `Workflow` - The workflow resulting from executing the query.
+- `PlanRun` - The workflow resulting from executing the query.
 
 #### generate\_plan
 
@@ -117,7 +117,7 @@ Create a workflow from a Plan.
 
 **Returns**:
 
-- `Workflow` - The created workflow.
+- `PlanRun` - The created plan_run.
 
 #### execute\_workflow
 
@@ -127,7 +127,7 @@ def execute_workflow(
         workflow_id: WorkflowUUID | str | None = None) -> Workflow
 ```
 
-Run a workflow.
+Run a plan_run.
 
 **Arguments**:
 
@@ -138,13 +138,13 @@ Run a workflow.
 
 **Returns**:
 
-- `Workflow` - The resulting workflow after execution.
+- `PlanRun` - The resulting workflow after execution.
   
 
 **Raises**:
 
 - `ValueError` - If neither workflow nor workflow_id is provided.
-- `InvalidWorkflowStateError` - If the workflow is not in a valid state to be executed.
+- `InvalidRunStateError` - If the workflow is not in a valid state to be executed.
 
 #### resolve\_clarification
 
@@ -165,7 +165,7 @@ Resolve a clarification updating the workflow state as needed.
 
 **Returns**:
 
-- `Workflow` - The updated workflow.
+- `PlanRun` - The updated plan_run.
 
 #### wait\_for\_ready
 
@@ -192,10 +192,10 @@ This is generally because there are outstanding clarifications that need to be r
 
 **Returns**:
 
-- `Workflow` - The updated workflow once it is ready to be re-run.
+- `PlanRun` - The updated workflow once it is ready to be re-run.
   
 
 **Raises**:
 
-- `InvalidWorkflowStateError` - If the workflow cannot be waited for.
+- `InvalidRunStateError` - If the workflow cannot be waited for.
 

@@ -6,7 +6,7 @@ title: portia.workflow
 Workflows are executing instances of a Plan.
 
 A workflow encapsulates all execution state, serving as the definitive record of its progress.
-As the workflow runs, its `WorkflowState`, `current_step_index`, and `outputs` evolve to reflect
+As the workflow runs, its `RunState`, `current_step_index`, and `outputs` evolve to reflect
 the current execution state.
 
 The workflow also retains an `ExecutionContext`, which provides valuable insights for debugging
@@ -14,15 +14,15 @@ and analytics, capturing contextual information relevant to the workflow&#x27;s 
 
 Key Components
 --------------
-- **WorkflowState**: Tracks the current status of the workflow (e.g., NOT_STARTED, IN_PROGRESS).
+- **RunState**: Tracks the current status of the workflow (e.g., NOT_STARTED, IN_PROGRESS).
 - **current_step_index**: Represents the step within the plan currently being executed.
-- **outputs**: Stores the intermediate and final results of the workflow.
+- **outputs**: Stores the intermediate and final results of the plan_run.
 - **ExecutionContext**: Provides contextual metadata useful for logging and performance analysis.
 
-## WorkflowState Objects
+## RunState Objects
 
 ```python
-class WorkflowState(PortiaEnum)
+class RunState(PortiaEnum)
 ```
 
 The current state of the Workflow.
@@ -46,7 +46,7 @@ Outputs of a workflow, including clarifications.
 
 **Attributes**:
 
-- `clarifications` _ClarificationListType_ - Clarifications raised by this workflow.
+- `clarifications` _ClarificationListType_ - Clarifications raised by this plan_run.
 - `step_outputs` _dict[str, Output]_ - A dictionary containing outputs of individual steps.
   Outputs are indexed by the value given by the `step.output` field of the plan.
 - `final_output` _Output | None_ - The final consolidated output of the workflow, if available.
@@ -61,11 +61,11 @@ A workflow represents a running instance of a Plan.
 
 **Attributes**:
 
-- `id` _WorkflowUUID_ - A unique ID for this workflow.
+- `id` _WorkflowUUID_ - A unique ID for this plan_run.
 - `plan_id` _PlanUUID_ - The ID of the Plan this Workflow uses.
 - `current_step_index` _int_ - The current step that is being executed.
-- `state` _WorkflowState_ - The current state of the workflow.
-- `execution_context` _ExecutionContext_ - Execution context for the workflow.
+- `state` _RunState_ - The current state of the plan_run.
+- `execution_context` _ExecutionContext_ - Execution context for the plan_run.
 - `outputs` _WorkflowOutputs_ - Outputs of the workflow, including clarifications.
 
 #### get\_outstanding\_clarifications
@@ -104,7 +104,7 @@ Return clarifications for the given step.
 def __str__() -> str
 ```
 
-Return the string representation of the workflow.
+Return the string representation of the plan_run.
 
 **Returns**:
 
@@ -128,7 +128,7 @@ ensuring that agents can access workflow details without altering them.
 def from_workflow(cls, workflow: Workflow) -> ReadOnlyWorkflow
 ```
 
-Create a read-only workflow from a normal workflow.
+Create a read-only workflow from a normal plan_run.
 
 **Arguments**:
 
@@ -137,5 +137,5 @@ Create a read-only workflow from a normal workflow.
 
 **Returns**:
 
-- `ReadOnlyWorkflow` - A new read-only instance of the provided workflow.
+- `ReadOnlyWorkflow` - A new read-only instance of the provided plan_run.
 

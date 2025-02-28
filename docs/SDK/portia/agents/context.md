@@ -3,10 +3,10 @@ sidebar_label: context
 title: portia.agents.context
 ---
 
-Context builder that generates contextual information for the workflow.
+Context builder that generates contextual information for the plan_run.
 
 This module defines a set of functions that build various types of context
-required for the workflow execution. It takes information about inputs,
+required for the plan run. It takes information about inputs,
 outputs, clarifications, and execution metadata to build context strings
 used by the agent to perform tasks. The context can be extended with
 additional system or user-provided data.

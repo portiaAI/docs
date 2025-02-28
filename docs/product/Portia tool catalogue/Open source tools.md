@@ -18,7 +18,7 @@ You can import our open source tools into your project using `from portia.open_s
 ## LLM Tool
 **Tool ID:** llm_tool<br/>
 **Tool description:** A Jack-of-all-trades tool to respond to a prompt by relying solely on LLM capabilities. This includes using LLM general knowledge, in-built reasoning and code interpreter capabilities. This tool can be used to summarize the outputs of other tools, make general language model queries or to answer questions. This should be used only as a last resort when no other tool satisfies a step in a task<br/>
-**Usage notes:**<br/>We recommend you include this tool in all plans / workflows as a fail safe. This minimises the likelihood that the LLM assumes it doesn't have the tools to perform certain simple tasks that are otherwise not tool-specific. The LLM tool can be customized to use a specific LLM model, or to use a specific prompt template.
+**Usage notes:**<br/>We recommend you include this tool in all plans / plan runs as a fail safe. This minimises the likelihood that the LLM assumes it doesn't have the tools to perform certain simple tasks that are otherwise not tool-specific. The LLM tool can be customized to use a specific LLM model, or to use a specific prompt template.
 ```python
 from portia.open_source_tools.llm_tool import LLMTool
 

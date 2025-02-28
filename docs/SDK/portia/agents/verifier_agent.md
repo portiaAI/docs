@@ -120,7 +120,7 @@ Invoke the model with the given message state.
 
 **Raises**:
 
-- `InvalidWorkflowStateError` - If the agent&#x27;s tool is not available.
+- `InvalidRunStateError` - If the agent&#x27;s tool is not available.
 
 ## VerifierModel Objects
 
@@ -175,7 +175,7 @@ Invoke the model with the given message state.
 
 **Raises**:
 
-- `InvalidWorkflowStateError` - If the agent&#x27;s tool is not available.
+- `InvalidRunStateError` - If the agent&#x27;s tool is not available.
 
 ## ToolCallingModel Objects
 
@@ -221,7 +221,7 @@ Invoke the model with the given message state.
 
 **Raises**:
 
-- `InvalidWorkflowStateError` - If the agent&#x27;s tool is not available.
+- `InvalidRunStateError` - If the agent&#x27;s tool is not available.
 
 ## VerifierAgent Objects
 

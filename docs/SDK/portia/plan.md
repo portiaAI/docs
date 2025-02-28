@@ -5,7 +5,7 @@ title: portia.plan
 
 Plan primitives used to define and execute workflows.
 
-This module defines the core objects that represent the plan for executing a workflow.
+This module defines the core objects that represent the plan for executing a plan_run.
 The `Plan` class is the main structure that holds a series of steps (`Step`) to be executed by an
 agent in response to a query. Each step can have inputs, an associated tool, and an output.
 Variables can be used within steps to reference other parts of the plan or constants.
@@ -46,7 +46,7 @@ or a constant input variable.
 class Step(BaseModel)
 ```
 
-A step in a workflow.
+A step in a plan_run.
 
 A step represents a task in the workflow to be executed. It contains inputs (variables) and
 outputs, and may reference a tool to complete the task.

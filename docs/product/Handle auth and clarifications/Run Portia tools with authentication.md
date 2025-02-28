@@ -11,7 +11,7 @@ Use clarifications to leverage Portia tools' native authentication support.
 
 :::tip[TL;DR]
 - All Portia tools come with built-in authentication, typically using Portia Oauth clients for each relevant resource server.
-- Agents raise an `ActionClarification` to interrupt a workflow and require use authentication when necessary.
+- Agents raise an `ActionClarification` to interrupt a plan run and require use authentication when necessary.
 :::
 
 Portia offers a cloud-hosted library of tools to save you development time. You can find the ever-growing list of Portia tools in the next section (<a href="/portia-tools" target="_blank">**Portia tool catalogue ↗**</a>). All Portia tools come with plug and play authentication. Let's delve into how to handle the user authentication flow.
@@ -21,9 +21,9 @@ Portia offers a cloud-hosted library of tools to save you development time. You 
 We established in the preceding section that clarifications are raised when an agent needs input to progress. This concept lends itself perfectly to tool authentication. Let's break it down:
 - All Portia tools come with built-in authentication, typically using Portia Oauth clients for each relevant resource server.
 - Portia provisions the required token with the relevant scope when a tool call needs to be made.
-- Tokens provisioned by Portia are reusable / long-lived. If a `end_user_id` was passed with the parent `Workflow`, Portia will store the provisioned Oauth token against it. You will need to persist this `end_user_id` and use it consistently across workflows to leverage token reusability (<a href="/manage-end-users" target="_blank">**Manage multiple end users ↗**</a>).
+- Tokens provisioned by Portia are reusable / long-lived. If a `end_user_id` was passed with the parent `PlanRun`, Portia will store the provisioned Oauth token against it. You will need to persist this `end_user_id` and use it consistently across plan runs to leverage token reusability (<a href="/manage-end-users" target="_blank">**Manage multiple end users ↗**</a>).
 - When a Portia tool call is made, we first attempt to retrieve an Oauth token against the `end_user_id` if provided. When no Oauth token is found, an `ActionClarification` is raised with an Oauth link as the action URL. This Oauth link uses Portia's authentication client and a Portia redirect URL.
-- Portia's Oauth server listens for the authentication result and resolves the concerned clarification, allowing the workflow to resume again.
+- Portia's Oauth server listens for the authentication result and resolves the concerned clarification, allowing the plan run to resume again.
 
 ## Bringing the concepts together
 
@@ -38,62 +38,61 @@ We're assuming you already have a Portia API key from the dashboard and set it i
 
 ```python title="main.py" skip=true
 from dotenv import load_dotenv
-from portia.runner import Runner
+from portia import Portia
 from portia.config import default_config
-from portia.workflow import WorkflowState
+from portia.plan_run import RunState
 from portia.clarification import MultipleChoiceClarification, InputClarification, ActionClarification
 from portia.tool_registry import PortiaToolRegistry
 
 load_dotenv()
 
-# Instantiate a Portia runner. Load it with the default config and with Portia cloud tools above
-runner = Runner(tools=PortiaToolRegistry(default_config()))
+# Instantiate Portia. Load it with the default config and with Portia cloud tools above
+portia = Portia(tools=PortiaToolRegistry(default_config()))
 
 # Generate the plan from the user query and print it
-plan = runner.generate_plan('Find the github repository of PortiaAI and give it a star for me')
+plan = portia.plan('Find the github repository of PortiaAI and give it a star for me')
 print(f"{plan.model_dump_json(indent=2)}")
 
-# Execute the workflow
-workflow = runner.create_workflow(plan)
-workflow = runner.execute_workflow(workflow)
+# Run the plan
+plan_run = portia.run(plan)
 
-while workflow.state == WorkflowState.NEED_CLARIFICATION:
-    # If clarifications are needed, resolve them before resuming the workflow
-    for clarification in workflow.get_outstanding_clarifications():
+while plan_run.state == RunState.NEED_CLARIFICATION:
+    # If clarifications are needed, resolve them before resuming the plan run
+    for clarification in plan_run.get_outstanding_clarifications():
         # Usual handling of Input and Multiple Choice clarifications
         if isinstance(clarification, (InputClarification, MultipleChoiceClarification)):
             print(f"{clarification.user_guidance}")
             user_input = input("Please enter a value:\n" 
                             + (("\n".join(clarification.options) + "\n") if "options" in clarification else ""))
-            workflow = runner.resolve_clarification(clarification, user_input, workflow)
+            plan_run = portia.resolve_clarification(clarification, user_input, plan_run)
         
         # Handling of Action clarifications
         # highlight-start
         if isinstance(clarification, ActionClarification):
             print(f"{clarification.user_guidance} -- Please click on the link below to proceed.")
             print(clarification.action_url)
-            workflow = runner.wait_for_ready(workflow)
+            plan_run = portia.wait_for_ready(plan_run)
         # highlight-end
 
-    # Once clarifications are resolved, resume the workflow
-    workflow = runner.execute_workflow(workflow)
+    # Once clarifications are resolved, resume the plan run
+    plan_run = portia.run(plan_run)
 
-# Serialise into JSON an print the output
-print(f"{workflow.model_dump_json(indent=2)}")
+# Serialise into JSON and print the output
+print(f"{plan_run.model_dump_json(indent=2)}")
 ```
 
 Pay attention to the following points:
 - We're importing all of Portia's cloud tool library using the `PortiaToolRegistry` import. Portia will (rightly!) identify that executing on this query necessitates both the `SearchGitHubReposTool` and the `StarGitHubRepoTool` in particular. Like all Portia cloud tools, our Github tools are built with plug and play authentication support. They will raise a `Action Clarification` with a Github Oauth link as the action URL.
-- We're now introducing the `runner.wait_for_ready()` method to handle clarifications of type `ActionClarification`. This method should be used when the resolution to a clarification relies on a third party system and the runner needs to listen for a change in its state. In our example, Portia's Oauth server listens for the authentication result and resolves the concerned clarification, allowing the workflow to resume again.
+- We're now introducing the `portia.wait_for_ready()` method to handle clarifications of type `ActionClarification`. This method should be used when the resolution to a clarification relies on a third party system and the runner needs to listen for a change in its state. In our example, Portia's Oauth server listens for the authentication result and resolves the concerned clarification, allowing the plan run to resume again.
 
-Your workflow will pause and you should see the link in the logs like so
+Your plan run will pause and you should see the link in the logs like so
 ...
 ```bash
 OAuth required -- Please click on the link below to proceed.
-https://github.com/login/oauth/authorize/?redirect_uri=https%3A%2F%2Fapi.portialabs.ai%2Fapi%2Fv0%2Foauth%2Fgithub%2F&client_id=Ov23liXuuhY9MOePgG8Q&scope=public_repo+starring&state=APP_NAME%3Dgithub%253A%253Agithub%26WORKFLOW_ID%3Daa6019e1-0bde-4d76-935d-b1a64707c64e%26ORG_ID%3Dbfc2c945-4c8a-4a02-847a-1672942e8fc9%26CLARIFICATION_ID%3D9e6b8842-dc39-40be-a298-900383dd5e9e%26SCOPES%3Dpublic_repo%2Bstarring&response_type=code
+https://github.com/login/oauth/authorize/?redirect_uri=https%3A%2F%2Fapi.portialabs.ai%2Fapi%2Fv0%2Foauth%2Fgithub%2F&client_id=Ov23liXuuhY9MOePgG8Q&scope=public_repo+starring&state=APP_NAME%3Dgithub%253A%253Agithub%26PLAN_RUN_ID%3Daa6019e1-0bde-4d76-935d-b1a64707c64e%26ORG_ID%3Dbfc2c945-4c8a-4a02-847a-1672942e8fc9%26CLARIFICATION_ID%3D9e6b8842-dc39-40be-a298-900383dd5e9e%26SCOPES%3Dpublic_repo%2Bstarring&response_type=code
 ```
 
-In your logs you should be able to see the tools, as well as a plan and final workflow state similar to the output below. Note again how the planner weaved tools from both the cloud and the example registry.
+In your logs you should be able to see the tools, as well as a plan and final plan run state similar to the output below. Note again how the planner weaved tools from both the cloud and the example registry.
 
 <Tabs>
   <TabItem value="plan" label="Generated plan">
@@ -135,10 +134,10 @@ In your logs you should be able to see the tools, as well as a plan and final wo
     }
     ```
   </TabItem>
-    <TabItem value="workflow" label="Workflow in final state">
-    ```json title="wkfl-36945fae-1dcc-4b05-9bc4-4b862748e031.json"
+    <TabItem value="plan run" label="Plan run in final state">
+    ```json title="pr-36945fae-1dcc-4b05-9bc4-4b862748e031.json"
     {
-        "id": "wkfl-36945fae-1dcc-4b05-9bc4-4b862748e031",
+        "id": "pr-36945fae-1dcc-4b05-9bc4-4b862748e031",
         "plan_id": "plan-71fbe578-0c3f-4266-b5d7-933e8bb10ef2",
         "current_step_index": 1,
         "state": "COMPLETE",

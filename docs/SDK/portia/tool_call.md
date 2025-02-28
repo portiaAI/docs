@@ -42,7 +42,7 @@ within a workflow, including metadata, input and output data, and status.
 - `tool_name` _str_ - The name of the tool being called.
 - `workflow_id` _WorkflowUUID_ - The unique identifier of the workflow to which this tool call
   belongs.
-- `step` _int_ - The step number of the tool call in the workflow.
+- `step` _int_ - The step number of the tool call in the plan_run.
 - `end_user_id` _str | None_ - The ID of the end user, if applicable. Can be None.
 - `additional_data` _dict[str, str]_ - Additional data from the execution context.
 - `status` _ToolCallStatus_ - The current status of the tool call (e.g., IN_PROGRESS, SUCCESS).

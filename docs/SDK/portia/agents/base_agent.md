@@ -3,7 +3,7 @@ sidebar_label: base_agent
 title: portia.agents.base_agent
 ---
 
-Agents are responsible for executing steps of a workflow.
+Agents are responsible for executing steps of a plan_run.
 
 The BaseAgent class is the base class that all agents must extend.
 

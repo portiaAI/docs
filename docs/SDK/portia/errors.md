@@ -240,10 +240,10 @@ def __init__(tool_id: str, error_string: str) -> None
 
 Set custom error message.
 
-## InvalidWorkflowStateError Objects
+## InvalidRunStateError Objects
 
 ```python
-class InvalidWorkflowStateError(PortiaBaseError)
+class InvalidRunStateError(PortiaBaseError)
 ```
 
 Raised when a workflow is in an invalid state.

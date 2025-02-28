@@ -7,7 +7,7 @@ Provides execution context to the planner and agents.
 
 This module defines the `ExecutionContext` class and utilities for managing execution
 contexts for planners and agents. It provides a way to pass runtime-specific information
-for each workflow execution, ensuring flexibility and context isolation, especially in
+for each plan run, ensuring flexibility and context isolation, especially in
 multi-threaded or asynchronous applications.
 
 Key Features:
@@ -63,7 +63,7 @@ def execution_context(
 ) -> Generator[None, None, None]
 ```
 
-Set the execution context for the duration of the workflow.
+Set the execution context for the duration of the plan_run.
 
 This context manager ensures context isolation by using `contextvars.ContextVar`,
 meaning that the execution context set within this block will only affect

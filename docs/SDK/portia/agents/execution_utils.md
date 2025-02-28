@@ -91,7 +91,7 @@ It raises errors if the tool encounters issues and returns the appropriate outpu
 
 **Arguments**:
 
-- `last_message` _BaseMessage_ - The last message received in the agent&#x27;s workflow.
+- `last_message` _BaseMessage_ - The last message received in the agent&#x27;s plan_run.
 - `tool` _Tool | None_ - The tool associated with the agent, if any.
 - `clarifications` _list[Clarification] | None_ - A list of clarifications, if any.
   

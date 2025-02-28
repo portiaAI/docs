@@ -91,7 +91,7 @@ Retrieve a plan by its ID.
 class WorkflowListResponse(BaseModel)
 ```
 
-Response for the get_workflows operation. Can support pagination.
+Response for the get_plan_runs operation. Can support pagination.
 
 ## WorkflowStorage Objects
 
@@ -106,12 +106,12 @@ Subclasses must implement the methods to save and retrieve workflows.
 **Methods**:
 
   save_workflow(self, workflow: Workflow) -&gt; None:
-  Save a workflow.
-  get_workflow(self, workflow_id: WorkflowUUID) -&gt; Workflow:
+  Save a plan_run.
+  get_plan_run(self, workflow_id: WorkflowUUID) -&gt; Workflow:
   Get a workflow by ID.
-  get_workflows(self, workflow_state: WorkflowState | None = None, page=int | None = None)
+  get_plan_runs(self, run_state: RunState | None = None, page=int | None = None)
   -&gt; WorkflowListResponse:
-  Return workflows that match the given workflow_state
+  Return workflows that match the given run_state
 
 #### save\_workflow
 
@@ -120,7 +120,7 @@ Subclasses must implement the methods to save and retrieve workflows.
 def save_workflow(workflow: Workflow) -> None
 ```
 
-Save a workflow.
+Save a plan_run.
 
 **Arguments**:
 
@@ -135,7 +135,7 @@ Save a workflow.
 
 ```python
 @abstractmethod
-def get_workflow(workflow_id: WorkflowUUID) -> Workflow
+def get_plan_run(workflow_id: WorkflowUUID) -> Workflow
 ```
 
 Retrieve a workflow by its ID.
@@ -147,7 +147,7 @@ Retrieve a workflow by its ID.
 
 **Returns**:
 
-- `Workflow` - The Workflow object associated with the provided workflow_id.
+- `PlanRun` - The Workflow object associated with the provided workflow_id.
   
 
 **Raises**:
@@ -158,7 +158,7 @@ Retrieve a workflow by its ID.
 
 ```python
 @abstractmethod
-def get_workflows(workflow_state: WorkflowState | None = None,
+def get_plan_runs(run_state: RunState | None = None,
                   page: int | None = None) -> WorkflowListResponse
 ```
 
@@ -166,7 +166,7 @@ List workflows by their state.
 
 **Arguments**:
 
-- `workflow_state` _WorkflowState | None_ - Optionally filter workflows by their state.
+- `run_state` _RunState | None_ - Optionally filter workflows by their state.
 - `page` _int | None_ - Optional pagination data
   
 
@@ -309,7 +309,7 @@ Add workflow to dict.
 #### get\_workflow
 
 ```python
-def get_workflow(workflow_id: WorkflowUUID) -> Workflow
+def get_plan_run(workflow_id: WorkflowUUID) -> Workflow
 ```
 
 Get workflow from dict.
@@ -321,7 +321,7 @@ Get workflow from dict.
 
 **Returns**:
 
-- `Workflow` - The Workflow object associated with the provided workflow_id.
+- `PlanRun` - The Workflow object associated with the provided workflow_id.
   
 
 **Raises**:
@@ -331,7 +331,7 @@ Get workflow from dict.
 #### get\_workflows
 
 ```python
-def get_workflows(workflow_state: WorkflowState | None = None,
+def get_plan_runs(run_state: RunState | None = None,
                   page: int | None = None) -> WorkflowListResponse
 ```
 
@@ -339,7 +339,7 @@ Get workflow from dict.
 
 **Arguments**:
 
-- `workflow_state` _WorkflowState | None_ - Optionally filter workflows by their state.
+- `run_state` _RunState | None_ - Optionally filter workflows by their state.
 - `page` _int | None_ - Optional pagination data which is not used for in memory storage.
   
 
@@ -418,7 +418,7 @@ Save a Workflow object to the storage.
 #### get\_workflow
 
 ```python
-def get_workflow(workflow_id: WorkflowUUID) -> Workflow
+def get_plan_run(workflow_id: WorkflowUUID) -> Workflow
 ```
 
 Retrieve a Workflow object by its ID.
@@ -430,7 +430,7 @@ Retrieve a Workflow object by its ID.
 
 **Returns**:
 
-- `Workflow` - The retrieved Workflow object.
+- `PlanRun` - The retrieved Workflow object.
   
 
 **Raises**:
@@ -440,7 +440,7 @@ Retrieve a Workflow object by its ID.
 #### get\_workflows
 
 ```python
-def get_workflows(workflow_state: WorkflowState | None = None,
+def get_plan_runs(run_state: RunState | None = None,
                   page: int | None = None) -> WorkflowListResponse
 ```
 
@@ -448,7 +448,7 @@ Find all workflows in storage that match state.
 
 **Arguments**:
 
-- `workflow_state` _WorkflowState | None_ - Optionally filter workflows by their state.
+- `run_state` _RunState | None_ - Optionally filter workflows by their state.
 - `page` _int | None_ - Optional pagination data which is not used for in memory storage.
   
 
@@ -552,7 +552,7 @@ Save a workflow to Portia Cloud.
 #### get\_workflow
 
 ```python
-def get_workflow(workflow_id: WorkflowUUID) -> Workflow
+def get_plan_run(workflow_id: WorkflowUUID) -> Workflow
 ```
 
 Retrieve a workflow from Portia Cloud.
@@ -564,7 +564,7 @@ Retrieve a workflow from Portia Cloud.
 
 **Returns**:
 
-- `Workflow` - The Workflow object retrieved from Portia Cloud.
+- `PlanRun` - The Workflow object retrieved from Portia Cloud.
   
 
 **Raises**:
@@ -574,7 +574,7 @@ Retrieve a workflow from Portia Cloud.
 #### get\_workflows
 
 ```python
-def get_workflows(workflow_state: WorkflowState | None = None,
+def get_plan_runs(run_state: RunState | None = None,
                   page: int | None = None) -> WorkflowListResponse
 ```
 
@@ -582,7 +582,7 @@ Find all workflows in storage that match state.
 
 **Arguments**:
 
-- `workflow_state` _WorkflowState | None_ - Optionally filter workflows by their state.
+- `run_state` _RunState | None_ - Optionally filter workflows by their state.
 - `page` _int | None_ - Optional pagination data which is not used for in memory storage.
   
 
