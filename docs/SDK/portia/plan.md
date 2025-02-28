@@ -3,9 +3,9 @@ sidebar_label: plan
 title: portia.plan
 ---
 
-Plan primitives used to define and execute workflows.
+Plan primitives used to define and execute runs.
 
-This module defines the core objects that represent the plan for executing a plan_run.
+This module defines the core objects that represent the plan for executing a PlanRun.
 The `Plan` class is the main structure that holds a series of steps (`Step`) to be executed by an
 agent in response to a query. Each step can have inputs, an associated tool, and an output.
 Variables can be used within steps to reference other parts of the plan or constants.
@@ -18,7 +18,7 @@ Classes in this file include:
 - `PlanContext`: Provides context about the plan, including the original query and available tools.
 - `Plan`: Represents the entire series of steps required to execute a query.
 
-These classes facilitate the definition of workflows that can be dynamically adjusted based on the
+These classes facilitate the definition of runs that can be dynamically adjusted based on the
 tools, inputs, and outputs defined in the plan.
 
 ## Variable Objects
@@ -46,9 +46,9 @@ or a constant input variable.
 class Step(BaseModel)
 ```
 
-A step in a plan_run.
+A step in a PlanRun.
 
-A step represents a task in the workflow to be executed. It contains inputs (variables) and
+A step represents a task in the run to be executed. It contains inputs (variables) and
 outputs, and may reference a tool to complete the task.
 
 **Arguments**:
@@ -100,12 +100,12 @@ class PlanContext(BaseModel)
 Context for a plan.
 
 The plan context contains information about the original query and the tools available
-for the planner to use when generating the plan.
+for the planning agent to use when generating the plan.
 
 **Arguments**:
 
 - `query` _str_ - The original query given by the user.
-- `tool_ids` _list[str]_ - A list of tool IDs available to the planner.
+- `tool_ids` _list[str]_ - A list of tool IDs available to the planning agent.
 
 ## Plan Objects
 

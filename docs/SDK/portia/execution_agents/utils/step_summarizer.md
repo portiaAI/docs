@@ -1,6 +1,6 @@
 ---
 sidebar_label: step_summarizer
-title: portia.agents.utils.step_summarizer
+title: portia.execution_agents.utils.step_summarizer
 ---
 
 StepSummarizer implementation.

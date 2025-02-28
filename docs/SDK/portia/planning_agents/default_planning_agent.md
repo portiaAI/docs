@@ -1,17 +1,17 @@
 ---
-sidebar_label: one_shot_planner
-title: portia.planners.one_shot_planner
+sidebar_label: default_planning_agent
+title: portia.planning_agents.default_planning_agent
 ---
 
-One shot planner is a single best effort attempt at planning based on the given query + tools.
+DefaultPlanningAgent is a single best effort attempt at planning based on the given query + tools.
 
-## OneShotPlanner Objects
+## DefaultPlanningAgent Objects
 
 ```python
-class OneShotPlanner(Planner)
+class DefaultPlanningAgent(BasePlanningAgent)
 ```
 
-planner class.
+DefaultPlanningAgent class.
 
 #### \_\_init\_\_
 
