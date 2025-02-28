@@ -1,6 +1,6 @@
 ---
 sidebar_label: execution_utils
-title: portia.agents.execution_utils
+title: portia.execution_agents.execution_utils
 ---
 
 Agent execution utilities.
@@ -37,7 +37,7 @@ def next_state_after_tool_call(
 
 Determine the next state after a tool call.
 
-This function checks the state after a tool call to determine if the workflow
+This function checks the state after a tool call to determine if the run
 should proceed to the tool agent again, to the summarizer, or end.
 
 **Arguments**:
@@ -64,7 +64,7 @@ def tool_call_or_end(state: MessagesState) -> Literal[AgentNode.TOOLS, END]
 Determine if tool execution should continue.
 
 This function checks if the current state indicates that the tool execution
-should continue, or if the workflow should end.
+should continue, or if the run should end.
 
 **Arguments**:
 
@@ -91,7 +91,7 @@ It raises errors if the tool encounters issues and returns the appropriate outpu
 
 **Arguments**:
 
-- `last_message` _BaseMessage_ - The last message received in the agent&#x27;s workflow.
+- `last_message` _BaseMessage_ - The last message received in the agent&#x27;s plan_run.
 - `tool` _Tool | None_ - The tool associated with the agent, if any.
 - `clarifications` _list[Clarification] | None_ - A list of clarifications, if any.
   

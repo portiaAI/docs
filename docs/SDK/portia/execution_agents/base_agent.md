@@ -1,41 +1,42 @@
 ---
 sidebar_label: base_agent
-title: portia.agents.base_agent
+title: portia.execution_agents.base_agent
 ---
 
-Agents are responsible for executing steps of a workflow.
+Agents are responsible for executing steps of a PlanRun.
 
 The BaseAgent class is the base class that all agents must extend.
 
-## BaseAgent Objects
+## BaseExecutionAgent Objects
 
 ```python
-class BaseAgent()
+class BaseExecutionAgent()
 ```
 
-An Agent is responsible for carrying out the task defined in the given Step.
+An ExecutionAgent is responsible for carrying out the task defined in the given Step.
 
-This Base agent is the class all agents must extend. Critically, agents must implement the
-execute_sync function which is responsible for actually carrying out the task as given in
-the step. They have access to copies of the step, workflow, and config but changes to those
-objects are forbidden.
+This BaseExecutionAgent is the class all ExecutionAgents must extend. Critically,
+ExecutionAgents must implement the execute_sync function which is responsible for
+actually carrying out the task as given in the step. They have access to copies of the
+step, plan_run and config but changes to those objects are forbidden.
 
-Optionally, new agents may also override the get_context function, which is responsible for
-the system context for the agent. This should be done with thought, as the details of the system
-context are critically important for LLM performance.
+Optionally, new execution agents may also override the get_context function, which is
+responsible for building the system context for the agent. This should be done with
+thought, as the details of the system context are critically important for LLM
+performance.
 
 #### \_\_init\_\_
 
 ```python
 def __init__(step: Step,
-             workflow: Workflow,
+             plan_run: PlanRun,
              config: Config,
              tool: Tool | None = None) -> None
 ```
 
 Initialize the base agent with the given args.
 
-Importantly, the models here are frozen copies of those used in the Runner.
+Importantly, the models here are frozen copies of those used by the Portia instance.
 They are meant as read-only references, useful for execution of the task
 but cannot be edited. The agent should return output via the response
 of the execute_sync method.
@@ -43,7 +44,7 @@ of the execute_sync method.
 **Arguments**:
 
 - `step` _Step_ - The step that defines the task to be executed.
-- `workflow` _Workflow_ - The workflow that contains the step and related data.
+- `plan_run` _PlanRun_ - The run that contains the step and related data.
 - `config` _Config_ - The configuration settings for the agent.
 - `tool` _Tool | None_ - An optional tool associated with the agent (default is None).
 
@@ -69,10 +70,10 @@ making it simple to write new ones.
 def get_system_context() -> str
 ```
 
-Build a generic system context string from the step and workflow provided.
+Build a generic system context string from the step and run provided.
 
 This function retrieves the execution context and generates a system context
-based on the step and workflow provided to the agent.
+based on the step and run provided to the agent.
 
 **Returns**:
 

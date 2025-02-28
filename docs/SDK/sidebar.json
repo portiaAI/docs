@@ -4,19 +4,19 @@
       "items": [
         {
           "items": [
-            "SDK/portia/agents/utils/final_output_summarizer",
-            "SDK/portia/agents/utils/step_summarizer"
+            "SDK/portia/execution_agents/utils/final_output_summarizer",
+            "SDK/portia/execution_agents/utils/step_summarizer"
           ],
-          "label": "portia.agents.utils",
+          "label": "portia.execution_agents.utils",
           "type": "category"
         },
-        "SDK/portia/agents/base_agent",
-        "SDK/portia/agents/context",
-        "SDK/portia/agents/execution_utils",
-        "SDK/portia/agents/one_shot_agent",
-        "SDK/portia/agents/verifier_agent"
+        "SDK/portia/execution_agents/base_agent",
+        "SDK/portia/execution_agents/context",
+        "SDK/portia/execution_agents/execution_agent",
+        "SDK/portia/execution_agents/execution_utils",
+        "SDK/portia/execution_agents/one_shot_agent"
       ],
-      "label": "portia.agents",
+      "label": "portia.execution_agents",
       "type": "category"
     },
     {
@@ -33,11 +33,11 @@
     },
     {
       "items": [
-        "SDK/portia/planners/context",
-        "SDK/portia/planners/one_shot_planner",
-        "SDK/portia/planners/planner"
+        "SDK/portia/planning_agents/base_planning_agent",
+        "SDK/portia/planning_agents/context",
+        "SDK/portia/planning_agents/default_planning_agent"
       ],
-      "label": "portia.planners",
+      "label": "portia.planning_agents",
       "type": "category"
     },
     "SDK/portia/clarification",
@@ -47,13 +47,13 @@
     "SDK/portia/llm_wrapper",
     "SDK/portia/logger",
     "SDK/portia/plan",
-    "SDK/portia/runner",
+    "SDK/portia/plan_run",
+    "SDK/portia/portia",
     "SDK/portia/storage",
     "SDK/portia/tool",
     "SDK/portia/tool_call",
     "SDK/portia/tool_registry",
-    "SDK/portia/tool_wrapper",
-    "SDK/portia/workflow"
+    "SDK/portia/tool_wrapper"
   ],
   "label": "portia",
   "type": "category"

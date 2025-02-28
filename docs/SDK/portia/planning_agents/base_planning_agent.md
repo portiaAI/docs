@@ -1,30 +1,30 @@
 ---
-sidebar_label: planner
-title: portia.planners.planner
+sidebar_label: base_planning_agent
+title: portia.planning_agents.base_planning_agent
 ---
 
-Planner module creates plans from queries.
+PlanningAgents module creates plans from queries.
 
-This module contains the planner interfaces and implementations used for generating plans
+This module contains the PlanningAgent interfaces and implementations used for generating plans
 based on user queries. It supports the creation of plans using tools and example plans, and
 leverages LLMs to generate detailed step-by-step plans. It also handles errors gracefully and
 provides feedback in the form of error messages when the plan cannot be created.
 
-## Planner Objects
+## BasePlanningAgent Objects
 
 ```python
-class Planner(ABC)
+class BasePlanningAgent(ABC)
 ```
 
 Interface for planning.
 
-This class defines the interface for planners that generate plans based on queries.
-A planner will implement the logic to generate a plan or an error given a query,
+This class defines the interface for PlanningAgents that generate plans based on queries.
+A PlanningAgent will implement the logic to generate a plan or an error given a query,
 a list of tools, and optionally, some example plans.
 
 **Attributes**:
 
-- `config` _Config_ - Configuration settings for the planner.
+- `config` _Config_ - Configuration settings for the PlanningAgent.
 
 #### \_\_init\_\_
 
@@ -32,11 +32,11 @@ a list of tools, and optionally, some example plans.
 def __init__(config: Config) -> None
 ```
 
-Initialize the planner with configuration.
+Initialize the PlanningAgent with configuration.
 
 **Arguments**:
 
-- `config` _Config_ - The configuration to initialize the planner.
+- `config` _Config_ - The configuration to initialize the PlanningAgent.
 
 #### generate\_steps\_or\_error
 
@@ -59,7 +59,7 @@ on the provided query and tools.
 - `ctx` _ExecutionContext_ - The context for execution.
 - `query` _str_ - The user query to generate a list of steps for.
 - `tool_list` _list[Tool]_ - A list of tools available for the plan.
-- `examples` _list[Plan] | None_ - Optional list of example plans to guide the planner.
+- `examples` _list[Plan] | None_ - Optional list of example plans to guide the PlanningAgent.
   
 
 **Returns**:

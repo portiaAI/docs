@@ -28,9 +28,9 @@ Context passed to tools when running.
 **Attributes**:
 
 - `execution_context(ExecutionContext)` - The execution context the tool is running in.
-- `workflow_id(WorkflowUUID)` - The workflow id the tool run is part of.
+- `plan_run_id(RunUUID)` - The run id the tool run is part of.
 - `config(Config)` - The config for the SDK as a whole.
-- `clarifications(ClarificationListType)` - Relevant clarifications for this tool run.
+- `clarifications(ClarificationListType)` - Relevant clarifications for this tool plan_run.
 
 ## Tool Objects
 
@@ -48,7 +48,8 @@ This class serves as the blueprint for all tools. Child classes must implement t
   This must be unique as collisions in a tool registry will lead to errors.
 - `name` _str_ - The name of the tool. The name is informational only but useful for debugging.
 - `description` _str_ - Purpose of the tool and usage.
-  This is important information for the planner module to know when and how to use this tool.
+  This is important information for the planning_agent module to know when and
+  how to use this tool.
 - `args_schema` _type[BaseModel]_ - The schema defining the expected input arguments for the tool.
   We use Pydantic models to define these types.
 - `output_schema` _tuple[str, str]_ - A tuple containing the type and description of the tool&#x27;s
@@ -66,9 +67,9 @@ This class serves as the blueprint for all tools. Child classes must implement t
 def ready(ctx: ToolRunContext) -> bool
 ```
 
-Check whether the tool can be run.
+Check whether the tool can be plan_run.
 
-This method can be implemented by subclasses to allow checking if the tool can be run.
+This method can be implemented by subclasses to allow checking if the tool can be plan_run.
 It may run any authentication logic or other required checks before returning its status.
 If left unimplemented will always return true.
 
@@ -290,7 +291,7 @@ during the request or parsing are raised as `ToolHardError`.
 
 **Arguments**:
 
-- `ctx` _ToolRunContext_ - The context of the execution, including end user ID, workflow ID
+- `ctx` _ToolRunContext_ - The context of the execution, including end user ID, run ID
   and additional data.
 - `*args` _Any_ - The positional arguments for the tool.
 - `**kwargs` _Any_ - The keyword arguments for the tool.

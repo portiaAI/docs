@@ -1,9 +1,9 @@
 ---
-sidebar_label: verifier_agent
-title: portia.agents.verifier_agent
+sidebar_label: execution_agent
+title: portia.execution_agents.execution_agent
 ---
 
-The Verifier Agent for hardest problems.
+The Default execution agent for hardest problems.
 
 This agent uses multiple models (verifier, parser etc) to achieve the highest accuracy
 in completing tasks.
@@ -74,7 +74,7 @@ Model to parse the arguments for a tool.
 
 - `llm` _BaseChatModel_ - The language model used for argument parsing.
 - `context` _str_ - The context for argument generation.
-- `agent` _VerifierAgent_ - The agent using the parser model.
+- `agent` _DefaultExecutionAgent_ - The agent using the parser model.
   
 
 **Attributes**:
@@ -82,14 +82,15 @@ Model to parse the arguments for a tool.
 - `arg_parser_prompt` _ChatPromptTemplate_ - The prompt template for argument parsing.
 - `llm` _BaseChatModel_ - The language model used.
 - `context` _str_ - The context for argument generation.
-- `agent` _VerifierAgent_ - The agent using the parser model.
+- `agent` _DefaultExecutionAgent_ - The agent using the parser model.
 - `previous_errors` _list[str]_ - A list of previous errors encountered during parsing.
 - `retries` _int_ - The number of retries attempted for parsing.
 
 #### \_\_init\_\_
 
 ```python
-def __init__(llm: BaseChatModel, context: str, agent: VerifierAgent) -> None
+def __init__(llm: BaseChatModel, context: str,
+             agent: DefaultExecutionAgent) -> None
 ```
 
 Initialize the model.
@@ -98,7 +99,7 @@ Initialize the model.
 
 - `llm` _BaseChatModel_ - The language model used for argument parsing.
 - `context` _str_ - The context for argument generation.
-- `agent` _VerifierAgent_ - The agent using the parser model.
+- `agent` _DefaultExecutionAgent_ - The agent using the parser model.
 
 #### invoke
 
@@ -120,7 +121,7 @@ Invoke the model with the given message state.
 
 **Raises**:
 
-- `InvalidWorkflowStateError` - If the agent&#x27;s tool is not available.
+- `InvalidRunStateError` - If the agent&#x27;s tool is not available.
 
 ## VerifierModel Objects
 
@@ -139,12 +140,13 @@ to analyze the context and tool arguments and returns a structured validation ou
 - `arg_verifier_prompt` _ChatPromptTemplate_ - The prompt template used for arg verification.
 - `llm` _BaseChatModel_ - The language model used to invoke the verification process.
 - `context` _str_ - The context in which the tool arguments are being validated.
-- `agent` _VerifierAgent_ - The agent responsible for handling the verification process.
+- `agent` _DefaultExecutionAgent_ - The agent responsible for handling the verification process.
 
 #### \_\_init\_\_
 
 ```python
-def __init__(llm: BaseChatModel, context: str, agent: VerifierAgent) -> None
+def __init__(llm: BaseChatModel, context: str,
+             agent: DefaultExecutionAgent) -> None
 ```
 
 Initialize the model.
@@ -153,7 +155,7 @@ Initialize the model.
 
 - `llm` _BaseChatModel_ - The language model used for argument parsing.
 - `context` _str_ - The context for argument generation.
-- `agent` _VerifierAgent_ - The agent using the parser model.
+- `agent` _DefaultExecutionAgent_ - The agent using the parser model.
 
 #### invoke
 
@@ -175,7 +177,7 @@ Invoke the model with the given message state.
 
 **Raises**:
 
-- `InvalidWorkflowStateError` - If the agent&#x27;s tool is not available.
+- `InvalidRunStateError` - If the agent&#x27;s tool is not available.
 
 ## ToolCallingModel Objects
 
@@ -189,7 +191,7 @@ Model to call the tool with the verified arguments.
 
 ```python
 def __init__(llm: BaseChatModel, context: str, tools: list[StructuredTool],
-             agent: VerifierAgent) -> None
+             agent: DefaultExecutionAgent) -> None
 ```
 
 Initialize the model.
@@ -198,7 +200,7 @@ Initialize the model.
 
 - `llm` _BaseChatModel_ - The language model used for argument parsing.
 - `context` _str_ - The context for argument generation.
-- `agent` _VerifierAgent_ - The agent using the parser model.
+- `agent` _DefaultExecutionAgent_ - The agent using the parser model.
 - `tools` _list[StructuredTool]_ - The tools to pass to the model.
 
 #### invoke
@@ -221,12 +223,12 @@ Invoke the model with the given message state.
 
 **Raises**:
 
-- `InvalidWorkflowStateError` - If the agent&#x27;s tool is not available.
+- `InvalidRunStateError` - If the agent&#x27;s tool is not available.
 
-## VerifierAgent Objects
+## DefaultExecutionAgent Objects
 
 ```python
-class VerifierAgent(BaseAgent)
+class DefaultExecutionAgent(BaseExecutionAgent)
 ```
 
 Agent responsible for achieving a task by using verification.
@@ -249,7 +251,7 @@ Possible improvements:
 
 ```python
 def __init__(step: Step,
-             workflow: Workflow,
+             plan_run: PlanRun,
              config: Config,
              tool: Tool | None = None) -> None
 ```
@@ -259,7 +261,7 @@ Initialize the agent.
 **Arguments**:
 
 - `step` _Step_ - The current step in the task plan.
-- `workflow` _Workflow_ - The workflow that defines the task execution process.
+- `plan_run` _PlanRun_ - The run that defines the task execution process.
 - `config` _Config_ - The configuration settings for the agent.
 - `tool` _Tool | None_ - The tool to be used for the task (optional).
 

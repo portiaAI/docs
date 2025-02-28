@@ -1,13 +1,13 @@
 ---
 sidebar_label: one_shot_agent
-title: portia.agents.one_shot_agent
+title: portia.execution_agents.one_shot_agent
 ---
 
 A simple OneShotAgent optimized for simple tool calling tasks.
 
 This agent invokes the OneShotToolCallingModel up to four times, but each individual
 attempt is a one-shot call. It is useful when the tool call is simple, minimizing cost.
-However, for more complex tool calls, the VerifierAgent is recommended as it will
+However, for more complex tool calls, the DefaultExecutionAgent is recommended as it will
 be more successful than the OneShotAgent.
 
 ## OneShotToolCallingModel Objects
@@ -23,7 +23,7 @@ to generate a response. It is suitable for simple tasks where the arguments
 are already correctly formatted and complete. This model does not validate
 arguments (e.g., it will not catch missing arguments).
 
-It is recommended to use the VerifierAgent for more complex tasks.
+It is recommended to use the DefaultExecutionAgent for more complex tasks.
 
 **Arguments**:
 
@@ -77,7 +77,7 @@ and past errors, then generates a response by invoking the model.
 ## OneShotAgent Objects
 
 ```python
-class OneShotAgent(BaseAgent)
+class OneShotAgent(BaseExecutionAgent)
 ```
 
 Agent responsible for achieving a task by using langgraph.
@@ -89,7 +89,7 @@ This agent performs the following steps:
 **Arguments**:
 
 - `step` _Step_ - The current step in the task plan.
-- `workflow` _Workflow_ - The workflow that defines the task execution process.
+- `plan_run` _PlanRun_ - The run that defines the task execution process.
 - `config` _Config_ - The configuration settings for the agent.
 - `tool` _Tool | None_ - The tool to be used for the task (optional).
   
@@ -102,7 +102,7 @@ This agent performs the following steps:
 
 ```python
 def __init__(step: Step,
-             workflow: Workflow,
+             plan_run: PlanRun,
              config: Config,
              tool: Tool | None = None) -> None
 ```
@@ -112,7 +112,7 @@ Initialize the OneShotAgent.
 **Arguments**:
 
 - `step` _Step_ - The current step in the task plan.
-- `workflow` _Workflow_ - The workflow that defines the task execution process.
+- `plan_run` _PlanRun_ - The run that defines the task execution process.
 - `config` _Config_ - The configuration settings for the agent.
 - `tool` _Tool | None_ - The tool to be used for the task (optional).
 

@@ -1,12 +1,12 @@
 ---
 sidebar_label: context
-title: portia.agents.context
+title: portia.execution_agents.context
 ---
 
-Context builder that generates contextual information for the workflow.
+Context builder that generates contextual information for the PlanRun.
 
 This module defines a set of functions that build various types of context
-required for the workflow execution. It takes information about inputs,
+required for the run execution. It takes information about inputs,
 outputs, clarifications, and execution metadata to build context strings
 used by the agent to perform tasks. The context can be extended with
 additional system or user-provided data.
@@ -89,8 +89,7 @@ Generate context from the execution context.
 #### build\_context
 
 ```python
-def build_context(ctx: ExecutionContext, step: Step,
-                  workflow: Workflow) -> str
+def build_context(ctx: ExecutionContext, step: Step, plan_run: PlanRun) -> str
 ```
 
 Build the context string for the agent using inputs/outputs/clarifications/ctx.
@@ -98,8 +97,8 @@ Build the context string for the agent using inputs/outputs/clarifications/ctx.
 **Arguments**:
 
 - `ctx` _ExecutionContext_ - The execution context containing agent and system metadata.
-- `step` _Step_ - The current step in the workflow, including inputs.
-- `workflow` _Workflow_ - The current workflow containing outputs and clarifications.
+- `step` _Step_ - The current step in the PlanRun including inputs.
+- `plan_run` _PlanRun_ - The current run containing outputs and clarifications.
   
 
 **Returns**:
