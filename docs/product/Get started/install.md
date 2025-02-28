@@ -171,8 +171,8 @@ As a final verification step for your installation, set up the required environm
 You should see a similar output to the the CLI-driven test we ran in step 4.
 
 We will review the various elements in `main.py` in more detail in later sections. For now you should remember that:
-- You will use a `Portia` instance to handle user prompts using Portia.
-- A `Portia` instance expects a `Config`. This is where you can specify things like the model you want to use and where you want to store Plan run states.
+- You will use a `Portia` instance to handle user prompts.
+- A `Portia` instance expects a `Config`. This is where you can specify things like the model you want to use and where you want to store plan runs.
 - A `Portia` instance also expects `tools`. This can be a list of tools, or a `ToolRegistry` (i.e a collection of tools you want to use).
 
 If you got this far then we're off to the races :racehorse:. Let's get you set up with a Portia account so you can also use our cloud features. 

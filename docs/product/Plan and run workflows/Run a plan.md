@@ -20,7 +20,7 @@ Portia captures the state of a plan run at every step in an auditable way. This 
 - The actual plan run state e.g. NOT_STARTED, IN_PROGRESS, COMPLETE, READY_TO_RESUME or NEED_CLARIFICATION.
 - A list of step outputs that is populated throughout the plan run.
 
-In a later section we will also see that the plan run state also tracks a list of instances where human input was solicited during plan run, known as `Clarification`.
+In a later section we will also see that a plan run state also tracks the list of instances where human input was solicited during plan run, known as `Clarification`.
 
 Plan run states are captured in the `PlanRun` class (<a href="/SDK/portia/plan_run" target="_blank">**SDK reference ↗**</a>). In the previous section (<a href="/generate-plan" target="_blank">**Generate a plan ↗**</a>), we generated a plan in response to the query `Which stock price grew faster in 2024, Amazon or Google?`. Let's examine the final state once we run that plan:
 <Tabs>
@@ -118,10 +118,10 @@ Plan run states are captured in the `PlanRun` class (<a href="/SDK/portia/plan_r
   </TabItem>
 </Tabs>
 
-Every plan run has a unique `id` and relates to a unique `plan_id`. If you were to attempt running a plan run from the same plan multiple times, you would generate multiple `PlanRun` objects each with a unique `id` but all with the same `plan_id` property.
+Every plan run has a unique `id` and relates to a unique `plan_id`. If you were to attempt running the same plan multiple times, you would generate multiple `PlanRun` objects each with a unique `id` but all with the same `plan_id` property.
 
 ## Plan run state changes
-As Portia cycles through a plan run, an agent is instantiated at every step and that agent will call the tool designated for that. The plan run state is enriched with step outputs at every step of the execution as well. Note that in this example the main tool used is the 'Search Tool' provided in this SDK in the `example_tool_registry`, and wraps around the Tavily API. We will discuss tools in more depth in the next section.
+As Portia cycles through a plan run, an execution agent is instantiated at every step and that agent will call the tool designated for that. The plan run state is enriched with step outputs at every step of the execution as well. Note that in this example the main tool used is the 'Search Tool' provided in this SDK in the `example_tool_registry`, and wraps around the Tavily API. We will discuss tools in more depth in the next section.
 You should be able to inspect the state changes for the above plan run in the logs when you run the code.
 <div style={{
   overflow: 'hidden',
@@ -159,7 +159,7 @@ You should be able to inspect the state changes for the above plan run in the lo
 
 
 
-## Execute a plan run from a plan
+## Run from a pre-expressed plan
 <details>
 <summary>**Tavily API key required**</summary>
 
@@ -203,7 +203,7 @@ If you want to see an example where a user iterates on a plan before we proceed 
 We will use a simple GET endpoint from Tavily in this section. Please sign up to obtain an API key from them (<a href="https://tavily.com/" target="_blank">**↗**</a>) and set it in the environment variable `TAVILY_API_KEY`.
 </details>
 
-You can also run a plan immediately from the user query, without examining the `Plan` object in between. This would generate a plan as intermediate step as well but will also immediately spawn a plan run from it. You would simply use the `run_query` method from your `Portia` instance class like so:
+You can also run a plan immediately from the user query, without examining the `Plan` object in between. This would generate a plan as an intermediate step as well but will also immediately spawn a plan run from it. You would simply use the `run_query` method from your `Portia` instance class like so:
 ```python title="main.py"
 from dotenv import load_dotenv
 from portia import Portia

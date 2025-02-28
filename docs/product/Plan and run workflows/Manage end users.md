@@ -20,7 +20,7 @@ The `ExecutionContext` class can be used to enrich your `Portia` instance with p
 
 ## The plan run context at Portia
 
-In Production, you will be running plans for many stakeholders including customers, employees and partners. You may want to pass information specific to these persons when they submit a prompt and / or information specific to the current context they are operating in (e.g. the particular app they are using when they submit their prompt to initiate a plan run).
+In Production, you will be running plans for many stakeholders including customers, employees and partners. You may want to pass information specific to these individuals when they submit a prompt and / or information specific to the current context they are operating in (e.g. the particular app they are using when they submit their prompt to initiate a plan run).
 
 We refer to these "person" entities as **end users** and represent the current context in which they submitted their prompt through a `Context` object that is passed to the `Portia` instance:
 - You can define an `end_user_id` property in your `Context` object. This can be any string value that uniquely represents the end user in your system e.g. an internal ID or an email address.
@@ -88,9 +88,9 @@ The result of this code block will be the addition of an `execution_context` sec
 Running `with execution_context` like this will:
 - Pass the `end_user_id` and `additional_data` to the planner and agent LLMs.
 - Persist the `end_user_id` and `additional_data` as part of the `PlanRun` as you saw in the output above:
-    - You can use this information for granular usage traceability. if using Portia Cloud, you will be able to see and filter stored plan runs down to specific end users (via SDK or in the Dashboard).
+    - You can use this information for granular usage traceability. If using Portia Cloud, you will be able to see and filter stored plan runs down to specific end users (via SDK or in the Dashboard).
     - You may want to persist the `end_user_id` on your side and use it consistently when interacting with Portia to uniquely identify the end user across plan runs. This may also be useful if you build authenticated tools with reusable oauth tokens, so that you can maintain the user association and leverage the tokens' reusability.
-    - Some Portia cloud tools are Oauth-based. For those tools, we store oauth tokens for reusability if and only if an `end_user_id` was passed with the plan run during which the tokens were created. During any subsequent plan run using this same `end_user_id`, we will be able to identify reusable tokens and leverage those for the relevant tool calls if needed (<a href="/run-portia-tools" target="_blank">**Run Portia tools ↗**</a>). .
+    - Some Portia cloud tools are OAuth-based. For those tools, we store oauth tokens for reusability if and only if an `end_user_id` was passed with the plan run during which the tokens were created. During any subsequent plan run using this same `end_user_id`, we will be able to identify reusable tokens and leverage those for the relevant tool calls if needed (<a href="/run-portia-tools" target="_blank">**Run Portia tools ↗**</a>). .
 
 :::info[On persisting execution context]
 A `PlanRun` object inherits the `ExecutionContext` with which it was created as we have seen from the output above. Whenever such a plan run is resumed it will by default resume with this execution context persisted within it. You may choose to override this execution context with a `with execution_context({new execution context here})` when resuming

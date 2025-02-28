@@ -23,7 +23,7 @@ Key Features:
 class ExecutionContext(BaseModel)
 ```
 
-Execution context provides runtime information to the runner, planner, and agents.
+Execution context provides runtime information to the Portia instance, planner, and agents.
 
 Unlike configuration settings, it is designed to be used on a per-request basis,
 allowing customization at runtime. For example, this can pass end-user-specific

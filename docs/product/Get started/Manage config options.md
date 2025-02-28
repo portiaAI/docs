@@ -7,7 +7,7 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 # Manage your config
-Learn how to use the runner `Config` to configure LLM and agent execution options, and select different plan and run storage options.
+Learn how to use your `Portia` instance's `Config` to configure LLM and agent execution options, and select different plan and run storage options.
 
 :::tip[TL;DR]
 The `Config` class of your `Portia` instance allows you to:
@@ -24,7 +24,6 @@ The `Config` class (<a href="/SDK/portia/config" target="_blank">**SDK reference
 | `llm_model_name` | Select the relevant LLM model. This is an ENUM accessible via the `LLMModel` class. |
 | `openai_api_key`<br/>`anthropic_api_key`<br/>`mistralai_api_key` | Set the key you want your `Portia` instance instance to use from the relevant provider |
 | `planner_system_context_extension` | Enrich the system context with more information. For example you can add information specific to a frontend user session such as department, title, timezone etc. |
-| `default_agent_type` | This controls how complex (and therefore how fast or expensive) your agents are. It can be one of <ul><li>`VERIFIER`: This is the default setup. This means the agent validates the inputs it receives and assesses its output to determine if it achieved the task at hand in a particular step. This is the setting that allows an LLM to trigger clarifications where relevant (e.g. missing input).</li><li>`ONE_SHOT` [Not recommended]: For a simpler and faster agent implementation where an agent simply takes arguments and makes tool calls where relevant, without any validation of inputs and outputs (e.g. useful for light and repeatable plan runs)</li><li>`TOOL_LESS`: For plan runs where no tools are required.</li></ul>This ENUM is accessible from the `AgentType` class. |
 
 ## Manage storage options
 You can control where you store and retrieve plan run states using the `storage_class` property in the `Config` class (<a href="/SDK/portia/config" target="_blank">**SDK reference ↗**</a>), which is an ENUM accessible from the `StorageClass` class:
@@ -59,7 +58,7 @@ from portia.open_source_tools.registry import example_tool_registry
 
 load_dotenv()
 
-# Load the default config then make changes to it
+# Load the default config with specified storage and logging options
 my_config = Config.from_default(
     storage_class=StorageClass.DISK, 
     storage_dir='demo_runs', # Amend this based on where you'd like your plans and plan runs saved!

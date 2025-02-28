@@ -10,7 +10,7 @@ import TabItem from '@theme/TabItem';
 Use clarifications to leverage Portia tools' native authentication support.
 
 :::tip[TL;DR]
-- All Portia tools come with built-in authentication, typically using Portia Oauth clients for each relevant resource server.
+- All Portia tools come with built-in authentication, typically using Portia OAuth clients for each relevant resource server.
 - Agents raise an `ActionClarification` to interrupt a plan run and require use authentication when necessary.
 :::
 
@@ -19,11 +19,11 @@ Portia offers a cloud-hosted library of tools to save you development time. You 
 ## Handling auth with `Clarification`
 
 We established in the preceding section that clarifications are raised when an agent needs input to progress. This concept lends itself perfectly to tool authentication. Let's break it down:
-- All Portia tools come with built-in authentication, typically using Portia Oauth clients for each relevant resource server.
+- All Portia tools come with built-in authentication, typically using Portia OAuth clients for each relevant resource server.
 - Portia provisions the required token with the relevant scope when a tool call needs to be made.
-- Tokens provisioned by Portia are reusable / long-lived. If a `end_user_id` was passed with the parent `PlanRun`, Portia will store the provisioned Oauth token against it. You will need to persist this `end_user_id` and use it consistently across plan runs to leverage token reusability (<a href="/manage-end-users" target="_blank">**Manage multiple end users ↗**</a>).
-- When a Portia tool call is made, we first attempt to retrieve an Oauth token against the `end_user_id` if provided. When no Oauth token is found, an `ActionClarification` is raised with an Oauth link as the action URL. This Oauth link uses Portia's authentication client and a Portia redirect URL.
-- Portia's Oauth server listens for the authentication result and resolves the concerned clarification, allowing the plan run to resume again.
+- Tokens provisioned by Portia are reusable / long-lived. If a `end_user_id` was passed with the parent `PlanRun`, Portia will store the provisioned OAuth token against it. You will need to persist this `end_user_id` and use it consistently across plan runs to leverage token reusability (<a href="/manage-end-users" target="_blank">**Manage multiple end users ↗**</a>).
+- When a Portia tool call is made, we first attempt to retrieve an OAuth token against the `end_user_id` if provided. When no OAuth token is found, an `ActionClarification` is raised with an OAuth link as the action URL. This OAuth link uses Portia's authentication client and a Portia redirect URL.
+- Portia's OAuth server listens for the authentication result and resolves the concerned clarification, allowing the plan run to resume again.
 
 ## Bringing the concepts together
 
@@ -82,8 +82,8 @@ print(f"{plan_run.model_dump_json(indent=2)}")
 ```
 
 Pay attention to the following points:
-- We're importing all of Portia's cloud tool library using the `PortiaToolRegistry` import. Portia will (rightly!) identify that executing on this query necessitates both the `SearchGitHubReposTool` and the `StarGitHubRepoTool` in particular. Like all Portia cloud tools, our Github tools are built with plug and play authentication support. They will raise a `Action Clarification` with a Github Oauth link as the action URL.
-- We're now introducing the `portia.wait_for_ready()` method to handle clarifications of type `ActionClarification`. This method should be used when the resolution to a clarification relies on a third party system and the runner needs to listen for a change in its state. In our example, Portia's Oauth server listens for the authentication result and resolves the concerned clarification, allowing the plan run to resume again.
+- We're importing all of Portia's cloud tool library using the `PortiaToolRegistry` import. Portia will (rightly!) identify that executing on this query necessitates both the `SearchGitHubReposTool` and the `StarGitHubRepoTool` in particular. Like all Portia cloud tools, our Github tools are built with plug and play authentication support. They will raise a `Action Clarification` with a Github OAuth link as the action URL.
+- We're now introducing the `portia.wait_for_ready()` method to handle clarifications of type `ActionClarification`. This method should be used when the resolution to a clarification relies on a third party system and your `Portia` instance needs to listen for a change in its state. In our example, Portia's OAuth server listens for the authentication result and resolves the concerned clarification, allowing the plan run to resume again.
 
 Your plan run will pause and you should see the link in the logs like so
 ...

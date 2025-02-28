@@ -6,12 +6,12 @@ slug: /tool-selection
 # Tool selection
 Learn how to select the tools that the LLM can use to answer a user query.
 :::tip[TL;DR]
-- You can specify the tools that the LLM can use to answer a user query by using the `tools` argument in the runner definition. If you don't specify this, the runner will use a default set of tools.
+- You can specify the tools that the LLM can use to answer a user query by using the `tools` argument in your `Portia` instance. If you don't specify this, the `Portia` instance will use a default set of tools.
 - Tool registries are useful to group frequently used tools together. They are represented by the `ToolRegistry` class (<a href="/SDK/portia/tool_registry" target="_blank">**SDK reference ↗**</a>).
 :::
 
 ## Overview of tool selection
-As part of defining a runner for a query, you can specify the tools that the LLM can use to answer the query. This is done by specifying the `tools` argument in the runner definition.
+As part of defining your `Portia` instance for a query, you can specify the tools that the LLM can use to answer the query. This is done by specifying the `tools` argument in the `Portia` instance definition.
 
 ```python
 from portia import Portia
@@ -24,7 +24,7 @@ from portia.open_source_tools.weather import WeatherTool
 portia = Portia(tools=[CalculatorTool(), SearchTool(), WeatherTool()])
 ```
 
-If you don't specify the `tools` argument, the runner will use a default set of tools.
+If you don't specify the `tools` argument, your `Portia` instance will use a default set of tools.
 
 :::info[Default tools]
 The default tool set comprises:

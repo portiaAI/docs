@@ -14,7 +14,7 @@ Learn how to create structured, multi-agent plans using your LLM of choice and f
 
 ## Overview of plans in Portia
 A plan is the set of steps an LLM thinks it should take in order to respond to a user prompt. Plans are:
-- **Immutable**: Once a plan is generated, it can not be altered. This is important for auditability. For example, we will support re-planning in near future to allow agents to react to changing variables, but this will result in new plans rather than effect change on the original plan.
+- **Immutable**: Once a plan is generated, it cannot be altered. This is important for auditability. For example, we will support re-planning in near future to allow agents to react to changing variables, but this will result in new plans rather than effect change on the original plan.
 - **Structured**: We use optimised system prompts to guide the LLM along a simple design language when generating a plan. This makes the plan format predictable and easy to process for the purposes of automation.
 - **Human-readable**: Our plan design language is in a simple, serialisable format. It is easy to render and present to users in a human readable front-end experience. This helps your users easily stay on top of your LLM's reasoning.
 
@@ -52,8 +52,8 @@ Let's bring this one to life by looking at an example plan below, created in res
 A plan includes a series of steps defined by 
 - `"task"` A task describing the objective of that particular step.
 - `"input"` The inputs required to achieve the step. Notice how the LLM is guided to weave the outputs of previous steps as inputs to the next ones where applicable e.g. `$spacex_search_results` coming out of the first step acts as an input to the second one.
-- "`tool_name`" Any relevant tool needed for the completion of the step. Portia is able to filter for the relevant tools during the multi-shot plan generation process. As we will see later on in this tutorial you can specify the tool registries (directories) you want when handling a user prompt, including local / custom tools and ones provided by third parties. In this example we are referencing tools from Portia's cloud-hosted library, prefixed with `portia::`. 
-- "`output`" The step's final output. As mentioned above, every step output can be referenced in future steps. As we will see shortly, these outputs are serialised and saved in Plan run state as it is being executed.
+- "`tool_id`" Any relevant tool needed for the completion of the step. Portia is able to filter for the relevant tools during the multi-shot plan generation process. As we will see later on in this tutorial you can specify the tool registries (directories) you want when handling a user prompt, including local / custom tools and ones provided by third parties. In this example we are referencing tools from Portia's cloud-hosted library, prefixed with `portia:`. 
+- "`output`" The step's final output. As mentioned above, every step output can be referenced in future steps. As we will see shortly, these outputs are serialised and saved in plan run state as it is being executed.
 
 :::info[On plan logic]
 While plans are currently a linear sequence of steps, we will be introducing more complex logic soon.

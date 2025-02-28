@@ -50,7 +50,7 @@ You can retrieve both plans and run states for a stored plan run. For that you w
 ```python title="main.py" skip=true
 from dotenv import load_dotenv
 from portia.config import Config, StorageClass
-from portia.runner import PortiaCloudStorage
+from portia import PortiaCloudStorage
 
 load_dotenv()
 

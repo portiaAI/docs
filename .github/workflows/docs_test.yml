@@ -4,7 +4,7 @@ on:
   schedule:
     # Run at 9am UTC daily
     - cron: '0 9 * * *'
-  plan run_dispatch:
+  workflow_dispatch:
   pull_request:
 
 jobs:

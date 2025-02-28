@@ -146,7 +146,7 @@ load_dotenv()
 
 # Load example and custom tool registries into a single one
 complete_tool_registry = example_tool_registry + custom_tool_registry
-# Instantiate Portia. Load it with the default config and with the tools above
+# Instantiate Portia with the tools above
 portia = Portia(tools=complete_tool_registry)
 
 # Execute the plan from the user query
