@@ -43,11 +43,7 @@ Initialize storage and tools.
 
 **Arguments**:
 
-<<<<<<< HEAD:docs/SDK/portia/runner.md
-- `config` _Config_ - The configuration to initialize the portia. If not provided, the
-=======
 - `config` _Config_ - The configuration to initialize the Portia client. If not provided, the
->>>>>>> main:docs/SDK/portia/portia.md
   default configuration will be used.
 - `tools` _ToolRegistry | list[Tool]_ - The registry or list of tools to use. If not
   provided, the open source tool registry will be used, alongside the default tools
@@ -76,11 +72,7 @@ This is the simplest way to plan and execute a query using the SDK.
 
 **Returns**:
 
-<<<<<<< HEAD:docs/SDK/portia/runner.md
-- `PlanRun` - The workflow resulting from executing the query.
-=======
 - `PlanRun` - The run resulting from executing the query.
->>>>>>> main:docs/SDK/portia/portia.md
 
 #### plan\_query
 
@@ -125,11 +117,7 @@ Create a run from a Plan.
 
 **Returns**:
 
-<<<<<<< HEAD:docs/SDK/portia/runner.md
-- `PlanRun` - The created plan_run.
-=======
-- `Run` - The created plan_run.
->>>>>>> main:docs/SDK/portia/portia.md
+- `PlanRun` - The created PlanRun.
 
 #### execute\_plan\_run
 
@@ -149,22 +137,12 @@ Run a PlanRun.
 
 **Returns**:
 
-<<<<<<< HEAD:docs/SDK/portia/runner.md
-- `PlanRun` - The resulting workflow after execution.
-=======
-- `PlanRun` - The resulting PlanRun after execution.
->>>>>>> main:docs/SDK/portia/portia.md
-  
+- `PlanRun` - The resulting PlanRun after execution.  
 
 **Raises**:
 
-<<<<<<< HEAD:docs/SDK/portia/runner.md
-- `ValueError` - If neither workflow nor workflow_id is provided.
-- `InvalidRunStateError` - If the workflow is not in a valid state to be executed.
-=======
 - `ValueError` - If neither plan_run nor plan_run_id is provided.
 - `InvalidRunStateError` - If the plan run is not in a valid state to be executed.
->>>>>>> main:docs/SDK/portia/portia.md
 
 #### resolve\_clarification
 
@@ -185,11 +163,7 @@ Resolve a clarification updating the run state as needed.
 
 **Returns**:
 
-<<<<<<< HEAD:docs/SDK/portia/runner.md
-- `PlanRun` - The updated plan_run.
-=======
 - `PlanRun` - The updated PlanRun.
->>>>>>> main:docs/SDK/portia/portia.md
 
 #### wait\_for\_ready
 
