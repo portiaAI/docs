@@ -11,7 +11,8 @@ Learn how to run a plan run from an existing plan or end-to-end.
 :::tip[TL;DR]
 - A plan run is (uncontroversially) a unique run of a plan. It is represented by the `PlanRun` class (<a href="/SDK/portia/plan_run" target="_blank">**SDK reference ↗**</a>).
 - An agent is spun up to execute every step in the plan run. The `PlanRun` object tracks the state of the plan run and is enriched at every step by the relevant agent.
-- A plan run can be generated either from a plan using the `run_plan` method or directly from a user prompt using the `run_query` method of the `Portia` instance class (<a href="/SDK/portia/portia" target="_blank">**SDK reference ↗**</a>).
+- A plan run can be generated from a plan using the `create_plan_run` method and then run using the `execute_plan_run` one. 
+- You can also plan a query response, then create and execute a plan run in one fell swoop using the `run_query` method of the `Portia` instance class (<a href="/SDK/portia/portia" target="_blank">**SDK reference ↗**</a>).
 :::
 
 ## Overview of plan runs in Portia
@@ -179,18 +180,19 @@ load_dotenv()
 portia = Portia(tools=example_tool_registry)
 
 # Generate the plan from the user query
-plan = portia.plan('Which stock price grew faster in 2024, Amazon or Google?')
+plan = portia.plan_query('Which stock price grew faster in 2024, Amazon or Google?')
 
 # [OPTIONAL] INSERT CODE WHERE YOU SERVE THE PLAN TO THE USER OR ITERATE ON IT IN ANY WAY
 
 # Run the generated plan
-plan_run = portia.run(plan)
+plan_run = portia.create_plan_run(plan)
+plan_run = portia.execute_plan_run(plan_run)
 
 # Serialise into JSON and print the output
 print(plan_run.model_dump_json(indent=2))
 ```
 
-Here we are storing the `Plan` object returned by the `plan` method and then running it using the `run` method.
+Here we are storing the `Plan` object returned by the `plan_query` method. We then use the `create_plan_run` to instantiate a `PlanRun` in `NOT_STARTED` state, and then we run it using the `execute_plan_run` method.
 
 :::info
 If you want to see an example where a user iterates on a plan before we proceed with plan run, take a look at the intro example in our <a href="https://github.com/portiaAI/portia-agent-examples/blob/main/get_started_google_tools/README.md" target="_blank">**examples repo (↗)**</a>.

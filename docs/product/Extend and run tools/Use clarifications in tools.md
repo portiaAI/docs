@@ -118,7 +118,7 @@ from portia.config import default_config
 from portia.open_source_tools.registry import example_tool_registry
 from my_custom_tools.registry import custom_tool_registry
 from portia.clarification import MultipleChoiceClarification
-from portia.plan_run import RunState
+from portia.plan_query_run import RunState
 
 # Load example and custom tool registries into a single one
 complete_tool_registry = example_tool_registry + custom_tool_registry

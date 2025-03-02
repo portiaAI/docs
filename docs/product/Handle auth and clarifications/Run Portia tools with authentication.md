@@ -40,7 +40,7 @@ We're assuming you already have a Portia API key from the dashboard and set it i
 from dotenv import load_dotenv
 from portia import Portia
 from portia.config import default_config
-from portia.plan_run import RunState
+from portia.plan_query_run import RunState
 from portia.clarification import MultipleChoiceClarification, InputClarification, ActionClarification
 from portia.tool_registry import PortiaToolRegistry
 
@@ -50,11 +50,12 @@ load_dotenv()
 portia = Portia(tools=PortiaToolRegistry(default_config()))
 
 # Generate the plan from the user query and print it
-plan = portia.plan('Find the github repository of PortiaAI and give it a star for me')
+plan = portia.plan_query('Find the github repository of PortiaAI and give it a star for me')
 print(f"{plan.model_dump_json(indent=2)}")
 
 # Run the plan
-plan_run = portia.run(plan)
+plan_run = portia.create_plan_run(plan)
+plan_run = portia.execute_plan_run(plan_run)
 
 while plan_run.state == RunState.NEED_CLARIFICATION:
     # If clarifications are needed, resolve them before resuming the plan run
