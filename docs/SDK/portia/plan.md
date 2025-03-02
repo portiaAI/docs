@@ -6,7 +6,6 @@ title: portia.plan
 Plan primitives used to define and execute runs.
 
 This module defines the core objects that represent the plan for executing a PlanRun.
-
 The `Plan` class is the main structure that holds a series of steps (`Step`) to be executed by an
 agent in response to a query. Each step can have inputs, an associated tool, and an output.
 Variables can be used within steps to reference other parts of the plan or constants.
