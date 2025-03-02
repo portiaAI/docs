@@ -6,7 +6,7 @@ title: portia.execution_agents.context
 Context builder that generates contextual information for the PlanRun.
 
 This module defines a set of functions that build various types of context
-required for the run execution. It takes information about inputs, 
+required for the run execution. It takes information about inputs,
 outputs, clarifications, and execution metadata to build context strings
 used by the agent to perform tasks. The context can be extended with
 additional system or user-provided data.
