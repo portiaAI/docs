@@ -1,6 +1,6 @@
 ---
 sidebar_label: final_output_summarizer
-title: portia.agents.utils.final_output_summarizer
+title: portia.execution_agents.utils.final_output_summarizer
 ---
 
 Utility class for final output summarizer.
@@ -11,7 +11,7 @@ Utility class for final output summarizer.
 class FinalOutputSummarizer()
 ```
 
-Utility class responsible for summarizing the workflow outputs for final output&#x27;s summary.
+Utility class responsible for summarizing the run outputs for final output&#x27;s summary.
 
 **Attributes**:
 
@@ -32,7 +32,7 @@ Initialize the summarizer agent.
 #### create\_summary
 
 ```python
-def create_summary(plan: Plan, workflow: Workflow) -> str | None
+def create_summary(plan: Plan, plan_run: PlanRun) -> str | None
 ```
 
 Execute the summarizer llm and return the summary as a string.
@@ -40,7 +40,7 @@ Execute the summarizer llm and return the summary as a string.
 **Arguments**:
 
 - `plan` _Plan_ - The plan containing the steps.
-- `workflow` _Workflow_ - The workflow to summarize.
+- `plan_run` _PlanRun_ - The run to summarize.
   
 
 **Returns**:

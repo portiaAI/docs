@@ -3,16 +3,21 @@ sidebar_label: execution_context
 title: portia.execution_context
 ---
 
-Provides execution context to the planner and agents.
+Provides execution context to the planning and execution agents.
 
 This module defines the `ExecutionContext` class and utilities for managing execution
+<<<<<<< HEAD
 contexts for planners and agents. It provides a way to pass runtime-specific information
 for each plan run, ensuring flexibility and context isolation, especially in
+=======
+contexts for planning and execution agents. It provides a way to pass runtime-specific information
+for each run execution, ensuring flexibility and context isolation, especially in
+>>>>>>> main
 multi-threaded or asynchronous applications.
 
 Key Features:
 - The `ExecutionContext` class encapsulates information such as user identification,
-  additional data, and system context extensions for planners and agents.
+  additional data, and system context extensions for planning and execution agents.
 - The `execution_context` context manager allows for context isolation, ensuring
   that each task or thread has its own independent execution context.
 - The `get_execution_context` function allows retrieval of the current execution context.
@@ -23,20 +28,25 @@ Key Features:
 class ExecutionContext(BaseModel)
 ```
 
+<<<<<<< HEAD
 Execution context provides runtime information to the Portia instance, planner, and agents.
+=======
+Execution context provides runtime information to the portia client and planning and execution agents.
+>>>>>>> main
 
 Unlike configuration settings, it is designed to be used on a per-request basis,
 allowing customization at runtime. For example, this can pass end-user-specific
-information to planners and agents for dynamic adjustments.
+information to planning and execution agents for dynamic adjustments.
 
 **Attributes**:
 
-- `end_user_id` _Optional[str]_ - The identifier of the user for whom the workflow is running.
+- `end_user_id` _Optional[str]_ - The identifier of the user for whom the run is running.
   Used for authentication and debugging purposes.
 - `additional_data` _dict[str, str]_ - Arbitrary additional data useful for debugging.
-- `planner_system_context_extension` _Optional[list[str]]_ - Additional context for planner LLMs.
-- `agent_system_context_extension` _Optional[list[str]]_ - Additional context for agent LLMs.
-- `workflow_run_context` _Optional[str]_ - Additional context for the workflow run.
+- `planning_agent_system_context_extension` _Optional[list[str]]_ - Additional context for
+  planning_agents.
+- `execution_agent_system_context_extension` _Optional[list[str]]_ - Additional context for agent LLMs.
+- `plan_run_context` _Optional[str]_ - Additional context for the PlanRun.
 
 #### empty\_context
 
@@ -58,12 +68,16 @@ def execution_context(
     context: ExecutionContext | None = None,
     end_user_id: str | None = None,
     additional_data: dict[str, str] | None = None,
-    planner_system_context_extension: list[str] | None = None,
+    planning_agent_system_context_extension: list[str] | None = None,
     agent_system_context_extension: list[str] | None = None
 ) -> Generator[None, None, None]
 ```
 
+<<<<<<< HEAD
 Set the execution context for the duration of the plan_run.
+=======
+Set the execution context for the duration of the PlanRun.
+>>>>>>> main
 
 This context manager ensures context isolation by using `contextvars.ContextVar`,
 meaning that the execution context set within this block will only affect
@@ -79,8 +93,8 @@ tasks or threads may need independent contexts simultaneously.
   the execution for specific users. Defaults to `None`.
 - `additional_data` _Optional[Dict[str, str]]_ - Arbitrary additional data to associate
   with the context. Defaults to an empty dictionary.
-- `planner_system_context_extension` _Optional[list[str]]_ - Additional context for planner
-  LLMs. This should be concise to stay within the context window.
+- `planning_agent_system_context_extension` _Optional[list[str]]_ - Additional context for
+  planning_agents. This should be concise to stay within the context window.
 - `agent_system_context_extension` _Optional[list[str]]_ - Additional context for agent
   LLMs. This should also be concise.
   

@@ -1,9 +1,9 @@
 ---
 sidebar_label: context
-title: portia.planners.context
+title: portia.planning_agents.context
 ---
 
-Context helpers for planners.
+Context helpers for PlanningAgents.
 
 #### render\_prompt\_insert\_defaults
 
@@ -15,7 +15,7 @@ def render_prompt_insert_defaults(query: str,
                                   examples: list[Plan] | None = None) -> str
 ```
 
-Render the prompt for the query planner with defaults inserted if not provided.
+Render the prompt for the PlanningAgent with defaults inserted if not provided.
 
 #### default\_query\_system\_context
 

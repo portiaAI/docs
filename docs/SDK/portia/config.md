@@ -16,7 +16,7 @@ config files and default settings.
 class StorageClass(Enum)
 ```
 
-Enum representing locations plans and workflows are stored.
+Enum representing locations plans and runs are stored.
 
 **Attributes**:
 
@@ -97,31 +97,30 @@ Get the associated provider for the model.
 
 - `LLMProvider` - The provider associated with the model.
 
-## AgentType Objects
+## ExecutionAgentType Objects
 
 ```python
-class AgentType(Enum)
+class ExecutionAgentType(Enum)
 ```
 
 Enum for types of agents used for executing a step.
 
 **Attributes**:
 
-- `TOOL_LESS` - A tool-less agent.
-- `ONE_SHOT` - A one-shot agent.
-- `VERIFIER` - A verifier agent.
+- `ONE_SHOT` - The one-shot agent.
+- `DEFAULT` - The default agent.
 
-## PlannerType Objects
+## PlanningAgentType Objects
 
 ```python
-class PlannerType(Enum)
+class PlanningAgentType(Enum)
 ```
 
-Enum for planners used for planning queries.
+Enum for planning agents used for planning queries.
 
 **Attributes**:
 
-- `ONE_SHOT` - A one-shot planner.
+- `DEFAULT` - The default planning agent.
 
 ## LogLevel Objects
 
@@ -213,8 +212,8 @@ from files or default values.
 - `portia_api_key`1 - The model to use for LLM tasks.
 - `portia_api_key`2 - The temperature for LLM generation.
 - `portia_api_key`3 - The seed for LLM generation.
-- `portia_api_key`4 - The default agent type.
-- `portia_api_key`5 - The default planner type.
+- `portia_api_key`4 - The planning agent type.
+- `portia_api_key`5 - The execution agent type.
 
 #### parse\_storage\_class
 
@@ -256,25 +255,27 @@ def parse_llm_model_name(cls, value: str | LLMModel) -> LLMModel
 
 Parse llm_model_name to enum if string provided.
 
-#### parse\_default\_agent\_type
+#### parse\_execution\_agent\_type
 
 ```python
-@field_validator("default_agent_type", mode="before")
+@field_validator("execution_agent_type", mode="before")
 @classmethod
-def parse_default_agent_type(cls, value: str | AgentType) -> AgentType
+def parse_execution_agent_type(
+        cls, value: str | ExecutionAgentType) -> ExecutionAgentType
 ```
 
-Parse default_agent_type to enum if string provided.
+Parse execution_agent_type to enum if string provided.
 
-#### parse\_default\_planner
+#### parse\_planning\_agent\_type
 
 ```python
-@field_validator("default_planner", mode="before")
+@field_validator("planning_agent_type", mode="before")
 @classmethod
-def parse_default_planner(cls, value: str | PlannerType) -> PlannerType
+def parse_planning_agent_type(
+        cls, value: str | PlanningAgentType) -> PlanningAgentType
 ```
 
-Parse default_planner to enum if string provided.
+Parse planning_agent_type to enum if string provided.
 
 #### check\_config
 
