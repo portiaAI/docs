@@ -1,6 +1,6 @@
 // @ts-check
 // Note: type annotations allow type checking and IDEs autocompletion
-import {themes} from 'prism-react-renderer';
+import { themes } from 'prism-react-renderer';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -52,8 +52,9 @@ const config = {
           sidebarPath: require.resolve("./sidebars.js"),
           sidebarCollapsed: false,
           exclude: [
-            // '**/_*.{js,jsx,ts,tsx,md,mdx}',
-            // '**/_*/**',
+            // todo richard, command to prove this is ok
+            '**/_*.{js,jsx,ts,tsx,md,mdx}',
+            '**/_*/**',
             "**/*.test.{js,jsx,ts,tsx}",
             "**/__tests__/**",
             "**/__init__",
@@ -89,36 +90,8 @@ const config = {
             label: "Docs",
           },
           {
-            type: 'dropdown',
-            label: 'Tools', // Label for the dropdown
-            position: 'left', // or 'right'
-            items: [
-              {
-                label: 'Overview',
-                to: '/portia-tools',
-              },
-              {
-                label: 'Open source',
-                to: '/open-source-tools',
-              },
-              {
-                label: 'gSuite',
-                to: '/gsuite-tools',
-              },
-              {
-                label: 'Github',
-                to: '/github-tools',
-              },
-              {
-                label: 'Zendesk',
-                to: '/zendesk-tools',
-              },
-              {
-                label: 'Slack',
-                to: '/slack-tools',
-              },
-              //... more items
-            ],
+            label: "Tools",
+            to: "/portia-tools",
           },
           {
             type: "docSidebar",
