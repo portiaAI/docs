@@ -6,13 +6,8 @@ title: portia.execution_context
 Provides execution context to the planning and execution agents.
 
 This module defines the `ExecutionContext` class and utilities for managing execution
-<<<<<<< HEAD
-contexts for planners and agents. It provides a way to pass runtime-specific information
-for each plan run, ensuring flexibility and context isolation, especially in
-=======
 contexts for planning and execution agents. It provides a way to pass runtime-specific information
 for each run execution, ensuring flexibility and context isolation, especially in
->>>>>>> main
 multi-threaded or asynchronous applications.
 
 Key Features:
@@ -28,11 +23,7 @@ Key Features:
 class ExecutionContext(BaseModel)
 ```
 
-<<<<<<< HEAD
-Execution context provides runtime information to the Portia instance, planner, and agents.
-=======
 Execution context provides runtime information to the portia client and planning and execution agents.
->>>>>>> main
 
 Unlike configuration settings, it is designed to be used on a per-request basis,
 allowing customization at runtime. For example, this can pass end-user-specific
@@ -73,11 +64,7 @@ def execution_context(
 ) -> Generator[None, None, None]
 ```
 
-<<<<<<< HEAD
-Set the execution context for the duration of the plan_run.
-=======
 Set the execution context for the duration of the PlanRun.
->>>>>>> main
 
 This context manager ensures context isolation by using `contextvars.ContextVar`,
 meaning that the execution context set within this block will only affect
