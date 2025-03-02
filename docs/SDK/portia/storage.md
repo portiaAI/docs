@@ -105,15 +105,6 @@ Subclasses must implement the methods to save and retrieve PlanRuns.
 
 **Methods**:
 
-<<<<<<< HEAD
-  save_workflow(self, workflow: Workflow) -&gt; None:
-  Save a plan_run.
-  get_plan_run(self, workflow_id: WorkflowUUID) -&gt; Workflow:
-  Get a workflow by ID.
-  get_plan_runs(self, run_state: RunState | None = None, page=int | None = None)
-  -&gt; WorkflowListResponse:
-  Return workflows that match the given run_state
-=======
   save_plan_run(self, run: Run) -&gt; None:
   Save a PlanRun.
   get_plan_run(self, plan_run_id: PlanRunUUID) -&gt; PlanRun:
@@ -121,7 +112,6 @@ Subclasses must implement the methods to save and retrieve PlanRuns.
   get_plan_runs(self, run_state: RunState | None = None, page=int | None = None)
   -&gt; PlanRunListResponse:
   Return runs that match the given run_state
->>>>>>> main
 
 #### save\_plan\_run
 
@@ -129,12 +119,7 @@ Subclasses must implement the methods to save and retrieve PlanRuns.
 @abstractmethod
 def save_plan_run(plan_run: PlanRun) -> None
 ```
-
-<<<<<<< HEAD
-Save a plan_run.
-=======
 Save a PlanRun.
->>>>>>> main
 
 **Arguments**:
 
@@ -149,13 +134,8 @@ Save a PlanRun.
 
 ```python
 @abstractmethod
-<<<<<<< HEAD
-def get_plan_run(workflow_id: WorkflowUUID) -> Workflow
-=======
 def get_plan_run(plan_run_id: PlanRunUUID) -> PlanRun
->>>>>>> main
 ```
-
 Retrieve a run by its ID.
 
 **Arguments**:
@@ -165,13 +145,8 @@ Retrieve a run by its ID.
 
 **Returns**:
 
-<<<<<<< HEAD
-- `PlanRun` - The Workflow object associated with the provided workflow_id.
-=======
 - `Run` - The Run object associated with the provided plan_run_id.
->>>>>>> main
   
-
 **Raises**:
 
 - `NotImplementedError` - If the method is not implemented.
@@ -180,24 +155,15 @@ Retrieve a run by its ID.
 
 ```python
 @abstractmethod
-<<<<<<< HEAD
-def get_plan_runs(run_state: RunState | None = None,
-                  page: int | None = None) -> WorkflowListResponse
-=======
 def get_plan_runs(run_state: PlanRunState | None = None,
                   page: int | None = None) -> PlanRunListResponse
->>>>>>> main
 ```
 
 List runs by their state.
 
 **Arguments**:
 
-<<<<<<< HEAD
-- `run_state` _RunState | None_ - Optionally filter workflows by their state.
-=======
 - `run_state` _RunState | None_ - Optionally filter runs by their state.
->>>>>>> main
 - `page` _int | None_ - Optional pagination data
   
 
@@ -340,11 +306,7 @@ Add run to dict.
 #### get\_plan\_run
 
 ```python
-<<<<<<< HEAD
-def get_plan_run(workflow_id: WorkflowUUID) -> Workflow
-=======
 def get_plan_run(plan_run_id: PlanRunUUID) -> PlanRun
->>>>>>> main
 ```
 
 Get run from dict.
@@ -356,12 +318,7 @@ Get run from dict.
 
 **Returns**:
 
-<<<<<<< HEAD
-- `PlanRun` - The Workflow object associated with the provided workflow_id.
-=======
-- `PlanRun` - The PlanRun object associated with the provided plan_run_id.
->>>>>>> main
-  
+- `PlanRun` - The PlanRun object associated with the provided plan_run_id.  
 
 **Raises**:
 
@@ -370,24 +327,15 @@ Get run from dict.
 #### get\_plan\_runs
 
 ```python
-<<<<<<< HEAD
-def get_plan_runs(run_state: RunState | None = None,
-                  page: int | None = None) -> WorkflowListResponse
-=======
 def get_plan_runs(run_state: PlanRunState | None = None,
                   page: int | None = None) -> PlanRunListResponse
->>>>>>> main
 ```
 
 Get run from dict.
 
 **Arguments**:
 
-<<<<<<< HEAD
-- `run_state` _RunState | None_ - Optionally filter workflows by their state.
-=======
 - `run_state` _RunState | None_ - Optionally filter runs by their state.
->>>>>>> main
 - `page` _int | None_ - Optional pagination data which is not used for in memory storage.
   
 
@@ -466,11 +414,7 @@ Save a Run object to the storage.
 #### get\_plan\_run
 
 ```python
-<<<<<<< HEAD
-def get_plan_run(workflow_id: WorkflowUUID) -> Workflow
-=======
 def get_plan_run(plan_run_id: PlanRunUUID) -> PlanRun
->>>>>>> main
 ```
 
 Retrieve a Run object by its ID.
@@ -482,12 +426,7 @@ Retrieve a Run object by its ID.
 
 **Returns**:
 
-<<<<<<< HEAD
-- `PlanRun` - The retrieved Workflow object.
-=======
 - `Run` - The retrieved Run object.
->>>>>>> main
-  
 
 **Raises**:
 
@@ -496,24 +435,15 @@ Retrieve a Run object by its ID.
 #### get\_plan\_runs
 
 ```python
-<<<<<<< HEAD
-def get_plan_runs(run_state: RunState | None = None,
-                  page: int | None = None) -> WorkflowListResponse
-=======
 def get_plan_runs(run_state: PlanRunState | None = None,
                   page: int | None = None) -> PlanRunListResponse
->>>>>>> main
 ```
 
 Find all plan runs in storage that match state.
 
 **Arguments**:
 
-<<<<<<< HEAD
-- `run_state` _RunState | None_ - Optionally filter workflows by their state.
-=======
 - `run_state` _RunState | None_ - Optionally filter runs by their state.
->>>>>>> main
 - `page` _int | None_ - Optional pagination data which is not used for in memory storage.
   
 
@@ -617,11 +547,7 @@ Save a run to Portia Cloud.
 #### get\_plan\_run
 
 ```python
-<<<<<<< HEAD
-def get_plan_run(workflow_id: WorkflowUUID) -> Workflow
-=======
 def get_plan_run(plan_run_id: PlanRunUUID) -> PlanRun
->>>>>>> main
 ```
 
 Retrieve a run from Portia Cloud.
@@ -633,12 +559,7 @@ Retrieve a run from Portia Cloud.
 
 **Returns**:
 
-<<<<<<< HEAD
-- `PlanRun` - The Workflow object retrieved from Portia Cloud.
-=======
-- `Run` - The Run object retrieved from Portia Cloud.
->>>>>>> main
-  
+- `PlanRun` - The PlanRun object retrieved from Portia Cloud.  
 
 **Raises**:
 
@@ -647,24 +568,15 @@ Retrieve a run from Portia Cloud.
 #### get\_plan\_runs
 
 ```python
-<<<<<<< HEAD
-def get_plan_runs(run_state: RunState | None = None,
-                  page: int | None = None) -> WorkflowListResponse
-=======
 def get_plan_runs(run_state: PlanRunState | None = None,
                   page: int | None = None) -> PlanRunListResponse
->>>>>>> main
 ```
 
 Find all runs in storage that match state.
 
 **Arguments**:
 
-<<<<<<< HEAD
-- `run_state` _RunState | None_ - Optionally filter workflows by their state.
-=======
 - `run_state` _RunState | None_ - Optionally filter runs by their state.
->>>>>>> main
 - `page` _int | None_ - Optional pagination data which is not used for in memory storage.
   
 
