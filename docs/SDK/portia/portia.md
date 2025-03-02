@@ -5,23 +5,13 @@ title: portia.portia
 
 Portia classes that plan and execute runs for queries.
 
-<<<<<<< HEAD:docs/SDK/portia/runner.md
-This module contains the core classes responsible for generating, managing, and executing workflows
-in response to queries. The `Portia` instance class serves as the main entry point, orchestrating the
-=======
 This module contains the core classes responsible for generating, managing, and executing plans
 in response to queries. The `Portia` class serves as the main entry point, orchestrating the
->>>>>>> main:docs/SDK/portia/portia.md
 planning and execution process. It uses various agents and tools to carry out tasks step by step,
 saving the state of the run at each stage. It also handles error cases, clarification
 requests, and run state transitions.
 
-<<<<<<< HEAD:docs/SDK/portia/runner.md
-The `Portia` instance class provides methods to:
-=======
 The `Portia` class provides methods to:
->>>>>>> main:docs/SDK/portia/portia.md
-
 - Generate a plan for executing a query.
 - Create and manage runs.
 - Execute runs step by step, using agents to handle the execution of tasks.
@@ -148,11 +138,7 @@ def execute_plan_run(plan_run: PlanRun | None = None,
                      plan_run_id: PlanRunUUID | str | None = None) -> PlanRun
 ```
 
-<<<<<<< HEAD:docs/SDK/portia/runner.md
-Run a plan_run.
-=======
 Run a PlanRun.
->>>>>>> main:docs/SDK/portia/portia.md
 
 **Arguments**:
 
@@ -230,18 +216,9 @@ This is generally because there are outstanding clarifications that need to be r
 
 **Returns**:
 
-<<<<<<< HEAD:docs/SDK/portia/runner.md
-- `PlanRun` - The updated workflow once it is ready to be re-run.
-=======
 - `PlanRun` - The updated PlanRun once it is ready to be re-plan_run.
->>>>>>> main:docs/SDK/portia/portia.md
   
 
 **Raises**:
 
-<<<<<<< HEAD:docs/SDK/portia/runner.md
-- `InvalidRunStateError` - If the workflow cannot be waited for.
-=======
 - `InvalidRunStateError` - If the run cannot be waited for.
->>>>>>> main:docs/SDK/portia/portia.md
-
