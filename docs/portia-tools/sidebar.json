@@ -16,10 +16,10 @@
       "items": [
         {
           "type": "doc",
-          "label": "Weather",
-          "id": "portia-tools/open-source/weather",
+          "label": "Search",
+          "id": "portia-tools/open-source/search",
           "customProps": {
-            "description": "Get the weather for a given city",
+            "description": "Searches the internet (using Tavily) to find answers to the search query provided and returns those answers. The search tool has access to general information but can not return specific information on users or information not available on the internet",
             "category": "opensource",
             "categoryLabel": "Open Source",
             "vendor": "opensource",
@@ -28,10 +28,10 @@
         },
         {
           "type": "doc",
-          "label": "Search",
-          "id": "portia-tools/open-source/search",
+          "label": "Weather",
+          "id": "portia-tools/open-source/weather",
           "customProps": {
-            "description": "Searches the internet (using Tavily) to find answers to the search query provided and returns those answers. The search tool has access to general information but can not return specific information on users or information not available on the internet",
+            "description": "Get the weather for a given city",
             "category": "opensource",
             "categoryLabel": "Open Source",
             "vendor": "opensource",
@@ -48,6 +48,18 @@
         "id": "portia-tools/github/index"
       },
       "items": [
+        {
+          "type": "doc",
+          "label": "Issue: List",
+          "id": "portia-tools/github/list-repo-issues",
+          "customProps": {
+            "description": "List issues in a GitHub repository.",
+            "category": "github",
+            "categoryLabel": "GitHub",
+            "vendor": "github",
+            "vendorLabel": "GitHub"
+          }
+        },
         {
           "type": "doc",
           "label": "Repository: List",
@@ -83,18 +95,6 @@
             "vendor": "github",
             "vendorLabel": "GitHub"
           }
-        },
-        {
-          "type": "doc",
-          "label": "Issue: List",
-          "id": "portia-tools/github/list-repo-issues",
-          "customProps": {
-            "description": "List issues in a GitHub repository.",
-            "category": "github",
-            "categoryLabel": "GitHub",
-            "vendor": "github",
-            "vendorLabel": "GitHub"
-          }
         }
       ]
     },
@@ -108,10 +108,22 @@
       "items": [
         {
           "type": "doc",
-          "label": "Message: Send",
-          "id": "portia-tools/slack/send-message",
+          "label": "Conversation: Get History",
+          "id": "portia-tools/slack/get-conversation",
           "customProps": {
-            "description": "Send a message to a specific Slack channel or user by ID. Requires an ID provided by other tools.",
+            "description": "Get the conversation history for a given channel by channel id. Requires an ID typically from the list_conversation_ids tool.",
+            "category": "slack",
+            "categoryLabel": "Slack",
+            "vendor": "slack",
+            "vendorLabel": "Slack"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "Conversation: List",
+          "id": "portia-tools/slack/list-conversations",
+          "customProps": {
+            "description": "List all conversations meta information only without comments in the slack workspaceThis tool should be used when you need to make api calls to other slack apis that requirea conversation or channel id. DOES NOT RETURN MESSAGES, CONVERSATION HISTORY, OR USER IDS.",
             "category": "slack",
             "categoryLabel": "Slack",
             "vendor": "slack",
@@ -132,22 +144,10 @@
         },
         {
           "type": "doc",
-          "label": "Conversation: Get History",
-          "id": "portia-tools/slack/get-conversation",
+          "label": "Message: Send",
+          "id": "portia-tools/slack/send-message",
           "customProps": {
-            "description": "Get the conversation history for a given channel by channel id. Requires an ID typically from the list_conversation_ids tool.",
-            "category": "slack",
-            "categoryLabel": "Slack",
-            "vendor": "slack",
-            "vendorLabel": "Slack"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Conversation: List",
-          "id": "portia-tools/slack/list-conversations",
-          "customProps": {
-            "description": "List all conversations meta information only without comments in the slack workspaceThis tool should be used when you need to make api calls to other slack apis that requirea conversation or channel id. DOES NOT RETURN MESSAGES, CONVERSATION HISTORY, OR USER IDS.",
+            "description": "Send a message to a specific Slack channel or user by ID. Requires an ID provided by other tools.",
             "category": "slack",
             "categoryLabel": "Slack",
             "vendor": "slack",
@@ -250,6 +250,18 @@
         },
         {
           "type": "doc",
+          "label": "Contacts: Search",
+          "id": "portia-tools/google-workspace/people-search-contacts",
+          "customProps": {
+            "description": "Finds the most relevant matching contacts.",
+            "category": "google-workspace",
+            "categoryLabel": "Google Workspace",
+            "vendor": "google",
+            "vendorLabel": "Google"
+          }
+        },
+        {
+          "type": "doc",
           "label": "Docs: Get Document",
           "id": "portia-tools/google-workspace/docs-get-document",
           "customProps": {
@@ -310,18 +322,6 @@
         },
         {
           "type": "doc",
-          "label": "Email: Send Draft",
-          "id": "portia-tools/google-workspace/gmail-send-draft-email",
-          "customProps": {
-            "description": "Sends a previously drafted email with the email title, body and recipientsindicated in the draft. Required a draft id which is obtained from the DraftEmailTool.",
-            "category": "google-workspace",
-            "categoryLabel": "Google Workspace",
-            "vendor": "google",
-            "vendorLabel": "Google"
-          }
-        },
-        {
-          "type": "doc",
           "label": "Email: Send",
           "id": "portia-tools/google-workspace/gmail-send-email",
           "customProps": {
@@ -334,10 +334,10 @@
         },
         {
           "type": "doc",
-          "label": "Contacts: Search",
-          "id": "portia-tools/google-workspace/people-search-contacts",
+          "label": "Email: Send Draft",
+          "id": "portia-tools/google-workspace/gmail-send-draft-email",
           "customProps": {
-            "description": "Finds the most relevant matching contacts.",
+            "description": "Sends a previously drafted email with the email title, body and recipientsindicated in the draft. Required a draft id which is obtained from the DraftEmailTool.",
             "category": "google-workspace",
             "categoryLabel": "Google Workspace",
             "vendor": "google",
@@ -368,10 +368,10 @@
       "items": [
         {
           "type": "doc",
-          "label": "Users: Search",
-          "id": "portia-tools/zendesk/search-users",
+          "label": "Articles: Create Comments",
+          "id": "portia-tools/zendesk/create-article-comments",
           "customProps": {
-            "description": "Returns an array of users who meet the search criteria. Returns a maximum of 100 users. This may include (but is not limited to) the user's name, contact information, role, permissions, locale, organization, and other information.",
+            "description": "Create a comment on a zendesk article.",
             "category": "zendesk",
             "categoryLabel": "Zendesk",
             "vendor": "zendesk",
@@ -380,10 +380,10 @@
         },
         {
           "type": "doc",
-          "label": "Users: Show",
-          "id": "portia-tools/zendesk/show-user",
+          "label": "Articles: List",
+          "id": "portia-tools/zendesk/list-articles",
           "customProps": {
-            "description": "Returns information about a specific user in Zendesk.",
+            "description": "List up to 100 Zendesk articles. An article is a piece of content that is createdby Zendesk. Use this tool to get articles without a search query.",
             "category": "zendesk",
             "categoryLabel": "Zendesk",
             "vendor": "zendesk",
@@ -392,10 +392,34 @@
         },
         {
           "type": "doc",
-          "label": "Groups: List for User",
-          "id": "portia-tools/zendesk/list-groups-for-user",
+          "label": "Articles: List Comments",
+          "id": "portia-tools/zendesk/list-article-comments",
           "customProps": {
-            "description": "Returns a list of groups that a user (Agent or Admin) is a member of. Returns a maximum of 100 records.",
+            "description": "Returns up to 100 comments made by all users on a specific article.",
+            "category": "zendesk",
+            "categoryLabel": "Zendesk",
+            "vendor": "zendesk",
+            "vendorLabel": "Zendesk"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "Articles: Search",
+          "id": "portia-tools/zendesk/article-search",
+          "customProps": {
+            "description": "Returns up to 25 articles relevant to the search query, which must be provided.",
+            "category": "zendesk",
+            "categoryLabel": "Zendesk",
+            "vendor": "zendesk",
+            "vendorLabel": "Zendesk"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "Articles: Show",
+          "id": "portia-tools/zendesk/show-article",
+          "customProps": {
+            "description": "Shows the properties of a Zendesk article. An article is a piece of content that is created by Zendesk.",
             "category": "zendesk",
             "categoryLabel": "Zendesk",
             "vendor": "zendesk",
@@ -408,6 +432,18 @@
           "id": "portia-tools/zendesk/list-users-for-group",
           "customProps": {
             "description": "Returns a list of memberships for a group. Memberships include the user ID and metadata about their membership in the group. Returns a maximum of 100 records.",
+            "category": "zendesk",
+            "categoryLabel": "Zendesk",
+            "vendor": "zendesk",
+            "vendorLabel": "Zendesk"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "Groups: List for User",
+          "id": "portia-tools/zendesk/list-groups-for-user",
+          "customProps": {
+            "description": "Returns a list of groups that a user (Agent or Admin) is a member of. Returns a maximum of 100 records.",
             "category": "zendesk",
             "categoryLabel": "Zendesk",
             "vendor": "zendesk",
@@ -440,10 +476,10 @@
         },
         {
           "type": "doc",
-          "label": "Articles: Search",
-          "id": "portia-tools/zendesk/article-search",
+          "label": "Organizations: Search",
+          "id": "portia-tools/zendesk/search-organizations",
           "customProps": {
-            "description": "Returns up to 25 articles relevant to the search query, which must be provided.",
+            "description": "Retrieves a list of organizations in Zendesk matching the query.",
             "category": "zendesk",
             "categoryLabel": "Zendesk",
             "vendor": "zendesk",
@@ -452,46 +488,10 @@
         },
         {
           "type": "doc",
-          "label": "Articles: Create Comments",
-          "id": "portia-tools/zendesk/create-article-comments",
+          "label": "Organizations: Show",
+          "id": "portia-tools/zendesk/show-organization",
           "customProps": {
-            "description": "Create a comment on a zendesk article.",
-            "category": "zendesk",
-            "categoryLabel": "Zendesk",
-            "vendor": "zendesk",
-            "vendorLabel": "Zendesk"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Articles: List Comments",
-          "id": "portia-tools/zendesk/list-article-comments",
-          "customProps": {
-            "description": "Returns up to 100 comments made by all users on a specific article.",
-            "category": "zendesk",
-            "categoryLabel": "Zendesk",
-            "vendor": "zendesk",
-            "vendorLabel": "Zendesk"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Articles: Show",
-          "id": "portia-tools/zendesk/show-article",
-          "customProps": {
-            "description": "Shows the properties of a Zendesk article. An article is a piece of content that is created by Zendesk.",
-            "category": "zendesk",
-            "categoryLabel": "Zendesk",
-            "vendor": "zendesk",
-            "vendorLabel": "Zendesk"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Articles: List",
-          "id": "portia-tools/zendesk/list-articles",
-          "customProps": {
-            "description": "List up to 100 Zendesk articles. An article is a piece of content that is createdby Zendesk. Use this tool to get articles without a search query.",
+            "description": "Gets information about a specific organization in Zendesk.",
             "category": "zendesk",
             "categoryLabel": "Zendesk",
             "vendor": "zendesk",
@@ -524,10 +524,10 @@
         },
         {
           "type": "doc",
-          "label": "Sections: List Articles",
-          "id": "portia-tools/zendesk/list-articles-by-section",
+          "label": "Request Comments: List",
+          "id": "portia-tools/zendesk/list-request-comments",
           "customProps": {
-            "description": "Lists all articles in a given section of the Zendesk Help Center. Sections group related articles together.",
+            "description": "Lists comments on a Zendesk request. Returns a maximum of 100 comments. A request in Zendesk is intended to be initiated by or on behalf of end users e.g. a customer. A request may be paired with a ticket (an admin/agent perspective of the same request). ",
             "category": "zendesk",
             "categoryLabel": "Zendesk",
             "vendor": "zendesk",
@@ -536,34 +536,10 @@
         },
         {
           "type": "doc",
-          "label": "Sections: Show",
-          "id": "portia-tools/zendesk/show-section",
+          "label": "Request Comments: Show",
+          "id": "portia-tools/zendesk/show-request-comment",
           "customProps": {
-            "description": "Returns a section of the Zendesk Help Center articles. Sections group related articles together.",
-            "category": "zendesk",
-            "categoryLabel": "Zendesk",
-            "vendor": "zendesk",
-            "vendorLabel": "Zendesk"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Organizations: Search",
-          "id": "portia-tools/zendesk/search-organizations",
-          "customProps": {
-            "description": "Retrieves a list of organizations in Zendesk matching the query.",
-            "category": "zendesk",
-            "categoryLabel": "Zendesk",
-            "vendor": "zendesk",
-            "vendorLabel": "Zendesk"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Organizations: Show",
-          "id": "portia-tools/zendesk/show-organization",
-          "customProps": {
-            "description": "Gets information about a specific organization in Zendesk.",
+            "description": "Retrieves information about a specific comment on a request in Zendesk. A request in Zendesk is intended to be initiated by or on behalf of end users e.g. a customer. A request may be paired with a ticket (an admin/agent perspective of the same request). ",
             "category": "zendesk",
             "categoryLabel": "Zendesk",
             "vendor": "zendesk",
@@ -596,10 +572,10 @@
         },
         {
           "type": "doc",
-          "label": "Request Comments: List",
-          "id": "portia-tools/zendesk/list-request-comments",
+          "label": "Sections: List Articles",
+          "id": "portia-tools/zendesk/list-articles-by-section",
           "customProps": {
-            "description": "Lists comments on a Zendesk request. Returns a maximum of 100 comments. A request in Zendesk is intended to be initiated by or on behalf of end users e.g. a customer. A request may be paired with a ticket (an admin/agent perspective of the same request). ",
+            "description": "Lists all articles in a given section of the Zendesk Help Center. Sections group related articles together.",
             "category": "zendesk",
             "categoryLabel": "Zendesk",
             "vendor": "zendesk",
@@ -608,34 +584,10 @@
         },
         {
           "type": "doc",
-          "label": "Request Comments: Show",
-          "id": "portia-tools/zendesk/show-request-comment",
+          "label": "Sections: Show",
+          "id": "portia-tools/zendesk/show-section",
           "customProps": {
-            "description": "Retrieves information about a specific comment on a request in Zendesk. A request in Zendesk is intended to be initiated by or on behalf of end users e.g. a customer. A request may be paired with a ticket (an admin/agent perspective of the same request). ",
-            "category": "zendesk",
-            "categoryLabel": "Zendesk",
-            "vendor": "zendesk",
-            "vendorLabel": "Zendesk"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Tickets: Count Comments",
-          "id": "portia-tools/zendesk/count-ticket-comments",
-          "customProps": {
-            "description": "Returns an approximate count of the comments added to the ticket. A ticket in Zendesk is intended to be used by agents or admins. They can be used to track and resolve requests raised by end users (e.g. customer service) or for internal issue tracking. ",
-            "category": "zendesk",
-            "categoryLabel": "Zendesk",
-            "vendor": "zendesk",
-            "vendorLabel": "Zendesk"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Tickets: List Comments",
-          "id": "portia-tools/zendesk/list-ticket-comments",
-          "customProps": {
-            "description": "Returns the comments added to the ticket.  Each comment may include a `content_url` for an attachment or a `recording_url` for a voice comment that points to a file that may be hosted externally. A ticket in Zendesk is intended to be used by agents or admins. They can be used to track and resolve requests raised by end users (e.g. customer service) or for internal issue tracking. ",
+            "description": "Returns a section of the Zendesk Help Center articles. Sections group related articles together.",
             "category": "zendesk",
             "categoryLabel": "Zendesk",
             "vendor": "zendesk",
@@ -656,6 +608,18 @@
         },
         {
           "type": "doc",
+          "label": "Tickets: Count Comments",
+          "id": "portia-tools/zendesk/count-ticket-comments",
+          "customProps": {
+            "description": "Returns an approximate count of the comments added to the ticket. A ticket in Zendesk is intended to be used by agents or admins. They can be used to track and resolve requests raised by end users (e.g. customer service) or for internal issue tracking. ",
+            "category": "zendesk",
+            "categoryLabel": "Zendesk",
+            "vendor": "zendesk",
+            "vendorLabel": "Zendesk"
+          }
+        },
+        {
+          "type": "doc",
           "label": "Tickets: Create",
           "id": "portia-tools/zendesk/create-ticket",
           "customProps": {
@@ -668,10 +632,34 @@
         },
         {
           "type": "doc",
+          "label": "Tickets: List Comments",
+          "id": "portia-tools/zendesk/list-ticket-comments",
+          "customProps": {
+            "description": "Returns the comments added to the ticket.  Each comment may include a `content_url` for an attachment or a `recording_url` for a voice comment that points to a file that may be hosted externally. A ticket in Zendesk is intended to be used by agents or admins. They can be used to track and resolve requests raised by end users (e.g. customer service) or for internal issue tracking. ",
+            "category": "zendesk",
+            "categoryLabel": "Zendesk",
+            "vendor": "zendesk",
+            "vendorLabel": "Zendesk"
+          }
+        },
+        {
+          "type": "doc",
           "label": "Tickets: Search",
           "id": "portia-tools/zendesk/search-tickets",
           "customProps": {
             "description": "Searches for tickets in Zendesk based on a natural language query or the Zendesk API syntax. Returns up to 1000 tickets that match the query.",
+            "category": "zendesk",
+            "categoryLabel": "Zendesk",
+            "vendor": "zendesk",
+            "vendorLabel": "Zendesk"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "Tickets: Show",
+          "id": "portia-tools/zendesk/show-ticket",
+          "customProps": {
+            "description": "Returns a number of ticket properties though not the ticket comments. To get the comments, use the ZendeskListTicketCommentsTool. A ticket in Zendesk is intended to be used by agents or admins. They can be used to track and resolve requests raised by end users (e.g. customer service) or for internal issue tracking. ",
             "category": "zendesk",
             "categoryLabel": "Zendesk",
             "vendor": "zendesk",
@@ -704,10 +692,22 @@
         },
         {
           "type": "doc",
-          "label": "Tickets: Show",
-          "id": "portia-tools/zendesk/show-ticket",
+          "label": "Users: Search",
+          "id": "portia-tools/zendesk/search-users",
           "customProps": {
-            "description": "Returns a number of ticket properties though not the ticket comments. To get the comments, use the ZendeskListTicketCommentsTool. A ticket in Zendesk is intended to be used by agents or admins. They can be used to track and resolve requests raised by end users (e.g. customer service) or for internal issue tracking. ",
+            "description": "Returns an array of users who meet the search criteria. Returns a maximum of 100 users. This may include (but is not limited to) the user's name, contact information, role, permissions, locale, organization, and other information.",
+            "category": "zendesk",
+            "categoryLabel": "Zendesk",
+            "vendor": "zendesk",
+            "vendorLabel": "Zendesk"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "Users: Show",
+          "id": "portia-tools/zendesk/show-user",
+          "customProps": {
+            "description": "Returns information about a specific user in Zendesk.",
             "category": "zendesk",
             "categoryLabel": "Zendesk",
             "vendor": "zendesk",
