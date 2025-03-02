@@ -3,11 +3,7 @@ sidebar_label: base_agent
 title: portia.execution_agents.base_agent
 ---
 
-<<<<<<< HEAD:docs/SDK/portia/agents/base_agent.md
-Agents are responsible for executing steps of a plan_run.
-=======
 Agents are responsible for executing steps of a PlanRun.
->>>>>>> main:docs/SDK/portia/execution_agents/base_agent.md
 
 The BaseAgent class is the base class that all agents must extend.
 
