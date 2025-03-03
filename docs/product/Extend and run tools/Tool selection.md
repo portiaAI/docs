@@ -45,13 +45,13 @@ A tool registry is a collection of tools and is represented by the `ToolRegistry
 ```python
 from dotenv import load_dotenv
 from portia import (
-    CalculatorTool,
     DefaultToolRegistry,
     Portia,
-    SearchTool,
-    WeatherTool,
     default_config,
 )
+from portia.open_source_tools.calculator_tool import CalculatorTool
+from portia.open_source_tools.search_tool import SearchTool
+from portia.open_source_tools.weather import WeatherTool
 
 load_dotenv()
 
@@ -69,6 +69,9 @@ from portia import (
     Portia,
     PortiaToolRegistry,
 )
+from portia.open_source_tools.calculator_tool import CalculatorTool
+from portia.open_source_tools.search_tool import SearchTool
+from portia.open_source_tools.weather import WeatherTool
 
 
 load_dotenv()
