@@ -227,3 +227,45 @@ For the example query above `Read the contents of the file "weather.txt".`, wher
   }
 }
 ```
+
+## Handle clarifications with a `ClarificationHandler`
+
+Through the above example, we explicitly handle the clarifications in order to demonstrate the full clarification handling flow.
+However, Portia also offers a `ClarificationHandler` class that can be used to simplify the handling of clarifications.
+In order to use this, simply create your own class that inherits from `ClarificationHandler` and implement the methods for
+handling the types of clarifications you expect to handle. Each method takes an `on_resolution` and `on_error` parameter - 
+these can be called either synchronously or asynchronously when the clarification handling is finished. You can then pass the 
+clarification handler in as an execution hook when creating the Portia instance:
+
+```python
+from portia import Clarification, ClarificationHandler, Config, ExecutionHooks, InputClarification, Portia
+from typing import Callable
+
+class CLIClarificationHandler(ClarificationHandler):
+    """Handles clarifications by obtaining user input from the CLI."""
+
+    def handle_input_clarification(
+        self,
+        clarification: InputClarification,
+        on_resolution: Callable[[Clarification, object], None],
+        on_error: Callable[[Clarification, object], None],  # noqa: ARG002
+    ) -> None:
+        """Handle a user input clarifications by asking the user for input from the CLI."""
+        user_input = input(f"{clarification.user_guidance}\nPlease enter a value:\n")
+        on_resolution(clarification, user_input)
+
+config = Config.from_default(execution_hooks=ExecutionHooks(clarification_handler=CLIClarificationHandler()),)
+portia = Portia(config=config)
+```
+
+Portia also offers some default clarification handling behaviours that can be used out of the box. For example, you don't actually need
+to implement your own CLI clarification handler (as done above) because our default CLI execution hooks, `CLIExecutionHooks`, provide a 
+clarification handler that allows the user to handle clarifications via the CLI.
+
+```python
+from portia import Config, Portia
+from portia.cli import CLIExecutionHooks
+
+config = Config.from_default(execution_hooks=CLIExecutionHooks())
+portia = Portia(config=config)
+```
