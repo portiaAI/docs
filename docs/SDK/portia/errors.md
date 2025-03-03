@@ -21,7 +21,7 @@ Classes in this file include:
 - `InvalidToolDescriptionError`: Raised when a tool description is invalid.
 - `ToolRetryError`: Raised when a tool fails after retries.
 - `ToolFailedError`: Raised when a tool fails with a hard error.
-- `InvalidConfigError`0: Raised when a run is in an invalid state.
+- `InvalidConfigError`0: Raised when a plan run is in an invalid state.
 - `InvalidConfigError`1: Raised when the agent produces invalid output.
 - `InvalidConfigError`2: Raised when a tool encounters an unrecoverable error.
 - `InvalidConfigError`3: Raised when a tool encounters an error that can be retried.
@@ -240,13 +240,13 @@ def __init__(tool_id: str, error_string: str) -> None
 
 Set custom error message.
 
-## InvalidRunStateError Objects
+## InvalidPlanRunStateError Objects
 
 ```python
-class InvalidRunStateError(PortiaBaseError)
+class InvalidPlanRunStateError(PortiaBaseError)
 ```
 
-Raised when a run is in an invalid state.
+Raised when a plan run is in an invalid state.
 
 ## InvalidAgentError Objects
 

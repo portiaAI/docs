@@ -1,6 +1,6 @@
 ---
-sidebar_label: execution_agent
-title: portia.execution_agents.execution_agent
+sidebar_label: default_execution_agent
+title: portia.execution_agents.default_execution_agent
 ---
 
 The Default execution agent for hardest problems.
