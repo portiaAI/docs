@@ -25,7 +25,7 @@ handling and processing.
 ## Clarification Objects
 
 ```python
-class Clarification(BaseModel, Generic[SERIALIZABLE_TYPE_VAR])
+class Clarification(BaseModel, Generic[SERIALIZABLE_TYPE_VAR], ABC)
 ```
 
 Base Model for Clarifications.
@@ -42,22 +42,6 @@ or a user choice from a list.
 - `step` _int | None_ - The step this clarification is associated with, if applicable.
 - `user_guidance` _str_ - Guidance provided to the user to assist with the clarification.
 - `resolved` _bool_ - Whether the clarification has been resolved by the user.
-
-## ArgumentClarification Objects
-
-```python
-class ArgumentClarification(Clarification[SERIALIZABLE_TYPE_VAR])
-```
-
-Clarification about a specific argument for a tool.
-
-This clarification is used when a tool&#x27;s argument is missing or requires further clarification.
-The name of the argument is provided within the clarification.
-
-**Attributes**:
-
-- `argument_name` _str_ - The name of the argument that is being clarified.
-- `category` _ClarificationCategory_ - The category for this clarification, &#x27;Argument&#x27;.
 
 ## ActionClarification Objects
 
@@ -96,7 +80,7 @@ Serialize the action URL to a string.
 ## InputClarification Objects
 
 ```python
-class InputClarification(ArgumentClarification[SERIALIZABLE_TYPE_VAR])
+class InputClarification(Clarification[SERIALIZABLE_TYPE_VAR])
 ```
 
 Input-based clarification.
@@ -111,8 +95,7 @@ This type of clarification is used when the user is prompted to enter a value.
 ## MultipleChoiceClarification Objects
 
 ```python
-class MultipleChoiceClarification(ArgumentClarification[SERIALIZABLE_TYPE_VAR]
-                                  )
+class MultipleChoiceClarification(Clarification[SERIALIZABLE_TYPE_VAR])
 ```
 
 Multiple choice-based clarification.
@@ -154,8 +137,7 @@ it raises an error.
 ## ValueConfirmationClarification Objects
 
 ```python
-class ValueConfirmationClarification(
-        ArgumentClarification[SERIALIZABLE_TYPE_VAR])
+class ValueConfirmationClarification(Clarification[SERIALIZABLE_TYPE_VAR])
 ```
 
 Value confirmation clarification.
