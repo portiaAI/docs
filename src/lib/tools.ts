@@ -1,5 +1,17 @@
 import sidebars from "@site/sidebars";
 
+export type Tool = {
+  id: string;
+  label: string;
+  title: string;
+  description: string;
+  customProps: {
+    category: string;
+    categoryLabel: string;
+    vendorLabel: string;
+  };
+};
+
 const toolSidebar = sidebars.productSidebar[1];
 
 const getLeaves = (sidebar) => {
@@ -13,9 +25,9 @@ const getLeaves = (sidebar) => {
     .flat();
 };
 
-const allTools = getLeaves(toolSidebar);
+const allTools = getLeaves(toolSidebar) as Tool[];
 
-export const getTools = (category) =>
+export const getTools = (category: string): Tool[] =>
   category === "root"
     ? allTools
     : allTools.filter((tool) => tool.customProps.category === category);
