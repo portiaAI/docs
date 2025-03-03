@@ -8,19 +8,19 @@ Learn how to create structured, multi-agent plans using your LLM of choice and f
 :::tip[TL;DR]
 - A plan is the set of steps an LLM thinks it should take in order to respond to a user prompt.
 - A plan is represented by the `Plan` class and can be generated from a user prompt using the `plan_query` method of the `Runner` class (<a href="/SDK/portia/runner" target="_blank">**SDK reference ↗**</a>).
-    - Portia uses optimised system prompts and structured outputs to ensure adherence to a simple plan design language.
-    - You can create your own plans manually using plan design language, esp. for repeatable workflows.
+    - Portia uses optimised system prompts and structured outputs to ensure adherence to a plan.
+    - You can create your own plans manually or reload existing plans, which is especially useful for repeatable workflows.
 :::
 
 ## Overview of plans in Portia
 A plan is the set of steps an LLM thinks it should take in order to respond to a user prompt. Plans are:
 - **Immutable**: Once a plan is generated, it can not be altered. This is important for auditability. For example, we will support re-planning in near future to allow agents to react to changing variables, but this will result in new plans rather than effect change on the original plan.
 - **Structured**: We use optimised system prompts to guide the LLM along a simple design language when generating a plan. This makes the plan format predictable and easy to process for the purposes of workflow automation.
-- **Human-readable**: Our plan design language is in a simple, serialisable format. It is easy to render and present to users in a human readable front-end experience. This helps your users easily stay on top of your LLM's reasoning.
+- **Human-readable**: Our planning language is in a simple, serialisable format. It is easy to render and present to users in a human readable front-end experience. This helps your users easily stay on top of your LLM's reasoning.
 
-While Portia generates a plan in response to a user prompt and then executes it, you also have the option to create plans yourself manually using our plan design language. This is especially suitable for your users' more repeatable routines.
+While Portia generates a plan in response to a user prompt and then executes it, you also have the option to create plans yourself manually. This is especially suitable for your users' more repeatable routines.
 
-## Portia's plan design language
+## Introducing a Plan
 Let's bring this one to life by looking at an example plan below, created in response to the query `Send Avrana (avrana@kern.ai) the latest news on SpaceX`.
 ```json title="plan.json"
 {
