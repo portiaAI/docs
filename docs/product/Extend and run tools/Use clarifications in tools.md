@@ -118,7 +118,7 @@ from portia.config import default_config
 from portia.open_source_tools.registry import example_tool_registry
 from my_custom_tools.registry import custom_tool_registry
 from portia.clarification import MultipleChoiceClarification
-from portia.plan_query_run import RunState
+from portia.plan_run import PlanRunState
 
 # Load example and custom tool registries into a single one
 complete_tool_registry = example_tool_registry + custom_tool_registry
@@ -126,10 +126,10 @@ complete_tool_registry = example_tool_registry + custom_tool_registry
 portia = Portia(tools=complete_tool_registry)
 
 # Execute the plan from the user query
-plan_run = portia.run_query('Read the contents of the file "weather.txt".')
+plan_run = portia.run('Read the contents of the file "weather.txt".')
 
 # Check if the plan run was paused due to raised clarifications
-while plan_run.state == RunState.NEED_CLARIFICATION:
+while plan_run.state == PlanRunState.NEED_CLARIFICATION:
     # If clarifications are needed, resolve them before resuming the plan run
     for clarification in plan_run.get_outstanding_clarifications():
         # For each clarification, prompt the user for input
@@ -152,7 +152,7 @@ For the example query above `Read the contents of the file "weather.txt".`, wher
 - The plan run `state` will appear to `NEED_CLARIFICATION` if you look at the logs at the point when the clarification is raised. It then progresses to `COMPLETE` once you respond to the clarification and the plan run is able to resume:
 ```json title="run_state.json"
 {
-  "id": "pr-54d157fe-4b99-4dbb-a917-8fd8852df63d",
+  "id": "prun-54d157fe-4b99-4dbb-a917-8fd8852df63d",
   "plan_id": "plan-b87de5ac-41d9-4722-8baa-8015327511db",
   "current_step_index": 0,
   "state": "COMPLETE",

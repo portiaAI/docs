@@ -7,7 +7,7 @@ slug: /generate-plan
 Learn how to create structured, multi-agent plans using your LLM of choice and familiarise yourself with the structure of plans created using Portia.
 :::tip[TL;DR]
 - A plan is the set of steps an LLM thinks it should take in order to respond to a user prompt.
-- A plan is represented by the `Plan` class and can be generated from a user prompt using the `plan_query` method of the `Portia` class (<a href="/SDK/portia/portia" target="_blank">**SDK reference ↗**</a>).
+- A plan is represented by the `Plan` class and can be generated from a user prompt using the `plan` method of the `Portia` class (<a href="/SDK/portia/portia" target="_blank">**SDK reference ↗**</a>).
     - Portia uses optimised system prompts and structured outputs to ensure adherence to a simple plan design language.
     - You can create your own plans manually using plan design language, esp. for repeatable plan runs.
 :::
@@ -75,13 +75,13 @@ load_dotenv()
 portia = Portia(tools=example_tool_registry)
 
 # Generate the plan from the user query
-plan = portia.plan_query('Which stock price grew faster in 2024, Amazon or Google?')
+plan = portia.plan('Which stock price grew faster in 2024, Amazon or Google?')
 
 # Serialise into JSON and print the output
 print(plan.model_dump_json(indent=2))
 ```
 
-As mentioned earlier in the documentation, the `Portia` instance class is your main entrypoint to interact with Portia's libraries (<a href="/SDK/portia/portia" target="_blank">**SDK reference ↗**</a>). The `plan_query` method is available from the `Portia` instance class and allows you to generate a plan from the query. Running the `plan_query` method per the code above returns a `Plan` object (<a href="/SDK/portia/plan" target="_blank">**SDK reference ↗**</a>) which looks as follows:
+As mentioned earlier in the documentation, the `Portia` instance class is your main entrypoint to interact with Portia's libraries (<a href="/SDK/portia/portia" target="_blank">**SDK reference ↗**</a>). The `plan` method is available from the `Portia` instance class and allows you to generate a plan from the query. Running the `plan` method per the code above returns a `Plan` object (<a href="/SDK/portia/plan" target="_blank">**SDK reference ↗**</a>) which looks as follows:
 ```json title="plan.json"
 {
   "id": "plan-1dcd74a4-0af5-490a-a7d0-0df4fd983977",
@@ -127,7 +127,7 @@ As mentioned earlier in the documentation, the `Portia` instance class is your m
 }
 ```
 
-The `plan_query` method can take the following additional parameters:
+The `plan` method can take the following additional parameters:
 - `tools` in order to confine the plan generation to a narrower set of tools if required (for simplicity or for user-access considerations). In our example above we provided the `example_tool_registry`, which is a collection of three open source tools in our SDK.
 - `example_plans` expects a list of `Plan` objects. This allows you to use existing plans as inspiration or templates, which improves repeatability for more routine plan runs.
 

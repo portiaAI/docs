@@ -11,8 +11,8 @@ Learn how to run a plan run from an existing plan or end-to-end.
 :::tip[TL;DR]
 - A plan run is (uncontroversially) a unique run of a plan. It is represented by the `PlanRun` class (<a href="/SDK/portia/plan_run" target="_blank">**SDK reference ↗**</a>).
 - An agent is spun up to execute every step in the plan run. The `PlanRun` object tracks the state of the plan run and is enriched at every step by the relevant agent.
-- A plan run can be generated from a plan using the `create_plan_run` method and then run using the `execute_plan_run` one. 
-- You can also plan a query response, then create and execute a plan run in one fell swoop using the `run_query` method of the `Portia` instance class (<a href="/SDK/portia/portia" target="_blank">**SDK reference ↗**</a>).
+- A plan run can be generated from a plan using the `run_plan` method. 
+- You can also plan a query response, then create and execute a plan run in one fell swoop using the `run` method of the `Portia` instance class (<a href="/SDK/portia/portia" target="_blank">**SDK reference ↗**</a>).
 :::
 
 ## Overview of plan runs in Portia
@@ -72,9 +72,9 @@ Plan run states are captured in the `PlanRun` class (<a href="/SDK/portia/plan_r
     ```
   </TabItem>
     <TabItem value="plan_run" label="Plan run in final state" default>
-    ```json title="pr-18d9aa91-0066-413f-af32-b979bce89821.json"
+    ```json title="prun-18d9aa91-0066-413f-af32-b979bce89821.json"
     {
-      "id": "pr-18d9aa91-0066-413f-af32-b979bce89821",
+      "id": "prun-18d9aa91-0066-413f-af32-b979bce89821",
       "plan_id": "plan-a89efeb0-51ef-4f2c-b435-a936c27c3cfc",
       "current_step_index": 2,
       "state": "COMPLETE",
@@ -180,19 +180,18 @@ load_dotenv()
 portia = Portia(tools=example_tool_registry)
 
 # Generate the plan from the user query
-plan = portia.plan_query('Which stock price grew faster in 2024, Amazon or Google?')
+plan = portia.plan('Which stock price grew faster in 2024, Amazon or Google?')
 
 # [OPTIONAL] INSERT CODE WHERE YOU SERVE THE PLAN TO THE USER OR ITERATE ON IT IN ANY WAY
 
 # Run the generated plan
-plan_run = portia.create_plan_run(plan)
-plan_run = portia.execute_plan_run(plan_run)
+plan_run = portia.run_plan(plan)
 
 # Serialise into JSON and print the output
 print(plan_run.model_dump_json(indent=2))
 ```
 
-Here we are storing the `Plan` object returned by the `plan_query` method. We then use the `create_plan_run` to instantiate a `PlanRun` in `NOT_STARTED` state, and then we run it using the `execute_plan_run` method.
+Here we are storing the `Plan` object returned by the `plan` method. We then use the `run_plan` method to start a `PlanRun`.
 
 :::info
 If you want to see an example where a user iterates on a plan before we proceed with plan run, take a look at the intro example in our <a href="https://github.com/portiaAI/portia-agent-examples/blob/main/get_started_google_tools/README.md" target="_blank">**examples repo (↗)**</a>.
@@ -205,7 +204,7 @@ If you want to see an example where a user iterates on a plan before we proceed 
 We will use a simple GET endpoint from Tavily in this section. Please sign up to obtain an API key from them (<a href="https://tavily.com/" target="_blank">**↗**</a>) and set it in the environment variable `TAVILY_API_KEY`.
 </details>
 
-You can also run a plan immediately from the user query, without examining the `Plan` object in between. This would generate a plan as an intermediate step as well but will also immediately spawn a plan run from it. You would simply use the `run_query` method from your `Portia` instance class like so:
+You can also run a plan immediately from the user query, without examining the `Plan` object in between. This would generate a plan as an intermediate step as well but will also immediately spawn a plan run from it. You would simply use the `run` method from your `Portia` instance class like so:
 ```python title="main.py"
 from dotenv import load_dotenv
 from portia import Portia
@@ -218,7 +217,7 @@ load_dotenv()
 portia = Portia(tools=example_tool_registry)
 
 # Generate the plan from the user query
-plan_run = portia.run_query('Which stock price grew faster in 2024, Amazon or Google?')
+plan_run = portia.run('Which stock price grew faster in 2024, Amazon or Google?')
 
 # Serialise into JSON and print the output
 print(plan_run.model_dump_json(indent=2))

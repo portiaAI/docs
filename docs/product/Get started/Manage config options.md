@@ -69,7 +69,7 @@ my_config = Config.from_default(
 portia = Portia(config=my_config, tools=example_tool_registry)
 
 # Execute the plan run from the user query
-output = portia.run_query('Which stock price grew faster in 2024, Amazon or Google?')
+output = portia.run('Which stock price grew faster in 2024, Amazon or Google?')
 
 # Serialise into JSON and print the output
 print(output.model_dump_json(indent=2))
@@ -124,9 +124,9 @@ In your `demo_runs` directory, you should now be able to see a plan and a plan r
     ```
   </TabItem>
     <TabItem value="plan run" label="Plan run in final state" default>
-    ```json title="pr-e3a77013-2bd4-459c-898c-6a8cc9e77d12.json"
+    ```json title="prun-e3a77013-2bd4-459c-898c-6a8cc9e77d12.json"
     {
-        "id": "pr-e3a77013-2bd4-459c-898c-6a8cc9e77d12",
+        "id": "prun-e3a77013-2bd4-459c-898c-6a8cc9e77d12",
         "plan_id": "plan-72cb538e-6d2b-42ca-a6c2-511a9a4c4f0e",
         "current_step_index": 2,
         "state": "COMPLETE",

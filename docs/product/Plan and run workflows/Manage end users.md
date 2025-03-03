@@ -42,7 +42,7 @@ portia = Portia(tools=example_tool_registry)
 # We can also provide additional execution context to the process
 # highlight-start
 with execution_context(end_user_id="DemoUser123", additional_data={"email_address": "demo@portialabs.ai", "name": "Nicholas of Patara"}):
-    plan_run = portia.run_query(
+    plan_run = portia.run(
         "Get the temperature in Svalbard and write me a personalized greeting with the result.",
     )
 # highlight-end
@@ -53,7 +53,7 @@ print(plan_run.model_dump_json(indent=2))
 The result of this code block will be the addition of an `execution_context` section within the `PlanRun` state, and a `final_output` that is indeed personalised to Saint Nicholas (known by his stage name Santa Claus):
 ```json title="run_state.json"
 {
-  "id": "pr-d9991518-92d7-447f-bf28-4f7b9b8110ce",
+  "id": "prun-d9991518-92d7-447f-bf28-4f7b9b8110ce",
   "plan_id": "plan-4f497c60-c33e-40ea-95b4-cd2054559fff",
   "current_step_index": 1,
   "clarifications": [],

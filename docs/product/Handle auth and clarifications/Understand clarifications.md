@@ -42,7 +42,7 @@ We offer five categories of clarifications at the moment. You can see the proper
     ```json title="action_clarification.json"
     {
         "uuid": "clar-425c8ce9-8fc9-43af-b99e-64903043c5df",
-        "plan_run_id": "pr-89c6bd4f-29d2-4aad-bf59-8ba3229fd258",
+        "plan_run_id": "prun-89c6bd4f-29d2-4aad-bf59-8ba3229fd258",
         "category": “Action”,
         "response": “success”,
         "step": 1,
@@ -57,7 +57,7 @@ We offer five categories of clarifications at the moment. You can see the proper
     ```json title="input_clarification.json"
     {
         "uuid": "clar-425c8ce9-8fc9-43af-b99e-64903043c5df",
-        "plan_run_id": "pr-89c6bd4f-29d2-4aad-bf59-8ba3229fd258",
+        "plan_run_id": "prun-89c6bd4f-29d2-4aad-bf59-8ba3229fd258",
         "category": “Input”,
         "response": “avrana@kern.ai”,
         "step": 2, 
@@ -72,7 +72,7 @@ We offer five categories of clarifications at the moment. You can see the proper
     ```json title="multiple_choice_clarification.json"
     {
         "uuid": "clar-425c8ce9-8fc9-43af-b99e-64903043c5df",
-        "plan_run_id": "pr-89c6bd4f-29d2-4aad-bf59-8ba3229fd258",
+        "plan_run_id": "prun-89c6bd4f-29d2-4aad-bf59-8ba3229fd258",
         "category": “Multiple Choice”,
         "response": “ron_swanson@pawnee.com,
         "step": 2, 
@@ -92,7 +92,7 @@ We offer five categories of clarifications at the moment. You can see the proper
     ```json title="value_confirmation_clarification.json"
     {
         "uuid": "clar-425c8ce9-8fc9-43af-b99e-64903043c5df",
-        "plan_run_id": "pr-89c6bd4f-29d2-4aad-bf59-8ba3229fd258",
+        "plan_run_id": "prun-89c6bd4f-29d2-4aad-bf59-8ba3229fd258",
         "category": “Value Confirmation”,
         "step": 2, 
         "user_guidance": "This will email all contacts in your database. Are you sure you want to proceed?", 
@@ -106,7 +106,7 @@ We offer five categories of clarifications at the moment. You can see the proper
     ```json title="custom_clarification.json"
     {
         "uuid": "clar-425c8ce9-8fc9-43af-b99e-64903043c5df",
-        "plan_run_id": "pr-89c6bd4f-29d2-4aad-bf59-8ba3229fd258",
+        "plan_run_id": "prun-89c6bd4f-29d2-4aad-bf59-8ba3229fd258",
         "category": “Custom”,
         "step": 2, 
         "user_guidance": "Which product did you want to buy?", 
@@ -140,7 +140,7 @@ from portia.open_source_tools.local_file_reader_tool import FileReaderTool
 from portia.open_source_tools.local_file_writer_tool import FileWriterTool
 # highlight-start
 from portia.clarification import MultipleChoiceClarification
-from portia.plan_query_run import RunState
+from portia.plan_run import PlanRunState
 # highlight-end
 
 # Load open source tools into a tool registry. More on tool registries later in the docs!
@@ -149,11 +149,11 @@ my_tool_registry = InMemoryToolRegistry.from_local_tools([FileReaderTool(), File
 portia = Portia(tools=my_tool_registry)
 
 # Execute the plan from the user query
-plan_run = portia.run_query('Read the contents of the file "weather.txt"')
+plan_run = portia.run('Read the contents of the file "weather.txt"')
 
 # highlight-start
 # Check if the plan run was paused due to raised clarifications
-while plan_run.state == RunState.NEED_CLARIFICATION:
+while plan_run.state == PlanRunState.NEED_CLARIFICATION:
     # If clarifications are needed, resolve them before resuming the plan run
     for clarification in plan_run.get_outstanding_clarifications():
         # For each clarification, prompt the user for input
@@ -176,11 +176,11 @@ The keen eye may have noticed that we introduced the `InMemoryToolRegistry` clas
 Remember to make sure you don't have a `weather.txt` file in the same folder as your python file AND make a few copies of a `weather.txt` file sprinkled around in other folders of the project directory. This will ensure that the prompt triggers the multiple choice clarifications on the `filename` argument of the `FileReaderTool`. The tool call will return a `Clarification` object per changes made in the previous section and pause the plan_run.<br/>
 
 The changes you need to make to our `main.py` in order to enable this behaviour are as follows:
-1. Check if the state of the `PlanRun` object returned by the `run_query` method is `RunState.NEED_CLARIFICATION`. This means the plan run paused before completion due to a clarification.
+1. Check if the state of the `PlanRun` object returned by the `run` method is `PlanRunState.NEED_CLARIFICATION`. This means the plan run paused before completion due to a clarification.
 2. Use the `get_outstanding_clarifications` method of the `PlanRun` object to access all clarifications where `resolved` is false.
 3. For each `Clarification`, surface the `user_guidance` to the relevant user and collect their input.
 4. Use the `portia.resolve_clarification` method to capture the user input in the `response` attribute of the relevant clarification. Because clarifications are part of the plan run state itself, this means that the plan run now captures the latest human input gathered and can be resumed with the new information.
-5. Once this is done you can resume the plan run using the `execute_plan_run` method. We have seen this `Portia` method as a way to kick off a created `PlanRun`. In fact `execute_plan_run` can take a `PlanRun` in any state as a parameter and will kick off that plan run from that current state. In this particular example, it resumes the plan run from the step where the clarifications were encountered.
+5. Once this is done you can resume the plan run using the `resume` method. In fact `resume` can take a `PlanRun` in any state as a parameter and will kick off that plan run from that current state. In this particular example, it resumes the plan run from the step where the clarifications were encountered.
 
 For the example query above `Read the contents of the file "weather.txt".`, where the user resolves the clarification by entering one of the options offered by the clarification (in this particular case `demo_runs/weather.txt` in our project directory `momo_sdk_tests`), you should see the following plan run state and notice:
 - The multiple choice clarification where the `user_guidance` was generated by Portia based on your clarification definition in the `FileReaderTool` class,
@@ -188,7 +188,7 @@ For the example query above `Read the contents of the file "weather.txt".`, wher
 - The plan run `state` will appear to `NEED_CLARIFICATION` if you look at the logs at the point when the clarification is raised. It then progresses to `COMPLETE` once you respond to the clarification and the plan run is able to resume:
 ```json title="run_state.json"
 {
-  "id": "pr-54d157fe-4b99-4dbb-a917-8fd8852df63d",
+  "id": "prun-54d157fe-4b99-4dbb-a917-8fd8852df63d",
   "plan_id": "plan-b87de5ac-41d9-4722-8baa-8015327511db",
   "current_step_index": 0,
   "state": "COMPLETE",

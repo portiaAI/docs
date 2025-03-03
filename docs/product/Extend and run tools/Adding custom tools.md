@@ -150,7 +150,7 @@ complete_tool_registry = example_tool_registry + custom_tool_registry
 portia = Portia(tools=complete_tool_registry)
 
 # Execute the plan from the user query
-plan_run = portia.run_query('Get the weather in the town with the longest name in England' 
+plan_run = portia.run('Get the weather in the town with the longest name in England' 
                                 + 'and write it to demo_runs/weather.txt.')
 
 # Serialise into JSON and print the output

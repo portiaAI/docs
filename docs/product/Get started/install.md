@@ -72,7 +72,7 @@ Let's submit a basic prompt to your LLM using our framework to make sure it's al
 Portia will return the final state of the plan created in response to the submitted prompt. We will delve into plan run states more deeply in a later section but for now you want to be sure you can see `"state": "COMPLETE"` and the answer to your maths question e.g. `"final_output": {"value": 3.0}` as part of that returned state. Here's an example output:
 ```bash
 {
-    "id": "pr-13a97e70-2ca6-41c9-bc49-b7f84f6d3982",
+    "id": "prun-13a97e70-2ca6-41c9-bc49-b7f84f6d3982",
     "plan_id": "plan-96693022-598e-458c-8d2f-44ba51d4f0b5",
     "current_step_index": 0,
     "clarifications": [],
@@ -109,7 +109,7 @@ As a final verification step for your installation, set up the required environm
         # Instantiate Portia with the default config which uses Open AI, and with some example tools.
         portia = Portia(tools=example_tool_registry)
         # Run the test query and print the output!
-        plan_run = portia.run_query('add 1 + 2')
+        plan_run = portia.run('add 1 + 2')
         print(plan_run.model_dump_json(indent=2))
         ```
     </TabItem>
@@ -135,7 +135,7 @@ As a final verification step for your installation, set up the required environm
         # Instantiate Portia. Load it with the config and with the example tools.
         portia = Portia(config=anthropic_config, tools=example_tool_registry)
         # Run the test query and print the output!
-        plan_run = portia.run_query('add 1 + 2')
+        plan_run = portia.run('add 1 + 2')
         print(plan_run.model_dump_json(indent=2))
         ```
     </TabItem>
@@ -161,7 +161,7 @@ As a final verification step for your installation, set up the required environm
         # Instantiate Portia. Load it with the config and with the example tools.
         portia = Portia(config=mistral_config, tools=example_tool_registry)
         # Run the test query and print the output!
-        plan_run = portia.run_query('add 1 + 2')
+        plan_run = portia.run('add 1 + 2')
         print(plan_run.model_dump_json(indent=2))
         ```
     </TabItem>

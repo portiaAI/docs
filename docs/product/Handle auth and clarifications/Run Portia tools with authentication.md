@@ -40,7 +40,7 @@ We're assuming you already have a Portia API key from the dashboard and set it i
 from dotenv import load_dotenv
 from portia import Portia
 from portia.config import default_config
-from portia.plan_query_run import RunState
+from portia.plan_run import PlanRunState
 from portia.clarification import MultipleChoiceClarification, InputClarification, ActionClarification
 from portia.tool_registry import PortiaToolRegistry
 
@@ -50,14 +50,13 @@ load_dotenv()
 portia = Portia(tools=PortiaToolRegistry(default_config()))
 
 # Generate the plan from the user query and print it
-plan = portia.plan_query('Find the github repository of PortiaAI and give it a star for me')
+plan = portia.plan('Find the github repository of PortiaAI and give it a star for me')
 print(f"{plan.model_dump_json(indent=2)}")
 
 # Run the plan
-plan_run = portia.create_plan_run(plan)
-plan_run = portia.execute_plan_run(plan_run)
+plan_run = portia.run_plan(plan)
 
-while plan_run.state == RunState.NEED_CLARIFICATION:
+while plan_run.state == PlanRunState.NEED_CLARIFICATION:
     # If clarifications are needed, resolve them before resuming the plan run
     for clarification in plan_run.get_outstanding_clarifications():
         # Usual handling of Input and Multiple Choice clarifications
@@ -136,9 +135,9 @@ In your logs you should be able to see the tools, as well as a plan and final pl
     ```
   </TabItem>
     <TabItem value="plan run" label="Plan run in final state">
-    ```json title="pr-36945fae-1dcc-4b05-9bc4-4b862748e031.json"
+    ```json title="prun-36945fae-1dcc-4b05-9bc4-4b862748e031.json"
     {
-        "id": "pr-36945fae-1dcc-4b05-9bc4-4b862748e031",
+        "id": "prun-36945fae-1dcc-4b05-9bc4-4b862748e031",
         "plan_id": "plan-71fbe578-0c3f-4266-b5d7-933e8bb10ef2",
         "current_step_index": 1,
         "state": "COMPLETE",

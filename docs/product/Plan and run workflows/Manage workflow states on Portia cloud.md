@@ -37,12 +37,12 @@ my_config = Config.from_default(storage_class=StorageClass.CLOUD)
 portia = Portia(config=my_config, tools=example_tool_registry)
 
 # Run a plan from the user query
-plan_run = portia.run_query('Get the temperature in London and share it with a light joke')
+plan_run = portia.run('Get the temperature in London and share it with a light joke')
 
 # Serialise into JSON and print the output
 print(plan_run.model_dump_json(indent=2))
 ```
-Take a moment to examine the plan run created by the code above in your dashboard. To do so you will need the plan run ID, appearing in the first attribute of the output e.g. `"id": "pr-f66b141b-5603-4bd9-b827-0c7a41bf5d5c"`.
+Take a moment to examine the plan run created by the code above in your dashboard. To do so you will need the plan run ID, appearing in the first attribute of the output e.g. `"id": "prun-f66b141b-5603-4bd9-b827-0c7a41bf5d5c"`.
 
 ## Retrieve plan runs from the cloud
 
@@ -73,7 +73,7 @@ You should expect to see the following output:
 ```bash
 Retrieved plan run:
 {
-  "id": "pr-f66b141b-5603-4bd9-b827-0c7a41bf5d5c",
+  "id": "prun-f66b141b-5603-4bd9-b827-0c7a41bf5d5c",
   "plan_id": "plan-1eee4bbf-361a-41be-bab7-6dd86a247f48",
   "current_step_index": 1,
   "clarifications": [],
