@@ -49,8 +49,8 @@ Take a moment to examine the plan run created by the code above in your dashboar
 You can retrieve both plans and run states for a stored plan run. For that you would use the `get_plan_run` and `get_plan` methods of the `Storage` class. You will need to specify the `PortiaCloudStorage` class in particular here. Go ahead and copy your plan run ID from the dashboard entry created in the previous section into the code below.
 ```python title="main.py" skip=true
 from dotenv import load_dotenv
-from portia.config import Config, StorageClass
-from portia import PortiaCloudStorage
+from portia import Config, StorageClass
+from portia.storage import PortiaCloudStorage
 
 load_dotenv()
 

@@ -250,18 +250,6 @@
         },
         {
           "type": "doc",
-          "label": "Contacts: Search",
-          "id": "portia-tools/google-workspace/people-search-contacts",
-          "customProps": {
-            "description": "Finds the most relevant matching contacts.",
-            "category": "google-workspace",
-            "categoryLabel": "Google Workspace",
-            "vendor": "google",
-            "vendorLabel": "Google"
-          }
-        },
-        {
-          "type": "doc",
           "label": "Docs: Get Document",
           "id": "portia-tools/google-workspace/docs-get-document",
           "customProps": {
