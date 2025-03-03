@@ -65,9 +65,11 @@ When responding to a user's prompt with Portia, you can either chain the plan ge
 Let's look at how we generate a plan from a user prompt. Paste the code below into your project and run it:
 ```python title="main.py"
 from dotenv import load_dotenv
-from portia import Portia
-from portia.config import default_config
-from portia.open_source_tools.registry import example_tool_registry
+from portia import (
+    Portia,
+    default_config,
+    example_tool_registry,
+)
 
 load_dotenv()
 

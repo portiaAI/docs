@@ -20,10 +20,12 @@ from pathlib import Path
 import pandas as pd
 import json
 from pydantic import BaseModel, Field
-from portia.tool import Tool, ToolRunContext
-from portia.errors import ToolHardError
-# highlight-next-line
-from portia.clarification import MultipleChoiceClarification
+from portia import (
+    MultipleChoiceClarification,
+    Tool,
+    ToolHardError,
+    ToolRunContext,
+)
 
 
 class FileReaderToolSchema(BaseModel):

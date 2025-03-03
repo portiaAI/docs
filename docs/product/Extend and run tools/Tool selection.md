@@ -14,8 +14,10 @@ Learn how to select the tools that the LLM can use to answer a user query.
 As part of defining your `Portia` instance for a query, you can specify the tools that the LLM can use to answer the query. This is done by specifying the `tools` argument in the `Portia` instance definition.
 
 ```python
-from portia import Portia
-from portia.config import default_config
+from portia import (
+  default_config, 
+  Portia,
+)
 from portia.open_source_tools.calculator_tool import CalculatorTool
 from portia.open_source_tools.search_tool import SearchTool
 from portia.open_source_tools.weather import WeatherTool
@@ -42,9 +44,14 @@ A tool registry is a collection of tools and is represented by the `ToolRegistry
 
 ```python
 from dotenv import load_dotenv
-from portia import Portia
-from portia.config import default_config
-from portia.tool_registry import DefaultToolRegistry
+from portia import (
+    CalculatorTool,
+    DefaultToolRegistry,
+    Portia,
+    SearchTool,
+    WeatherTool,
+    default_config,
+)
 
 load_dotenv()
 
@@ -56,12 +63,13 @@ All of Portia's Cloud tools are available in the `PortiaToolRegistry` class (<a 
 
 ```python
 from dotenv import load_dotenv
-from portia import Portia
-from portia.config import default_config
-from portia.tool_registry import PortiaToolRegistry, InMemoryToolRegistry
-from portia.open_source_tools.calculator_tool import CalculatorTool
-from portia.open_source_tools.search_tool import SearchTool
-from portia.open_source_tools.weather import WeatherTool
+from portia import (
+    default_config,
+    InMemoryToolRegistry,
+    Portia,
+    PortiaToolRegistry,
+)
+
 
 load_dotenv()
 
@@ -77,10 +85,12 @@ You can also create a new tool registry by filtering tools from `PortiaToolRegis
 
 ```python
 from dotenv import load_dotenv
-from portia import Portia
-from portia.config import default_config
-from portia.tool import Tool
-from portia.tool_registry import PortiaToolRegistry
+from portia import (
+    Portia,
+    PortiaToolRegistry,
+    Tool,
+    default_config,
+)
 
 load_dotenv()
 

@@ -52,8 +52,12 @@ Let's test out a couple of these parameters. We will start first by loading the 
 
 ```python title="main.py"
 from dotenv import load_dotenv
-from portia import Portia
-from portia.config import Config, StorageClass, LogLevel
+from portia import (
+    Config,
+    LogLevel,
+    Portia,
+    StorageClass,
+)
 from portia.open_source_tools.registry import example_tool_registry
 
 load_dotenv()

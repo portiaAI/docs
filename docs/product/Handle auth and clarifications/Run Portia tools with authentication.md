@@ -38,11 +38,15 @@ We're assuming you already have a Portia API key from the dashboard and set it i
 
 ```python title="main.py" skip=true
 from dotenv import load_dotenv
-from portia import Portia
-from portia.config import default_config
-from portia.plan_run import PlanRunState
-from portia.clarification import MultipleChoiceClarification, InputClarification, ActionClarification
-from portia.tool_registry import PortiaToolRegistry
+from portia import (
+    ActionClarification,
+    InputClarification,
+    MultipleChoiceClarification,
+    PlanRunState,
+    Portia,
+    PortiaToolRegistry,
+    default_config,
+)
 
 load_dotenv()
 

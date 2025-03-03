@@ -30,10 +30,12 @@ We refer to these "person" entities as **end users** and represent the current c
 
 ```python title="main.py"
 from dotenv import load_dotenv
-from portia.config import default_config
-from portia.execution_context import execution_context
-from portia.open_source_tools.registry import example_tool_registry
-from portia import Portia
+from portia import (
+    Portia,
+    default_config,
+    example_tool_registry,
+    execution_context,
+)
 
 load_dotenv()
 

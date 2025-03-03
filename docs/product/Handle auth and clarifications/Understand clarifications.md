@@ -133,15 +133,19 @@ Note: Our `weather.txt` file contains "The current weather in Llanfairpwllgwyngy
 When the conditions requiring a clarification are met, the relevant tool call returns a `Clarification` object, the plan run is paused and the plan run state becomes `NEED CLARIFICATION`. Portia has now passed control of the plan run to you, the developer, along with the `Clarification` object in order for you to resolve with human or machine input. At this stage we need to make some changes in the `main.py` file to handle clarifications.
 
 ```python title="main.py"
-from portia import Portia
-from portia.config import default_config
-from portia.tool_registry import InMemoryToolRegistry
+from portia import (
+    InMemoryToolRegistry,
+    # highlight-start
+    MultipleChoiceClarification,
+    # highlight-end
+    Portia,
+    # highlight-start
+    PlanRunState,
+    # highlight-end
+    default_config,
+)
 from portia.open_source_tools.local_file_reader_tool import FileReaderTool
 from portia.open_source_tools.local_file_writer_tool import FileWriterTool
-# highlight-start
-from portia.clarification import MultipleChoiceClarification
-from portia.plan_run import PlanRunState
-# highlight-end
 
 # Load open source tools into a tool registry. More on tool registries later in the docs!
 my_tool_registry = InMemoryToolRegistry.from_local_tools([FileReaderTool(), FileWriterTool()])

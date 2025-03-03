@@ -100,9 +100,11 @@ As a final verification step for your installation, set up the required environm
         Then create a file e.g. `main.py` in your project directory and paste the following code in.
         ```python title="main.py"
         from dotenv import load_dotenv
-        from portia import Portia
-        from portia.config import default_config
-        from portia.open_source_tools.registry import example_tool_registry
+        from portia import (
+            Portia,
+            default_config,
+            example_tool_registry,
+        )
 
         load_dotenv()
 
@@ -119,9 +121,13 @@ As a final verification step for your installation, set up the required environm
         ```python title="main.py"
         import os
         from dotenv import load_dotenv
-        from portia import Portia
-        from portia.config import Config, LLMProvider, LLMModel
-        from portia.open_source_tools.registry import example_tool_registry
+        from portia import (
+            Config,
+            LLMModel,
+            LLMProvider,
+            Portia,
+            example_tool_registry,
+        )
 
         load_dotenv()
         ANTHROPIC_API_KEY = os.getenv('ANTHROPIC_API_KEY')
@@ -145,9 +151,13 @@ As a final verification step for your installation, set up the required environm
         ```python title="main.py"
         import os
         from dotenv import load_dotenv
-        from portia import Portia
-        from portia.config import Config, LLMProvider, LLMModel
-        from portia.open_source_tools.registry import example_tool_registry
+        from portia import (
+            Config,
+            LLMModel,
+            LLMProvider,
+            Portia,
+            example_tool_registry,
+        )
 
         load_dotenv()
         MISTRAL_API_KEY = os.getenv('MISTRAL_API_KEY')

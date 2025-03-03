@@ -170,9 +170,11 @@ We will use a simple GET endpoint from Tavily in this section. Please sign up to
 To get to an output that looks like the plan run example above, let's expand on the code we used to generate a plan in the previous section (<a href="/generate-plan" target="_blank">**↗**</a>) by adding code to create and execute a plan run from that plan. This approach gives you the opportunity to serve that plan to the user and get their feedback / iterate on it before running the plan run for example. Here is the code to do that:
 ```python title="main.py"
 from dotenv import load_dotenv
-from portia import Portia
-from portia.config import default_config
-from portia.open_source_tools.registry import example_tool_registry
+from portia import (
+    Portia,
+    default_config,
+    example_tool_registry,
+)
 
 load_dotenv()
 
@@ -207,9 +209,11 @@ We will use a simple GET endpoint from Tavily in this section. Please sign up to
 You can also run a plan immediately from the user query, without examining the `Plan` object in between. This would generate a plan as an intermediate step as well but will also immediately spawn a plan run from it. You would simply use the `run` method from your `Portia` instance class like so:
 ```python title="main.py"
 from dotenv import load_dotenv
-from portia import Portia
-from portia.config import default_config
-from portia.open_source_tools.registry import example_tool_registry
+from portia import (
+    Portia,
+    default_config,
+    example_tool_registry,
+)
 
 load_dotenv()
 
