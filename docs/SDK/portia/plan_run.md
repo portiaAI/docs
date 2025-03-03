@@ -3,10 +3,10 @@ sidebar_label: plan_run
 title: portia.plan_run
 ---
 
-Runs are executing instances of a Plan.
+Plan runs are executing instances of a Plan.
 
-A run encapsulates all execution state, serving as the definitive record of its progress.
-As the run runs, its `RunState`, `current_step_index`, and `outputs` evolve to reflect
+A plan run encapsulates all execution state, serving as the definitive record of its progress.
+As the run runs, its `PlanRunState`, `current_step_index`, and `outputs` evolve to reflect
 the current execution state.
 
 The run also retains an `ExecutionContext`, which provides valuable insights for debugging
@@ -25,7 +25,7 @@ Key Components
 class PlanRunState(PortiaEnum)
 ```
 
-The current state of the Run.
+The current state of the Plan Run.
 
 **Attributes**:
 
@@ -57,16 +57,16 @@ Outputs of a Plan Run including clarifications.
 class PlanRun(BaseModel)
 ```
 
-A run represents a running instance of a Plan.
+A plan run represents a running instance of a Plan.
 
 **Attributes**:
 
-- `id` _WorfklowUUID_ - A unique ID for this plan_run.
+- `id` _PlanRunUUID_ - A unique ID for this plan_run.
 - `plan_id` _PlanUUID_ - The ID of the Plan this run uses.
 - `current_step_index` _int_ - The current step that is being executed.
-- `state` _RunState_ - The current state of the PlanRun.
+- `state` _PlanRunState_ - The current state of the PlanRun.
 - `execution_context` _ExecutionContext_ - Execution context for the PlanRun.
-- `outputs` _RunOutputs_ - Outputs of the PlanRun including clarifications.
+- `outputs` _PlanRunOutputs_ - Outputs of the PlanRun including clarifications.
 
 #### get\_outstanding\_clarifications
 
@@ -118,7 +118,7 @@ class ReadOnlyPlanRun(PlanRun)
 
 A read-only copy of a Plan Run passed to agents for reference.
 
-This class provides a non-modifiable view of a run instance,
+This class provides a non-modifiable view of a plan run instance,
 ensuring that agents can access run details without altering them.
 
 #### from\_plan\_run
@@ -128,7 +128,7 @@ ensuring that agents can access run details without altering them.
 def from_plan_run(cls, plan_run: PlanRun) -> ReadOnlyPlanRun
 ```
 
-Create a read-only run from a normal plan_run.
+Create a read-only plan run from a normal PlanRun.
 
 **Arguments**:
 
@@ -137,5 +137,5 @@ Create a read-only run from a normal plan_run.
 
 **Returns**:
 
-- `ReadOnlyRun` - A new read-only instance of the provided plan_run.
+- `ReadOnlyPlanRun` - A new read-only instance of the provided PlanRun.
 

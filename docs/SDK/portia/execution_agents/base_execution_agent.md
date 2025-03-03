@@ -1,6 +1,6 @@
 ---
-sidebar_label: base_agent
-title: portia.execution_agents.base_agent
+sidebar_label: base_execution_agent
+title: portia.execution_agents.base_execution_agent
 ---
 
 Agents are responsible for executing steps of a PlanRun.

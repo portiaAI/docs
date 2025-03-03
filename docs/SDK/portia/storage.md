@@ -108,7 +108,7 @@ Subclasses must implement the methods to save and retrieve PlanRuns.
   save_plan_run(self, run: Run) -&gt; None:
   Save a PlanRun.
   get_plan_run(self, plan_run_id: PlanRunUUID) -&gt; PlanRun:
-  Get a run by ID.
+  Get PlanRun by ID.
   get_plan_runs(self, run_state: RunState | None = None, page=int | None = None)
   -&gt; PlanRunListResponse:
   Return runs that match the given run_state
@@ -136,7 +136,7 @@ Save a PlanRun.
 @abstractmethod
 def get_plan_run(plan_run_id: PlanRunUUID) -> PlanRun
 ```
-Retrieve a run by its ID.
+Retrieve PlanRun by its ID.
 
 **Arguments**:
 
@@ -405,7 +405,7 @@ Retrieve a Plan object by its ID.
 def save_plan_run(plan_run: PlanRun) -> None
 ```
 
-Save a Run object to the storage.
+Save PlanRun object to the storage.
 
 **Arguments**:
 
@@ -417,7 +417,7 @@ Save a Run object to the storage.
 def get_plan_run(plan_run_id: PlanRunUUID) -> PlanRun
 ```
 
-Retrieve a Run object by its ID.
+Retrieve PlanRun object by its ID.
 
 **Arguments**:
 
@@ -533,7 +533,7 @@ Retrieve a plan from Portia Cloud.
 def save_plan_run(plan_run: PlanRun) -> None
 ```
 
-Save a run to Portia Cloud.
+Save PlanRun to Portia Cloud.
 
 **Arguments**:
 
@@ -550,7 +550,7 @@ Save a run to Portia Cloud.
 def get_plan_run(plan_run_id: PlanRunUUID) -> PlanRun
 ```
 
-Retrieve a run from Portia Cloud.
+Retrieve PlanRun from Portia Cloud.
 
 **Arguments**:
 

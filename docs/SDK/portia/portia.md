@@ -49,12 +49,12 @@ Initialize storage and tools.
   provided, the open source tool registry will be used, alongside the default tools
   from Portia cloud if a Portia API key is set.
 
-#### run\_query
+#### run
 
 ```python
-def run_query(query: str,
-              tools: list[Tool] | list[str] | None = None,
-              example_plans: list[Plan] | None = None) -> PlanRun
+def run(query: str,
+        tools: list[Tool] | list[str] | None = None,
+        example_plans: list[Plan] | None = None) -> PlanRun
 ```
 
 End-to-end function to generate a plan and then execute it.
@@ -74,12 +74,12 @@ This is the simplest way to plan and execute a query using the SDK.
 
 - `PlanRun` - The run resulting from executing the query.
 
-#### plan\_query
+#### plan
 
 ```python
-def plan_query(query: str,
-               tools: list[Tool] | list[str] | None = None,
-               example_plans: list[Plan] | None = None) -> Plan
+def plan(query: str,
+         tools: list[Tool] | list[str] | None = None,
+         example_plans: list[Plan] | None = None) -> Plan
 ```
 
 Plans how to do the query given the set of tools and any examples.
@@ -102,36 +102,36 @@ Plans how to do the query given the set of tools and any examples.
 
 - `PlanError` - If there is an error while generating the plan.
 
-#### create\_plan\_run
+#### run\_plan
 
 ```python
-def create_plan_run(plan: Plan) -> PlanRun
+def run_plan(plan: Plan) -> PlanRun
 ```
 
-Create a run from a Plan.
+Run a plan.
 
 **Arguments**:
 
-- `plan` _Plan_ - The plan to create a run from.
+- `plan` _Plan_ - The plan to run.
   
 
 **Returns**:
 
-- `PlanRun` - The created PlanRun.
+- `PlanRun` - The resulting PlanRun object.
 
-#### execute\_plan\_run
+#### resume
 
 ```python
-def execute_plan_run(plan_run: PlanRun | None = None,
-                     plan_run_id: PlanRunUUID | str | None = None) -> PlanRun
+def resume(plan_run: PlanRun | None = None,
+           plan_run_id: PlanRunUUID | str | None = None) -> PlanRun
 ```
 
-Run a PlanRun.
+Resume a PlanRun.
 
 **Arguments**:
 
-- `plan_run` _PlanRun | None_ - The PlanRun to execute. Defaults to None.
-- `plan_run_id` _RunUUID | str | None_ - The ID of the PlanRun to execute. Defaults to
+- `plan_run` _PlanRun | None_ - The PlanRun to resume. Defaults to None.
+- `plan_run_id` _RunUUID | str | None_ - The ID of the PlanRun to resume. Defaults to
   None.
   
 
@@ -142,7 +142,7 @@ Run a PlanRun.
 **Raises**:
 
 - `ValueError` - If neither plan_run nor plan_run_id is provided.
-- `InvalidRunStateError` - If the plan run is not in a valid state to be executed.
+- `InvalidPlanRunStateError` - If the plan run is not in a valid state to be resumed.
 
 #### resolve\_clarification
 
