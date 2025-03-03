@@ -53,7 +53,7 @@ print(plan_run.model_dump_json(indent=2))
 ```
 
 The result of this code block will be the addition of an `execution_context` section within the `PlanRun` state, and a `final_output` that is indeed personalised to Saint Nicholas (known by his stage name Santa Claus):
-```json title="run_state.json"
+```json title="plan_run_state.json"
 {
   "id": "prun-d9991518-92d7-447f-bf28-4f7b9b8110ce",
   "plan_id": "plan-4f497c60-c33e-40ea-95b4-cd2054559fff",

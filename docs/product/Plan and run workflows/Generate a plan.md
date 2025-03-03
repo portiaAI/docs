@@ -73,7 +73,7 @@ from portia import (
 
 load_dotenv()
 
-# Instantiate Portia. Load it with the default config and with the example tools.
+# Instantiate a Portia instance. Load it with the default config and with the example tools.
 portia = Portia(tools=example_tool_registry)
 
 # Generate the plan from the user query

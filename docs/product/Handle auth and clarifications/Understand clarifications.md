@@ -149,7 +149,7 @@ from portia.open_source_tools.local_file_writer_tool import FileWriterTool
 
 # Load open source tools into a tool registry. More on tool registries later in the docs!
 my_tool_registry = InMemoryToolRegistry.from_local_tools([FileReaderTool(), FileWriterTool()])
-# Instantiate Portia. Load it with the default config and with the tools above
+# Instantiate a Portia instance. Load it with the default config and with the tools above
 portia = Portia(tools=my_tool_registry)
 
 # Execute the plan from the user query

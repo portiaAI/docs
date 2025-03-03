@@ -69,7 +69,7 @@ Let's submit a basic prompt to your LLM using our framework to make sure it's al
     </TabItem>
 </Tabs>
 
-Portia will return the final state of the plan created in response to the submitted prompt. We will delve into plan run states more deeply in a later section but for now you want to be sure you can see `"state": "COMPLETE"` and the answer to your maths question e.g. `"final_output": {"value": 3.0}` as part of that returned state. Here's an example output:
+Portia will return the final state of the plan run created in response to the submitted prompt. We will delve into plan run states more deeply in a later section but for now you want to be sure you can see `"state": "COMPLETE"` and the answer to your maths question e.g. `"final_output": {"value": 3.0}` as part of that returned state. Here's an example output:
 ```bash
 {
     "id": "prun-13a97e70-2ca6-41c9-bc49-b7f84f6d3982",
@@ -138,7 +138,7 @@ As a final verification step for your installation, set up the required environm
             llm_model_name=LLMModel.CLAUDE_3_5_SONNET,
             anthropic_api_key=ANTHROPIC_API_KEY
             )
-        # Instantiate Portia. Load it with the config and with the example tools.
+        # Instantiate a Portia instance. Load it with the config and with the example tools.
         portia = Portia(config=anthropic_config, tools=example_tool_registry)
         # Run the test query and print the output!
         plan_run = portia.run('add 1 + 2')
@@ -168,7 +168,7 @@ As a final verification step for your installation, set up the required environm
             llm_model_name=LLMModel.MISTRAL_LARGE_LATEST,
             mistralai_api_key=MISTRAL_API_KEY
         )
-        # Instantiate Portia. Load it with the config and with the example tools.
+        # Instantiate a Portia instance. Load it with the config and with the example tools.
         portia = Portia(config=mistral_config, tools=example_tool_registry)
         # Run the test query and print the output!
         plan_run = portia.run('add 1 + 2')

@@ -50,7 +50,7 @@ from portia import (
 
 load_dotenv()
 
-# Instantiate Portia. Load it with the default config and with Portia cloud tools above
+# Instantiate a Portia instance. Load it with the default config and with Portia cloud tools above
 portia = Portia(tools=PortiaToolRegistry(default_config()))
 
 # Generate the plan from the user query and print it
@@ -79,7 +79,7 @@ while plan_run.state == PlanRunState.NEED_CLARIFICATION:
         # highlight-end
 
     # Once clarifications are resolved, resume the plan run
-    plan_run = portia.run(plan_run)
+    plan_run = portia.resume(plan_run)
 
 # Serialise into JSON and print the output
 print(f"{plan_run.model_dump_json(indent=2)}")

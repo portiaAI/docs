@@ -33,7 +33,7 @@ load_dotenv()
 # Load the default config and override the storage class to point to the Portia cloud
 my_config = Config.from_default(storage_class=StorageClass.CLOUD)
 
-# Instantiate Portia. Load it with the default config and an example tool registry
+# Instantiate a Portia instance. Load it with the default config and an example tool registry
 portia = Portia(config=my_config, tools=example_tool_registry)
 
 # Run a plan from the user query

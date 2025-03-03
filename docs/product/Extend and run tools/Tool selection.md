@@ -22,7 +22,7 @@ from portia.open_source_tools.calculator_tool import CalculatorTool
 from portia.open_source_tools.search_tool import SearchTool
 from portia.open_source_tools.weather import WeatherTool
 
-# Instantiate Portia. Load it with the default config and with the example tools.
+# Instantiate a Portia instance. Load it with the default config and with the example tools.
 portia = Portia(tools=[CalculatorTool(), SearchTool(), WeatherTool()])
 ```
 
@@ -55,7 +55,7 @@ from portia import (
 
 load_dotenv()
 
-# Instantiate Portia. Load it with the example tools and Portia's tools.
+# Instantiate a Portia instance. Load it with the example tools and Portia's tools.
 portia = Portia(tools=DefaultToolRegistry(default_config()))
 ```
 
@@ -73,7 +73,7 @@ from portia import (
 
 load_dotenv()
 
-# Instantiate Portia. Load it with the example tools and Portia's github search tool.
+# Instantiate a Portia instance. Load it with the example tools and Portia's github search tool.
 github_search_tool = PortiaToolRegistry(config=default_config()).get_tool("portia:github::search_repos")
 my_registry = InMemoryToolRegistry().from_local_tools(
     [CalculatorTool(), SearchTool(), WeatherTool(), github_search_tool])

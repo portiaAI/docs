@@ -7,7 +7,7 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 # Manage your config
-Learn how to use your `Portia` instance's `Config` to configure LLM and agent execution options, and select different plan and run storage options.
+Learn how to use your `Portia` instance's `Config` to configure LLM and agent execution options, and select different plan and plan run storage options.
 
 :::tip[TL;DR]
 The `Config` class of your `Portia` instance allows you to:
@@ -69,7 +69,7 @@ my_config = Config.from_default(
     default_log_level=LogLevel.DEBUG,
     )
 
-# Instantiate Portia. Load it with the default config and with some example tools
+# Instantiate a Portia instance. Load it with the default config and with some example tools
 portia = Portia(config=my_config, tools=example_tool_registry)
 
 # Execute the plan run from the user query

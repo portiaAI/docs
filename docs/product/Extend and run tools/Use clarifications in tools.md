@@ -124,7 +124,7 @@ from portia.plan_run import PlanRunState
 
 # Load example and custom tool registries into a single one
 complete_tool_registry = example_tool_registry + custom_tool_registry
-# Instantiate Portia. Load it with the default config and with the tools above
+# Instantiate a Portia instance. Load it with the default config and with the tools above
 portia = Portia(tools=complete_tool_registry)
 
 # Execute the plan from the user query
@@ -142,7 +142,7 @@ while plan_run.state == PlanRunState.NEED_CLARIFICATION:
         plan_run = portia.resolve_clarification(clarification, user_input, plan_run)
 
     # Once clarifications are resolved, resume the plan run
-    plan_run = portia.run(plan_run)
+    plan_run = portia.resume(plan_run)
 
 # Serialise into JSON and print the output
 print(plan_run.model_dump_json(indent=2))
