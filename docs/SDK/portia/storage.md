@@ -119,6 +119,7 @@ Subclasses must implement the methods to save and retrieve PlanRuns.
 @abstractmethod
 def save_plan_run(plan_run: PlanRun) -> None
 ```
+
 Save a PlanRun.
 
 **Arguments**:
@@ -136,6 +137,7 @@ Save a PlanRun.
 @abstractmethod
 def get_plan_run(plan_run_id: PlanRunUUID) -> PlanRun
 ```
+
 Retrieve PlanRun by its ID.
 
 **Arguments**:
@@ -147,6 +149,7 @@ Retrieve PlanRun by its ID.
 
 - `Run` - The Run object associated with the provided plan_run_id.
   
+
 **Raises**:
 
 - `NotImplementedError` - If the method is not implemented.
@@ -318,7 +321,8 @@ Get run from dict.
 
 **Returns**:
 
-- `PlanRun` - The PlanRun object associated with the provided plan_run_id.  
+- `PlanRun` - The PlanRun object associated with the provided plan_run_id.
+  
 
 **Raises**:
 
@@ -427,6 +431,7 @@ Retrieve PlanRun object by its ID.
 **Returns**:
 
 - `Run` - The retrieved Run object.
+  
 
 **Raises**:
 
@@ -559,7 +564,8 @@ Retrieve PlanRun from Portia Cloud.
 
 **Returns**:
 
-- `PlanRun` - The PlanRun object retrieved from Portia Cloud.  
+- `Run` - The Run object retrieved from Portia Cloud.
+  
 
 **Raises**:
 

@@ -12,6 +12,7 @@ saving the state of the run at each stage. It also handles error cases, clarific
 requests, and run state transitions.
 
 The `Portia` class provides methods to:
+
 - Generate a plan for executing a query.
 - Create and manage runs.
 - Execute runs step by step, using agents to handle the execution of tasks.
@@ -137,7 +138,8 @@ Resume a PlanRun.
 
 **Returns**:
 
-- `PlanRun` - The resulting PlanRun after execution.  
+- `PlanRun` - The resulting PlanRun after execution.
+  
 
 **Raises**:
 
@@ -196,3 +198,4 @@ This is generally because there are outstanding clarifications that need to be r
 **Raises**:
 
 - `InvalidRunStateError` - If the run cannot be waited for.
+
