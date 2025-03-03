@@ -22,6 +22,26 @@ The `Portia` class provides methods to:
 Modules in this file work with different storage backends (memory, disk, cloud) and can handle
 complex queries using various planning and execution agent configurations.
 
+## ExecutionHooks Objects
+
+```python
+class ExecutionHooks()
+```
+
+Hooks that can be used to modify or add extra functionality to the run of a plan.
+
+Currently, the only hook is a clarification handler which can be used to handle clarifications
+that arise during the run of a plan.
+
+#### \_\_init\_\_
+
+```python
+def __init__(
+        clarification_handler: ClarificationHandler | None = None) -> None
+```
+
+Initialize ExecutionHooks with default values.
+
 ## Portia Objects
 
 ```python
@@ -37,7 +57,8 @@ execution via ExecutionAgents.
 
 ```python
 def __init__(config: Config | None = None,
-             tools: ToolRegistry | list[Tool] | None = None) -> None
+             tools: ToolRegistry | list[Tool] | None = None,
+             execution_hooks: ExecutionHooks | None = None) -> None
 ```
 
 Initialize storage and tools.
@@ -49,6 +70,8 @@ Initialize storage and tools.
 - `tools` _ToolRegistry | list[Tool]_ - The registry or list of tools to use. If not
   provided, the open source tool registry will be used, alongside the default tools
   from Portia cloud if a Portia API key is set.
+- `execution_hooks` _ExecutionHooks | None_ - Hooks that can be used to modify or add
+  extra functionality to the run of a plan.
 
 #### run
 
@@ -129,6 +152,12 @@ def resume(plan_run: PlanRun | None = None,
 
 Resume a PlanRun.
 
+If a clarification handler was provided as part of the execution hooks, it will be used
+to handle any clarifications that are raised during the execution of the plan run.
+If no clarification handler was provided and a clarification is raised, the run will be
+returned in the `NEED_CLARIFICATION` state. The clarification will then need to be handled
+by the caller before the plan run is resumed.
+
 **Arguments**:
 
 - `plan_run` _PlanRun | None_ - The PlanRun to resume. Defaults to None.
@@ -145,6 +174,15 @@ Resume a PlanRun.
 
 - `ValueError` - If neither plan_run nor plan_run_id is provided.
 - `InvalidPlanRunStateError` - If the plan run is not in a valid state to be resumed.
+
+#### execute\_plan\_run\_and\_handle\_clarifications
+
+```python
+def execute_plan_run_and_handle_clarifications(plan: Plan,
+                                               plan_run: PlanRun) -> PlanRun
+```
+
+Execute a plan run and handle any clarifications that are raised.
 
 #### resolve\_clarification
 
@@ -166,6 +204,16 @@ Resolve a clarification updating the run state as needed.
 **Returns**:
 
 - `PlanRun` - The updated PlanRun.
+
+#### error\_clarification
+
+```python
+def error_clarification(clarification: Clarification,
+                        error: object,
+                        plan_run: PlanRun | None = None) -> PlanRun
+```
+
+Mark that there was an error handling the clarification.
 
 #### wait\_for\_ready
 
