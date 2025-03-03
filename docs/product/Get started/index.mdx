@@ -25,7 +25,7 @@ export const Logo = ({ lightSrc = '/img/logo_light.png', darkSrc = '/img/logo_da
 </p>
 
 <h1>Welcome to our docs!</h1>
-Portia AI is an open source developer framework. We want to make it simple for any developer to deploy stateful, authenticated agentic workflows.
+Portia AI is an open source developer framework. We want to allow any developer to deploy agents that are transparent, steerable and authenticated.
 <br/>Try out our product and give us some feedback on our <a href="https://discord.gg/DvAJz9ffaR" target="_blank">**Discord channel (↗)**</a>.<br/>
 
 ## Overview of Portia AI
@@ -34,13 +34,13 @@ is extensible with our complimentary cloud features which are aimed at making pr
 
 With our open source capabilities you should be able to:
 - Ingest a user query and leverage our system prompting to generate a structured plan.
-- Execute a workflow based on a plan, invoking tools and tracking the workflow state at every step.
+- Run a plan, invoking tools and tracking the plan run state at every step.
 - Build your own tools.
-- Define clarifications to interrupt a workflow and solicit structured human / machine input when necessary, e.g. to handle required authentication or missing input.
+- Define clarifications to interrupt a plan run and solicit structured human / machine input when necessary, e.g. to handle required authentication or missing input.
 
-Our cloud offering, which can be enabled from the <a href="https://github.com/portiaAI/portia-sdk-python" target="_blank">**Portia dashboard (↗)**</a> 
+Our cloud offering, which can be enabled from the <a href="https://app.portialabs.ai" target="_blank">**Portia dashboard (↗)**</a> 
 works seamlessly with our open source library. It will give you the ability to:
-- Store and retrieve workflow states and review historical workflow.
+- Store and retrieve plan run states and review historical plan runs.
 - Invoke a library of cloud-hosted tools with authentication handled for you, and access tool call logs.
 
 <p align="center">
@@ -67,12 +67,11 @@ We are beginning our journey as a developer framework by focusing on this proble
       <td style={{ width: "50%", verticalAlign: "top", padding: "8px" }}>
         <strong>Planning:</strong> Many use cases require visibility into the LLM’s reasoning, 
         particularly for complex tasks requiring multiple steps and tools. 
-        LLMs also struggle picking the right tools as their tool set grows: 
-        a recurring limitation for production deployments.
+        LLMs also struggle picking the right tools as their tool set grows.
       </td>
       <td style={{ width: "50%", verticalAlign: "top", padding: "8px" }}>
-        <strong>Multi-agent plans:</strong> Our open source, multi-shot prompter guides your LLM to 
-        produce a <a href="https://docs.portia.dev/generate-plan">Plan</a> in response to a prompt, 
+        <strong>Pre-expressed plans:</strong> Our open source, multi-shot prompter guides your LLM to 
+        produce an explicit <a href="https://docs.portia.dev/generate-plan">Plan</a> in response to a prompt, 
         weaving the relevant tools, inputs, and outputs for every step.
       </td>
     </tr>
@@ -83,12 +82,12 @@ We are beginning our journey as a developer framework by focusing on this proble
         company policies or correcting hallucinations (hello, missing arguments in tool calls!)
       </td>
       <td style={{ width: "50%", verticalAlign: "top", padding: "8px" }}>
-        <strong>Stateful workflows:</strong> Portia will spin up a multi-agent 
-        [`Workflow`](https://docs.portia.dev/execute-workflow) to execute on generated plans and 
-        track their state throughout execution. Using our 
+        <strong>Stateful, steerable agents:</strong> Portia will spin up a multi-agent
+        plan to execute and track its state throughout execution via a 
+        [`PlanRun`](https://docs.portia.dev/run-plan). Using our 
         [`Clarification`](https://docs.portia.dev/manage-clarifications) abstraction you can 
-        define points where you want to take control of workflow execution e.g. to resolve missing 
-        information or multiple choice decisions. Portia serialises the workflow state, and you can 
+        define points where you want to take control of plan runs e.g. to resolve missing 
+        information or multiple choice decisions. Portia serialises the plan run state, and you can 
         manage its storage / retrieval yourself or use our cloud offering for simplicity.
       </td>
     </tr>
