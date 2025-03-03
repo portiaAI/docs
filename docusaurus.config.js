@@ -84,10 +84,10 @@ const config = {
         },
         items: [
           {
-            type: "docSidebar",
-            sidebarId: "productSidebar",
-            position: "left",
             label: "Docs",
+            to: "/",
+            // Don't show docs nav as active for portia-tools and sdk
+            activeBaseRegex: '^(?!/portia-tools|/SDK).*$'
           },
           {
             label: "Tools",
