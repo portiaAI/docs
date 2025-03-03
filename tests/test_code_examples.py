@@ -2,7 +2,7 @@ import pytest
 from pytest_examples import find_examples, CodeExample, EvalExample
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv(override=True)
 
 @pytest.mark.parametrize('example', find_examples('docs/product/'), ids=str)
 def test_docstrings(example: CodeExample, eval_example: EvalExample):
