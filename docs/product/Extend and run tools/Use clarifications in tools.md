@@ -100,6 +100,7 @@ The block below results in the tool using the `find_file` method to look for alt
 alt_file_paths = self.find_file(filename)
 if alt_file_paths:
     return MultipleChoiceClarification(
+        plan_run_id=ctx.plan_run_id,
         argument_name="filename",
         user_guidance=f"Found {filename} in these location(s). Pick one to continue:\n{alt_file_paths}",
         options=alt_file_paths,
