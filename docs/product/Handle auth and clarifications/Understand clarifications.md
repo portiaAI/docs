@@ -122,7 +122,7 @@ We offer five categories of clarifications at the moment. You can see the proper
 ## Clarification triggers
 Clarifications are raised in one of two scenarios:
 1. LLM-triggered: During plan run, an agent attempting to complete a step notices that an input is missing, resulting in an Input clarification.
-2. Tool-triggered: A clarification is explicitly raised in the python class definition of the tool in specific conditions e.g. if a requisite oauth token is missing to complete the underlying API call or if a tool argument is invalid, resulting in Action or a Multiple Choice clarification respectively.
+2. Tool-triggered: A clarification is explicitly raised in the python class definition of the tool in specific conditions e.g. if a requisite OAuth token is missing to complete the underlying API call or if a tool argument is invalid, resulting in Action or a Multiple Choice clarification respectively.
 
 ## Handle clarifications with your `Portia` instance
 :::info[Make a `weather.txt` file for this section]
