@@ -10,7 +10,7 @@ import TabItem from '@theme/TabItem';
 Let's get you set up and run a test query to make sure everything is in order.
 
 :::info[Requirements]
-Portia requires **python v3.10 and above**. If you need to update your python version please visit their [docs](https://python.org/downloads/). If you are unsure what python version you have, you can check using
+Portia requires **python v3.11 and above**. If you need to update your python version please visit their [docs](https://python.org/downloads/). If you are unsure what python version you have, you can check using
 ```bash
 python3 --version
 ```
