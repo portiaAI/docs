@@ -92,8 +92,8 @@ const config = {
             activeBaseRegex: "^(?!/portia-tools|/SDK).*$",
           },
           {
-            label: "Tools", // Label for the dropdown
-            position: "left", // or 'right'
+            label: "Tools",
+            to: "/portia-tools",
           },
           {
             type: "docSidebar",
