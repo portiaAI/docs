@@ -10,7 +10,7 @@ import TabItem from '@theme/TabItem';
 Let's get you set up and run a test query to make sure everything is in order.
 
 :::info[Requirements]
-Portia requires **python v3.10 and above**. If you need to update your python version please visit their [docs](https://python.org/downloads/). If you are unsure what python version you have, you can check using
+Portia requires **python v3.11 and above**. If you need to update your python version please visit their [docs](https://python.org/downloads/). If you are unsure what python version you have, you can check using
 ```bash
 python3 --version
 ```
@@ -69,10 +69,10 @@ Let's submit a basic prompt to your LLM using our framework to make sure it's al
     </TabItem>
 </Tabs>
 
-Portia will return the final state of the workflow created in response to the submitted prompt. We will delve into workflow states more deeply in a later section but for now you want to be sure you can see `"state": "COMPLETE"` and the answer to your maths question e.g. `"final_output": {"value": 3.0}` as part of that returned state. Here's an example output:
+Portia will return the final state of the plan run created in response to the submitted prompt. We will delve into plan run states more deeply in a later section but for now you want to be sure you can see `"state": "COMPLETE"` and the answer to your maths question e.g. `"final_output": {"value": 3.0}` as part of that returned state. Here's an example output:
 ```bash
 {
-    "id": "wkfl-13a97e70-2ca6-41c9-bc49-b7f84f6d3982",
+    "id": "prun-13a97e70-2ca6-41c9-bc49-b7f84f6d3982",
     "plan_id": "plan-96693022-598e-458c-8d2f-44ba51d4f0b5",
     "current_step_index": 0,
     "clarifications": [],
@@ -100,17 +100,19 @@ As a final verification step for your installation, set up the required environm
         Then create a file e.g. `main.py` in your project directory and paste the following code in.
         ```python title="main.py"
         from dotenv import load_dotenv
-        from portia.runner import Runner
-        from portia.config import default_config
-        from portia.open_source_tools.registry import example_tool_registry
+        from portia import (
+            Portia,
+            default_config,
+            example_tool_registry,
+        )
 
         load_dotenv()
 
-        # Create a Portia runner with the default config which uses Open AI, and with some example tools.
-        runner = Runner(config=default_config(), tools=example_tool_registry)
+        # Instantiate Portia with the default config which uses Open AI, and with some example tools.
+        portia = Portia(tools=example_tool_registry)
         # Run the test query and print the output!
-        workflow = runner.execute_query('add 1 + 2')
-        print(workflow.model_dump_json(indent=2))
+        plan_run = portia.run('add 1 + 2')
+        print(plan_run.model_dump_json(indent=2))
         ```
     </TabItem>
     <TabItem value="anthropic" label="Anthropic">
@@ -119,9 +121,13 @@ As a final verification step for your installation, set up the required environm
         ```python title="main.py"
         import os
         from dotenv import load_dotenv
-        from portia.runner import Runner
-        from portia.config import Config, LLMProvider, LLMModel
-        from portia.open_source_tools.registry import example_tool_registry
+        from portia import (
+            Config,
+            LLMModel,
+            LLMProvider,
+            Portia,
+            example_tool_registry,
+        )
 
         load_dotenv()
         ANTHROPIC_API_KEY = os.getenv('ANTHROPIC_API_KEY')
@@ -132,11 +138,11 @@ As a final verification step for your installation, set up the required environm
             llm_model_name=LLMModel.CLAUDE_3_5_SONNET,
             anthropic_api_key=ANTHROPIC_API_KEY
             )
-        # Instantiate a Portia runner. Load it with the config and with the example tools.
-        runner = Runner(config=anthropic_config, tools=example_tool_registry)
+        # Instantiate a Portia instance. Load it with the config and with the example tools.
+        portia = Portia(config=anthropic_config, tools=example_tool_registry)
         # Run the test query and print the output!
-        workflow = runner.execute_query('add 1 + 2')
-        print(workflow.model_dump_json(indent=2))
+        plan_run = portia.run('add 1 + 2')
+        print(plan_run.model_dump_json(indent=2))
         ```
     </TabItem>
     <TabItem value="mistral" label="Mistral">
@@ -145,9 +151,13 @@ As a final verification step for your installation, set up the required environm
         ```python title="main.py"
         import os
         from dotenv import load_dotenv
-        from portia.runner import Runner
-        from portia.config import Config, LLMProvider, LLMModel
-        from portia.open_source_tools.registry import example_tool_registry
+        from portia import (
+            Config,
+            LLMModel,
+            LLMProvider,
+            Portia,
+            example_tool_registry,
+        )
 
         load_dotenv()
         MISTRAL_API_KEY = os.getenv('MISTRAL_API_KEY')
@@ -158,11 +168,11 @@ As a final verification step for your installation, set up the required environm
             llm_model_name=LLMModel.MISTRAL_LARGE_LATEST,
             mistralai_api_key=MISTRAL_API_KEY
         )
-        # Instantiate a Portia runner. Load it with the config and with the example tools.
-        runner = Runner(config=mistral_config, tools=example_tool_registry)
+        # Instantiate a Portia instance. Load it with the config and with the example tools.
+        portia = Portia(config=mistral_config, tools=example_tool_registry)
         # Run the test query and print the output!
-        workflow = runner.execute_query('add 1 + 2')
-        print(workflow.model_dump_json(indent=2))
+        plan_run = portia.run('add 1 + 2')
+        print(plan_run.model_dump_json(indent=2))
         ```
     </TabItem>
 </Tabs>
@@ -171,9 +181,9 @@ As a final verification step for your installation, set up the required environm
 You should see a similar output to the the CLI-driven test we ran in step 4.
 
 We will review the various elements in `main.py` in more detail in later sections. For now you should remember that:
-- You will use a `Runner` to handle user prompts using Portia.
-- A `Runner` expects a `Config`. This is where you can specify things like the model you want to use and where you want to store Workflow states.
-- A `Runner` also expects `tools`. This can be a list of tools, or a `ToolRegistry` (i.e a collection of tools you want to use).
+- You will use a `Portia` instance to handle user prompts.
+- A `Portia` instance expects a `Config`. This is where you can specify things like the model you want to use and where you want to store plan runs.
+- A `Portia` instance also expects `tools`. This can be a list of tools, or a `ToolRegistry` (i.e a collection of tools you want to use).
 
 If you got this far then we're off to the races :racehorse:. Let's get you set up with a Portia account so you can also use our cloud features. 
 Don't worry it comes with a free trial (<a href="https://www.portialabs.ai/pricing" target="_blank">**Pricing page ↗**</a>) :wink:

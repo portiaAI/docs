@@ -1,12 +1,12 @@
 ---
 sidebar_position: 3
-slug: /store-retrieve-workflows
+slug: /store-retrieve-plan-runs
 ---
 
-# Workflow states on Portia cloud
-Use our workflow service to save and retrieve serialised workflow states on our cloud.
+# Plan run states on Portia cloud
+Use our Run service to save and retrieve serialised plan run states on our cloud.
 
-Storing and retrieving workflows on Portia cloud significantly simplifies the management of long lived and / or asynchronous workflows. For example when a clarification is raised, the state of the workflow is automatically maintained in the Portia cloud and retrieving the workflow once the clarification is handled is a single line of code.
+Storing and retrieving plan runs on Portia cloud significantly simplifies the management of long lived and / or asynchronous plan runs. For example when a clarification is raised, the state of the plan run is automatically maintained in the Portia cloud and retrieving the plan run once the clarification is handled is a single line of code.
 
 
 <details>
@@ -18,13 +18,13 @@ We will use a simple GET endpoint from OpenWeatherMap in this section. Please si
 
 </details>
 
-## Store workflows in the cloud
-We have seen how to configure the location where workflows are stored and retrieved previously (<a href="/manage-config" target="_blank">**Manage config options ↗**</a>). We can simply set the `storage_class` property to `CLOUD` in the config of our `Runner`. 
-With this config and as long as the API key has been set up appropriately as described in the previous section (<a href="/setup-account" target="_blank">**Set up your account ↗**</a>), you should see workflows executed by your `Runner` appear in the `Workflows` tab of your Portia dashboard and see a change in the aggregate workflow metrics in the Home page as well.
+## Store plan runs in the cloud
+We have seen how to configure the location where plan runs are stored and retrieved previously (<a href="/manage-config" target="_blank">**Manage config options ↗**</a>). We can simply set the `storage_class` property to `CLOUD` in the config of our `Portia` instance. 
+With this config and as long as the API key has been set up appropriately as described in the previous section (<a href="/setup-account" target="_blank">**Set up your account ↗**</a>), you should see plan runs executed by your `Portia` instance appear in the `Plan runs` tab of your Portia dashboard and see a change in the aggregate plan run metrics in the Home page as well.
 
 ```python title="main.py"
 from dotenv import load_dotenv
-from portia.runner import Runner
+from portia import Portia
 from portia.config import Config, StorageClass
 from portia.open_source_tools.registry import example_tool_registry
 
@@ -33,24 +33,24 @@ load_dotenv()
 # Load the default config and override the storage class to point to the Portia cloud
 my_config = Config.from_default(storage_class=StorageClass.CLOUD)
 
-# Instantiate a Portia runner. Load it with the default config and an example tool registry
-runner = Runner(config=my_config, tools=example_tool_registry)
+# Instantiate a Portia instance. Load it with the default config and an example tool registry
+portia = Portia(config=my_config, tools=example_tool_registry)
 
-# Execute a workflow from the user query
-workflow = runner.execute_query('Get the temperature in London and share it with a light joke')
+# Run a plan from the user query
+plan_run = portia.run('Get the temperature in London and share it with a light joke')
 
-# Serialise into JSON an print the output
-print(workflow.model_dump_json(indent=2))
+# Serialise into JSON and print the output
+print(plan_run.model_dump_json(indent=2))
 ```
-Take a moment to examine the workflow created by the code above in your dashboard. To do so you will need the workflow ID, appearing in the first attribute of the output e.g. `"id": "f66b141b-5603-4bd9-b827-0c7a41bf5d5c"`.
+Take a moment to examine the plan run created by the code above in your dashboard. To do so you will need the plan run ID, appearing in the first attribute of the output e.g. `"id": "prun-f66b141b-5603-4bd9-b827-0c7a41bf5d5c"`.
 
-## Retrieve workflows from the cloud
+## Retrieve plan runs from the cloud
 
-You can retrieve both workflow states and plans for a stored workflow. For that you would use the `get_workflow` and `get_plan` methods of the `Storage` class. You will need to specify the `PortiaCloudStorage` class in particular here. Go ahead and copy your workflow ID from the dashboard entry created in the previous section into the code below.
+You can retrieve both plans and run states for a stored plan run. For that you would use the `get_plan_run` and `get_plan` methods of the `Storage` class. You will need to specify the `PortiaCloudStorage` class in particular here. Go ahead and copy your plan run ID from the dashboard entry created in the previous section into the code below.
 ```python title="main.py" skip=true
 from dotenv import load_dotenv
-from portia.config import Config, StorageClass
-from portia.runner import PortiaCloudStorage
+from portia import Config, StorageClass
+from portia.storage import PortiaCloudStorage
 
 load_dotenv()
 
@@ -59,21 +59,21 @@ my_config = Config.from_default(storage_class=StorageClass.CLOUD)
 # Use the PortiaCloudStorage class to interact with cloud storage
 my_store = PortiaCloudStorage(config=my_config)
 
-# Retrieve a workflow and a plan from the cloud
-workflow = my_store.get_workflow("229956fb-820d-4099-b69c-0606ca620b86")
-plan = my_store.get_plan(workflow.plan_id)
+# Retrieve a plan and its run from the cloud
+plan_run = my_store.get_plan_run("229956fb-820d-4099-b69c-0606ca620b86")
+plan = my_store.get_plan(plan_run.plan_id)
 
 # Serialise into JSON an print the objects
-print(f"Retrieved workflow:\n{workflow.model_dump_json(indent=2)}")
-print(f"Retrieved plan:\n{workflow.model_dump_json(indent=2)}")
+print(f"Retrieved plan run:\n{plan_run.model_dump_json(indent=2)}")
+print(f"Retrieved plan:\n{plan.model_dump_json(indent=2)}")
 ```
-Note that you can also access the `StorageClass` directly from your `Runner` object. If you have a `Runner` with an associated `Config` that uses `CLOUD` storage like the first example on this page, you could simply use `runner.storage.get_workflow` and `runner.storage.get_plan`.
+Note that you can also access the `StorageClass` directly from your `Portia` instance. If you have a `Portia` instance with an associated `Config` that uses `CLOUD` storage like the first example on this page, you could simply use `portia.storage.get_plan_run` and `portia.storage.get_plan`.
 
 You should expect to see the following output:
 ```bash
-Retrieved workflow:
+Retrieved plan run:
 {
-  "id": "wkfl-f66b141b-5603-4bd9-b827-0c7a41bf5d5c",
+  "id": "prun-f66b141b-5603-4bd9-b827-0c7a41bf5d5c",
   "plan_id": "plan-1eee4bbf-361a-41be-bab7-6dd86a247f48",
   "current_step_index": 1,
   "clarifications": [],
@@ -117,15 +117,15 @@ Retrieved plan:
 }
 ```
 
-If you wanted to retrieve workflows in bulk, you can use the `get_workflows` method (plural!) from `StorageClass`. This returns paginated data so you will need to process that information further to cycle through all results. Remember the first page number returned is always 1 (not 0!).
+If you wanted to retrieve plan runs in bulk, you can use the `get_plan_runs` method (plural!) from `StorageClass`. This returns paginated data so you will need to process that information further to cycle through all results. Remember the first page number returned is always 1 (not 0!).
 
 ```python skip=true
-workflow_list_init = my_store.get_workflows() # again, plural!
-total_pages = workflow_list_init.total_pages
+plan_run_list_init = my_store.get_plan_runs() # again, plural!
+total_pages = plan_run_list_init.total_pages
 
 for page in range(1, total_pages+1):
-    print(f"Retrieving workflows from page {page}...")
-    workflow_list = my_store.get_workflows(page=page)
-    for workflow in workflow_list.results:
-        print(f"Workflow ID: {workflow.id}")
+    print(f"Retrieving plan runs from page {page}...")
+    plan_run_list = my_store.get_plan_runs(page=page)
+    for plan_run in plan_run_list.results:
+        print(f"Plan run ID: {plan_run.id}")
 ```

@@ -29,13 +29,13 @@ and records the status of the execution. The results are then stored in the prov
 - `model_config` _ConfigDict_ - Pydantic configuration that allows arbitrary types.
 - `_child_tool` _Tool_ - The child tool to be wrapped and executed.
 - `_storage` _AdditionalStorage_ - Storage mechanism to save tool call records.
-- `_workflow` _Workflow_ - The workflow context for the current execution.
+- `_plan_run` _PlanRun_ - The run context for the current execution.
 
 #### \_\_init\_\_
 
 ```python
 def __init__(child_tool: Tool, storage: AdditionalStorage,
-             workflow: Workflow) -> None
+             plan_run: PlanRun) -> None
 ```
 
 Initialize parent fields using child_tool&#x27;s attributes.
@@ -44,7 +44,7 @@ Initialize parent fields using child_tool&#x27;s attributes.
 
 - `child_tool` _Tool_ - The child tool to be wrapped.
 - `storage` _AdditionalStorage_ - The storage to save execution records.
-- `workflow` _Workflow_ - The current workflow for the execution.
+- `plan_run` _PlanRun_ - The PlanRun to execute.
 
 #### ready
 

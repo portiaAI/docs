@@ -8,22 +8,24 @@ import TabItem from '@theme/TabItem';
 
 # Use clarifications in custom tools
 :::tip[TL;DR]
-You can raise a `Clarification` in any custom tool definition to prompt a workflow to interrupt itself and solicit input (<a href="/SDK/portia/clarification" target="_blank">**SDK reference ↗**</a>).
+You can raise a `Clarification` in any custom tool definition to prompt a plan run to interrupt itself and solicit input (<a href="/SDK/portia/clarification" target="_blank">**SDK reference ↗**</a>).
 :::
 
 
 ## Add a clarification to your custom tool
-Let's pick up the custom tool example we looked at previously (<a href="/extend-tool-catalogue" target="_blank">**Extend your tool catalogue ↗**</a>). We will now examine the code that defines a clarification in a tool explicitly. We're going to add a clarification to the `FileReaderTool` custom tool to handle cases where a file is not found. Instead of throwing an error directly, we will attempt to find the file in other folders in the project directory. We do that by adding the highlighted lines in the `FileReaderTool` class definition as shown below.
+Let's pick up the custom tool example we looked at previously (<a href="/add-custom-tools" target="_blank">**Add custom tools ↗**</a>). We will now examine the code that defines a clarification in a tool explicitly. We're going to add a clarification to the `FileReaderTool` custom tool to handle cases where a file is not found. Instead of throwing an error directly, we will attempt to find the file in other folders in the project directory. We do that by adding the highlighted lines in the `FileReaderTool` class definition as shown below.
 
 ```python title="my_custom_tools/file_reader_tool.py"
 from pathlib import Path
 import pandas as pd
 import json
 from pydantic import BaseModel, Field
-from portia.tool import Tool, ToolRunContext
-from portia.errors import ToolHardError
-# highlight-next-line
-from portia.clarification import MultipleChoiceClarification
+from portia import (
+    MultipleChoiceClarification,
+    Tool,
+    ToolHardError,
+    ToolRunContext,
+)
 
 
 class FileReaderToolSchema(BaseModel):
@@ -67,7 +69,7 @@ class FileReaderTool(Tool[str]):
         alt_file_paths = self.find_file(filename)
         if alt_file_paths:
             return MultipleChoiceClarification(
-                workflow_id=ctx.workflow_id,
+                plan_run_id=ctx.plan_run_id,
                 argument_name="filename",
                 user_guidance=f"Found {filename} in these location(s). Pick one to continue:\n{alt_file_paths}",
                 options=alt_file_paths,
@@ -98,6 +100,7 @@ The block below results in the tool using the `find_file` method to look for alt
 alt_file_paths = self.find_file(filename)
 if alt_file_paths:
     return MultipleChoiceClarification(
+        plan_run_id=ctx.plan_run_id,
         argument_name="filename",
         user_guidance=f"Found {filename} in these location(s). Pick one to continue:\n{alt_file_paths}",
         options=alt_file_paths,
@@ -113,46 +116,46 @@ Note: Our `weather.txt` file contains "The current weather in Llanfairpwllgwyngy
 :::
 
 ```python title="main.py" skip=true
-from portia.runner import Runner
+from portia import Portia
 from portia.config import default_config
 from portia.open_source_tools.registry import example_tool_registry
 from my_custom_tools.registry import custom_tool_registry
 from portia.clarification import MultipleChoiceClarification
-from portia.workflow import WorkflowState
+from portia.plan_run import PlanRunState
 
 # Load example and custom tool registries into a single one
 complete_tool_registry = example_tool_registry + custom_tool_registry
-# Instantiate a Portia runner. Load it with the default config and with the tools above
-runner = Runner(config=default_config(), tools=complete_tool_registry)
+# Instantiate a Portia instance. Load it with the default config and with the tools above
+portia = Portia(tools=complete_tool_registry)
 
 # Execute the plan from the user query
-workflow = runner.execute_query('Read the contents of the file "weather.txt".')
+plan_run = portia.run('Read the contents of the file "weather.txt".')
 
-# Check if the workflow was paused due to raised clarifications
-while workflow.state == WorkflowState.NEED_CLARIFICATION:
-    # If clarifications are needed, resolve them before resuming the workflow
-    for clarification in workflow.get_outstanding_clarifications():
+# Check if the plan run was paused due to raised clarifications
+while plan_run.state == PlanRunState.NEED_CLARIFICATION:
+    # If clarifications are needed, resolve them before resuming the plan run
+    for clarification in plan_run.get_outstanding_clarifications():
         # For each clarification, prompt the user for input
         print(f"{clarification.user_guidance}")
         user_input = input("Please enter a value:\n" 
                         + (("\n".join(clarification.options) + "\n") if "options" in clarification else ""))
         # Resolve the clarification with the user input
-        workflow = runner.resolve_clarification(clarification, user_input, workflow)
+        plan_run = portia.resolve_clarification(clarification, user_input, plan_run)
 
-    # Once clarifications are resolved, resume the workflow
-    workflow = runner.execute_workflow(workflow)
+    # Once clarifications are resolved, resume the plan run
+    plan_run = portia.resume(plan_run)
 
 # Serialise into JSON and print the output
-print(workflow.model_dump_json(indent=2))
+print(plan_run.model_dump_json(indent=2))
 ```
 
-For the example query above `Read the contents of the file "weather.txt".`, where the user resolves the clarification by entering one of the options offered by the clarification (in this particular case `demo_runs/weather.txt` in our project directory `momo_sdk_tests`), you should see the following workflow state and notice:
+For the example query above `Read the contents of the file "weather.txt".`, where the user resolves the clarification by entering one of the options offered by the clarification (in this particular case `demo_runs/weather.txt` in our project directory `momo_sdk_tests`), you should see the following plan run state and notice:
 - The multiple choice clarification where the `user_guidance` was generated by Portia based on your clarification definition in the `FileReaderTool` class,
-- The `response` in the second workflow snapshot reflecting the user input, and the change in `resolved` to `true` as a result
-- The workflow `state` will appear to `NEED_CLARIFICATION` if you look at the logs at the point when the clarification is raised. It then progresses to `COMPLETE` once you respond to the clarification and the workflow is able to resume:
-```json title="workflow_state.json"
+- The `response` in the second plan run snapshot reflecting the user input, and the change in `resolved` to `true` as a result
+- The plan run `state` will appear to `NEED_CLARIFICATION` if you look at the logs at the point when the clarification is raised. It then progresses to `COMPLETE` once you respond to the clarification and the plan run is able to resume:
+```json title="run_state.json"
 {
-  "id": "wkfl-54d157fe-4b99-4dbb-a917-8fd8852df63d",
+  "id": "prun-54d157fe-4b99-4dbb-a917-8fd8852df63d",
   "plan_id": "plan-b87de5ac-41d9-4722-8baa-8015327511db",
   "current_step_index": 0,
   "state": "COMPLETE",

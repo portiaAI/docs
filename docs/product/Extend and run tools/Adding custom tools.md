@@ -108,7 +108,7 @@ Let's group our custom tools into a registry so we can import it into code after
 ```python title="registry.py" skip=true
 """Registry containing my custom tools."""
 
-from portia.tool_registry import InMemoryToolRegistry
+from portia import InMemoryToolRegistry
 from my_custom_tools.file_reader_tool import FileReaderTool
 from my_custom_tools.file_writer_tool import FileWriterTool
 
@@ -137,27 +137,28 @@ We're assuming you already have a Tavily key provisioned from the previous secti
 
 ```python title="main.py" skip=true
 from dotenv import load_dotenv
-from portia.runner import Runner
-from portia.config import default_config
-from portia.open_source_tools.registry import example_tool_registry
+from portia import (
+    Portia,
+    example_tool_registry,
+)
 from my_custom_tools.registry import custom_tool_registry
 
 load_dotenv()
 
 # Load example and custom tool registries into a single one
 complete_tool_registry = example_tool_registry + custom_tool_registry
-# Instantiate a Portia runner. Load it with the default config and with the tools above
-runner = Runner(config=default_config(), tools=complete_tool_registry)
+# Instantiate Portia with the tools above
+portia = Portia(tools=complete_tool_registry)
 
 # Execute the plan from the user query
-workflow = runner.execute_query('Get the weather in the town with the longest name in England' 
+plan_run = portia.run('Get the weather in the town with the longest name in England' 
                                 + 'and write it to demo_runs/weather.txt.')
 
 # Serialise into JSON and print the output
-print(workflow.model_dump_json(indent=2))
+print(plan_run.model_dump_json(indent=2))
 ```
 
-This should result in a plan and subsequent workflow automatically weaving in the `WeatherTool` and `SearchTool` from the `example_tool_registry` as well as our hot-off-the-press `FileWriterTool` from our `custom_tool_registry`.
+This should result in a plan and subsequent plan run automatically weaving in the `WeatherTool` and `SearchTool` from the `example_tool_registry` as well as our hot-off-the-press `FileWriterTool` from our `custom_tool_registry`.
 You should expect the weather information in Llanfairpwllgwyngyllgogerychwyrndrobwllllantysiliogogogoch to be printed in a weather.txt file inside a `demo_runs` folder as specified. If you're in the mood, now is a good time to practise your Welsh pronunciation.
 ```text title="demo_runs/weather.txt"
 The current weather in Llanfairpwllgwyngyllgogerychwyrndrobwllllantysiliogogogoch is broken clouds with a temperature of 6.76°C.
