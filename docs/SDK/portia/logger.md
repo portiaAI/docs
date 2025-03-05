@@ -38,6 +38,55 @@ This interface defines the common methods that any logger should implement. The 
 
 These methods are used throughout the application for logging messages at various levels.
 
+## Formatter Objects
+
+```python
+class Formatter()
+```
+
+A class used to format log records.
+
+Attributes
+----------
+max_lines : int
+    The maximum number of lines to include in the formatted log message.
+
+Methods
+-------
+format(record)
+    Formats a log record into a string.
+
+#### \_\_init\_\_
+
+```python
+def __init__() -> None
+```
+
+Initialize the logger with default settings.
+
+**Attributes**:
+
+- `max_lines` _int_ - The maximum number of lines the logger can handle, default is 30.
+
+#### format
+
+```python
+def format(record: Any) -> str
+```
+
+Format a log record into a string with specific formatting.
+
+**Arguments**:
+
+- `record` _dict_ - A dictionary containing log record information.
+  Expected keys are &quot;message&quot;, &quot;extra&quot;, &quot;time&quot;, &quot;level&quot;, &quot;name&quot;,
+  &quot;function&quot;, and &quot;line&quot;.
+  
+
+**Returns**:
+
+- `str` - The formatted log record string.
+
 ## LoggerManager Objects
 
 ```python
