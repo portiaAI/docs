@@ -50,7 +50,7 @@ Let's build two custom tools that allow an LLM to write / read content to / from
                         data = json.load(json_file)
                         return data
                 elif suffix in ['.xls', '.xlsx']:
-                    return pd.read_excel(file_path).to_string
+                    return pd.read_excel(file_path).to_string()
                 elif suffix in ['.txt', '.log']:
                     return file_path.read_text(encoding="utf-8")
     ```
