@@ -50,17 +50,13 @@ Get the associated models for the provider.
 
 - `list[LLMModel]` - List of supported models for the provider.
 
-#### default\_model
+#### to\_api\_key\_name
 
 ```python
-def default_model() -> LLMModel
+def to_api_key_name() -> str
 ```
 
-Get the default model for the provider.
-
-**Returns**:
-
-- `LLMModel` - The default model for the provider.
+Get the name of the API key for the provider.
 
 ## LLMModel Objects
 
@@ -82,7 +78,7 @@ Models are grouped by provider, with the following providers:
 - `GPT_3_5_TURBO` - GPT-3.5 Turbo model by OpenAI.
 - `CLAUDE_3_5_SONNET` - Claude 3.5 Sonnet model by Anthropic.
 - `CLAUDE_3_5_HAIKU` - Claude 3.5 Haiku model by Anthropic.
-- `CLAUDE_3_OPUS_LATEST` - Claude 3.0 Opus latest model by Anthropic.
+- `CLAUDE_3_OPUS` - Claude 3.0 Opus model by Anthropic.
 - `MISTRAL_LARGE_LATEST` - Mistral Large Latest model by MistralAI.
 
 #### provider
@@ -138,28 +134,6 @@ Enum for available log levels.
 - `ERROR` - Error log level.
 - `CRITICAL` - Critical log level.
 
-#### is\_greater\_than\_zero
-
-```python
-def is_greater_than_zero(value: int) -> int
-```
-
-Ensure the value is greater than zero.
-
-**Arguments**:
-
-- `value` _int_ - The value to validate.
-  
-
-**Raises**:
-
-- `ValueError` - If the value is less than or equal to zero.
-  
-
-**Returns**:
-
-- `int` - The validated value.
-
 #### parse\_str\_to\_enum
 
 ```python
@@ -203,17 +177,32 @@ from files or default values.
 - `openai_api_key` - The API key for OpenAI.
 - `anthropic_api_key` - The API key for Anthropic.
 - `mistralai_api_key` - The API key for MistralAI.
+- `llm_provider` - The LLM provider.
+- `models` - A dictionary of LLM models for each usage type.
 - `storage_class` - The storage class used (e.g., MEMORY, DISK, CLOUD).
 - `storage_dir` - The directory for storage, if applicable.
 - `default_log_level` - The default log level (e.g., DEBUG, INFO).
-- `default_log_sink` - The default destination for logs (e.g., sys.stdout).
-- `json_log_serialize` - Whether to serialize logs in JSON format.
-- `portia_api_key`0 - The LLM provider (e.g., OpenAI, Anthropic).
-- `portia_api_key`1 - The model to use for LLM tasks.
-- `portia_api_key`2 - The temperature for LLM generation.
-- `portia_api_key`3 - The seed for LLM generation.
-- `portia_api_key`4 - The planning agent type.
-- `portia_api_key`5 - The execution agent type.
+- `portia_api_key`0 - The default destination for logs (e.g., sys.stdout).
+- `portia_api_key`1 - Whether to serialize logs in JSON format.
+- `portia_api_key`2 - The planning agent type.
+- `portia_api_key`3 - The execution agent type.
+
+#### add\_default\_models
+
+```python
+@model_validator(mode="after")
+def add_default_models() -> Self
+```
+
+Add default models if not provided.
+
+#### model
+
+```python
+def model(usage: str) -> LLMModel
+```
+
+Get the LLM model for the given usage.
 
 #### parse\_storage\_class
 
@@ -234,26 +223,6 @@ def parse_default_log_level(cls, value: str | LogLevel) -> LogLevel
 ```
 
 Parse default_log_level to enum if string provided.
-
-#### parse\_llm\_provider
-
-```python
-@field_validator("llm_provider", mode="before")
-@classmethod
-def parse_llm_provider(cls, value: str | LLMProvider) -> LLMProvider
-```
-
-Parse llm_provider to enum if string provided.
-
-#### parse\_llm\_model\_name
-
-```python
-@field_validator("llm_model_name", mode="before")
-@classmethod
-def parse_llm_model_name(cls, value: str | LLMModel) -> LLMModel
-```
-
-Parse llm_model_name to enum if string provided.
 
 #### parse\_execution\_agent\_type
 
@@ -377,6 +346,26 @@ Retrieve any value from the config, ensuring its of the correct type.
 **Returns**:
 
 - `T` - The config value
+
+#### get\_llm\_api\_key
+
+```python
+def get_llm_api_key(model_name: LLMModel) -> SecretStr
+```
+
+Get the API key for the given LLM model.
+
+**Returns**:
+
+- `SecretStr` - The API key for the given LLM model.
+
+#### llm\_provider\_default\_from\_api\_keys
+
+```python
+def llm_provider_default_from_api_keys(**kwargs) -> LLMProvider
+```
+
+Get the default LLM provider from the API keys.
 
 #### default\_config
 

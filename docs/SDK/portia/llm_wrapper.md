@@ -40,14 +40,14 @@ responses using the instructor tool (`to_instructor`).
 #### \_\_init\_\_
 
 ```python
-def __init__(config: Config) -> None
+def __init__(api_key: SecretStr) -> None
 ```
 
 Initialize the base LLM wrapper.
 
 **Arguments**:
 
-- `config` _Config_ - The configuration object containing settings for the LLM.
+- `api_key` _str_ - The API key for the LLM provider.
 
 #### to\_langchain
 
@@ -109,9 +109,8 @@ LangChain-compatible model and to generate responses using the instructor tool.
 
 **Attributes**:
 
-- `llm_provider` _LLMProvider_ - The LLM provider to use (e.g., OpenAI, Anthropic, MistralAI).
-- `model_name` _str_ - The name of the model to use.
-- `model_temperature` _float_ - The temperature setting for the model.
+- `model_name` _LLMModel_ - The name of the model to use.
+- `api_key` _SecretStr_ - The API key for the LLM provider.
 - `model_seed` _int_ - The seed for the model&#x27;s random generation.
   
 
@@ -123,14 +122,27 @@ LangChain-compatible model and to generate responses using the instructor tool.
 #### \_\_init\_\_
 
 ```python
-def __init__(config: Config) -> None
+def __init__(model_name: LLMModel,
+             api_key: SecretStr,
+             model_seed: int = 343) -> None
 ```
 
 Initialize the wrapper.
 
 **Arguments**:
 
-- `config` _Config_ - The configuration object containing settings for the LLM.
+- `model_name` _LLMModel_ - The name of the LLM model to use.
+- `api_key` _SecretStr_ - The API key for authentication with the LLM provider.
+- `model_seed` _int, optional_ - Seed for model&#x27;s random generation. Defaults to 343.
+
+#### for\_usage
+
+```python
+@classmethod
+def for_usage(cls, usage: str, config: Config) -> LLMWrapper
+```
+
+Create an LLMWrapper from a LLMModel.
 
 #### to\_langchain
 
