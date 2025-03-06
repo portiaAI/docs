@@ -55,6 +55,14 @@ should proceed to the tool agent again, to the summarizer, or end.
 
 - `ToolRetryError` - If the tool has an error and the maximum retry limit has not been reached.
 
+#### is\_clarification
+
+```python
+def is_clarification(artifact: Any) -> bool
+```
+
+Check if the artifact is a clarification or list of clarifications.
+
 #### tool\_call\_or\_end
 
 ```python
