@@ -79,7 +79,7 @@ Models are grouped by provider, with the following providers:
 - `CLAUDE_3_5_SONNET` - Claude 3.5 Sonnet model by Anthropic.
 - `CLAUDE_3_5_HAIKU` - Claude 3.5 Haiku model by Anthropic.
 - `CLAUDE_3_OPUS` - Claude 3.0 Opus model by Anthropic.
-- `MISTRAL_LARGE_LATEST` - Mistral Large Latest model by MistralAI.
+- `MISTRAL_LARGE` - Mistral Large Latest model by MistralAI.
 
 #### provider
 
