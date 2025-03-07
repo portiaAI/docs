@@ -87,6 +87,14 @@ Format a log record into a string with specific formatting.
 
 - `str` - The formatted log record string.
 
+#### \_get\_function\_color\_
+
+```python
+def _get_function_color_(record: Any) -> str
+```
+
+Get color based on function/module name. Default is white.
+
 ## LoggerManager Objects
 
 ```python
