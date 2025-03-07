@@ -258,8 +258,7 @@ class CLIClarificationHandler(ClarificationHandler):
         user_input = input(f"{clarification.user_guidance}\nPlease enter a value:\n")
         on_resolution(clarification, user_input)
 
-config = Config.from_default(execution_hooks=ExecutionHooks(clarification_handler=CLIClarificationHandler()),)
-portia = Portia(config=config)
+portia = Portia(execution_hooks=ExecutionHooks(clarification_handler=CLIClarificationHandler()))
 ```
 
 Portia also offers some default clarification handling behaviours that can be used out of the box. For example, you don't actually need
