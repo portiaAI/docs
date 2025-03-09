@@ -238,8 +238,11 @@ Through the above example, we explicitly handle the clarifications in order to d
 However, Portia also offers a `ClarificationHandler` class that can be used to simplify the handling of clarifications.
 In order to use this, simply create your own class that inherits from `ClarificationHandler` and implement the methods for
 handling the types of clarifications you expect to handle. Each method takes an `on_resolution` and `on_error` parameter - 
-these can be called either synchronously or asynchronously when the clarification handling is finished. You can then pass the 
-clarification handler in as an execution hook when creating the Portia instance:
+these can be called either synchronously or asynchronously when the clarification handling is finished. This allows handling
+clarifications in many different ways - for example, they could be handled by the user in a UI, or they could be handled in an
+email or slack message.
+
+Once you've created your clarifiication handler, it can be passed in as an execution hook when creating the Portia instance:
 
 ```python
 from portia import Clarification, ClarificationHandler, Config, ExecutionHooks, InputClarification, Portia
