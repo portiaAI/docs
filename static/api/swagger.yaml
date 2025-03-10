@@ -18,8 +18,8 @@ securityDefinitions:
   OAuth2:
     type: oauth2
     flow: accessCode
-    authorizationUrl: https://dev-6l6ov2qx04v2uyr0.us.auth0.com/oauth/authorize
-    tokenUrl: https://dev-6l6ov2qx04v2uyr0.us.auth0.com/oauth/token
+    authorizationUrl: https://login.porita.dev/oauth/authorize
+    tokenUrl: https://login.porita.dev/oauth/token
     scopes: {}
   API-Key:
     type: apiKey
