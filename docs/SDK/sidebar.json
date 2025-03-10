@@ -22,6 +22,7 @@
     {
       "items": [
         "SDK/portia/open_source_tools/calculator_tool",
+        "SDK/portia/open_source_tools/image_understanding_tool",
         "SDK/portia/open_source_tools/llm_tool",
         "SDK/portia/open_source_tools/local_file_reader_tool",
         "SDK/portia/open_source_tools/local_file_writer_tool",

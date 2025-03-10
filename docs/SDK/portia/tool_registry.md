@@ -417,3 +417,22 @@ def __init__(config: Config) -> None
 
 Initialize the default tool registry with the given configuration.
 
+#### generate\_pydantic\_model\_from\_json\_schema
+
+```python
+def generate_pydantic_model_from_json_schema(
+        model_name: str, json_schema: dict[str, Any]) -> type[BaseModel]
+```
+
+Generate a Pydantic model based on a JSON schema.
+
+**Arguments**:
+
+- `model_name` _str_ - The name of the Pydantic model.
+- `json_schema` _dict[str, Any]_ - The schema to generate the model from.
+  
+
+**Returns**:
+
+- `type[BaseModel]` - The generated Pydantic model class.
+

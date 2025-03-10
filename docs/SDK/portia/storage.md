@@ -237,7 +237,7 @@ Log the tool call.
 ## Storage Objects
 
 ```python
-class Storage(PlanStorage, RunStorage, AdditionalStorage)
+class Storage(PlanStorage, RunStorage, LogAdditionalStorage)
 ```
 
 Combined base class for Plan Run + Additional storages.

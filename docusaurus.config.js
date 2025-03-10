@@ -1,12 +1,14 @@
 // @ts-check
 // Note: type annotations allow type checking and IDEs autocompletion
-import { themes } from 'prism-react-renderer';
+import { themes } from "prism-react-renderer";
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: "Portia AI Docs",
   tagline: "Portia AI Technical Documentation",
   favicon: "img/Logo_Portia_Symbol_Black.png",
+
+  staticDirectories: ["static"],
 
   // Set the production url of your site here
   url: `https://docs.portialabs.ai`,
@@ -53,8 +55,8 @@ const config = {
           sidebarCollapsed: false,
           exclude: [
             // todo richard, command to prove this is ok
-            '**/_*.{js,jsx,ts,tsx,md,mdx}',
-            '**/_*/**',
+            "**/_*.{js,jsx,ts,tsx,md,mdx}",
+            "**/_*/**",
             "**/*.test.{js,jsx,ts,tsx}",
             "**/__tests__/**",
             "**/__init__",
@@ -80,14 +82,14 @@ const config = {
         logo: {
           alt: "Portia Logo",
           src: "img/logo.png",
-          srcDark: "img/Logo_Portia_Line_White.png"
+          srcDark: "img/Logo_Portia_Line_White.png",
         },
         items: [
           {
             label: "Docs",
             to: "/",
             // Don't show docs nav as active for portia-tools and sdk
-            activeBaseRegex: '^(?!/portia-tools|/SDK).*$'
+            activeBaseRegex: "^(?!/portia-tools|/SDK).*$",
           },
           {
             label: "Tools",
