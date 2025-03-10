@@ -87,7 +87,7 @@ should continue, or if the run should end.
 
 ```python
 def process_output(
-        last_message: BaseMessage,
+        messages: list[BaseMessage],
         tool: Tool | None = None,
         clarifications: list[Clarification] | None = None) -> Output
 ```
@@ -99,7 +99,7 @@ It raises errors if the tool encounters issues and returns the appropriate outpu
 
 **Arguments**:
 
-- `last_message` _BaseMessage_ - The last message received in the agent&#x27;s plan_run.
+- `messages` _list[BaseMessage}_ - The set of messages received from the agent&#x27;s plan_run.
 - `tool` _Tool | None_ - The tool associated with the agent, if any.
 - `clarifications` _list[Clarification] | None_ - A list of clarifications, if any.
   
