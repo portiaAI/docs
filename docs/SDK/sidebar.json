@@ -48,6 +48,7 @@
     "SDK/portia/execution_context",
     "SDK/portia/llm_wrapper",
     "SDK/portia/logger",
+    "SDK/portia/mcp_session",
     "SDK/portia/plan",
     "SDK/portia/plan_run",
     "SDK/portia/portia",
