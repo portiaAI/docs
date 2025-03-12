@@ -87,6 +87,14 @@ Format a log record into a string with specific formatting.
 
 - `str` - The formatted log record string.
 
+#### \_sanitize\_message\_
+
+```python
+def _sanitize_message_(msg: str) -> str
+```
+
+Sanitize a message to be used in a log record.
+
 #### \_get\_function\_color\_
 
 ```python
