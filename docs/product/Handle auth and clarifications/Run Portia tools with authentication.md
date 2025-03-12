@@ -25,6 +25,11 @@ We established in the preceding section that clarifications are raised when an a
 - When a Portia tool call is made, we first attempt to retrieve an OAuth token against the `end_user_id` if provided. When no OAuth token is found, an `ActionClarification` is raised with an OAuth link as the action URL. This OAuth link uses Portia's authentication client and a Portia redirect URL.
 - Portia's OAuth server listens for the authentication result and resolves the concerned clarification, allowing the plan run to resume again.
 
+Optionally, you can configure a custom URL to which users are redirected after successful authentication. To set up a redirect URL, follow these steps:
+1. Log into your Portia <a href="https://app.portialabs.ai" target="_blank">**dashboard ↗**</a>
+2. Navigate to the **Manage Org** tab.
+3. Enter the custom URL in 'Org Settings'. Ensure that the URL begins with either `https://` or `http://`, as it must comply with the HTTP scheme. 
+
 ## Bringing the concepts together
 
 Now let's bring this to life by reproducing the experience that you can see on the website's playground (<a href="https://www.portialabs.ai" target="_blank">**↗**</a>). We want to be able to handle a prompt like `Find the github repository of Mastodon and give it a star for me`, so let's take a look at the code below.
