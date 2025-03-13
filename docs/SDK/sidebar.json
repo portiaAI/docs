@@ -43,6 +43,7 @@
     },
     "SDK/portia/clarification",
     "SDK/portia/clarification_handler",
+    "SDK/portia/cloud",
     "SDK/portia/config",
     "SDK/portia/errors",
     "SDK/portia/execution_context",
