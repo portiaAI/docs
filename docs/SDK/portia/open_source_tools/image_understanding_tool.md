@@ -13,6 +13,15 @@ class ImageUnderstandingToolSchema(BaseModel)
 
 Input for Image Understanding Tool.
 
+#### check\_image\_url\_or\_file
+
+```python
+@model_validator(mode="after")
+def check_image_url_or_file() -> Self
+```
+
+Check that only one of image_url or image_file is provided.
+
 ## ImageUnderstandingTool Objects
 
 ```python
