@@ -3,6 +3,8 @@ sidebar_position: 5
 slug: /mcp-servers
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Integrating an MCP Server
 
