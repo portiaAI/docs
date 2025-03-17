@@ -66,17 +66,17 @@ The Model Context Protocol (MCP) (<a href="https://modelcontextprotocol.io/" tar
   </TabItem>
 </Tabs>
 
-There are two ways to integrate an MCP server: 
-1. *stdio* (Standard input/output): The server runs as a subprocess of you main python process
-2. *sse*: (Server-Sent Events). Communication is over HTTP, you can run the server locally or deploy a server remotely.
+There are two ways to integrate an MCP server:
 
-To find out more, see the [MCP official docs](https://modelcontextprotocol.io/docs/concepts/transports#server-sent-events-sse).
+- **stdio** (Standard input/output): The server runs as a subprocess of you main python process.
+- **sse** (Server-Sent Events): Communication is over HTTP, you can run the server locally or deploy a server remotely.
+
+To find out more, see the official MCP docs for more (<a href="https://modelcontextprotocol.io/docs/concepts/transports" target="_blank">**↗**</a>).
 
 :::info[Pre-requisites]
-To run the stdio example, you would need to make sure (`npx`)[https://docs.npmjs.com/cli/v8/commands/npx] is available in your environment. Many MCP servers are currently provided to run in this way (usually either run with `npx`, (`uvx`)[https://docs.astral.sh/uv/guides/tools/])
+To run the stdio example, you would need to make sure `npx` (<a href="https://docs.npmjs.com/cli/v8/commands/npx" target="_blank">**↗**</a>) is available in your environment. Many MCP servers are currently provided to run in this way, usually either run with the `npx` or `uvx` (<a href="https://docs.astral.sh/uv/guides/tools/" target="_blank">**↗**</a>) command.
 :::
 
 Portia will pull in the tool definitions from the MCP server, making them available to the Planner and Execution Agents.
 
-There are many open source MCP servers already available: check out the list of servers on the [official MCP github](https://github.com/modelcontextprotocol/servers).
-  
+There are many open source MCP servers already available: check out the list of servers on the official MCP github repository (<a href="https://github.com/modelcontextprotocol/servers" target="_blank">**↗**</a>).
