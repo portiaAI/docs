@@ -12,7 +12,7 @@ The [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) makes it ve
 
 <Tabs>
   <TabItem value="mcp_stdio" label="mcp_stdio_example.py">
-    ```python title="mcp_example.py"
+    ```python title="mcp_stdio_example.py"
     from portia import (
         DefaultToolRegistry,
         Portia,
@@ -23,7 +23,8 @@ The [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) makes it ve
     config = Config.from_default()
 
     tool_registry = (
-        # Integrates the Stripe MCP server from https://github.com/stripe/agent-toolkit/tree/main/modelcontextprotocol
+        # Integrates the Stripe MCP server from 
+        # https://github.com/stripe/agent-toolkit/tree/main/modelcontextprotocol
         McpToolRegistry.from_stdio_connection(
             server_name="stripe",
             command="npx",
@@ -41,7 +42,7 @@ The [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) makes it ve
     ```
   </TabItem>
   <TabItem value="mcp_sse" label="mcp_sse_example.py">
-    ```python title="mcp_example.py"
+    ```python title="mcp_sse_example.py"
     from portia import (
         DefaultToolRegistry,
         Portia,
@@ -67,6 +68,7 @@ The [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) makes it ve
 
 :::info[Pre-requisites]
 To run the stdio example, you would need to make sure (`npx`)[https://docs.npmjs.com/cli/v8/commands/npx] is available in your environment. Many MCP servers are currently provided to run in this way (usually either run with `npx`, (`uvx`)[https://docs.astral.sh/uv/guides/tools/])
+:::
 
 Portia will pull in the tool definitions from the MCP server, making them available to the Planner and Execution Agents.
 
