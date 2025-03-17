@@ -66,6 +66,12 @@ The [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) makes it ve
   </TabItem>
 </Tabs>
 
+There are two ways to integrate an MCP server: 
+1. *stdio* (Standard input/output): The server runs as a subprocess of you main python process
+2. *sse*: (Server-Sent Events). Communication is over HTTP, you can run the server locally or deploy a server remotely.
+
+To find out more, see the [MCP official docs](https://modelcontextprotocol.io/docs/concepts/transports#server-sent-events-sse).
+
 :::info[Pre-requisites]
 To run the stdio example, you would need to make sure (`npx`)[https://docs.npmjs.com/cli/v8/commands/npx] is available in your environment. Many MCP servers are currently provided to run in this way (usually either run with `npx`, (`uvx`)[https://docs.astral.sh/uv/guides/tools/])
 :::
