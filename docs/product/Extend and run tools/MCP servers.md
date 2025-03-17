@@ -8,7 +8,7 @@ import TabItem from '@theme/TabItem';
 
 # Integrating an MCP Server
 
-The [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) makes it very easy to integrate third-party tools into your Portia Agent:
+The Model Context Protocol (MCP) (<a href="https://modelcontextprotocol.io/" target="_blank">**↗**</a>) makes it very easy to integrate third-party tools into your Portia Agent:
 
 <Tabs>
   <TabItem value="mcp_stdio" label="mcp_stdio_example.py">
