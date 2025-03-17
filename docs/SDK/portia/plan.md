@@ -21,6 +21,92 @@ Classes in this file include:
 These classes facilitate the definition of runs that can be dynamically adjusted based on the
 tools, inputs, and outputs defined in the plan.
 
+## PlanBuilder Objects
+
+```python
+class PlanBuilder()
+```
+
+A builder for creating plans.
+
+This class provides an interface for constructing plans step by step. Requires a step to be
+added to the plan before building it.
+
+**Example**:
+
+  plan = PlanBuilder()                 .step(&quot;Step 1&quot;, &quot;tool_id_1&quot;, &quot;output_1&quot;)                 .step(&quot;Step 2&quot;, &quot;tool_id_2&quot;, &quot;output_2&quot;)                 .input(&quot;input_1&quot;, &quot;value_1&quot;)                 .build()
+
+#### \_\_init\_\_
+
+```python
+def __init__(query: str | None = None) -> None
+```
+
+Initialize the builder with the plan query.
+
+**Arguments**:
+
+- `query` _str_ - The original query given by the user.
+
+#### step
+
+```python
+def step(task: str,
+         tool_id: str | None = None,
+         output: str | None = None,
+         inputs: list[Variable] | None = None) -> PlanBuilder
+```
+
+Add a step to the plan.
+
+**Arguments**:
+
+- `task` _str_ - The task to be completed by the step.
+- `tool_id` _str | None_ - The ID of the tool used in this step, if applicable.
+- `output` _str | None_ - The unique output ID for the result of this step.
+- `inputs` _list[Variable] | None_ - The inputs to the step
+  
+
+**Returns**:
+
+- `PlanBuilder` - The builder instance with the new step added.
+
+#### input
+
+```python
+def input(name: str,
+          value: Any | None = None,
+          description: str | None = None,
+          step_index: int | None = None) -> PlanBuilder
+```
+
+Add an input variable to the chosen step in the plan (default is the last step).
+
+**Arguments**:
+
+- `name` _str_ - The name of the input.
+- `value` _Any | None_ - The value of the input.
+- `description` _str | None_ - The description of the input.
+- `step_index` _int | None_ - The index of the step to add the input to. If not provided,
+  the input will be added to the last step.
+  
+
+**Returns**:
+
+- `PlanBuilder` - The builder instance with the new input added.
+
+#### build
+
+```python
+def build() -> Plan
+```
+
+Build the plan.
+
+**Returns**:
+
+- `Plan` - The built plan.
+
 ## Variable Objects
 
 ```python
@@ -107,6 +193,19 @@ for the planning agent to use when generating the plan.
 - `query` _str_ - The original query given by the user.
 - `tool_ids` _list[str]_ - A list of tool IDs available to the planning agent.
 
+#### serialize\_tool\_ids
+
+```python
+@field_serializer("tool_ids")
+def serialize_tool_ids(tool_ids: list[str]) -> list[str]
+```
+
+Serialize the tool_ids to a sorted list.
+
+**Returns**:
+
+- `list[str]` - The tool_ids as a sorted list.
+
 ## Plan Objects
 
 ```python
@@ -135,6 +234,22 @@ Return the string representation of the plan.
 **Returns**:
 
 - `str` - A string representation of the plan&#x27;s ID, context, and steps.
+
+#### validate\_plan
+
+```python
+@model_validator(mode="after")
+def validate_plan() -> Plan
+```
+
+Validate the plan.
+
+Checks that the plan has at least one step, that all outputs are unique, and that all
+steps use valid outputs as inputs.
+
+**Returns**:
+
+- `Plan` - The validated plan.
 
 ## ReadOnlyPlan Objects
 

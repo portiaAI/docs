@@ -307,3 +307,38 @@ during the request or parsing are raised as `ToolHardError`.
 
 - `ToolHardError` - If the request fails or there is an error parsing the response.
 
+## PortiaMcpTool Objects
+
+```python
+class PortiaMcpTool(Tool[str])
+```
+
+A Portia Tool wrapper for an MCP server-based tool.
+
+#### run
+
+```python
+def run(_: ToolRunContext, **kwargs: Any) -> str
+```
+
+Invoke the tool by dispatching to the MCP server.
+
+**Arguments**:
+
+- `_` - The tool run context
+- `**kwargs` - The arguments to pass to the MCP tool invocation
+  
+
+**Returns**:
+
+- `str` - The result of the tool call
+
+#### call\_remote\_mcp\_tool
+
+```python
+async def call_remote_mcp_tool(name: str,
+                               arguments: dict | None = None) -> str
+```
+
+Call a tool using the MCP session.
+

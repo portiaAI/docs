@@ -247,3 +247,20 @@ This is generally because there are outstanding clarifications that need to be r
 
 - `InvalidRunStateError` - If the run cannot be waited for.
 
+#### create\_plan\_run
+
+```python
+def create_plan_run(plan: Plan) -> PlanRun
+```
+
+Create a PlanRun from a Plan.
+
+**Arguments**:
+
+- `plan` _Plan_ - The plan to create a plan run from.
+  
+
+**Returns**:
+
+- `PlanRun` - The created PlanRun object.
+
