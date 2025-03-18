@@ -44,7 +44,7 @@ The `server_name` argument is used by Portia to identify where tools have come f
                 f"--api-key={os.getenv('STRIPE_API_KEY')}",
             ],
         )
-        + DefaultToolRegistry()
+        + DefaultToolRegistry(config)
     )
 
     portia = Portia(config=config, tools=tool_registry)
@@ -67,7 +67,7 @@ The `server_name` argument is used by Portia to identify where tools have come f
             server_name="mcp_sse_example_server",
             url="http://localhost:8000",
         )
-        + DefaultToolRegistry()
+        + DefaultToolRegistry(config)
     )
 
     portia = Portia(config=config, tools=tool_registry)
