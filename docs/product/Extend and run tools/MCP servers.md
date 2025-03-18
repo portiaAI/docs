@@ -20,6 +20,8 @@ The `server_name` argument is used by Portia to identify where tools have come f
 <Tabs>
   <TabItem value="mcp_stdio" label="mcp_stdio_example.py">
     ```python title="mcp_stdio_example.py"
+    import os
+
     from portia import (
         DefaultToolRegistry,
         Portia,
