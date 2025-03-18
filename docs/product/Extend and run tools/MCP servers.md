@@ -41,7 +41,7 @@ The `server_name` argument is used by Portia to identify where tools have come f
                 "-y",
                 "@stripe/mcp",
                 "--tools=all",
-                f"--api-key={os.environ['STRIPE_API_KEY']}",
+                f"--api-key={os.getenv('STRIPE_API_KEY')}",
             ],
         )
         + DefaultToolRegistry()
