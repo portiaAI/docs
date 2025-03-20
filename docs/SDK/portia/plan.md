@@ -244,8 +244,7 @@ def validate_plan() -> Plan
 
 Validate the plan.
 
-Checks that the plan has at least one step, that all outputs are unique, and that all
-steps use valid outputs as inputs.
+Checks that all outputs + conditions are unique.
 
 **Returns**:
 

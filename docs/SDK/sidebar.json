@@ -21,6 +21,14 @@
     },
     {
       "items": [
+        "SDK/portia/introspection_agents/default_introspection_agent",
+        "SDK/portia/introspection_agents/introspection_agent"
+      ],
+      "label": "portia.introspection_agents",
+      "type": "category"
+    },
+    {
+      "items": [
         "SDK/portia/open_source_tools/calculator_tool",
         "SDK/portia/open_source_tools/image_understanding_tool",
         "SDK/portia/open_source_tools/llm_tool",
