@@ -54,7 +54,8 @@ Initialize the builder with the plan query.
 def step(task: str,
          tool_id: str | None = None,
          output: str | None = None,
-         inputs: list[Variable] | None = None) -> PlanBuilder
+         inputs: list[Variable] | None = None,
+         condition: str | None = None) -> PlanBuilder
 ```
 
 Add a step to the plan.
@@ -65,6 +66,8 @@ Add a step to the plan.
 - `tool_id` _str | None_ - The ID of the tool used in this step, if applicable.
 - `output` _str | None_ - The unique output ID for the result of this step.
 - `inputs` _list[Variable] | None_ - The inputs to the step
+- `condition` _str | None_ - A human readable condition which controls if the step should run
+  or not.
   
 
 **Returns**:
@@ -94,6 +97,25 @@ Add an input variable to the chosen step in the plan (default is the last step).
 **Returns**:
 
 - `PlanBuilder` - The builder instance with the new input added.
+
+#### condition
+
+```python
+def condition(condition: str, step_index: int | None = None) -> PlanBuilder
+```
+
+Add a condition to the chosen step in the plan (default is the last step).
+
+**Arguments**:
+
+- `condition` _str_ - The condition to be added to the chosen step.
+- `step_index` _int | None_ - The index of the step to add the condition to.
+  If not provided, the condition will be added to the last step.
+  
+
+**Returns**:
+
+- `PlanBuilder` - The builder instance with the new condition added.
 
 #### build
 
@@ -244,8 +266,7 @@ def validate_plan() -> Plan
 
 Validate the plan.
 
-Checks that the plan has at least one step, that all outputs are unique, and that all
-steps use valid outputs as inputs.
+Checks that all outputs + conditions are unique.
 
 **Returns**:
 
