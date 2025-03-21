@@ -24,6 +24,16 @@ Enum representing locations plans and runs are stored.
 - `DISK` - Stored on disk.
 - `CLOUD` - Stored in the cloud.
 
+#### validate\_extras\_dependencies
+
+```python
+def validate_extras_dependencies(extra_group: str) -> None
+```
+
+Validate that the dependencies for an extras group are installed.
+
+Provide a helpful error message if not all dependencies are installed.
+
 ## LLMProvider Objects
 
 ```python
