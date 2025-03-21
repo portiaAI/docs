@@ -272,6 +272,5 @@ clarification handler that allows the user to handle clarifications via the CLI.
 from portia import Config, Portia
 from portia.cli import CLIExecutionHooks
 
-config = Config.from_default(execution_hooks=CLIExecutionHooks())
-portia = Portia(config=config)
+portia = Portia(execution_hooks=CLIExecutionHooks())
 ```
