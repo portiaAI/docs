@@ -15,6 +15,7 @@ Classes:
     AggregatedToolRegistry: A registry that aggregates multiple tool registries.
     InMemoryToolRegistry: A simple in-memory implementation of `ToolRegistry`.
     PortiaToolRegistry: A tool registry that interacts with the Portia API to manage tools.
+    MCPToolRegistry: A tool registry that interacts with a locally running MCP server.
 
 ## ToolRegistry Objects
 
@@ -394,6 +395,101 @@ def filter_tools(filter_func: Callable[[Tool], bool]) -> ToolRegistry
 ```
 
 Return a new registry with the tools filtered by the filter function.
+
+## McpToolRegistry Objects
+
+```python
+class McpToolRegistry(ToolRegistry)
+```
+
+Provides access to tools within a Model Context Protocol (MCP) server.
+
+See https://modelcontextprotocol.io/introduction for more information on MCP.
+
+#### \_\_init\_\_
+
+```python
+def __init__(mcp_client_config: McpClientConfig) -> None
+```
+
+Initialize the MCPToolRegistry with the given configuration.
+
+#### from\_sse\_connection
+
+```python
+@classmethod
+def from_sse_connection(cls,
+                        server_name: str,
+                        url: str,
+                        headers: dict[str, Any] | None = None,
+                        timeout: float = 5,
+                        sse_read_timeout: float = 60 * 5) -> McpToolRegistry
+```
+
+Create a new MCPToolRegistry using an SSE connection.
+
+#### from\_stdio\_connection
+
+```python
+@classmethod
+def from_stdio_connection(
+    cls,
+    server_name: str,
+    command: str,
+    args: list[str] | None = None,
+    env: dict[str, str] | None = None,
+    encoding: str = "utf-8",
+    encoding_error_handler: Literal["strict", "ignore", "replace"] = "strict"
+) -> McpToolRegistry
+```
+
+Create a new MCPToolRegistry using a stdio connection.
+
+#### register\_tool
+
+```python
+def register_tool(tool: Tool) -> None
+```
+
+Register a new tool.
+
+**Arguments**:
+
+- `tool` _Tool_ - The tool to be registered.
+
+#### get\_tool
+
+```python
+def get_tool(tool_id: str) -> Tool
+```
+
+Retrieve a tool&#x27;s information.
+
+**Arguments**:
+
+- `tool_id` _str_ - The ID of the tool to retrieve.
+  
+
+**Returns**:
+
+- `Tool` - The requested tool.
+  
+
+**Raises**:
+
+- `ToolNotFoundError` - If the tool with the given ID does not exist.
+
+#### get\_tools
+
+```python
+def get_tools() -> list[Tool]
+```
+
+Get all tools registered with the registry.
+
+**Returns**:
+
+- `list[Tool]` - A list of all tools in the registry.
 
 ## DefaultToolRegistry Objects
 

@@ -165,7 +165,7 @@ As a final verification step for your installation, set up the required environm
         # Create a default Portia config with LLM provider set to Mistral AI and the latest Mistral Large model
         mistral_config = Config.from_default(
             llm_provider=LLMProvider.MISTRALAI,
-            llm_model_name=LLMModel.MISTRAL_LARGE_LATEST,
+            llm_model_name=LLMModel.MISTRAL_LARGE,
             mistralai_api_key=MISTRAL_API_KEY
         )
         # Instantiate a Portia instance. Load it with the config and with the example tools.

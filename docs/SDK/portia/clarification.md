@@ -25,7 +25,7 @@ handling and processing.
 ## Clarification Objects
 
 ```python
-class Clarification(BaseModel, Generic[SERIALIZABLE_TYPE_VAR], ABC)
+class Clarification(BaseModel, ABC)
 ```
 
 Base Model for Clarifications.
@@ -46,7 +46,7 @@ or a user choice from a list.
 ## ActionClarification Objects
 
 ```python
-class ActionClarification(Clarification[SERIALIZABLE_TYPE_VAR])
+class ActionClarification(Clarification)
 ```
 
 Action-based clarification.
@@ -80,7 +80,7 @@ Serialize the action URL to a string.
 ## InputClarification Objects
 
 ```python
-class InputClarification(Clarification[SERIALIZABLE_TYPE_VAR])
+class InputClarification(Clarification)
 ```
 
 Input-based clarification.
@@ -95,7 +95,7 @@ This type of clarification is used when the user is prompted to enter a value.
 ## MultipleChoiceClarification Objects
 
 ```python
-class MultipleChoiceClarification(Clarification[SERIALIZABLE_TYPE_VAR])
+class MultipleChoiceClarification(Clarification)
 ```
 
 Multiple choice-based clarification.
@@ -106,7 +106,7 @@ The available options are provided, and the user must select one.
 **Attributes**:
 
 - `category` _ClarificationCategory_ - The category for this clarification &#x27;Multiple Choice&#x27;.
-- `options` _list[SERIALIZABLE_TYPE_VAR]_ - The available options for the user to choose from.
+- `options` _list[Serializable]_ - The available options for the user to choose from.
   
 
 **Methods**:
@@ -137,7 +137,7 @@ it raises an error.
 ## ValueConfirmationClarification Objects
 
 ```python
-class ValueConfirmationClarification(Clarification[SERIALIZABLE_TYPE_VAR])
+class ValueConfirmationClarification(Clarification)
 ```
 
 Value confirmation clarification.
@@ -153,7 +153,7 @@ acceptance by setting the resolved flag to `True`.
 ## CustomClarification Objects
 
 ```python
-class CustomClarification(Clarification[SERIALIZABLE_TYPE_VAR])
+class CustomClarification(Clarification)
 ```
 
 Custom clarifications.
