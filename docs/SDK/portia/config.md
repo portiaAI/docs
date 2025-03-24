@@ -47,18 +47,8 @@ Enum for supported LLM providers.
 - `OPENAI` - OpenAI provider.
 - `ANTHROPIC` - Anthropic provider.
 - `MISTRALAI` - MistralAI provider.
-
-#### associated\_models
-
-```python
-def associated_models() -> list[LLMModel]
-```
-
-Get the associated models for the provider.
-
-**Returns**:
-
-- `list[LLMModel]` - List of supported models for the provider.
+- `GOOGLE_GENERATIVE_AI` - Google Generative AI provider.
+- `AZURE_OPENAI` - Azure OpenAI provider.
 
 #### to\_api\_key\_name
 
@@ -67,6 +57,19 @@ def to_api_key_name() -> str
 ```
 
 Get the name of the API key for the provider.
+
+## Model Objects
+
+```python
+class Model(NamedTuple)
+```
+
+Provider and model name tuple.
+
+**Attributes**:
+
+- `provider` - The provider of the model.
+- `model_name` - The name of the model in the provider&#x27;s API.
 
 ## LLMModel Objects
 
@@ -80,6 +83,8 @@ Models are grouped by provider, with the following providers:
 - OpenAI
 - Anthropic
 - MistralAI
+- Google Generative AI
+- Azure OpenAI
 
 **Attributes**:
 
@@ -91,6 +96,37 @@ Models are grouped by provider, with the following providers:
 - `CLAUDE_3_OPUS` - Claude 3.0 Opus model by Anthropic.
 - `CLAUDE_3_7_SONNET` - Claude 3.7 Sonnet model by Anthropic.
 - `MISTRAL_LARGE` - Mistral Large Latest model by MistralAI.
+- `GEMINI_2_0_FLASH` - Gemini 2.0 Flash model by Google Generative AI.
+- `GEMINI_2_0_FLASH_LITE` - Gemini 2.0 Flash Lite model by Google Generative AI.
+- `GPT_4_O_MINI`0 - Gemini 1.5 Flash model by Google Generative AI.
+- `GPT_4_O_MINI`1 - GPT-4 model by Azure OpenAI.
+- `GPT_4_O_MINI`2 - Mini GPT-4 model by Azure OpenAI.
+- `GPT_4_O_MINI`3 - O3 Mini model by Azure OpenAI.
+  
+  Can be instantiated from a string with the following format:
+  - provider/model_name  [e.g. LLMModel(&quot;openai/gpt-4o&quot;)]
+  - model_name           [e.g. LLMModel(&quot;gpt-4o&quot;)]
+  
+  In the cases where the model name is not unique across providers, the earlier values in the enum
+  definition will take precedence.
+
+#### \_missing\_
+
+```python
+@classmethod
+def _missing_(cls, value: object) -> LLMModel
+```
+
+Get the LLM model from the model name.
+
+#### api\_name
+
+```python
+@property
+def api_name() -> str
+```
+
+Override the default value to return the model name.
 
 #### provider
 
@@ -188,15 +224,18 @@ from files or default values.
 - `openai_api_key` - The API key for OpenAI.
 - `anthropic_api_key` - The API key for Anthropic.
 - `mistralai_api_key` - The API key for MistralAI.
+- `google_api_key` - The API key for Google Generative AI.
+- `azure_openai_api_key` - The API key for Azure OpenAI.
+- `azure_openai_endpoint` - The endpoint for Azure OpenAI.
 - `llm_provider` - The LLM provider.
 - `models` - A dictionary of LLM models for each usage type.
-- `storage_class` - The storage class used (e.g., MEMORY, DISK, CLOUD).
-- `storage_dir` - The directory for storage, if applicable.
-- `default_log_level` - The default log level (e.g., DEBUG, INFO).
-- `portia_api_key`0 - The default destination for logs (e.g., sys.stdout).
-- `portia_api_key`1 - Whether to serialize logs in JSON format.
-- `portia_api_key`2 - The planning agent type.
-- `portia_api_key`3 - The execution agent type.
+- `portia_api_key`0 - The storage class used (e.g., MEMORY, DISK, CLOUD).
+- `portia_api_key`1 - The directory for storage, if applicable.
+- `portia_api_key`2 - The default log level (e.g., DEBUG, INFO).
+- `portia_api_key`3 - The default destination for logs (e.g., sys.stdout).
+- `portia_api_key`4 - Whether to serialize logs in JSON format.
+- `portia_api_key`5 - The planning agent type.
+- `portia_api_key`6 - The execution agent type.
 
 #### parse\_feature\_flags
 
@@ -378,6 +417,21 @@ Get the API key for the given LLM model.
 **Returns**:
 
 - `SecretStr` - The API key for the given LLM model.
+
+#### get\_llm\_api\_endpoint
+
+```python
+def get_llm_api_endpoint(model_name: LLMModel) -> str | None
+```
+
+Get the API endpoint for the given LLM model.
+
+In most cases the endpoint is not required for the LLM provider API.
+The common exception is a self-hosted solution like Azure OpenAI.
+
+**Returns**:
+
+  str | None: The API endpoint for the given LLM model.
 
 #### llm\_provider\_default\_from\_api\_keys
 

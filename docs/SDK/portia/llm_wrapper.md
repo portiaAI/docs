@@ -112,6 +112,8 @@ LangChain-compatible model and to generate responses using the instructor tool.
 - `model_name` _LLMModel_ - The name of the model to use.
 - `api_key` _SecretStr_ - The API key for the LLM provider.
 - `model_seed` _int_ - The seed for the model&#x27;s random generation.
+- `api_endpoint` _str | None_ - The API endpoint for the LLM provider (Optional, many API&#x27;s don&#x27;t
+  require it).
   
 
 **Methods**:
@@ -124,7 +126,8 @@ LangChain-compatible model and to generate responses using the instructor tool.
 ```python
 def __init__(model_name: LLMModel,
              api_key: SecretStr,
-             model_seed: int = 343) -> None
+             model_seed: int = 343,
+             api_endpoint: str | None = None) -> None
 ```
 
 Initialize the wrapper.
@@ -134,6 +137,7 @@ Initialize the wrapper.
 - `model_name` _LLMModel_ - The name of the LLM model to use.
 - `api_key` _SecretStr_ - The API key for authentication with the LLM provider.
 - `model_seed` _int, optional_ - Seed for model&#x27;s random generation. Defaults to 343.
+- `api_endpoint` _str | None, optional_ - The API endpoint for the LLM provider
 
 #### for\_usage
 
