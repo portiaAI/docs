@@ -198,6 +198,15 @@ from files or default values.
 - `portia_api_key`2 - The planning agent type.
 - `portia_api_key`3 - The execution agent type.
 
+#### parse\_feature\_flags
+
+```python
+@model_validator(mode="after")
+def parse_feature_flags() -> Self
+```
+
+Add feature flags if not provided.
+
 #### add\_default\_models
 
 ```python
