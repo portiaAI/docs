@@ -335,7 +335,9 @@ This class interacts with the Portia API to retrieve and manage tools.
 #### \_\_init\_\_
 
 ```python
-def __init__(config: Config, tools: dict[str, Tool] | None = None) -> None
+def __init__(config: Config,
+             tools: dict[str, Tool] | None = None,
+             client: httpx.Client | None = None) -> None
 ```
 
 Initialize the PortiaToolRegistry with the given configuration.
@@ -345,6 +347,26 @@ Initialize the PortiaToolRegistry with the given configuration.
 - `config` _Config_ - The configuration containing the API key and endpoint.
 - `tools` _list[Tool] | None_ - A list of tools to create the registry with.
   If not provided, all tools will be loaded from the Portia API.
+- `client` _httpx.Client | None_ - An optional httpx client to use. If not provided, a new
+  client will be created.
+
+#### with\_default\_tool\_filter
+
+```python
+@classmethod
+def with_default_tool_filter(cls, config: Config) -> ToolRegistry
+```
+
+Create a PortiaToolRegistry with a default tool filter.
+
+#### default\_tool\_filter
+
+```python
+@classmethod
+def default_tool_filter(cls, tool: Tool) -> bool
+```
+
+Filter to get the default set of tools offered by Portia cloud.
 
 #### register\_tool
 
