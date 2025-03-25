@@ -8,9 +8,7 @@ import TabItem from '@theme/TabItem';
 
 # Portia Cloud Security
 
-When using Portia without the cloud product all data remains local to your machine and whatever underlying LLM provider you choose to use. 
-
-However, when you use choose to use the cloud product, sensitive authentication material and data is shared with Portia. This page sets out the various security controls and policies we use to ensure this data remains secure. 
+Understanding the security of your agentic system is critical to deploying agents in production. Portia uses production-grade security and encryption and offers granular customization of security policies to ensure your data is secure within our systems. 
 
 # OAuth token handling
 
