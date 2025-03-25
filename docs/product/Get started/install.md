@@ -27,7 +27,7 @@ Set environment variables to connect to one of our currently supported LLMs. We 
 
 <Tabs groupId="llm-provider">
     <TabItem value="openai" label="Open AI" default>
-    `gpt-4o-mini` is set as the default model. You can sign up to their platform **[here](https://platform.openai.com/signup)**
+    `gpt-4o` is set as the default model. You can sign up to their platform **[here](https://platform.openai.com/signup)**
     ```bash
     export OPENAI_API_KEY='your-api-key-here'
     ```
@@ -40,8 +40,28 @@ Set environment variables to connect to one of our currently supported LLMs. We 
     </TabItem>
     <TabItem value="mistral" label="Mistral">
     `mistral-large-latest` is set as the default model. You can sign up to their platform **[here](https://auth.mistral.ai/ui/registration)**
+    :::info[Mistral Dependencies]
+    Ensure Mistral dependencies are installed with `pip install portia-sdk-python[mistral]` or `portia-sdk-python[all]`
+    :::
     ```bash
     export MISTRAL_API_KEY='your-api-key-here'
+    ```
+    </TabItem>
+    <TabItem value="google" label="Google GenAI">
+    `gemini-flash-2.0` is set as the default model. You can sign up to their platform **[here](https://ai.google.dev/)**
+    :::info[Google Dependencies]
+    Ensure Mistral dependencies are installed with `pip install portia-sdk-python[google]` or `portia-sdk-python[all]`
+    :::
+    ```bash
+    export GOOGLE_API_KEY='your-api-key-here'
+    ```
+    </TabItem>
+    <TabItem value="azure-openai" label="Azure OpenAI">
+    `gpt-4o-mini` is set as the default model. You can sign up to their platform **[here](https://azure.microsoft.com/en-us/products/ai-services/openai-service)**
+
+    ```bash
+    export AZURE_OPENAI_API_KEY='your-api-key-here'
+    export AZURE_OPENAI_ENDPOINT='your-api-key-here'
     ```
     </TabItem>
 </Tabs>
@@ -65,6 +85,18 @@ Let's submit a basic prompt to your LLM using our framework to make sure it's al
     To use Mistral from the CLI, just run:
     ```bash
     portia-cli run --llm-provider="mistralai" "add 1 + 2"
+    ```
+    </TabItem>
+    <TabItem value="google" label="Google GenAI">
+    To use Google GenAI from the CLI, just run:
+    ```bash
+    portia-cli run --llm-provider="google_generative_ai" "add 1 + 2"
+    ```
+    </TabItem>
+    <TabItem value="azure-openai" label="Azure OpenAI">
+    To use Azure OpenAI from the CLI, just run:
+    ```bash
+    portia-cli run --llm-provider="azure_openai" "add 1 + 2"
     ```
     </TabItem>
 </Tabs>
@@ -170,6 +202,68 @@ As a final verification step for your installation, set up the required environm
         )
         # Instantiate a Portia instance. Load it with the config and with the example tools.
         portia = Portia(config=mistral_config, tools=example_tool_registry)
+        # Run the test query and print the output!
+        plan_run = portia.run('add 1 + 2')
+        print(plan_run.model_dump_json(indent=2))
+        ```
+    </TabItem>
+    <TabItem value="google" label="Google GenAI">
+        In your local `.env` file, set up your API key as an environment variable using `GOOGLE_API_KEY`.<br/>
+        Then create a file e.g. `main.py` in your project directory and paste the following code in.
+        ```python title="main.py"
+        import os
+        from dotenv import load_dotenv
+        from portia import (
+            Config,
+            LLMModel,
+            LLMProvider,
+            Portia,
+            example_tool_registry,
+        )
+
+        load_dotenv()
+        GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
+
+        # Create a default Portia config with LLM provider set to Google GenAI and model set to Gemini 2.0 Flash
+        google_config = Config.from_default(
+            llm_provider=LLMProvider.GOOGLE_GENERATIVE_AI,
+            llm_model_name=LLMModel.GEMINI_2_0_FLASH,
+            google_api_key=GOOGLE_API_KEY
+        )
+        # Instantiate a Portia instance. Load it with the config and with the example tools.
+        portia = Portia(config=google_config, tools=example_tool_registry)
+        # Run the test query and print the output!
+        plan_run = portia.run('add 1 + 2')
+        print(plan_run.model_dump_json(indent=2))
+        ```
+    </TabItem>
+    <TabItem value="azure-openai" label="Azure OpenAI">
+        In your local `.env` file, set up your API key and API endpoint as environment variables using `AZURE_OPENAI_API_KEY` and `AZURE_OPENAI_ENDPOINT`.<br/>
+        Then create a file e.g. `main.py` in your project directory and paste the following code in.
+        ```python title="main.py"
+        import os
+        from dotenv import load_dotenv
+        from portia import (
+            Config,
+            LLMModel,
+            LLMProvider,
+            Portia,
+            example_tool_registry,
+        )
+
+        load_dotenv()
+        AZURE_OPENAI_API_KEY = os.getenv('AZURE_OPENAI_API_KEY')
+        AZURE_OPENAI_ENDPOINT = os.getenv('AZURE_OPENAI_ENDPOINT')
+
+        # Create a default Portia config with LLM provider set to Azure OpenAI and model to GPT 4o
+        azure_config = Config.from_default(
+            llm_provider=LLMProvider.AZURE_OPENAI,
+            llm_model_name=LLMModel.AZURE_GTP_4O,
+            azure_openai_api_key=AZURE_OPENAI_API_KEY,
+            azure_openai_endpoint=AZURE_OPENAI_ENDPOINT,
+        )
+        # Instantiate a Portia instance. Load it with the config and with the example tools.
+        portia = Portia(config=azure_config, tools=example_tool_registry)
         # Run the test query and print the output!
         plan_run = portia.run('add 1 + 2')
         print(plan_run.model_dump_json(indent=2))
