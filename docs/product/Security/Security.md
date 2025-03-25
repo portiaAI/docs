@@ -10,10 +10,9 @@ import TabItem from '@theme/TabItem';
 
 When using Portia without the cloud product all data remains local to your machine and whatever underlying LLM provider you choose to use. 
 
-However, when you use choose to use the cloud product, sensitive authentication material and data is shared with Portia. 
+However, when you use choose to use the cloud product, sensitive authentication material and data is shared with Portia. This page sets out the various security controls and policies we use to ensure this data remains secure. 
 
 # OAuth token handling
-
 
 All OAuth tokens provided to Portia from third parties are securely encrypted within the application using a unique Google KMS key per organization. No internal staff member can view decrypted token data. Once a token is expired or consumed (depending on the retention policy - see below) it is deleted from all Portia systems.
 
