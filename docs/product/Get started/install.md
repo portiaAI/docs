@@ -40,18 +40,18 @@ Set environment variables to connect to one of our currently supported LLMs. We 
     </TabItem>
     <TabItem value="mistral" label="Mistral">
     `mistral-large-latest` is set as the default model. You can sign up to their platform **[here](https://auth.mistral.ai/ui/registration)**
-    :::info[Mistral Dependencies]
+
     Ensure Mistral dependencies are installed with `pip install portia-sdk-python[mistral]` or `portia-sdk-python[all]`
-    :::
+
     ```bash
     export MISTRAL_API_KEY='your-api-key-here'
     ```
     </TabItem>
     <TabItem value="google" label="Google GenAI">
     `gemini-flash-2.0` is set as the default model. You can sign up to their platform **[here](https://ai.google.dev/)**
-    :::info[Google Dependencies]
+
     Ensure Mistral dependencies are installed with `pip install portia-sdk-python[google]` or `portia-sdk-python[all]`
-    :::
+
     ```bash
     export GOOGLE_API_KEY='your-api-key-here'
     ```
