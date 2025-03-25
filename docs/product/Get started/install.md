@@ -21,10 +21,15 @@ Run the following command to install our SDK and its dependencies.
 ```bash
 pip install portia-sdk-python
 ```
-Or alternatively
+Out of the box the SDK comes with dependencies for OpenAI (and Azure OpenAI) + Anthropic. We additionally support Mistral and Google GenAI (Gemini). These dependencies can be added with:
 ```bash
 pip install portia-sdk-python[all]
+# Or only Google GenAI
+pip install portia-sdk-python[google]
+# Or only Mistral
+pip install portia-sdk-python[mistral]
 ```
+
 
 ### Configure access to your preferred LLM
 Set environment variables to connect to one of our currently supported LLMs. We are currently expanding this list. 
