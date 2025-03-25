@@ -21,6 +21,10 @@ Run the following command to install our SDK and its dependencies.
 ```bash
 pip install portia-sdk-python
 ```
+Or alternatively
+```bash
+pip install portia-sdk-python[all]
+```
 
 ### Configure access to your preferred LLM
 Set environment variables to connect to one of our currently supported LLMs. We are currently expanding this list. 
