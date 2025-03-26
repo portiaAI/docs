@@ -2,13 +2,6 @@
   "items": [
     {
       "items": [
-        "SDK/portia/_unstable/browser_tool"
-      ],
-      "label": "portia._unstable",
-      "type": "category"
-    },
-    {
-      "items": [
         {
           "items": [
             "SDK/portia/execution_agents/utils/final_output_summarizer",
