@@ -32,8 +32,6 @@ if (ExecutionEnvironment.canUseDOM) {
 export const onRouteUpdate = ({ location, previousLocation }) => {
   if (!ExecutionEnvironment.canUseDOM) return;
   if (location.pathname != previousLocation?.pathname) {
-    if (typeof window !== "undefined" && typeof posthog !== "undefined") {
-      posthog.capture("$pageview");
-    }
+    posthog.capture("$pageview");
   }
 };
