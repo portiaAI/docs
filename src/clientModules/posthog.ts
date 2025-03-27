@@ -16,7 +16,6 @@ export const getNonEssentialCookies = () => {
 };
 
 if (ExecutionEnvironment.canUseDOM) {
-  console.log("zzz token", process.env.PUBLIC_POSTHOG_KEY);
   posthog.init(
     process.env.PUBLIC_POSTHOG_KEY ??
       "phc_QHjx4dKKNAqmLS1U64kIXo4NlYOGIFDgB1qYxw3wh1W", // dev posthog token
@@ -25,8 +24,16 @@ if (ExecutionEnvironment.canUseDOM) {
       cross_subdomain_cookie: true,
       api_host: "https://eu.i.posthog.com",
       ui_host: "https://eu.posthog.com",
+      capture_pageview: false, // Disable automatic pageview capture, as we capture manually below
     },
   );
-
-  console.log("zzz client module loaded");
 }
+
+export const onRouteUpdate = ({ location, previousLocation }) => {
+  if (!ExecutionEnvironment.canUseDOM) return;
+  if (location.pathname != previousLocation?.pathname) {
+    if (typeof window !== "undefined" && typeof posthog !== "undefined") {
+      posthog.capture("$pageview");
+    }
+  }
+};
