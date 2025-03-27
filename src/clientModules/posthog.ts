@@ -1,3 +1,5 @@
+// @ts-expect-error
+import ExecutionEnvironment from "@docusaurus/ExecutionEnvironment";
 import Cookies from "js-cookie";
 import posthog from "posthog-js";
 
@@ -12,16 +14,19 @@ export const getEssentialCookies = () => {
 export const getNonEssentialCookies = () => {
   return Cookies.get(NON_ESSENTIAL_COOKIES) === "true";
 };
-console.log("zzz token", process.env.PUBLIC_POSTHOG_KEY);
-posthog.init(
-  process.env.PUBLIC_POSTHOG_KEY ??
-    "phc_QHjx4dKKNAqmLS1U64kIXo4NlYOGIFDgB1qYxw3wh1W", // dev posthog token
-  {
-    persistence: getNonEssentialCookies() ? "localStorage+cookie" : "memory",
-    cross_subdomain_cookie: true,
-    api_host: "https://eu.i.posthog.com",
-    ui_host: "https://eu.posthog.com",
-  },
-);
 
-console.log("zzz client module loaded");
+if (ExecutionEnvironment.canUseDOM) {
+  console.log("zzz token", process.env.PUBLIC_POSTHOG_KEY);
+  posthog.init(
+    process.env.PUBLIC_POSTHOG_KEY ??
+      "phc_QHjx4dKKNAqmLS1U64kIXo4NlYOGIFDgB1qYxw3wh1W", // dev posthog token
+    {
+      persistence: getNonEssentialCookies() ? "localStorage+cookie" : "memory",
+      cross_subdomain_cookie: true,
+      api_host: "https://eu.i.posthog.com",
+      ui_host: "https://eu.posthog.com",
+    },
+  );
+
+  console.log("zzz client module loaded");
+}
