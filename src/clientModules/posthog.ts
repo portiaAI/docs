@@ -29,6 +29,7 @@ if (ExecutionEnvironment.canUseDOM) {
   );
 }
 
+// Inspired by https://github.com/PostHog/posthog-docusaurus/blob/master/src/posthog.js
 export const onRouteUpdate = ({ location, previousLocation }) => {
   if (!ExecutionEnvironment.canUseDOM) return;
   if (location.pathname != previousLocation?.pathname) {
