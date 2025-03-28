@@ -82,9 +82,6 @@ A plan includes a series of steps defined by
 - `"output"` The step's final output. As mentioned above, every step output can be referenced in future steps. As we will see shortly, these outputs are serialised and saved in plan run state as it is being executed.
 - `"condition"` An optional condition that's used to control the execution of the step. If the condition is not met, the step will be skipped.
 
-:::info[On plan logic]
-While plans are currently a linear sequence of steps, we will be introducing more complex logic soon.
-:::
 
 ## Create a plan from a user prompt
 When responding to a user's prompt with Portia, you can either chain the plan generation process to the subsequent instantiation of a plan run from it, or you can choose to decouple them. The latter option allows you for example to display the plan to the user and tweak it before running a plan.
