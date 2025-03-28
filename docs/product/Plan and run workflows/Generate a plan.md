@@ -21,39 +21,66 @@ A plan is the set of steps an LLM thinks it should take in order to respond to a
 While Portia generates a plan in response to a user prompt and then runs it, you also have the option to create plans yourself manually. This is especially suitable for your users' more repeatable routines.
 
 ## Introducing a Plan
-Let's bring this one to life by looking at an example plan below, created in response to the query `Send Avrana (avrana@kern.ai) the latest news on SpaceX`.
+Let's bring this one to life by looking at an example plan below, created in response to the query `Search for the latest SpaceX news from the past 48 hours and if there are at least 3 articles, email Avrana (avrana@kern.ai) a summary of the top 3 developments with subject 'Latest SpaceX Updates'`.
 ```json title="plan.json"
 {
-    "steps": [
+  "steps": [
+    {
+      "task": "Search for the latest SpaceX news from the past 48 hours using the search tool.",
+      "inputs": [
         {
-            "task": "Find and summarise the latest news on SpaceX",
-            "tool_name": "portia::search_tool",
-            "output": "$spacex_search_results"
+          "name": "$search_query",
+          "value": "latest SpaceX news from past 48 hours",
+          "description": "Search query to find SpaceX news from the past 48 hours."
+        }
+      ],
+      "tool_id": "search_tool",
+      "output": "$spacex_news_results",
+    },
+    {
+      "task": "Summarize the top 3 developments from the SpaceX news articles.",
+      "inputs": [
+        {
+          "name": "$spacex_news_results",
+          "description": "The list of SpaceX news articles returned by the search tool."
+        }
+      ],
+      "tool_id": "llm_tool",
+      "output": "$spacex_summary",
+      "condition": "if $spacex_news_results contains at least 3 articles"
+    },
+    {
+      "task": "Email Avrana a summary of the top 3 SpaceX developments with the subject 'Latest SpaceX Updates'.",
+      "inputs": [
+        {
+          "name": "$spacex_summary",
+          "description": "The summary of the top 3 SpaceX developments."
         },
         {
-            "task": "Email $avrana_email with $spacex_search_results",
-            "input": [
-                {
-                    "name": "$spacex_search_results",
-                    "description": "summary of SpaceX news"
-                },
-                {
-                    "name": "$avrana_email",
-                    "description": "Avrana's email address"                    
-                }
-            ],
-            "tool_name": "portia::send_email_tool",
-            "output": "$email_send_outcome"
+          "name": "$email_recipients",
+          "value": "['avrana@kern.ai']",
+          "description": "List of email recipients."
+        },
+        {
+          "name": "$email_subject",
+          "value": "Latest SpaceX Updates",
+          "description": "The subject line for the email."
         }
-    ]
+      ],
+      "tool_id": "portia:google:gmail:send_email",
+      "output": "$email_sent",
+      "condition": "if $spacex_news_results contains at least 3 articles"
+    }
+  ]
 }
 ```
 
 A plan includes a series of steps defined by 
 - `"task"` A task describing the objective of that particular step.
-- `"input"` The inputs required to achieve the step. Notice how the LLM is guided to weave the outputs of previous steps as inputs to the next ones where applicable e.g. `$spacex_search_results` coming out of the first step acts as an input to the second one.
-- "`tool_id`" Any relevant tool needed for the completion of the step. Portia is able to filter for the relevant tools during the multi-shot plan generation process. As we will see later on in this tutorial you can specify the tool registries (directories) you want when handling a user prompt, including local / custom tools and ones provided by third parties. In this example we are referencing tools from Portia's cloud-hosted library, prefixed with `portia:`. 
-- "`output`" The step's final output. As mentioned above, every step output can be referenced in future steps. As we will see shortly, these outputs are serialised and saved in plan run state as it is being executed.
+- `"input"` The inputs required to achieve the step. Notice how the LLM is guided to weave the outputs of previous steps as inputs to the next ones where applicable e.g. `$spacex_news_results` coming out of the first step acts as an input to the second one.
+- `"tool_id"` Any relevant tool needed for the completion of the step. Portia is able to filter for the relevant tools during the multi-shot plan generation process. As we will see later on in this tutorial you can specify the tool registries (directories) you want when handling a user prompt, including local / custom tools and ones provided by third parties. In this example we are referencing tools from Portia's cloud-hosted library, prefixed with `portia:`. 
+- `"output"` The step's final output. As mentioned above, every step output can be referenced in future steps. As we will see shortly, these outputs are serialised and saved in plan run state as it is being executed.
+- `"condition"` An optional condition that's used to control the execution of the step. If the condition is not met, the step will be skipped.
 
 :::info[On plan logic]
 While plans are currently a linear sequence of steps, we will be introducing more complex logic soon.
