@@ -246,6 +246,15 @@ def parse_feature_flags() -> Self
 
 Add feature flags if not provided.
 
+#### parse\_feature\_flags
+
+```python
+@model_validator(mode="after")
+def parse_feature_flags() -> Self
+```
+
+Add feature flags if not provided.
+
 #### add\_default\_models
 
 ```python
