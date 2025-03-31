@@ -67,8 +67,6 @@ The result of this code block will be the addition of an `execution_context` sec
       "email_address": "demo@portialabs.ai",
       "name": "Nicholas of Patara"
     },
-    "planner_system_context_extension": null,
-    "agent_system_context_extension": null
   },
   # highlight-end
   "step_outputs": {

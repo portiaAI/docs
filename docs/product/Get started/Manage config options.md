@@ -23,7 +23,6 @@ The `Config` class (<a href="/SDK/portia/config" target="_blank">**SDK reference
 | `llm_provider` | Select between `OPENAI`, `ANTHROPIC` OR `MISTRALAI`. <br/>This is an ENUM accessible from the `LLMProvider` class. |
 | `llm_model_name` | Select the relevant LLM model. This is an ENUM accessible via the `LLMModel` class. |
 | `openai_api_key`<br/>`anthropic_api_key`<br/>`mistralai_api_key` | Set the key you want your `Portia` instance instance to use from the relevant provider |
-| `planner_system_context_extension` | Enrich the system context with more information. For example you can add information specific to a frontend user session such as department, title, timezone etc. |
 
 ## Manage storage options
 You can control where you store and retrieve plan run states using the `storage_class` property in the `Config` class (<a href="/SDK/portia/config" target="_blank">**SDK reference ↗**</a>), which is an ENUM accessible from the `StorageClass` class:
@@ -137,8 +136,6 @@ In your `demo_runs` directory, you should now be able to see a plan and a plan r
         "execution_context": {
             "end_user_id": null,
             "additional_data": {},
-            "planner_system_context_extension": null,
-            "agent_system_context_extension": null
         },
         "outputs": {
             "clarifications": [],
