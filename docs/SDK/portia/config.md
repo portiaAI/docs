@@ -24,16 +24,6 @@ Enum representing locations plans and runs are stored.
 - `DISK` - Stored on disk.
 - `CLOUD` - Stored in the cloud.
 
-#### validate\_extras\_dependencies
-
-```python
-def validate_extras_dependencies(extra_group: str) -> None
-```
-
-Validate that the dependencies for an extras group are installed.
-
-Provide a helpful error message if not all dependencies are installed.
-
 ## LLMProvider Objects
 
 ```python
@@ -236,15 +226,6 @@ from files or default values.
 - `portia_api_key`4 - Whether to serialize logs in JSON format.
 - `portia_api_key`5 - The planning agent type.
 - `portia_api_key`6 - The execution agent type.
-
-#### parse\_feature\_flags
-
-```python
-@model_validator(mode="after")
-def parse_feature_flags() -> Self
-```
-
-Add feature flags if not provided.
 
 #### parse\_feature\_flags
 
