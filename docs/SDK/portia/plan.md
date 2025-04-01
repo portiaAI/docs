@@ -148,6 +148,18 @@ or a constant input variable.
   defined.
 - `description` _str_ - A description of the variable.
 
+#### pretty\_print
+
+```python
+def pretty_print() -> str
+```
+
+Return the pretty print representation of the variable.
+
+**Returns**:
+
+- `str` - A pretty print representation of the variable&#x27;s name, value, and description.
+
 ## Step Objects
 
 ```python
@@ -165,6 +177,18 @@ outputs, and may reference a tool to complete the task.
 - `inputs` _list[Variable]_ - The input to the step, which can include constants and variables.
 - `tool_id` _str | None_ - The ID of the tool used in this step, if applicable.
 - `output` _str_ - The unique output ID for the result of this step.
+
+#### pretty\_print
+
+```python
+def pretty_print() -> str
+```
+
+Return the pretty print representation of the step.
+
+**Returns**:
+
+- `str` - A pretty print representation of the step&#x27;s task, inputs, tool_id, and output.
 
 ## ReadOnlyStep Objects
 
@@ -256,6 +280,18 @@ Return the string representation of the plan.
 **Returns**:
 
 - `str` - A string representation of the plan&#x27;s ID, context, and steps.
+
+#### pretty\_print
+
+```python
+def pretty_print() -> str
+```
+
+Return the pretty print representation of the plan.
+
+**Returns**:
+
+- `str` - A pretty print representation of the plan&#x27;s ID, context, and steps.
 
 #### validate\_plan
 
