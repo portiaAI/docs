@@ -153,8 +153,6 @@ In your logs you should be able to see the tools, as well as a plan and final pl
         "execution_context": {
             "end_user_id": null,
             "additional_data": {},
-            "planner_system_context_extension": null,
-            "agent_system_context_extension": null
         },
         "outputs": {
             "clarifications": [

@@ -14,16 +14,10 @@ additional system or user-provided data.
 #### generate\_main\_system\_context
 
 ```python
-def generate_main_system_context(
-        system_context_extensions: list[str] | None = None) -> list[str]
+def generate_main_system_context() -> list[str]
 ```
 
 Generate the main system context.
-
-**Arguments**:
-
-- `system_context_extensions` _list[str] | None_ - Optional list of strings to extend
-  the system context.
   
 
 **Returns**:

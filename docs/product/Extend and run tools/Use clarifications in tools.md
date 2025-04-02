@@ -162,8 +162,6 @@ For the example query above `Read the contents of the file "weather.txt".`, wher
   "execution_context": {
     "end_user_id": null,
     "additional_data": {},
-    "planner_system_context_extension": null,
-    "agent_system_context_extension": null
   },
   "outputs": {
     "clarifications": [
