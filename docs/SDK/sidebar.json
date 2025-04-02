@@ -55,7 +55,6 @@
     "SDK/portia/config",
     "SDK/portia/errors",
     "SDK/portia/execution_context",
-    "SDK/portia/llm_wrapper",
     "SDK/portia/logger",
     "SDK/portia/mcp_session",
     "SDK/portia/model",

@@ -261,6 +261,14 @@ def resolve_model(usage: str) -> GenerativeModel
 
 Resolve a model from the config.
 
+#### resolve\_langchain\_model
+
+```python
+def resolve_langchain_model(usage: str) -> LangChainGenerativeModel
+```
+
+Resolve a LangChain model from the config.
+
 #### parse\_storage\_class
 
 ```python
