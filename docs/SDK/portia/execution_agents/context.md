@@ -41,7 +41,7 @@ Generate context for the inputs and indicate which ones were used.
 
 **Arguments**:
 
-- `inputs` _list[Variable]_ - The list of input variables for the current step.
+- `inputs` _list[Variable]_ - The list of inputs for the current step.
 - `previous_outputs` _dict[str, Output]_ - A dictionary of previous step outputs.
   
 

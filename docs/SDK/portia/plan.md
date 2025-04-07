@@ -78,17 +78,17 @@ Add a step to the plan.
 
 ```python
 def input(name: str,
-          value: Any | None = None,
           description: str | None = None,
           step_index: int | None = None) -> PlanBuilder
 ```
 
 Add an input variable to the chosen step in the plan (default is the last step).
 
+Inputs are outputs from previous steps.
+
 **Arguments**:
 
 - `name` _str_ - The name of the input.
-- `value` _Any | None_ - The value of the input.
 - `description` _str | None_ - The description of the input.
 - `step_index` _int | None_ - The index of the step to add the input to. If not provided,
   the input will be added to the last step.
@@ -135,18 +135,12 @@ Build the plan.
 class Variable(BaseModel)
 ```
 
-A variable in the plan.
-
-A variable is a way of referencing other parts of the plan, usually either another step&#x27;s output
-or a constant input variable.
+A reference to an output of a step.
 
 **Arguments**:
 
-- `name` _str_ - The name of the variable starting with &#x27;$&#x27;. The variable should be the output
-  of another step, or be a constant.
-- `value` _Any_ - The value of the variable, which may be set by other preceding steps if not
-  defined.
-- `description` _str_ - A description of the variable.
+- `name` _str_ - The name of the output to reference, e.g. $best_offers.
+- `description` _str_ - A description of the output.
 
 #### pretty\_print
 
@@ -158,7 +152,7 @@ Return the pretty print representation of the variable.
 
 **Returns**:
 
-- `str` - A pretty print representation of the variable&#x27;s name, value, and description.
+- `str` - A pretty print representation of the variable&#x27;s name, and description.
 
 ## Step Objects
 
@@ -174,7 +168,7 @@ outputs, and may reference a tool to complete the task.
 **Arguments**:
 
 - `task` _str_ - The task that needs to be completed by this step.
-- `inputs` _list[Variable]_ - The input to the step, which can include constants and variables.
+- `inputs` _list[Vairable]_ - The input to the step, as an output of a previous step.
 - `tool_id` _str | None_ - The ID of the tool used in this step, if applicable.
 - `output` _str_ - The unique output ID for the result of this step.
 
