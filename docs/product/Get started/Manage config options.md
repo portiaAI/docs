@@ -44,7 +44,7 @@ If not provided, the LLM provider will be inferred from the environment variable
 For example, if `OPENAI_API_KEY` is found, the provider will be set to `LLMProvider.OPENAI`
 :::
 
-Examples:
+#### Examples:
 
 Using enum:
 ```python
@@ -114,6 +114,7 @@ Using the `models` property:
 from portia import Config
 from portia.models import OpenAIGenerativeModel
 
+# You can mix and match model strings and model instances
 config = Config(
     models={
         "default_model": OpenAIGenerativeModel(model_name="gpt-4o", api_key=SecretStr("sk-...")),
