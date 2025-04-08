@@ -21,9 +21,11 @@ The `Config` class (<a href="/SDK/portia/config" target="_blank">**SDK reference
 
 ### LLM Provider
 
-Config settings: `Config.llm_provider`
-Environment variables: `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `MISTRALAI_API_KEY`, `GOOGLE_GENERATIVEAI_API_KEY`, `AZURE_OPENAI_API_KEY`
-Values: `str | LLMProvider`
+|   |   |
+| - | - |
+| Config settings | `Config.llm_provider` |
+| Environment variables | `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `MISTRALAI_API_KEY`, `GOOGLE_GENERATIVEAI_API_KEY`, `AZURE_OPENAI_API_KEY` |
+| Values | `str | LLMProvider` |
 
 If set, this decides what generative AI models are used in Portia defined Agents and Tools.
 
