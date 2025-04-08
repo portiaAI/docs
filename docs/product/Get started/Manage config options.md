@@ -18,17 +18,66 @@ The `Config` class of your `Portia` instance allows you to:
 
 ## Configure LLM options
 The `Config` class (<a href="/SDK/portia/config" target="_blank">**SDK reference ↗**</a>) allows you to control various LLM and agent execution options.
-| Property | Purpose |
-| ----------- | ----------- |
-| `llm_provider` | Select between `OPENAI`, `ANTHROPIC` OR `MISTRALAI`. <br/>This is an ENUM accessible from the `LLMProvider` class. |
-| `llm_model_name` | Select the relevant LLM model. This is an ENUM accessible via the `LLMModel` class. |
-| `openai_api_key`<br/>`anthropic_api_key`<br/>`mistralai_api_key` | Set the key you want your `Portia` instance instance to use from the relevant provider |
+
+### LLM Provider
+
+Config settings: `Config.llm_provider`
+Environment variables: `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `MISTRALAI_API_KEY`, `GOOGLE_GENERATIVEAI_API_KEY`, `AZURE_OPENAI_API_KEY`
+Values: `str | LLMProvider`
+
+If set, this decides what generative AI models are used in Portia defined Agents and Tools.
+
+This can be set using the `LLMProvider` or a string:
+
+| LLMProvider | string |
+| ----------- | -------- |
+| `LLMProvider.OPENAI` | `openai` |
+| `LLMProvider.ANTHROPIC` | `anthropic` |
+| `LLMProvider.MISTRALAI` | `mistralai` |
+| `LLMProvider.GOOGLE_GENERATIVE_AI` | `google-generativeai` |
+| `LLMProvider.AZURE_OPENAI` | `azure-openai` |
+
+:::tip[NB]
+If not provided, the LLM provider will be inferred from the environment variable.
+For example, if `OPENAI_API_KEY` is found, the provider will be set to `LLMProvider.OPENAI`
+:::
+
+### Model overrides
+
+Config settings: `default_model`, `planning_model`, `execution_model`, `introspection_model`, `summariser_model`
+Values: `str | GenerativeModel`
+
+Or
+
+Config setting: `Config.models`
+Values: `dict[str, GenerativeModel | str]`
+
+If set, this decides what generative AI model is used in Portia defined Agents and Tools. It will overwrite the default model for the LLM provider.
+
+:::tip[Model string parsing]
+Model strings are in the format `provider/model_name`, where the `provider` is the string value of the LLM provider (e.g. `openai`) and the `model_name` is the name of the model you want to use.
+Examples: `openai/gpt-4o`, `anthropic/claude-3-5-sonnet`, `mistralai/mistral-large-latest`, `google-generativeai/gemini-1.5-flash`, `azure-openai/gpt-4o`
+:::
+
+### API keys
+
+Config settings: `openai_api_key`, `anthropic_api_key`, `mistralai_api_key`, `google_generativeai_api_key`, `azure_openai_api_key`
+Environment variables: `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `MISTRALAI_API_KEY`, `GOOGLE_GENERATIVEAI_API_KEY`, `AZURE_OPENAI_API_KEY`
+Values: `str`
+
+The keys are used to authenticate with the LLM provider, via the `GenerativeModel` classes.
 
 ## Manage storage options
 You can control where you store and retrieve plan run states using the `storage_class` property in the `Config` class (<a href="/SDK/portia/config" target="_blank">**SDK reference ↗**</a>), which is an ENUM accessible from the `StorageClass` class:
 - `MEMORY` allows you to use working memory (default if PORTIA_API_KEY is not specified).
 - `DISK` allows you to use local storage. You will need to set the `storage_dir` appropriately (defaults to the project's root directory).
 - `CLOUD` uses the Portia cloud (<a href="/store-retrieve-plan-runs" target="_blank">**Use Portia cloud ↗**</a> - default if PORTIA_API_KEY is specified).
+
+## Other config settings
+
+| Property | Purpose |
+| ----------- | ----------- |
+| `planner_system_context_extension` | Enrich the system context with more information. For example you can add information specific to a frontend user session such as department, title, timezone etc. |
 
 ## Manage logging
 You can control logging behaviour with the following `Config` properties (<a href="/SDK/portia/config" target="_blank">**SDK reference ↗**</a>):
@@ -66,7 +115,7 @@ my_config = Config.from_default(
     storage_class=StorageClass.DISK, 
     storage_dir='demo_runs', # Amend this based on where you'd like your plans and plan runs saved!
     default_log_level=LogLevel.DEBUG,
-    )
+)
 
 # Instantiate a Portia instance. Load it with the default config and with some example tools
 portia = Portia(config=my_config, tools=example_tool_registry)

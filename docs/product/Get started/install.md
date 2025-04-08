@@ -164,7 +164,6 @@ As a final verification step for your installation, set up the required environm
         from dotenv import load_dotenv
         from portia import (
             Config,
-            LLMModel,
             LLMProvider,
             Portia,
             example_tool_registry,
@@ -176,9 +175,9 @@ As a final verification step for your installation, set up the required environm
         # Create a default Portia config with LLM provider set to Anthropic and to the Sonnet 3.5 model
         anthropic_config = Config.from_default(
             llm_provider=LLMProvider.ANTHROPIC,
-            llm_model_name=LLMModel.CLAUDE_3_5_SONNET,
+            default_model="anthropic/claude-3-5-sonnet-latest",
             anthropic_api_key=ANTHROPIC_API_KEY
-            )
+        )
         # Instantiate a Portia instance. Load it with the config and with the example tools.
         portia = Portia(config=anthropic_config, tools=example_tool_registry)
         # Run the test query and print the output!
@@ -194,7 +193,6 @@ As a final verification step for your installation, set up the required environm
         from dotenv import load_dotenv
         from portia import (
             Config,
-            LLMModel,
             LLMProvider,
             Portia,
             example_tool_registry,
@@ -206,7 +204,7 @@ As a final verification step for your installation, set up the required environm
         # Create a default Portia config with LLM provider set to Mistral AI and the latest Mistral Large model
         mistral_config = Config.from_default(
             llm_provider=LLMProvider.MISTRALAI,
-            llm_model_name=LLMModel.MISTRAL_LARGE,
+            default_model="mistralai/mistral-large-latest",
             mistralai_api_key=MISTRAL_API_KEY
         )
         # Instantiate a Portia instance. Load it with the config and with the example tools.
@@ -224,7 +222,6 @@ As a final verification step for your installation, set up the required environm
         from dotenv import load_dotenv
         from portia import (
             Config,
-            LLMModel,
             LLMProvider,
             Portia,
             example_tool_registry,
@@ -236,7 +233,7 @@ As a final verification step for your installation, set up the required environm
         # Create a default Portia config with LLM provider set to Google GenAI and model set to Gemini 2.0 Flash
         google_config = Config.from_default(
             llm_provider=LLMProvider.GOOGLE_GENERATIVE_AI,
-            llm_model_name=LLMModel.GEMINI_2_0_FLASH,
+            default_model="google/gemini-2.0-flash",
             google_api_key=GOOGLE_API_KEY
         )
         # Instantiate a Portia instance. Load it with the config and with the example tools.
@@ -254,7 +251,6 @@ As a final verification step for your installation, set up the required environm
         from dotenv import load_dotenv
         from portia import (
             Config,
-            LLMModel,
             LLMProvider,
             Portia,
             example_tool_registry,
@@ -267,7 +263,7 @@ As a final verification step for your installation, set up the required environm
         # Create a default Portia config with LLM provider set to Azure OpenAI and model to GPT 4o
         azure_config = Config.from_default(
             llm_provider=LLMProvider.AZURE_OPENAI,
-            llm_model_name=LLMModel.AZURE_GTP_4O,
+            default_model="azure-openai/gpt-4o",
             azure_openai_api_key=AZURE_OPENAI_API_KEY,
             azure_openai_endpoint=AZURE_OPENAI_ENDPOINT,
         )
