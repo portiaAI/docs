@@ -311,6 +311,14 @@ def parse_planning_agent_type(
 
 Parse planning_agent_type to enum if string provided.
 
+#### exceeds\_output\_threshold
+
+```python
+def exceeds_output_threshold(value: str | list[str | dict]) -> bool
+```
+
+Determine whether the provided output value exceeds the large output threshold.
+
 #### check\_config
 
 ```python

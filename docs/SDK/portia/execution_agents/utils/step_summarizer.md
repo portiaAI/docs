@@ -27,7 +27,8 @@ This is used only on the tool output message.
 #### \_\_init\_\_
 
 ```python
-def __init__(model: GenerativeModel,
+def __init__(config: Config,
+             model: GenerativeModel,
              tool: Tool,
              step: Step,
              summary_max_length: int = 500) -> None
@@ -37,6 +38,7 @@ Initialize the model.
 
 **Arguments**:
 
+- `config` _Config_ - The configuration for the run.
 - `model` _GenerativeModel_ - The language model used for summarization.
 - `tool` _Tool_ - The tool used for summarization.
 - `step` _Step_ - The step that produced the output.

@@ -242,10 +242,69 @@ class Storage(PlanStorage, RunStorage, LogAdditionalStorage)
 
 Combined base class for Plan Run + Additional storages.
 
+## AgentMemory Objects
+
+```python
+class AgentMemory(Protocol)
+```
+
+Abstract base class for storing items in agent memory.
+
+#### save\_plan\_run\_output
+
+```python
+@abstractmethod
+def save_plan_run_output(output_name: str, output: Output,
+                         plan_run_id: PlanRunUUID) -> Output
+```
+
+Save an output from a plan run to agent memory.
+
+**Arguments**:
+
+- `output_name` _str_ - The name of the output within the plan
+- `output` _Output_ - The Output object to save
+- `plan_run_id` _PlanRunUUID_ - The ID of the current plan run
+  
+
+**Returns**:
+
+- `Output` - The Output object with value marked as stored in agent memory.
+  
+
+**Raises**:
+
+- `NotImplementedError` - If the method is not implemented.
+
+#### get\_plan\_run\_output
+
+```python
+@abstractmethod
+def get_plan_run_output(output_name: str, plan_run_id: PlanRunUUID) -> Output
+```
+
+Retrieve an Output from the storage.
+
+**Arguments**:
+
+- `output_name` _str_ - The name of the output to retrieve
+- `plan_run_id` _PlanRunUUID_ - The ID of the plan run
+  
+
+**Returns**:
+
+- `Output` - The retrieved Output object with value filled in from agent memory.
+  
+
+**Raises**:
+
+- `NotImplementedError` - If the method is not implemented.
+
 ## InMemoryStorage Objects
 
 ```python
-class InMemoryStorage(PlanStorage, RunStorage, LogAdditionalStorage)
+class InMemoryStorage(PlanStorage, RunStorage, LogAdditionalStorage,
+                      AgentMemory)
 ```
 
 Simple storage class that keeps plans + runs in memory.
@@ -347,10 +406,49 @@ Get run from dict.
 
 - `list[Run]` - A list of Run objects that match the given state.
 
+#### save\_plan\_run\_output
+
+```python
+def save_plan_run_output(output_name: str, output: Output,
+                         plan_run_id: PlanRunUUID) -> Output
+```
+
+Save Output from a plan run to memory.
+
+**Arguments**:
+
+- `output_name` _str_ - The name of the output within the plan
+- `output` _Output_ - The Output object to save
+- `plan_run_id` _PlanRunUUID_ - The ID of the current plan run
+
+#### get\_plan\_run\_output
+
+```python
+def get_plan_run_output(output_name: str, plan_run_id: PlanRunUUID) -> Output
+```
+
+Retrieve an Output from memory.
+
+**Arguments**:
+
+- `output_name` _str_ - The name of the output to retrieve
+- `plan_run_id` _PlanRunUUID_ - The ID of the plan run
+  
+
+**Returns**:
+
+- `Output` - The retrieved Output object
+  
+
+**Raises**:
+
+- `KeyError` - If the output is not found
+
 ## DiskFileStorage Objects
 
 ```python
-class DiskFileStorage(PlanStorage, RunStorage, LogAdditionalStorage)
+class DiskFileStorage(PlanStorage, RunStorage, LogAdditionalStorage,
+                      AgentMemory)
 ```
 
 Disk-based implementation of the Storage interface.
@@ -456,10 +554,49 @@ Find all plan runs in storage that match state.
 
 - `list[Run]` - A list of Run objects that match the given state.
 
+#### save\_plan\_run\_output
+
+```python
+def save_plan_run_output(output_name: str, output: Output,
+                         plan_run_id: PlanRunUUID) -> Output
+```
+
+Save Output from a plan run to agent memory on disk.
+
+**Arguments**:
+
+- `output_name` _str_ - The name of the output within the plan
+- `output` _Output_ - The Output object to save
+- `plan_run_id` _PlanRunUUID_ - The ID of the current plan run
+
+#### get\_plan\_run\_output
+
+```python
+def get_plan_run_output(output_name: str, plan_run_id: PlanRunUUID) -> Output
+```
+
+Retrieve an Output from agent memory on disk.
+
+**Arguments**:
+
+- `output_name` _str_ - The name of the output to retrieve
+- `plan_run_id` _PlanRunUUID_ - The ID of the plan run
+  
+
+**Returns**:
+
+- `Output` - The retrieved Output object
+  
+
+**Raises**:
+
+- `FileNotFoundError` - If the output file is not found
+- `ValidationError` - If the deserialization fails
+
 ## PortiaCloudStorage Objects
 
 ```python
-class PortiaCloudStorage(Storage)
+class PortiaCloudStorage(Storage, AgentMemory)
 ```
 
 Save plans, runs and tool calls to portia cloud.
@@ -467,7 +604,9 @@ Save plans, runs and tool calls to portia cloud.
 #### \_\_init\_\_
 
 ```python
-def __init__(config: Config) -> None
+def __init__(config: Config,
+             cache_dir: str | None = None,
+             max_cache_size: int = DEFAULT_MAX_CACHE_SIZE) -> None
 ```
 
 Initialize the PortiaCloudStorage instance.
@@ -475,6 +614,8 @@ Initialize the PortiaCloudStorage instance.
 **Arguments**:
 
 - `config` _Config_ - The configuration containing API details for Portia Cloud.
+- `cache_dir` _str | None_ - Optional directory for local caching of outputs.
+- `max_cache_size` _int_ - The maximum number of files to cache locally.
 
 #### check\_response
 
@@ -611,4 +752,47 @@ Save a tool call to Portia Cloud.
 **Raises**:
 
 - `StorageError` - If the request to Portia Cloud fails.
+
+#### save\_plan\_run\_output
+
+```python
+def save_plan_run_output(output_name: str, output: Output,
+                         plan_run_id: PlanRunUUID) -> Output
+```
+
+Save Output from a plan run to Portia Cloud.
+
+**Arguments**:
+
+- `output_name` _str_ - The name of the output within the plan
+- `output` _Output_ - The Output object to save
+- `plan_run_id` _PlanRun_ - The if of the current plan run
+  
+
+**Raises**:
+
+- `StorageError` - If the request to Portia Cloud fails.
+
+#### get\_plan\_run\_output
+
+```python
+def get_plan_run_output(output_name: str, plan_run_id: PlanRunUUID) -> Output
+```
+
+Retrieve an Output from Portia Cloud.
+
+**Arguments**:
+
+- `output_name` - The name of the output to get from memory
+- `plan_run_id` _RunUUID_ - The ID of the run to retrieve.
+  
+
+**Returns**:
+
+- `Run` - The Run object retrieved from Portia Cloud.
+  
+
+**Raises**:
+
+- `StorageError` - If the request to Portia Cloud fails or the run does not exist.
 
