@@ -25,7 +25,7 @@ The `Config` class (<a href="/SDK/portia/config" target="_blank">**SDK reference
 | - | - |
 | Config settings | `Config.llm_provider` |
 | Environment variables | `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `MISTRALAI_API_KEY`, `GOOGLE_GENERATIVEAI_API_KEY`, `AZURE_OPENAI_API_KEY` |
-| Values | `str | LLMProvider` |
+| Values | `str`, `LLMProvider` |
 
 If set, this decides what generative AI models are used in Portia defined Agents and Tools.
 
@@ -46,13 +46,17 @@ For example, if `OPENAI_API_KEY` is found, the provider will be set to `LLMProvi
 
 ### Model overrides
 
-Config settings: `default_model`, `planning_model`, `execution_model`, `introspection_model`, `summariser_model`
-Values: `str | GenerativeModel`
+|   |   |
+| - | - |
+| Config settings | `default_model`, `planning_model`, `execution_model`, `introspection_model`, `summariser_model` |
+| Values | `str`, `GenerativeModel` |
 
 Or
 
-Config setting: `Config.models`
-Values: `dict[str, GenerativeModel | str]`
+|   |   |
+| - | - |
+| Config setting | `Config.models` |
+| Values | `dict[str, GenerativeModel | str]` |
 
 If set, this decides what generative AI model is used in Portia defined Agents and Tools. It will overwrite the default model for the LLM provider.
 
@@ -63,9 +67,11 @@ Examples: `openai/gpt-4o`, `anthropic/claude-3-5-sonnet`, `mistralai/mistral-lar
 
 ### API keys
 
-Config settings: `openai_api_key`, `anthropic_api_key`, `mistralai_api_key`, `google_generativeai_api_key`, `azure_openai_api_key`
-Environment variables: `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `MISTRALAI_API_KEY`, `GOOGLE_GENERATIVEAI_API_KEY`, `AZURE_OPENAI_API_KEY`
-Values: `str`
+|   |   |
+| - | - |
+| Config settings | `openai_api_key`, `anthropic_api_key`, `mistralai_api_key`, `google_generativeai_api_key`, `azure_openai_api_key` |
+| Environment variables | `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `MISTRALAI_API_KEY`, `GOOGLE_GENERATIVEAI_API_KEY`, `AZURE_OPENAI_API_KEY` |
+| Values | `str` |
 
 The keys are used to authenticate with the LLM provider, via the `GenerativeModel` classes.
 
