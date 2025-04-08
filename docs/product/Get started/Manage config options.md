@@ -44,6 +44,32 @@ If not provided, the LLM provider will be inferred from the environment variable
 For example, if `OPENAI_API_KEY` is found, the provider will be set to `LLMProvider.OPENAI`
 :::
 
+Examples:
+
+Using enum:
+```python
+from portia import LLMProvider, Config
+
+config = Config(llm_provider=LLMProvider.OPENAI)
+```
+
+Using string:
+```python
+from portia import LLMProvider, Config
+
+config = Config(llm_provider="anthropic")
+```
+
+Via environment variable:
+```python
+import os
+from portia import LLMProvider, Config
+
+os.environ["OPENAI_API_KEY"] = "sk-..."
+
+config = Config()
+```
+
 ### Model overrides
 
 |   |   |
@@ -65,6 +91,38 @@ Model strings are in the format `provider/model_name`, where the `provider` is t
 Examples: `openai/gpt-4o`, `anthropic/claude-3-5-sonnet`, `mistralai/mistral-large-latest`, `google-generativeai/gemini-1.5-flash`, `azure-openai/gpt-4o`
 :::
 
+#### Examples:
+
+Using model string:
+```python
+from portia import Config
+
+config = Config(default_model="openai/gpt-4o")
+```
+
+Using model instance:
+```python
+from pydantic import SecretStr
+from portia import Config
+from portia.models import OpenAIGenerativeModel
+
+config = Config(default_model=OpenAIGenerativeModel(model_name="gpt-4o", api_key=SecretStr("sk-...")))
+```
+
+Using the `models` property:
+```python
+from portia import Config
+from portia.models import OpenAIGenerativeModel
+
+config = Config(
+    models={
+        "default_model": OpenAIGenerativeModel(model_name="gpt-4o", api_key=SecretStr("sk-...")),
+        "planning_model": "anthropic/claude-3-5-sonnet",
+        "summariser_model": "azure-openai/gpt-4o",
+    }
+)
+```
+
 ### API keys
 
 |   |   |
@@ -74,6 +132,16 @@ Examples: `openai/gpt-4o`, `anthropic/claude-3-5-sonnet`, `mistralai/mistral-lar
 | Values | `str` |
 
 The keys are used to authenticate with the LLM provider, via the `GenerativeModel` classes.
+
+#### Examples:
+
+Using environment variables:
+```python
+from pydantic import SecretStr
+from portia import Config
+
+config = Config(anthropic_api_key=SecretStr("sk-..."))
+```
 
 ## Manage storage options
 You can control where you store and retrieve plan run states using the `storage_class` property in the `Config` class (<a href="/SDK/portia/config" target="_blank">**SDK reference ↗**</a>), which is an ENUM accessible from the `StorageClass` class:
