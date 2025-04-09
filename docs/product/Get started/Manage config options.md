@@ -21,15 +21,15 @@ The `Config` class (<a href="/SDK/portia/config" target="_blank">**SDK reference
 
 ### LLM Provider
 
+This configures the API that Portia will use for LLM calls. If set, this decides which generative AI models are used in Portia defined Agents and Tools.
+
 |   |   |
 | - | - |
 | Config settings | `Config.llm_provider` |
-| Environment variables | `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `MISTRALAI_API_KEY`, `GOOGLE_GENERATIVEAI_API_KEY`, `AZURE_OPENAI_API_KEY` |
-| Values | `str`, `LLMProvider` |
+| Environment variables | `OPENAI_API_KEY`<br/>`ANTHROPIC_API_KEY`<br/>`MISTRALAI_API_KEY`<br/>`GOOGLE_GENERATIVEAI_API_KEY`<br/>`AZURE_OPENAI_API_KEY` |
+| Valid types | `str`<br/> `LLMProvider(Enum)` |
 
-If set, this decides what generative AI models are used in Portia defined Agents and Tools.
-
-This can be set using the `LLMProvider` or a string:
+The valid values for the `str` or `LLMProvider(Enum)` are:
 
 | LLMProvider | string |
 | ----------- | -------- |
@@ -38,6 +38,7 @@ This can be set using the `LLMProvider` or a string:
 | `LLMProvider.MISTRALAI` | `mistralai` |
 | `LLMProvider.GOOGLE_GENERATIVE_AI` | `google-generativeai` |
 | `LLMProvider.AZURE_OPENAI` | `azure-openai` |
+| `LLMProvider.OLLAMA` | `ollama` |
 
 :::tip[NB]
 If not provided, the LLM provider will be inferred from the environment variable.
@@ -50,14 +51,14 @@ Using enum:
 ```python
 from portia import LLMProvider, Config
 
-config = Config(llm_provider=LLMProvider.OPENAI)
+config = Config.from_default(llm_provider=LLMProvider.OPENAI)
 ```
 
 Using string:
 ```python
 from portia import LLMProvider, Config
 
-config = Config(llm_provider="anthropic")
+config = Config.from_default(llm_provider="anthropic")
 ```
 
 Via environment variable:
@@ -72,10 +73,12 @@ config = Config()
 
 ### Model overrides
 
+Specific models
+
 |   |   |
 | - | - |
-| Config settings | `default_model`, `planning_model`, `execution_model`, `introspection_model`, `summariser_model` |
-| Values | `str`, `GenerativeModel` |
+| Config settings | `default_model`<br/>`planning_model`<br/>`execution_model`<br/>`introspection_model`<br/>`summariser_model` |
+| Values | `str`<br/>`GenerativeModel` |
 
 Or
 
@@ -97,7 +100,7 @@ Using model string:
 ```python
 from portia import Config
 
-config = Config(default_model="openai/gpt-4o")
+config = Config.from_default(default_model="openai/gpt-4o")
 ```
 
 Using model instance:
@@ -106,7 +109,7 @@ from pydantic import SecretStr
 from portia import Config
 from portia.models import OpenAIGenerativeModel
 
-config = Config(default_model=OpenAIGenerativeModel(model_name="gpt-4o", api_key=SecretStr("sk-...")))
+config = Config.from_default(default_model=OpenAIGenerativeModel(model_name="gpt-4o", api_key=SecretStr("sk-...")))
 ```
 
 Using the `models` property:
@@ -115,7 +118,7 @@ from portia import Config
 from portia.models import OpenAIGenerativeModel
 
 # You can mix and match model strings and model instances
-config = Config(
+config = Config.from_default(
     models={
         "default_model": OpenAIGenerativeModel(model_name="gpt-4o", api_key=SecretStr("sk-...")),
         "planning_model": "anthropic/claude-3-5-sonnet",
@@ -163,7 +166,7 @@ Using environment variables:
 from pydantic import SecretStr
 from portia import Config
 
-config = Config(anthropic_api_key=SecretStr("sk-..."))
+config = Config.from_default(anthropic_api_key=SecretStr("sk-..."))
 ```
 
 ## Manage storage options
