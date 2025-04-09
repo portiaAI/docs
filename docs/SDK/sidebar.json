@@ -14,7 +14,8 @@
         "SDK/portia/execution_agents/context",
         "SDK/portia/execution_agents/default_execution_agent",
         "SDK/portia/execution_agents/execution_utils",
-        "SDK/portia/execution_agents/one_shot_agent"
+        "SDK/portia/execution_agents/one_shot_agent",
+        "SDK/portia/execution_agents/output"
       ],
       "label": "portia.execution_agents",
       "type": "category"
@@ -58,6 +59,7 @@
     "SDK/portia/llm_wrapper",
     "SDK/portia/logger",
     "SDK/portia/mcp_session",
+    "SDK/portia/model",
     "SDK/portia/plan",
     "SDK/portia/plan_run",
     "SDK/portia/portia",

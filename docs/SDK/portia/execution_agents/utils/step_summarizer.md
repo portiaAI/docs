@@ -20,20 +20,28 @@ This is used only on the tool output message.
 **Attributes**:
 
 - `summarizer_prompt` _ChatPromptTemplate_ - The prompt template used to generate the summary.
-- `llm` _BaseChatModel_ - The language model used for summarization.
+- `model` _GenerativeModel_ - The language model used for summarization.
 - `summary_max_length` _int_ - The maximum length of the summary.
+- `step` _Step_ - The step that produced the output.
 
 #### \_\_init\_\_
 
 ```python
-def __init__(llm: BaseChatModel, summary_max_length: int = 500) -> None
+def __init__(config: Config,
+             model: GenerativeModel,
+             tool: Tool,
+             step: Step,
+             summary_max_length: int = 500) -> None
 ```
 
 Initialize the model.
 
 **Arguments**:
 
-- `llm` _BaseChatModel_ - The language model used for summarization.
+- `config` _Config_ - The configuration for the run.
+- `model` _GenerativeModel_ - The language model used for summarization.
+- `tool` _Tool_ - The tool used for summarization.
+- `step` _Step_ - The step that produced the output.
 - `summary_max_length` _int_ - The maximum length of the summary. Default is 500 characters.
 
 #### invoke

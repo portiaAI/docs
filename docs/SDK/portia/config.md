@@ -8,7 +8,7 @@ Configuration module for the SDK.
 This module defines the configuration classes and enumerations used in the SDK,
 including settings for storage, API keys, LLM providers, logging, and agent options.
 It also provides validation for configuration values and loading mechanisms for
-config files and default settings.
+default settings.
 
 ## StorageClass Objects
 
@@ -23,16 +23,6 @@ Enum representing locations plans and runs are stored.
 - `MEMORY` - Stored in memory.
 - `DISK` - Stored on disk.
 - `CLOUD` - Stored in the cloud.
-
-#### validate\_extras\_dependencies
-
-```python
-def validate_extras_dependencies(extra_group: str) -> None
-```
-
-Validate that the dependencies for an extras group are installed.
-
-Provide a helpful error message if not all dependencies are installed.
 
 ## LLMProvider Objects
 
@@ -246,15 +236,6 @@ def parse_feature_flags() -> Self
 
 Add feature flags if not provided.
 
-#### parse\_feature\_flags
-
-```python
-@model_validator(mode="after")
-def parse_feature_flags() -> Self
-```
-
-Add feature flags if not provided.
-
 #### add\_default\_models
 
 ```python
@@ -271,6 +252,22 @@ def model(usage: str) -> LLMModel
 ```
 
 Get the LLM model for the given usage.
+
+#### resolve\_model
+
+```python
+def resolve_model(usage: str) -> GenerativeModel
+```
+
+Resolve a model from the config.
+
+#### resolve\_langchain\_model
+
+```python
+def resolve_langchain_model(usage: str) -> LangChainGenerativeModel
+```
+
+Resolve a LangChain model from the config.
 
 #### parse\_storage\_class
 
@@ -314,6 +311,14 @@ def parse_planning_agent_type(
 
 Parse planning_agent_type to enum if string provided.
 
+#### exceeds\_output\_threshold
+
+```python
+def exceeds_output_threshold(value: str | list[str | dict]) -> bool
+```
+
+Determine whether the provided output value exceeds the large output threshold.
+
 #### check\_config
 
 ```python
@@ -322,19 +327,6 @@ def check_config() -> Self
 ```
 
 Validate Config is consistent.
-
-#### from\_file
-
-```python
-@classmethod
-def from_file(cls, file_path: Path) -> Config
-```
-
-Load configuration from a JSON file.
-
-**Returns**:
-
-- `Config` - The default config
 
 #### from\_default
 
@@ -374,23 +366,6 @@ Retrieve the required API key for the configured provider.
 
 - `SecretStr` - The required API key.
 
-#### must\_get\_raw\_api\_key
-
-```python
-def must_get_raw_api_key(name: str) -> str
-```
-
-Retrieve the raw API key for the configured provider.
-
-**Raises**:
-
-- `ConfigNotFoundError` - If no API key is found for the provider.
-  
-
-**Returns**:
-
-- `str` - The raw API key.
-
 #### must\_get
 
 ```python
@@ -414,33 +389,6 @@ Retrieve any value from the config, ensuring its of the correct type.
 **Returns**:
 
 - `T` - The config value
-
-#### get\_llm\_api\_key
-
-```python
-def get_llm_api_key(model_name: LLMModel) -> SecretStr
-```
-
-Get the API key for the given LLM model.
-
-**Returns**:
-
-- `SecretStr` - The API key for the given LLM model.
-
-#### get\_llm\_api\_endpoint
-
-```python
-def get_llm_api_endpoint(model_name: LLMModel) -> str | None
-```
-
-Get the API endpoint for the given LLM model.
-
-In most cases the endpoint is not required for the LLM provider API.
-The common exception is a self-hosted solution like Azure OpenAI.
-
-**Returns**:
-
-  str | None: The API endpoint for the given LLM model.
 
 #### llm\_provider\_default\_from\_api\_keys
 

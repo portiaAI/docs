@@ -30,6 +30,7 @@ during the agent execution process.
 
 ```python
 def next_state_after_tool_call(
+    config: Config,
     state: MessagesState,
     tool: Tool | None = None
 ) -> Literal[AgentNode.TOOL_AGENT, AgentNode.SUMMARIZER, END]
@@ -42,6 +43,7 @@ should proceed to the tool agent again, to the summarizer, or end.
 
 **Arguments**:
 
+- `config` _Config_ - The configuration for the run.
 - `state` _MessagesState_ - The current state of the messages.
 - `tool` _Tool | None_ - The tool involved in the call, if any.
   
@@ -99,7 +101,7 @@ It raises errors if the tool encounters issues and returns the appropriate outpu
 
 **Arguments**:
 
-- `messages` _list[BaseMessage}_ - The set of messages received from the agent&#x27;s plan_run.
+- `messages` _list[BaseMessage]_ - The set of messages received from the agent&#x27;s plan_run.
 - `tool` _Tool | None_ - The tool associated with the agent, if any.
 - `clarifications` _list[Clarification] | None_ - A list of clarifications, if any.
   

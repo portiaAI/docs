@@ -72,7 +72,7 @@ Model to parse the arguments for a tool.
 
 **Arguments**:
 
-- `llm` _BaseChatModel_ - The language model used for argument parsing.
+- `model` _Model_ - The language model used for argument parsing.
 - `context` _str_ - The context for argument generation.
 - `agent` _DefaultExecutionAgent_ - The agent using the parser model.
   
@@ -80,7 +80,7 @@ Model to parse the arguments for a tool.
 **Attributes**:
 
 - `arg_parser_prompt` _ChatPromptTemplate_ - The prompt template for argument parsing.
-- `llm` _BaseChatModel_ - The language model used.
+- `model` _Model_ - The language model used.
 - `context` _str_ - The context for argument generation.
 - `agent` _DefaultExecutionAgent_ - The agent using the parser model.
 - `previous_errors` _list[str]_ - A list of previous errors encountered during parsing.
@@ -89,7 +89,7 @@ Model to parse the arguments for a tool.
 #### \_\_init\_\_
 
 ```python
-def __init__(llm: BaseChatModel, context: str,
+def __init__(model: GenerativeModel, context: str,
              agent: DefaultExecutionAgent) -> None
 ```
 
@@ -97,7 +97,7 @@ Initialize the model.
 
 **Arguments**:
 
-- `llm` _BaseChatModel_ - The language model used for argument parsing.
+- `model` _Model_ - The language model used for argument parsing.
 - `context` _str_ - The context for argument generation.
 - `agent` _DefaultExecutionAgent_ - The agent using the parser model.
 
@@ -138,14 +138,14 @@ to analyze the context and tool arguments and returns a structured validation ou
 **Attributes**:
 
 - `arg_verifier_prompt` _ChatPromptTemplate_ - The prompt template used for arg verification.
-- `llm` _BaseChatModel_ - The language model used to invoke the verification process.
+- `model` _Model_ - The model used to invoke the verification process.
 - `context` _str_ - The context in which the tool arguments are being validated.
 - `agent` _DefaultExecutionAgent_ - The agent responsible for handling the verification process.
 
 #### \_\_init\_\_
 
 ```python
-def __init__(llm: BaseChatModel, context: str,
+def __init__(model: GenerativeModel, context: str,
              agent: DefaultExecutionAgent) -> None
 ```
 
@@ -153,9 +153,9 @@ Initialize the model.
 
 **Arguments**:
 
-- `llm` _BaseChatModel_ - The language model used for argument parsing.
+- `model` _Model_ - The model used for argument verification.
 - `context` _str_ - The context for argument generation.
-- `agent` _DefaultExecutionAgent_ - The agent using the parser model.
+- `agent` _DefaultExecutionAgent_ - The agent using the verifier model.
 
 #### invoke
 
@@ -190,7 +190,8 @@ Model to call the tool with the verified arguments.
 #### \_\_init\_\_
 
 ```python
-def __init__(llm: BaseChatModel, context: str, tools: list[StructuredTool],
+def __init__(model: LangChainGenerativeModel, context: str,
+             tools: list[StructuredTool],
              agent: DefaultExecutionAgent) -> None
 ```
 
@@ -198,7 +199,7 @@ Initialize the model.
 
 **Arguments**:
 
-- `llm` _BaseChatModel_ - The language model used for argument parsing.
+- `model` _LangChainGenerativeModel_ - The language model used for argument parsing.
 - `context` _str_ - The context for argument generation.
 - `agent` _DefaultExecutionAgent_ - The agent using the parser model.
 - `tools` _list[StructuredTool]_ - The tools to pass to the model.
