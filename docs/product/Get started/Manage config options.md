@@ -18,18 +18,169 @@ The `Config` class of your `Portia` instance allows you to:
 
 ## Configure LLM options
 The `Config` class (<a href="/SDK/portia/config" target="_blank">**SDK reference ↗**</a>) allows you to control various LLM and agent execution options.
-| Property | Purpose |
-| ----------- | ----------- |
-| `llm_provider` | Select between `OPENAI`, `ANTHROPIC` OR `MISTRALAI`. <br/>This is an ENUM accessible from the `LLMProvider` class. |
-| `llm_model_name` | Select the relevant LLM model. This is an ENUM accessible via the `LLMModel` class. |
-| `openai_api_key`<br/>`anthropic_api_key`<br/>`mistralai_api_key` | Set the key you want your `Portia` instance instance to use from the relevant provider |
-| `planner_system_context_extension` | Enrich the system context with more information. For example you can add information specific to a frontend user session such as department, title, timezone etc. |
+
+### LLM Provider
+
+This configures the API that Portia will use for LLM calls. If set, this decides which generative AI models are used in Portia defined Agents and Tools.
+
+|   |   |
+| - | - |
+| Config settings | `llm_provider` |
+| Environment variables | `OPENAI_API_KEY`<br/>`ANTHROPIC_API_KEY`<br/>`MISTRALAI_API_KEY`<br/>`GOOGLE_GENERATIVEAI_API_KEY`<br/>`AZURE_OPENAI_API_KEY` |
+| Valid types | `str`<br/> `LLMProvider(Enum)` |
+
+The valid values for the `str` or `LLMProvider(Enum)` are:
+
+| LLMProvider | string |
+| ----------- | -------- |
+| `LLMProvider.OPENAI` | `openai` |
+| `LLMProvider.ANTHROPIC` | `anthropic` |
+| `LLMProvider.MISTRALAI` | `mistralai` |
+| `LLMProvider.GOOGLE_GENERATIVE_AI` | `google-generativeai` |
+| `LLMProvider.AZURE_OPENAI` | `azure-openai` |
+| `LLMProvider.OLLAMA` | `ollama` |
+
+:::tip[NB]
+If not provided, the LLM provider will be inferred from the environment variable.
+For example, if `OPENAI_API_KEY` is found, the provider will be set to `LLMProvider.OPENAI`
+:::
+
+#### Examples:
+
+Using the `LLMProvider` enum:
+```python
+from portia import LLMProvider, Config
+
+config = Config.from_default(llm_provider=LLMProvider.OPENAI)
+```
+
+Passing the string value:
+```python
+from portia import LLMProvider, Config
+
+config = Config.from_default(llm_provider="anthropic")
+```
+
+Inferred from environment variables:
+```python
+import os
+from portia import LLMProvider, Config
+
+os.environ["OPENAI_API_KEY"] = "sk-..."
+
+config = Config.from_default()
+config.llm_provider is LLMProvider.OPENAI
+```
+
+### Model overrides
+
+Specific models
+
+|   |   |
+| - | - |
+| Config settings | `default_model` - The fallback default model for all use-cases if not specified elsewhere<br/>`planning_model` - The model used for the Planning Agent<br/>`execution_model` - The model used for the Execution Agent<br/>`introspection_model` - The model used for the Introspection Agent<br/>`summariser_model` - The model used for the Summariser Agent |
+| Valid types | `str`<br/>`GenerativeModel` |
+
+Or
+
+|   |   |
+| - | - |
+| Config setting | `models` |
+| Valid types | `dict[str, GenerativeModel \| str]` - Mapping from model key to model instance or string |
+
+If set, this decides what generative AI model is used in Portia defined Agents and Tools. It will overwrite the default model for the LLM provider.
+
+:::tip[Model string parsing]
+Model strings are in the format `provider/model_name`, where the `provider` is the string value of the LLM provider (e.g. `openai`) and the `model_name` is the name of the model you want to use.
+Examples: `openai/gpt-4o`, `anthropic/claude-3-5-sonnet`, `mistralai/mistral-large-latest`, `google-generativeai/gemini-1.5-flash`, `azure-openai/gpt-4o`
+:::
+
+#### Examples:
+
+Using model string:
+```python
+from portia import Config
+
+config = Config.from_default(default_model="openai/gpt-4o")
+```
+
+Using model instance:
+```python
+from pydantic import SecretStr
+from portia import Config
+from portia.models import OpenAIGenerativeModel
+
+config = Config.from_default(default_model=OpenAIGenerativeModel(model_name="gpt-4o", api_key=SecretStr("sk-...")))
+```
+
+Using the `models` property:
+```python
+from portia import Config
+from portia.models import OpenAIGenerativeModel
+
+# You can mix and match model strings and model instances
+config = Config.from_default(
+    models={
+        "default_model": OpenAIGenerativeModel(model_name="gpt-4o", api_key=SecretStr("sk-...")),
+        "planning_model": "anthropic/claude-3-5-sonnet",
+        "summariser_model": "azure-openai/gpt-4o",
+    }
+)
+```
+
+### Models for Tools
+
+Some tools provided by the SDK are LLM-based. You can control the model used by these tools by passing a `model` directly to the tool constructor:
+
+```python
+from portia import LLMTool, DefaultToolRegistry
+
+tool_regsitry = DefaultToolRegistry().replace_tool(LLMTool(model="openai/gpt-4o"))
+
+portia = Portia(config=Config.from_default(), tools=tool_regsitry)
+```
+
+Like other config options, you can also provide an explicit model instance to the tool constructor:
+
+```python
+from portia import LLMTool, DefaultToolRegistry
+from portia.models import OpenAIGenerativeModel
+
+new_llm_tool = LLMTool(model=OpenAIGenerativeModel(model_name="gpt-4o", api_key=SecretStr("sk-...")))
+tool_regsitry = DefaultToolRegistry().replace_tool(new_llm_tool)
+```
+
+### API keys
+
+|   |   |
+| - | - |
+| Config settings | `openai_api_key`, `anthropic_api_key`, `mistralai_api_key`, `google_generativeai_api_key`, `azure_openai_api_key` |
+| Environment variables | `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `MISTRALAI_API_KEY`, `GOOGLE_GENERATIVEAI_API_KEY`, `AZURE_OPENAI_API_KEY` |
+| Valid types | `str` |
+
+The keys are used to authenticate with the LLM provider, via the `GenerativeModel` classes.
+
+#### Examples:
+
+Using environment variables:
+```python
+from pydantic import SecretStr
+from portia import Config
+
+config = Config.from_default(anthropic_api_key=SecretStr("sk-..."))
+```
 
 ## Manage storage options
 You can control where you store and retrieve plan run states using the `storage_class` property in the `Config` class (<a href="/SDK/portia/config" target="_blank">**SDK reference ↗**</a>), which is an ENUM accessible from the `StorageClass` class:
 - `MEMORY` allows you to use working memory (default if PORTIA_API_KEY is not specified).
 - `DISK` allows you to use local storage. You will need to set the `storage_dir` appropriately (defaults to the project's root directory).
 - `CLOUD` uses the Portia cloud (<a href="/store-retrieve-plan-runs" target="_blank">**Use Portia cloud ↗**</a> - default if PORTIA_API_KEY is specified).
+
+## Other config settings
+
+| Property | Purpose |
+| ----------- | ----------- |
+| `planner_system_context_extension` | Enrich the system context with more information. For example you can add information specific to a frontend user session such as department, title, timezone etc. |
 
 ## Manage logging
 You can control logging behaviour with the following `Config` properties (<a href="/SDK/portia/config" target="_blank">**SDK reference ↗**</a>):
@@ -67,7 +218,7 @@ my_config = Config.from_default(
     storage_class=StorageClass.DISK, 
     storage_dir='demo_runs', # Amend this based on where you'd like your plans and plan runs saved!
     default_log_level=LogLevel.DEBUG,
-    )
+)
 
 # Instantiate a Portia instance. Load it with the default config and with some example tools
 portia = Portia(config=my_config, tools=example_tool_registry)
