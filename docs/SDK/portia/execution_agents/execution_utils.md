@@ -117,3 +117,45 @@ It raises errors if the tool encounters issues and returns the appropriate outpu
 - `ToolFailedError` - If there was a hard error with the tool.
 - `InvalidAgentOutputError` - If the output from the agent is invalid.
 
+#### map\_message\_types\_for\_instructor
+
+```python
+def map_message_types_for_instructor(
+        messages: list[BaseMessage]) -> list[ChatCompletionMessageParam]
+```
+
+Map the message types to the correct format for the LLM provider.
+
+**Arguments**:
+
+- `messages` _list[BaseMessage]_ - Input Langchain messages
+  
+
+**Returns**:
+
+- `list[dict]` - The mapped messages.
+
+#### invoke\_structured\_output
+
+```python
+def invoke_structured_output(
+        model: BaseChatModel, response_model: type[BaseModel],
+        messages: list[BaseMessage]) -> dict[Any, Any] | BaseModel
+```
+
+Invoke a model with structured output.
+
+This function allows us to dispatch to the structured output method that works with
+the LLM provider.
+
+**Arguments**:
+
+- `model` _BaseChatModel_ - The LangChain model to invoke.
+- `response_model` _type[T]_ - The Pydantic model to use as schema for structured output.
+- `messages` _list[BaseMessage]_ - The message input to the model.
+  
+
+**Returns**:
+
+- `T` - The deserialized Pydantic model from the LLM provider.
+
