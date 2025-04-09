@@ -47,28 +47,29 @@ For example, if `OPENAI_API_KEY` is found, the provider will be set to `LLMProvi
 
 #### Examples:
 
-Using enum:
+Using the `LLMProvider` enum:
 ```python
 from portia import LLMProvider, Config
 
 config = Config.from_default(llm_provider=LLMProvider.OPENAI)
 ```
 
-Using string:
+Passing the string value:
 ```python
 from portia import LLMProvider, Config
 
 config = Config.from_default(llm_provider="anthropic")
 ```
 
-Via environment variable:
+Inferred from environment variables:
 ```python
 import os
 from portia import LLMProvider, Config
 
 os.environ["OPENAI_API_KEY"] = "sk-..."
 
-config = Config()
+config = Config.from_default()
+config.llm_provider is LLMProvider.OPENAI
 ```
 
 ### Model overrides
@@ -77,7 +78,7 @@ Specific models
 
 |   |   |
 | - | - |
-| Config settings | `default_model`<br/>`planning_model`<br/>`execution_model`<br/>`introspection_model`<br/>`summariser_model` |
+| Config settings | `default_model` - The fallback default model for all use-cases if not specified elsewhere<br/>`planning_model` - The model used for the Planning Agent<br/>`execution_model` - The model used for the Execution Agent<br/>`introspection_model` - The model used for the Introspection Agent<br/>`summariser_model` - The model used for the Summariser Agent |
 | Values | `str`<br/>`GenerativeModel` |
 
 Or
@@ -85,7 +86,7 @@ Or
 |   |   |
 | - | - |
 | Config setting | `Config.models` |
-| Values | `dict[str, GenerativeModel | str]` |
+| Values | `dict[str, GenerativeModel \| str]` - Mapping from model key to model instance or string |
 
 If set, this decides what generative AI model is used in Portia defined Agents and Tools. It will overwrite the default model for the LLM provider.
 
