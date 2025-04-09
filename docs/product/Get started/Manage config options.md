@@ -25,7 +25,7 @@ This configures the API that Portia will use for LLM calls. If set, this decides
 
 |   |   |
 | - | - |
-| Config settings | `Config.llm_provider` |
+| Config settings | `llm_provider` |
 | Environment variables | `OPENAI_API_KEY`<br/>`ANTHROPIC_API_KEY`<br/>`MISTRALAI_API_KEY`<br/>`GOOGLE_GENERATIVEAI_API_KEY`<br/>`AZURE_OPENAI_API_KEY` |
 | Valid types | `str`<br/> `LLMProvider(Enum)` |
 
@@ -79,14 +79,14 @@ Specific models
 |   |   |
 | - | - |
 | Config settings | `default_model` - The fallback default model for all use-cases if not specified elsewhere<br/>`planning_model` - The model used for the Planning Agent<br/>`execution_model` - The model used for the Execution Agent<br/>`introspection_model` - The model used for the Introspection Agent<br/>`summariser_model` - The model used for the Summariser Agent |
-| Values | `str`<br/>`GenerativeModel` |
+| Valid types | `str`<br/>`GenerativeModel` |
 
 Or
 
 |   |   |
 | - | - |
-| Config setting | `Config.models` |
-| Values | `dict[str, GenerativeModel \| str]` - Mapping from model key to model instance or string |
+| Config setting | `models` |
+| Valid types | `dict[str, GenerativeModel \| str]` - Mapping from model key to model instance or string |
 
 If set, this decides what generative AI model is used in Portia defined Agents and Tools. It will overwrite the default model for the LLM provider.
 
@@ -156,7 +156,7 @@ tool_regsitry = DefaultToolRegistry().replace_tool(new_llm_tool)
 | - | - |
 | Config settings | `openai_api_key`, `anthropic_api_key`, `mistralai_api_key`, `google_generativeai_api_key`, `azure_openai_api_key` |
 | Environment variables | `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `MISTRALAI_API_KEY`, `GOOGLE_GENERATIVEAI_API_KEY`, `AZURE_OPENAI_API_KEY` |
-| Values | `str` |
+| Valid types | `str` |
 
 The keys are used to authenticate with the LLM provider, via the `GenerativeModel` classes.
 
