@@ -124,6 +124,28 @@ config = Config(
 )
 ```
 
+### Models for Tools
+
+Some tools provided by the SDK are LLM-based. You can control the model used by these tools by passing a `model` directly to the tool constructor:
+
+```python
+from portia import LLMTool, DefaultToolRegistry
+
+tool_regsitry = DefaultToolRegistry().replace_tool(LLMTool(model="openai/gpt-4o"))
+
+portia = Portia(config=Config.from_default(), tools=tool_regsitry)
+```
+
+Like other config options, you can also provide an explicit model instance to the tool constructor:
+
+```python
+from portia import LLMTool, DefaultToolRegistry
+from portia.models import OpenAIGenerativeModel
+
+new_llm_tool = LLMTool(model=OpenAIGenerativeModel(model_name="gpt-4o", api_key=SecretStr("sk-...")))
+tool_regsitry = DefaultToolRegistry().replace_tool(new_llm_tool)
+```
+
 ### API keys
 
 |   |   |
