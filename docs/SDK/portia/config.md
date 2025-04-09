@@ -256,7 +256,7 @@ Get the LLM model for the given usage.
 #### resolve\_model
 
 ```python
-def resolve_model(usage: str) -> GenerativeModel
+def resolve_model(usage: str = DEFAULT_MODEL_KEY) -> GenerativeModel
 ```
 
 Resolve a model from the config.
@@ -264,7 +264,8 @@ Resolve a model from the config.
 #### resolve\_langchain\_model
 
 ```python
-def resolve_langchain_model(usage: str) -> LangChainGenerativeModel
+def resolve_langchain_model(
+        usage: str = DEFAULT_MODEL_KEY) -> LangChainGenerativeModel
 ```
 
 Resolve a LangChain model from the config.
