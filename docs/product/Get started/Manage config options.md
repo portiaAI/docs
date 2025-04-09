@@ -115,6 +115,7 @@ config = Config.from_default(default_model=OpenAIGenerativeModel(model_name="gpt
 
 Using the `models` property:
 ```python
+from pydantic import SecretStr
 from portia import Config
 from portia.models import OpenAIGenerativeModel
 
@@ -143,6 +144,7 @@ portia = Portia(config=Config.from_default(), tools=tool_regsitry)
 Like other config options, you can also provide an explicit model instance to the tool constructor:
 
 ```python
+from pydantic import SecretStr
 from portia import LLMTool, DefaultToolRegistry
 from portia.models import OpenAIGenerativeModel
 
@@ -164,10 +166,9 @@ The keys are used to authenticate with the LLM provider, via the `GenerativeMode
 
 Using environment variables:
 ```python
-from pydantic import SecretStr
 from portia import Config
 
-config = Config.from_default(anthropic_api_key=SecretStr("sk-..."))
+config = Config.from_default(anthropic_api_key="sk-...")
 ```
 
 ## Manage storage options
