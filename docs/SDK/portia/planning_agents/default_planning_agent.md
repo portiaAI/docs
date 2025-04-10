@@ -25,7 +25,6 @@ Init with the config.
 
 ```python
 def generate_steps_or_error(
-        ctx: ExecutionContext,
         query: str,
         tool_list: list[Tool],
         examples: list[Plan] | None = None) -> StepsOrError

@@ -18,7 +18,6 @@ def generate_main_system_context() -> list[str]
 ```
 
 Generate the main system context.
-  
 
 **Returns**:
 

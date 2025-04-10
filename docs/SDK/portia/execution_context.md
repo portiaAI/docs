@@ -11,8 +11,8 @@ for each run execution, ensuring flexibility and context isolation, especially i
 multi-threaded or asynchronous applications.
 
 Key Features:
-- The `ExecutionContext` class encapsulates information such as user identification,
-  additional data, and system context extensions for planning and execution agents.
+- The `ExecutionContext` class encapsulates information such as user identification
+  and additional data for planning and execution agents.
 - The `execution_context` context manager allows for context isolation, ensuring
   that each task or thread has its own independent execution context.
 - The `get_execution_context` function allows retrieval of the current execution context.
@@ -54,7 +54,7 @@ Return an empty execution context.
 def execution_context(
     context: ExecutionContext | None = None,
     end_user_id: str | None = None,
-    additional_data: dict[str, str] | None = None,
+    additional_data: dict[str, str] | None = None
 ) -> Generator[None, None, None]
 ```
 
@@ -81,7 +81,7 @@ tasks or threads may need independent contexts simultaneously.
 - `None` - The block of code within the context manager executes with the specified context.
   
   Context Isolation:
-  - The `_execution_context` object is a `context`0, ensuring that the `ExecutionContext`
+  - The `_execution_context` object is a `ContextVar`, ensuring that the `ExecutionContext`
   set in one task or thread does not affect others.
   - When the context manager exits, the context for the current task is cleaned up
   to avoid memory leaks or unintended persistence of data.
@@ -89,7 +89,7 @@ tasks or threads may need independent contexts simultaneously.
 
 **Example**:
 
-`context`2
+`context`0
 
 #### get\_execution\_context
 
