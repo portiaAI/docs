@@ -81,8 +81,6 @@ Plan run states are captured in the `PlanRun` class (<a href="/SDK/portia/plan_r
       "execution_context": {
         "end_user_id": null,
         "additional_data": {},
-        "planner_system_context_extension": null,
-        "agent_system_context_extension": null
       },
       "outputs": {
         "clarifications": [],

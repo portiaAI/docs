@@ -34,10 +34,6 @@ information to planning and execution agents for dynamic adjustments.
 - `end_user_id` _Optional[str]_ - The identifier of the user for whom the run is running.
   Used for authentication and debugging purposes.
 - `additional_data` _dict[str, str]_ - Arbitrary additional data useful for debugging.
-- `planning_agent_system_context_extension` _Optional[list[str]]_ - Additional context for
-  planning_agents.
-- `execution_agent_system_context_extension` _Optional[list[str]]_ - Additional context for agent LLMs.
-- `plan_run_context` _Optional[str]_ - Additional context for the PlanRun.
 
 #### empty\_context
 
@@ -59,8 +55,6 @@ def execution_context(
     context: ExecutionContext | None = None,
     end_user_id: str | None = None,
     additional_data: dict[str, str] | None = None,
-    planning_agent_system_context_extension: list[str] | None = None,
-    agent_system_context_extension: list[str] | None = None
 ) -> Generator[None, None, None]
 ```
 
@@ -80,10 +74,6 @@ tasks or threads may need independent contexts simultaneously.
   the execution for specific users. Defaults to `None`.
 - `additional_data` _Optional[Dict[str, str]]_ - Arbitrary additional data to associate
   with the context. Defaults to an empty dictionary.
-- `planning_agent_system_context_extension` _Optional[list[str]]_ - Additional context for
-  planning_agents. This should be concise to stay within the context window.
-- `agent_system_context_extension` _Optional[list[str]]_ - Additional context for agent
-  LLMs. This should also be concise.
   
 
 **Yields**:
