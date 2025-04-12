@@ -190,8 +190,7 @@ Model to call the tool with the verified arguments.
 #### \_\_init\_\_
 
 ```python
-def __init__(model: LangChainGenerativeModel, context: str,
-             tools: list[StructuredTool],
+def __init__(model: GenerativeModel, context: str, tools: list[StructuredTool],
              agent: DefaultExecutionAgent) -> None
 ```
 
@@ -199,7 +198,7 @@ Initialize the model.
 
 **Arguments**:
 
-- `model` _LangChainGenerativeModel_ - The language model used for argument parsing.
+- `model` _GenerativeModel_ - The language model used for argument parsing.
 - `context` _str_ - The context for argument generation.
 - `agent` _DefaultExecutionAgent_ - The agent using the parser model.
 - `tools` _list[StructuredTool]_ - The tools to pass to the model.

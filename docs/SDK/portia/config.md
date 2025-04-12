@@ -24,30 +24,6 @@ Enum representing locations plans and runs are stored.
 - `DISK` - Stored on disk.
 - `CLOUD` - Stored in the cloud.
 
-## LLMProvider Objects
-
-```python
-class LLMProvider(Enum)
-```
-
-Enum for supported LLM providers.
-
-**Attributes**:
-
-- `OPENAI` - OpenAI provider.
-- `ANTHROPIC` - Anthropic provider.
-- `MISTRALAI` - MistralAI provider.
-- `GOOGLE_GENERATIVE_AI` - Google Generative AI provider.
-- `AZURE_OPENAI` - Azure OpenAI provider.
-
-#### to\_api\_key\_name
-
-```python
-def to_api_key_name() -> str
-```
-
-Get the name of the API key for the provider.
-
 ## Model Objects
 
 ```python
@@ -55,6 +31,8 @@ class Model(NamedTuple)
 ```
 
 Provider and model name tuple.
+
+**DEPRECATED** Use new model configuration options on Config class instead.
 
 **Attributes**:
 
@@ -68,6 +46,8 @@ class LLMModel(Enum)
 ```
 
 Enum for supported LLM models.
+
+**DEPRECATED** Use new model configuration options on Config class instead.
 
 Models are grouped by provider, with the following providers:
 - OpenAI
@@ -129,6 +109,34 @@ Get the associated provider for the model.
 **Returns**:
 
 - `LLMProvider` - The provider associated with the model.
+
+#### to\_model\_string
+
+```python
+def to_model_string() -> str
+```
+
+Get the model string for the model.
+
+**Returns**:
+
+- `str` - The model string.
+
+## \_AllModelsSupportedWithDeprecation Objects
+
+```python
+class _AllModelsSupportedWithDeprecation(Container)
+```
+
+A type that returns True for any contains check.
+
+#### \_\_contains\_\_
+
+```python
+def __contains__(item: object) -> bool
+```
+
+Check if the item is in the container.
 
 ## ExecutionAgentType Objects
 
@@ -194,6 +202,47 @@ Parse a string to an enum or return the enum as is.
 
 - `E` - The corresponding enum value.
 
+## GenerativeModels Objects
+
+```python
+class GenerativeModels(BaseModel)
+```
+
+Configuration for a GenerativeModels.
+
+These models do not all need to be specified manually. If an LLM provider is configured,
+Portia will use default models that are selected for the particular use-case.
+
+**Attributes**:
+
+- `default_model` - The default generative model to use. This model is used as the fallback
+  model if no other model is specified. It is also used by default in the Portia SDK
+  tool that require an LLM.
+  
+- `planning_model` - The model to use for the PlanningAgent. Reasoning models are a good choice
+  here, as they are able to reason about the problem and the possible solutions. If not
+  specified, the default_model will be used.
+  
+- `execution_model` - The model to use for the ExecutionAgent. This model is used for the
+  distilling context from the plan run into tool calls. If not specified, the
+  default_model will be used.
+  
+- `introspection_model` - The model to use for the IntrospectionAgent. This model is used to
+  introspect the problem and the plan. If not specified, the default_model will be used.
+  
+- `summarizer_model` - The model to use for the SummarizerAgent. This model is used to
+  summarize output from the plan run. If not specified, the default_model will be used.
+
+#### parse\_models
+
+```python
+@model_validator(mode="before")
+@classmethod
+def parse_models(cls, data: dict[str, Any]) -> dict[str, Any]
+```
+
+Convert legacy LLMModel values to str with deprecation warning.
+
 ## Config Objects
 
 ```python
@@ -217,8 +266,9 @@ from files or default values.
 - `google_api_key` - The API key for Google Generative AI.
 - `azure_openai_api_key` - The API key for Azure OpenAI.
 - `azure_openai_endpoint` - The endpoint for Azure OpenAI.
-- `llm_provider` - The LLM provider.
-- `models` - A dictionary of LLM models for each usage type.
+- `llm_provider` - The LLM provider. If set, Portia uses this to select the best models
+  for each agent. Can be None if custom models are provided.
+- `models` - A configuration for the LLM models for Portia to use.
 - `portia_api_key`0 - The storage class used (e.g., MEMORY, DISK, CLOUD).
 - `portia_api_key`1 - The directory for storage, if applicable.
 - `portia_api_key`2 - The default log level (e.g., DEBUG, INFO).
@@ -226,6 +276,7 @@ from files or default values.
 - `portia_api_key`4 - Whether to serialize logs in JSON format.
 - `portia_api_key`5 - The planning agent type.
 - `portia_api_key`6 - The execution agent type.
+- `portia_api_key`7 - A dictionary of feature flags for the SDK.
 
 #### parse\_feature\_flags
 
@@ -235,40 +286,6 @@ def parse_feature_flags() -> Self
 ```
 
 Add feature flags if not provided.
-
-#### add\_default\_models
-
-```python
-@model_validator(mode="after")
-def add_default_models() -> Self
-```
-
-Add default models if not provided.
-
-#### model
-
-```python
-def model(usage: str) -> LLMModel
-```
-
-Get the LLM model for the given usage.
-
-#### resolve\_model
-
-```python
-def resolve_model(usage: str = DEFAULT_MODEL_KEY) -> GenerativeModel
-```
-
-Resolve a model from the config.
-
-#### resolve\_langchain\_model
-
-```python
-def resolve_langchain_model(
-        usage: str = DEFAULT_MODEL_KEY) -> LangChainGenerativeModel
-```
-
-Resolve a LangChain model from the config.
 
 #### parse\_storage\_class
 
@@ -319,6 +336,15 @@ def exceeds_output_threshold(value: str | list[str | dict]) -> bool
 ```
 
 Determine whether the provided output value exceeds the large output threshold.
+
+#### fill\_default\_models
+
+```python
+@model_validator(mode="after")
+def fill_default_models() -> Self
+```
+
+Fill in default models for the LLM provider if not provided.
 
 #### check\_config
 
@@ -391,13 +417,71 @@ Retrieve any value from the config, ensuring its of the correct type.
 
 - `T` - The config value
 
+#### get\_default\_model
+
+```python
+def get_default_model() -> GenerativeModel
+```
+
+Get or build the default model from the config.
+
+The default model will always be present. It is a general purpose model that is used
+for the SDK&#x27;s LLM-based Tools, such as the ImageUnderstandingTool and the LLMTool.
+
+Additionally, unless specified all other specific agent models will default to this model.
+
+#### get\_planning\_model
+
+```python
+def get_planning_model() -> GenerativeModel
+```
+
+Get or build the planning model from the config.
+
+See the GenerativeModels config class for more information
+
+#### get\_execution\_model
+
+```python
+def get_execution_model() -> GenerativeModel
+```
+
+Get or build the execution model from the config.
+
+See the GenerativeModels config class for more information
+
+#### get\_introspection\_model
+
+```python
+def get_introspection_model() -> GenerativeModel
+```
+
+Get or build the introspection model from the config.
+
+See the GenerativeModels config class for more information
+
+#### get\_summarizer\_model
+
+```python
+def get_summarizer_model() -> GenerativeModel
+```
+
+Get or build the summarizer model from the config.
+
+See the GenerativeModels config class for more information
+
 #### llm\_provider\_default\_from\_api\_keys
 
 ```python
-def llm_provider_default_from_api_keys(**kwargs) -> LLMProvider
+def llm_provider_default_from_api_keys(**kwargs) -> LLMProvider | None
 ```
 
 Get the default LLM provider from the API keys.
+
+**Returns**:
+
+- `LLMProvider` - The default LLM provider.
+- `None` - If no API key is found.
 
 #### default\_config
 

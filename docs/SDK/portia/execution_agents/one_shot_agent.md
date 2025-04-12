@@ -41,15 +41,15 @@ It is recommended to use the DefaultExecutionAgent for more complex tasks.
 #### \_\_init\_\_
 
 ```python
-def __init__(model: LangChainGenerativeModel, context: str,
-             tools: list[StructuredTool], agent: OneShotAgent) -> None
+def __init__(model: GenerativeModel, context: str, tools: list[StructuredTool],
+             agent: OneShotAgent) -> None
 ```
 
 Initialize the OneShotToolCallingModel.
 
 **Arguments**:
 
-- `model` _LangChainGenerativeModel_ - The language model to use for generating responses.
+- `model` _GenerativeModel_ - The language model to use for generating responses.
 - `context` _str_ - The context to be used when generating the response.
 - `tools` _list[StructuredTool]_ - A list of tools that can be used during the task.
 - `agent` _OneShotAgent_ - The agent that is managing the task.

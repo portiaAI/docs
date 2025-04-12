@@ -43,6 +43,22 @@ Convert to LangChain BaseMessage sub-type.
 
 - `BaseMessage` - The converted message, subclass of LangChain&#x27;s BaseMessage.
 
+## LLMProvider Objects
+
+```python
+class LLMProvider(Enum)
+```
+
+Enum for supported LLM providers.
+
+**Attributes**:
+
+- `OPENAI` - OpenAI provider.
+- `ANTHROPIC` - Anthropic provider.
+- `MISTRALAI` - MistralAI provider.
+- `GOOGLE_GENERATIVE_AI` - Google Generative AI provider.
+- `AZURE_OPENAI` - Azure OpenAI provider.
+
 ## GenerativeModel Objects
 
 ```python
@@ -116,6 +132,15 @@ def __repr__() -> str
 ```
 
 Get the string representation of the model.
+
+#### to\_langchain
+
+```python
+@abstractmethod
+def to_langchain() -> BaseChatModel
+```
+
+Get the LangChain client.
 
 ## LangChainGenerativeModel Objects
 
