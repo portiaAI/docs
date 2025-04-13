@@ -74,14 +74,21 @@ config.llm_provider is LLMProvider.OPENAI
 
 ### Model overrides
 
-Specific models
+You can configure Portia to use specific models for the different agents, overriding the default model for the LLM provider.
+
+You might do this if you want to:
+- Trade off cost against performance, for example using a cheaper model for the Planning Agent
+- Extend Portia to support an LLM provider that we do not natively support
+- Mix and match models from different providers, for example using OpenAI o3-mini for the Planning Agent and Anthropic Claude 3.7 Sonnet for everything else
+
+The relevant config settings are:
 
 |   |   |
 | - | - |
 | Config setting | `models` |
 | Valid types | `GenerativeModels` - Config class for specifying models for Portia Agents<br/>`dict[str, GenerativeModel \| str]` - Mapping from model key to model instance or string |
 
-Or
+Or, if using `Config.from_default(...)`, you can specify the models using the following arguments:
 
 |   |   |
 | - | - |
