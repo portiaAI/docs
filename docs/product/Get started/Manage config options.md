@@ -27,7 +27,7 @@ This configures the API that Portia will use for LLM calls. If set, this decides
 | - | - |
 | Config settings | `llm_provider` |
 | Environment variables | `OPENAI_API_KEY`<br/>`ANTHROPIC_API_KEY`<br/>`MISTRALAI_API_KEY`<br/>`GOOGLE_GENERATIVEAI_API_KEY`<br/>`AZURE_OPENAI_API_KEY` |
-| Valid types | `str`<br/> `LLMProvider(Enum)` |
+| Valid types | `str` - see table below on valid strings<br/> `LLMProvider(Enum)` - see table below on valid values |
 
 The valid values for the `str` or `LLMProvider(Enum)` are:
 
@@ -79,14 +79,14 @@ Specific models
 |   |   |
 | - | - |
 | Config setting | `models` |
-| Valid types | `GenerativeModels`<br/>`dict[str, GenerativeModel \| str]` - Mapping from model key to model instance or string |
+| Valid types | `GenerativeModels` - Config class for specifying models for Portia Agents<br/>`dict[str, GenerativeModel \| str]` - Mapping from model key to model instance or string |
 
 Or
 
 |   |   |
 | - | - |
 | Config settings | `default_model` - The fallback default model for all use-cases if not specified elsewhere<br/>`planning_model` - The model used for the Planning Agent<br/>`execution_model` - The model used for the Execution Agent<br/>`introspection_model` - The model used for the Introspection Agent<br/>`summariser_model` - The model used for the Summariser Agent |
-| Valid types | `str`<br/>`GenerativeModel` |
+| Valid types | `str` - see note below on valid strings<br/>`GenerativeModel` - pass your own `GenerativeModel` instance |
 
 
 If set, this decides what generative AI model is used in Portia defined Agents and Tools. It will overwrite the default model for the LLM provider.
@@ -111,7 +111,12 @@ from pydantic import SecretStr
 from portia import Config
 from portia.models import OpenAIGenerativeModel
 
-config = Config.from_default(default_model=OpenAIGenerativeModel(model_name="gpt-4o", api_key=SecretStr("sk-...")))
+config = Config.from_default(
+    default_model=OpenAIGenerativeModel(
+        model_name="gpt-4o",
+        api_key=SecretStr("sk-..."),
+    )
+)
 ```
 
 Using the `models` property:
@@ -155,13 +160,12 @@ tool_regsitry = DefaultToolRegistry().replace_tool(new_llm_tool)
 
 ### API keys
 
-<center>
 |   |   |
 | - | - |
 | Config settings | `openai_api_key`, `anthropic_api_key`, `mistralai_api_key`, `google_generativeai_api_key`, `azure_openai_api_key` |
 | Environment variables | `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `MISTRALAI_API_KEY`, `GOOGLE_GENERATIVEAI_API_KEY`, `AZURE_OPENAI_API_KEY` |
 | Valid types | `str` |
-</center>
+
 The keys are used to authenticate with the LLM provider, via the `GenerativeModel` classes.
 
 #### Examples:
