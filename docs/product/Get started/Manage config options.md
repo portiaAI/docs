@@ -21,7 +21,9 @@ The `Config` class (<a href="/SDK/portia/config" target="_blank">**SDK reference
 
 ### LLM Provider
 
-This configures the API that Portia will use for LLM calls. If set, this decides which generative AI models are used in Portia defined Agents and Tools.
+Portia uses providers such as OpenAI and Anthropic for usage of generative AI models. You can configure the provider that Portia will use with the `llm_provider` config setting.
+
+If set, this decides which generative AI models are used in Portia defined Agents and Tools. Portia has built-in defaults for which models to use for each provider, so at a minimum you only need to set this property.
 
 |   |   |
 | - | - |
