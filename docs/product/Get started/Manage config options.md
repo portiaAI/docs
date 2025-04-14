@@ -25,7 +25,6 @@ Portia uses providers such as OpenAI and Anthropic for usage of generative AI mo
 
 If set, this decides which generative AI models are used in Portia defined Agents and Tools. Portia has built-in defaults for which models to use for each provider, so at a minimum you only need to set this property.
 
-|   |   |
 | - | - |
 | Config settings | `llm_provider` |
 | Environment variables | `OPENAI_API_KEY`<br/>`ANTHROPIC_API_KEY`<br/>`MISTRALAI_API_KEY`<br/>`GOOGLE_GENERATIVEAI_API_KEY`<br/>`AZURE_OPENAI_API_KEY` |
@@ -44,7 +43,8 @@ The valid values for the `str` or `LLMProvider(Enum)` are:
 
 :::tip[NB]
 If not provided, the LLM provider will be inferred from the environment variable.
-For example, if `OPENAI_API_KEY` is found, the provider will be set to `LLMProvider.OPENAI`
+For example, if `OPENAI_API_KEY` is found, the provider will be set to `LLMProvider.OPENAI`.
+If you have multiple provider keys in your environment, make sure you set your preferred provider using the `llm_provider` config setting.
 :::
 
 #### Examples:
@@ -85,7 +85,7 @@ The relevant config settings are:
 |   |   |
 | - | - |
 | Config setting | `models` |
-| Valid types | `GenerativeModels` - Config class for specifying models for Portia Agents<br/>`dict[str, GenerativeModel \| str]` - Mapping from model key to model instance or string |
+| Valid types | `GenerativeModelsConfig` - Config class for specifying models for Portia Agents<br/>`dict[str, GenerativeModel \| str]` - Mapping from model key to model instance or string |
 
 Or, if using `Config.from_default(...)`, you can specify the models using the following arguments:
 
@@ -132,19 +132,18 @@ Using the `models` property:
 ```python
 import dotenv
 from pydantic import SecretStr
-from portia import Config
-from portia.config import GenerativeModels
+from portia import Config, GenerativeModelsConfig
 from portia.model import OpenAIGenerativeModel
 
 dotenv.load_dotenv()
 
 # You can mix and match model strings and model instances
 config = Config.from_default(
-    models=GenerativeModels(
+    models=GenerativeModelsConfig(
         default_model=OpenAIGenerativeModel(model_name="gpt-4o", api_key=SecretStr("sk-...")),
         planning_model="anthropic/claude-3-5-sonnet",
-        summarizer_model="azure-openai/gpt-4o",
-    )
+        summarizer_model="google/gemini-2.0-flash",
+    ),
 )
 ```
 
@@ -161,16 +160,16 @@ dotenv.load_dotenv()
 
 config = Config.from_default()
 
-tool_regsitry = DefaultToolRegistry(config).replace_tool(
+tool_registry = DefaultToolRegistry(config).replace_tool(
     LLMTool(
         model=OpenAIGenerativeModel(
             model_name="gpt-4o",
-            api_key=config.must_get_api_key("openai")
+            api_key=config.must_get_api_key("openai_api_key")
         ),
     )
 )
 
-portia = Portia(config=config, tools=tool_regsitry)
+portia = Portia(config=config, tools=tool_registry)
 ```
 
 If you do not provide a model, the default model for the LLM provider will be used.
