@@ -25,6 +25,7 @@ Portia uses providers such as OpenAI and Anthropic for usage of generative AI mo
 
 If set, this decides which generative AI models are used in Portia defined Agents and Tools. Portia has built-in defaults for which models to use for each provider, so at a minimum you only need to set this property.
 
+| Property | Value |
 | - | - |
 | Config settings | `llm_provider` |
 | Environment variables | `OPENAI_API_KEY`<br/>`ANTHROPIC_API_KEY`<br/>`MISTRALAI_API_KEY`<br/>`GOOGLE_GENERATIVEAI_API_KEY`<br/>`AZURE_OPENAI_API_KEY` |
@@ -82,14 +83,14 @@ You might do this if you want to:
 
 The relevant config settings are:
 
-|   |   |
+| Property | Value |
 | - | - |
 | Config setting | `models` |
 | Valid types | `GenerativeModelsConfig` - Config class for specifying models for Portia Agents<br/>`dict[str, GenerativeModel \| str]` - Mapping from model key to model instance or string |
 
 Or, if using `Config.from_default(...)`, you can specify the models using the following arguments:
 
-|   |   |
+| Property | Value |
 | - | - |
 | Config settings | `default_model` - The fallback default model for all use-cases if not specified elsewhere<br/>`planning_model` - The model used for the Planning Agent<br/>`execution_model` - The model used for the Execution Agent<br/>`introspection_model` - The model used for the Introspection Agent<br/>`summariser_model` - The model used for the Summariser Agent |
 | Valid types | `str` - see note below on valid strings<br/>`GenerativeModel` - pass your own `GenerativeModel` instance |
@@ -176,7 +177,7 @@ If you do not provide a model, the default model for the LLM provider will be us
 
 ### API keys
 
-|   |   |
+| Property | Value |
 | - | - |
 | Config settings | `openai_api_key`, `anthropic_api_key`, `mistralai_api_key`, `google_generativeai_api_key`, `azure_openai_api_key` |
 | Environment variables | `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `MISTRALAI_API_KEY`, `GOOGLE_GENERATIVEAI_API_KEY`, `AZURE_OPENAI_API_KEY` |
