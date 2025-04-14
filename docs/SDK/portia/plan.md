@@ -275,6 +275,24 @@ Return the string representation of the plan.
 
 - `str` - A string representation of the plan&#x27;s ID, context, and steps.
 
+#### from\_response
+
+```python
+@classmethod
+def from_response(cls, response_json: dict) -> Plan
+```
+
+Create a plan from a response.
+
+**Arguments**:
+
+- `response_json` _dict_ - The response from the API.
+  
+
+**Returns**:
+
+- `Plan` - The plan.
+
 #### pretty\_print
 
 ```python

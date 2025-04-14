@@ -85,6 +85,30 @@ Retrieve a plan by its ID.
 
 - `NotImplementedError` - If the method is not implemented.
 
+#### get\_similar\_plans
+
+```python
+def get_similar_plans(query: str, threshold: float, limit: int) -> list[Plan]
+```
+
+Get similar plans to the query.
+
+**Arguments**:
+
+- `query` _str_ - The query to get similar plans for.
+- `threshold` _float_ - The threshold for similarity.
+- `limit` _int_ - The maximum number of plans to return.
+  
+
+**Returns**:
+
+- `list[Plan]` - The list of similar plans.
+  
+
+**Raises**:
+
+- `NotImplementedError` - If the method is not implemented.
+
 ## PlanRunListResponse Objects
 
 ```python
@@ -795,4 +819,25 @@ Retrieve an Output from Portia Cloud.
 **Raises**:
 
 - `StorageError` - If the request to Portia Cloud fails or the run does not exist.
+
+#### get\_similar\_plans
+
+```python
+def get_similar_plans(query: str,
+                      threshold: float = 0.5,
+                      limit: int = 5) -> list[Plan]
+```
+
+Get similar plans to the query.
+
+**Arguments**:
+
+- `query` _str_ - The query to get similar plans for.
+- `threshold` _float_ - The threshold for similarity.
+- `limit` _int_ - The maximum number of plans to return.
+  
+
+**Returns**:
+
+- `list[Plan]` - The list of similar plans.
 
