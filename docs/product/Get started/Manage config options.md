@@ -99,8 +99,13 @@ Or, if using `Config.from_default(...)`, you can specify the models using the fo
 If set, this decides what generative AI model is used in Portia defined Agents and Tools. It will overwrite the default model for the LLM provider.
 
 :::tip[Model string parsing]
-Model strings are in the format `provider/model_name`, where the `provider` is the string value of the LLM provider (e.g. `openai`) and the `model_name` is the name of the model you want to use.
-Examples: `openai/gpt-4o`, `anthropic/claude-3-5-sonnet`, `mistralai/mistral-large-latest`, `google-generativeai/gemini-1.5-flash`, `azure-openai/gpt-4o`
+Model strings are in the format `provider/model_name`, where the `provider` is the string value of the LLM provider (e.g. `openai`) and the `model_name` is the name of the model you want to use.<br/>
+Examples:
+- `openai/gpt-4o`
+- `anthropic/claude-3-5-sonnet`
+- `mistralai/mistral-large-latest`
+- `google-generativeai/gemini-1.5-flash`
+- `azure-openai/gpt-4o`
 :::
 
 #### Examples:
