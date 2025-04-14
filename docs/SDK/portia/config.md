@@ -470,10 +470,11 @@ Get or build the summarizer model from the config.
 
 See the GenerativeModelsConfig class for more information
 
-#### get\_model
+#### get\_generative\_model
 
 ```python
-def get_model(model: str | GenerativeModel | None) -> GenerativeModel | None
+def get_generative_model(
+        model: str | GenerativeModel | None) -> GenerativeModel | None
 ```
 
 Get a GenerativeModel instance.
