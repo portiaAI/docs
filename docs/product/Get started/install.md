@@ -34,6 +34,10 @@ pip install portia-sdk-python[mistral]
 ### Configure access to your preferred LLM
 Set environment variables to connect to one of our currently supported LLMs. We are currently expanding this list. 
 
+:::tip[Configuring Portia]
+See <a href="/manage-config#configure-llm-options" target="_blank">**Configure LLM options ↗**</a> for more information on how to configure Portia for different LLM providers and models.
+:::
+
 <Tabs groupId="llm-provider">
     <TabItem value="openai" label="Open AI" default>
     `gpt-4o` is set as the default model. You can sign up to their platform **[here](https://platform.openai.com/signup)**
