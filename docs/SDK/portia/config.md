@@ -202,13 +202,13 @@ Parse a string to an enum or return the enum as is.
 
 - `E` - The corresponding enum value.
 
-## GenerativeModels Objects
+## GenerativeModelsConfig Objects
 
 ```python
-class GenerativeModels(BaseModel)
+class GenerativeModelsConfig(BaseModel)
 ```
 
-Configuration for a GenerativeModels.
+Configuration for a Generative Models.
 
 These models do not all need to be specified manually. If an LLM provider is configured,
 Portia will use default models that are selected for the particular use-case.
@@ -438,7 +438,7 @@ def get_planning_model() -> GenerativeModel
 
 Get or build the planning model from the config.
 
-See the GenerativeModels config class for more information
+See the GenerativeModelsConfig class for more information
 
 #### get\_execution\_model
 
@@ -448,7 +448,7 @@ def get_execution_model() -> GenerativeModel
 
 Get or build the execution model from the config.
 
-See the GenerativeModels config class for more information
+See the GenerativeModelsConfig class for more information
 
 #### get\_introspection\_model
 
@@ -458,7 +458,7 @@ def get_introspection_model() -> GenerativeModel
 
 Get or build the introspection model from the config.
 
-See the GenerativeModels config class for more information
+See the GenerativeModelsConfig class for more information
 
 #### get\_summarizer\_model
 
@@ -468,7 +468,26 @@ def get_summarizer_model() -> GenerativeModel
 
 Get or build the summarizer model from the config.
 
-See the GenerativeModels config class for more information
+See the GenerativeModelsConfig class for more information
+
+#### get\_model
+
+```python
+def get_model(model: str | GenerativeModel | None) -> GenerativeModel | None
+```
+
+Get a GenerativeModel instance.
+
+**Arguments**:
+
+- `model` _str | GenerativeModel | None_ - The model to get, either specified as a
+  string in the form of &quot;provider/model_name&quot;, or as a GenerativeModel instance.
+  Also accepts None, in which case None is returned.
+  
+
+**Returns**:
+
+  GenerativeModel | None: The model instance or None.
 
 #### llm\_provider\_default\_from\_api\_keys
 
