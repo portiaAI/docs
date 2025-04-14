@@ -63,12 +63,9 @@ from portia import LLMProvider, Config
 config = Config.from_default(llm_provider="anthropic")
 ```
 
-Inferred from environment variables:
+Inferred from environment variables (if `OPENAI_API_KEY=sk-...` is in the environment variables):
 ```python
-import os
 from portia import LLMProvider, Config
-
-os.environ["OPENAI_API_KEY"] = "sk-..."
 
 config = Config.from_default()
 config.llm_provider is LLMProvider.OPENAI
@@ -116,9 +113,12 @@ config = Config.from_default(default_model="openai/gpt-4o")
 
 Using model instance:
 ```python
+import dotenv
 from pydantic import SecretStr
 from portia import Config
-from portia.models import OpenAIGenerativeModel
+from portia.model import OpenAIGenerativeModel
+
+dotenv.load_dotenv()
 
 config = Config.from_default(
     default_model=OpenAIGenerativeModel(
@@ -130,17 +130,21 @@ config = Config.from_default(
 
 Using the `models` property:
 ```python
+import dotenv
 from pydantic import SecretStr
 from portia import Config
-from portia.models import OpenAIGenerativeModel
+from portia.config import GenerativeModels
+from portia.model import OpenAIGenerativeModel
+
+dotenv.load_dotenv()
 
 # You can mix and match model strings and model instances
 config = Config.from_default(
-    models={
-        "default_model": OpenAIGenerativeModel(model_name="gpt-4o", api_key=SecretStr("sk-...")),
-        "planning_model": "anthropic/claude-3-5-sonnet",
-        "summariser_model": "azure-openai/gpt-4o",
-    }
+    models=GenerativeModels(
+        default_model=OpenAIGenerativeModel(model_name="gpt-4o", api_key=SecretStr("sk-...")),
+        planning_model="anthropic/claude-3-5-sonnet",
+        summarizer_model="azure-openai/gpt-4o",
+    )
 )
 ```
 
@@ -149,23 +153,27 @@ config = Config.from_default(
 Some tools provided by the SDK are LLM-based. You can control the model used by these tools by passing a `model` directly to the tool constructor:
 
 ```python
-from portia import LLMTool, DefaultToolRegistry
+import dotenv
+from portia import Config, DefaultToolRegistry, LLMTool, Portia
+from portia.model import OpenAIGenerativeModel
 
-tool_regsitry = DefaultToolRegistry().replace_tool(LLMTool(model="openai/gpt-4o"))
+dotenv.load_dotenv()
 
-portia = Portia(config=Config.from_default(), tools=tool_regsitry)
+config = Config.from_default()
+
+tool_regsitry = DefaultToolRegistry(config).replace_tool(
+    LLMTool(
+        model=OpenAIGenerativeModel(
+            model_name="gpt-4o",
+            api_key=config.must_get_api_key("openai")
+        ),
+    )
+)
+
+portia = Portia(config=config, tools=tool_regsitry)
 ```
 
-Like other config options, you can also provide an explicit model instance to the tool constructor:
-
-```python
-from pydantic import SecretStr
-from portia import LLMTool, DefaultToolRegistry
-from portia.models import OpenAIGenerativeModel
-
-new_llm_tool = LLMTool(model=OpenAIGenerativeModel(model_name="gpt-4o", api_key=SecretStr("sk-...")))
-tool_regsitry = DefaultToolRegistry().replace_tool(new_llm_tool)
-```
+If you do not provide a model, the default model for the LLM provider will be used.
 
 ### API keys
 
