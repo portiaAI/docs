@@ -88,7 +88,9 @@ Retrieve a plan by its ID.
 #### get\_similar\_plans
 
 ```python
-def get_similar_plans(query: str, threshold: float, limit: int) -> list[Plan]
+def get_similar_plans(query: str,
+                      threshold: float = 0.5,
+                      limit: int = 10) -> list[Plan]
 ```
 
 Get similar plans to the query.
