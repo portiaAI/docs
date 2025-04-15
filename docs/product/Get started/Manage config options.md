@@ -81,9 +81,9 @@ config = Config.from_default(anthropic_api_key="sk-...")
 You can configure Portia to use specific models for different components, overriding the default model for the LLM provider.
 
 You might do this if you want to:
-- Trade off cost against performance, for example using a cheaper model for the Planning Agent
+- Trade off cost against performance, for example using a cheaper model for planning
 - Extend Portia to support an LLM provider that we do not natively support
-- Mix and match models from different providers, for example using OpenAI o3-mini for the Planning Agent and Anthropic Claude 3.7 Sonnet for everything else
+- Mix and match models from different providers, for example using OpenAI o3-mini for planning and Anthropic Claude 3.7 Sonnet for everything else
 
 The preferred way to do this is via the `Config.from_default(...)` method, which allows you to specify the models using the following arguments:
 - `default_model` - The fallback default model for all use-cases if not specified elsewhere
