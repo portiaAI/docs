@@ -185,10 +185,24 @@ If you do not provide a model, the default model for the LLM provider will be us
 You can bring your own models to Portia by implementing the `GenerativeModel` interface and passing an instance of your class to the `Config` class.
 
 ```python
-from portia import Config, GenerativeModel
+from portia import Config, GenerativeModel, LLMProvider, Message
+from pydantic import BaseModel
 
 class MyGenerativeModel(GenerativeModel):
-    ... # Implement the GenerativeModel interface
+    provider: LLMProvider = LLMProvider.CUSTOM
+
+    def get_response(self, messages: list[Message]) -> Message:
+        ...
+
+    def get_structured_response(
+        self,
+        messages: list[Message],
+        schema: type[BaseModel],
+    ) -> BaseModel:
+        ...
+
+    def to_langchain(self) -> BaseChatModel:
+        ...
 
 config = Config.from_default(
     default_model=MyGenerativeModel()
@@ -198,7 +212,7 @@ config = Config.from_default(
 In this case you do **not** need to set the `llm_provider` config setting, or provide any API keys.
 
 :::tip[NB]
-Currently Portia relies on LangChain BaseChatModel clients in several places, so we are limited to the models that LangChain supports.<br/>
+Currently Portia relies on LangChain `BaseChatModel` clients in several places, so we are limited to the models that LangChain supports.<br/>
 Thankfully, this is a very <a href="https://python.langchain.com/docs/integrations/providers/" target="_blank">broad set of models</a>, so there is a good chance that your model of choice is supported.
 :::
 
