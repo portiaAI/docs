@@ -131,7 +131,12 @@ config = Config.from_default(default_model="openai/gpt-4o", planning_model="anth
 
 ### Models for Tools
 
-Some tools provided by the SDK are LLM-based. You can control the model used by these tools by passing a `model` directly to the tool constructor:
+A couple of the tools provided in the Portia SDK use generative models to complete tasks, specifically:
+
+- `LLMTool` (<a href="/SDK/portia/open_source_tools/llm_tool" target="_blank">**SDK reference ↗**</a>)
+- `ImageUnderstandingTool` (<a href="/SDK/portia/open_source_tools/image_understanding_tool" target="_blank">**SDK reference ↗**</a>)
+
+You can replace the tool in the `DefaultToolRegistry` with your own instance of the tool that uses a different model by passing a `model` directly to the tool constructor:
 
 ```python
 import dotenv
@@ -149,7 +154,9 @@ tool_registry = DefaultToolRegistry(config).replace_tool(
 portia = Portia(config=config, tools=tool_registry)
 ```
 
+:::tip[NB]
 If you do not provide a model, the default model for the LLM provider will be used.
+:::
 
 ### Bring your own models
 
