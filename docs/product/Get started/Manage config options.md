@@ -63,8 +63,8 @@ The API keys for the LLM Providers can be set via `Config` class properties or e
 
 | Option | Values |
 | - | - |
-| Config property | `openai_api_key`, `anthropic_api_key`, `mistralai_api_key`, `google_generativeai_api_key`, `azure_openai_api_key` |
-| Environment variable | `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `MISTRALAI_API_KEY`, `GOOGLE_GENERATIVEAI_API_KEY`, `AZURE_OPENAI_API_KEY` |
+| Config property | `openai_api_key`<br/>`anthropic_api_key`<br/>`mistralai_api_key`<br/>`google_api_key`<br/>`azure_openai_api_key` |
+| Environment variable | `OPENAI_API_KEY`<br/>`ANTHROPIC_API_KEY`<br/>`MISTRAL_API_KEY`<br/>`GOOGLE_API_KEY`<br/>`AZURE_OPENAI_API_KEY` |
 
 
 #### Examples:
