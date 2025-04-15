@@ -163,6 +163,7 @@ If you do not provide a model, the default model for the LLM provider will be us
 You can bring your own models to Portia by implementing the `GenerativeModel` base class (<a href="/SDK/portia/model#generativemodel-objects" target="_blank">**SDK reference ↗**</a>) and passing an instance of your class to the `Config` class.
 
 ```python
+from typing import TypeVar
 from portia import Config, GenerativeModel, LLMProvider, Message
 from pydantic import BaseModel
 from langchain_core.language_models.chat_models import BaseChatModel
