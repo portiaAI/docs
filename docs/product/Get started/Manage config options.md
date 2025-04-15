@@ -99,7 +99,7 @@ You can configure each of these models in the following ways:
 | Model name (`str`) | A `str` in the form `provider/model_name`, for example `openai/gpt-4.1`. See tip below for more examples. |
 | Model object (`GenerativeModel`) | An instance of a `GenerativeModel` class. See the <u>[Bring your own models](#bring-your-own-models)</u> section below for more details. |
 
-Alternatively, if setting the models directly in the `Config` class, you should use the `models` property, which is a `GenerativeModelsConfig` instance. See the example below for more details.
+Alternatively, if setting the models directly in the `Config` class, you should use the `models` property, which is a `GenerativeModelsConfig` object (<a href="/SDK/portia/config#generativemodelsconfig-objects" target="_blank">**SDK reference ↗**</a>). See the example below for more details.
 
 :::tip[Configuring models with model names]
 Model strings are in the format `provider/model_name`, where the `provider` is the string value of the LLM provider (e.g. `openai`) and the `model_name` is the name of the model you want to use.<br/>
