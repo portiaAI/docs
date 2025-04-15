@@ -97,7 +97,7 @@ You can configure each of these models in the following ways:
 | Option | Value |
 | - | - |
 | Model name (`str`) | A `str` in the form `provider/model_name`, for example `openai/gpt-4.1`. See tip below for more examples. |
-| Model object (`GenerativeModel`) | An instance of a `GenerativeModel` class. See [Bring your own models](#bring-your-own-models) below for more details. |
+| Model object (`GenerativeModel`) | An instance of a `GenerativeModel` class. See the <u>[Bring your own models](#bring-your-own-models)</u> section below for more details. |
 
 Alternatively, if setting the models directly in the `Config` class, you should use the `models` property, which is a `GenerativeModelsConfig` instance. See the example below for more details.
 
