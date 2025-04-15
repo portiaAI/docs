@@ -96,7 +96,7 @@ You can configure each of these models in the following ways:
 
 | Option | Value |
 | - | - |
-| Model name (`str`) | A `str` in the form `provider/model_name`, for example `openai/gpt-4o`. See tip below for more examples. |
+| Model name (`str`) | A `str` in the form `provider/model_name`, for example `openai/gpt-4.1`. See tip below for more examples. |
 | Model object (`GenerativeModel`) | An instance of a `GenerativeModel` class. See [Bring your own models](#bring-your-own-models) below for more details. |
 
 Alternatively, if setting the models directly in the `Config` class, you should use the `models` property, which is a `GenerativeModelsConfig` instance. See the example below for more details.
@@ -104,7 +104,7 @@ Alternatively, if setting the models directly in the `Config` class, you should 
 :::tip[Configuring models with model names]
 Model strings are in the format `provider/model_name`, where the `provider` is the string value of the LLM provider (e.g. `openai`) and the `model_name` is the name of the model you want to use.<br/>
 Examples:
-- `openai/gpt-4o`
+- `openai/gpt-4.1`
 - `anthropic/claude-3-5-sonnet`
 - `mistralai/mistral-large-latest`
 - `google-generativeai/gemini-1.5-flash`
@@ -117,7 +117,7 @@ Setting the default model by its name:
 ```python
 from portia import Config
 
-config = Config.from_default(default_model="openai/gpt-4o")
+config = Config.from_default(default_model="openai/gpt-4.1")
 ```
 
 Mixing and matching models from different providers. Make sure that the relevant API keys are set in the environment variables, or passed along with the model name:
@@ -125,7 +125,7 @@ Mixing and matching models from different providers. Make sure that the relevant
 ```python
 from portia import Config
 
-config = Config.from_default(default_model="openai/gpt-4o", planning_model="anthropic/claude-3-5-sonnet")
+config = Config.from_default(default_model="openai/gpt-4.1", planning_model="anthropic/claude-3-5-sonnet")
 ```
 
 
@@ -160,7 +160,7 @@ If you do not provide a model, the default model for the LLM provider will be us
 
 ### Bring your own models
 
-You can bring your own models to Portia by implementing the `GenerativeModel` (<a href="/SDK/portia/model#generativemodel-objects" target="_blank">**SDK reference ↗**</a>) interface and passing an instance of your class to the `Config` class.
+You can bring your own models to Portia by implementing the `GenerativeModel` base class (<a href="/SDK/portia/model#generativemodel-objects" target="_blank">**SDK reference ↗**</a>) and passing an instance of your class to the `Config` class.
 
 ```python
 from portia import Config, GenerativeModel, LLMProvider, Message
