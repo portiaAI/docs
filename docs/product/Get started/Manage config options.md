@@ -206,7 +206,7 @@ class MyGenerativeModel(GenerativeModel):
         ...
 
 config = Config.from_default(
-    default_model=MyGenerativeModel()
+    default_model=MyGenerativeModel("my-model-name")
 )
 ```
 
