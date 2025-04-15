@@ -170,7 +170,7 @@ while plan_run.state == PlanRunState.NEED_CLARIFICATION:
         plan_run = portia.resolve_clarification(clarification, user_input, plan_run)
 
     # Once clarifications are resolved, resume the plan run
-    plan_run = portia.run(plan_run)
+    plan_run = portia.resume(plan_run)
 # highlight-end
 
 # Serialise into JSON and print the output

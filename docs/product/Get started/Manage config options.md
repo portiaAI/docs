@@ -18,17 +18,198 @@ The `Config` class of your `Portia` instance allows you to:
 
 ## Configure LLM options
 The `Config` class (<a href="/SDK/portia/config" target="_blank">**SDK reference ↗**</a>) allows you to control various LLM and agent execution options.
-| Property | Purpose |
-| ----------- | ----------- |
-| `llm_provider` | Select between `OPENAI`, `ANTHROPIC` OR `MISTRALAI`. <br/>This is an ENUM accessible from the `LLMProvider` class. |
-| `llm_model_name` | Select the relevant LLM model. This is an ENUM accessible via the `LLMModel` class. |
-| `openai_api_key`<br/>`anthropic_api_key`<br/>`mistralai_api_key` | Set the key you want your `Portia` instance instance to use from the relevant provider |
+
+### LLM Provider
+
+Portia uses providers such as OpenAI and Anthropic for usage of generative AI models. You can configure the provider that Portia will use with the `llm_provider` config setting.
+
+If set, this decides which generative AI models are used in Portia defined Agents and Tools. Portia has built-in defaults for which models to use for each provider, so at a minimum you only need to set this property.
+
+Options for setting the LLM provider are:
+
+| Option | Values |
+| - | - |
+| `LLMProvider` enum | `LLMProvider.OPENAI`<br/>`LLMProvider.ANTHROPIC`<br/>`LLMProvider.MISTRALAI`<br/>`LLMProvider.GOOGLE_GENERATIVE_AI`<br/>`LLMProvider.AZURE_OPENAI`<br/>`LLMProvider.OLLAMA` |
+| Provider name (`str`) | `"openai"`<br/>`"anthropic"`<br/>`"mistralai"`<br/>`"google-generativeai"`<br/>`"azure-openai"`<br/>`"ollama"` |
+| Inferred from environment variable | `OPENAI_API_KEY`<br/>`ANTHROPIC_API_KEY`<br/>`MISTRAL_API_KEY`<br/>`GOOGLE_API_KEY`<br/>`AZURE_OPENAI_API_KEY` |
+
+
+#### Examples:
+
+Using the `LLMProvider` enum:
+```python
+from portia import LLMProvider, Config
+
+config = Config.from_default(llm_provider=LLMProvider.OPENAI)
+```
+
+Passing the Provider name as a string value:
+```python
+from portia import LLMProvider, Config
+
+config = Config.from_default(llm_provider="anthropic")
+```
+
+Inferred from environment variables (if `OPENAI_API_KEY=sk-...` is in the environment variables):
+```python
+from portia import LLMProvider, Config
+
+config = Config.from_default()  # config.llm_provider => LLMProvider.OPENAI
+```
+
+### API keys
+
+The API keys for the LLM Providers can be set via `Config` class properties or environment variables.
+
+| Option | Values |
+| - | - |
+| Config property | `openai_api_key`<br/>`anthropic_api_key`<br/>`mistralai_api_key`<br/>`google_api_key`<br/>`azure_openai_api_key` |
+| Environment variable | `OPENAI_API_KEY`<br/>`ANTHROPIC_API_KEY`<br/>`MISTRAL_API_KEY`<br/>`GOOGLE_API_KEY`<br/>`AZURE_OPENAI_API_KEY` |
+
+
+#### Examples:
+
+Passing the API key to the `Config` class:
+```python
+from portia import Config
+
+config = Config.from_default(anthropic_api_key="sk-...")
+```
+
+### Model overrides
+
+You can configure Portia to use specific models for different components, overriding the default model for the LLM provider.
+
+You might do this if you want to:
+- Trade off cost against performance, for example using a cheaper model for planning
+- Extend Portia to support an LLM provider that we do not natively support
+- Mix and match models from different providers, for example using OpenAI o3-mini for planning and Anthropic Claude 3.7 Sonnet for everything else
+
+The preferred way to do this is via the `Config.from_default(...)` method, which allows you to specify the models using the following arguments:
+- `default_model` - The fallback default model for all use-cases if not specified elsewhere
+- `planning_model` - The model used for the Planning process
+- `execution_model` - The model used for the execution of a step
+- `introspection_model` - The model used for evaluating conditionals
+- `summarizer_model` - The model used for summarizing the output of a step
+
+You can configure each of these models in the following ways:
+
+| Option | Value |
+| - | - |
+| Model name (`str`) | A `str` in the form `provider/model_name`, for example `openai/gpt-4.1`. See tip below for more examples. |
+| Model object (`GenerativeModel`) | An instance of a `GenerativeModel` class. See the <u>[Bring your own models](#bring-your-own-models)</u> section below for more details. |
+
+Alternatively, if setting the models directly in the `Config` class, you should use the `models` property, which is a `GenerativeModelsConfig` object (<a href="/SDK/portia/config#generativemodelsconfig-objects" target="_blank">**SDK reference ↗**</a>). See the example below for more details.
+
+:::tip[Configuring models with model names]
+Model strings are in the format `provider/model_name`, where the `provider` is the string value of the LLM provider (e.g. `openai`) and the `model_name` is the name of the model you want to use.<br/>
+Examples:
+- `openai/gpt-4.1`
+- `anthropic/claude-3-5-sonnet`
+- `mistralai/mistral-large-latest`
+- `google-generativeai/gemini-1.5-flash`
+- `azure-openai/gpt-4o`
+:::
+
+#### Examples:
+
+Setting the default model by its name:
+```python
+from portia import Config
+
+config = Config.from_default(default_model="openai/gpt-4.1")
+```
+
+Mixing and matching models from different providers. Make sure that the relevant API keys are set in the environment variables, or passed along with the model name:
+
+```python
+from portia import Config
+
+config = Config.from_default(default_model="openai/gpt-4.1", planning_model="anthropic/claude-3-5-sonnet")
+```
+
+
+### Models for Tools
+
+A couple of the tools provided in the Portia SDK use generative models to complete tasks, specifically:
+
+- `LLMTool` (<a href="/SDK/portia/open_source_tools/llm_tool" target="_blank">**SDK reference ↗**</a>)
+- `ImageUnderstandingTool` (<a href="/SDK/portia/open_source_tools/image_understanding_tool" target="_blank">**SDK reference ↗**</a>)
+
+You can replace the tool in the `DefaultToolRegistry` with your own instance of the tool that uses a different model by passing a `model` directly to the tool constructor:
+
+```python
+import dotenv
+from portia import Config, DefaultToolRegistry, LLMTool, Portia
+from portia.model import OpenAIGenerativeModel
+
+dotenv.load_dotenv()
+
+config = Config.from_default()
+
+tool_registry = DefaultToolRegistry(config).replace_tool(
+    LLMTool(model="openai/gpt-4.1-mini")
+)
+
+portia = Portia(config=config, tools=tool_registry)
+```
+
+:::tip[NB]
+If you do not provide a model, the default model for the LLM provider will be used.
+:::
+
+### Bring your own models
+
+You can bring your own models to Portia by implementing the `GenerativeModel` base class (<a href="/SDK/portia/model#generativemodel-objects" target="_blank">**SDK reference ↗**</a>) and passing an instance of your class to the `Config` class.
+
+```python
+from typing import TypeVar
+from portia import Config, GenerativeModel, LLMProvider, Message
+from pydantic import BaseModel
+from langchain_core.language_models.chat_models import BaseChatModel
+
+BaseModelT = TypeVar("BaseModelT", bound=BaseModel)
+
+class MyGenerativeModel(GenerativeModel):
+    provider: LLMProvider = LLMProvider.CUSTOM
+
+    def get_response(self, messages: list[Message]) -> Message:
+        """Requires implementation"""
+
+    def get_structured_response(
+        self,
+        messages: list[Message],
+        schema: type[BaseModelT],
+    ) -> BaseModelT:
+        """Requires implementation"""
+
+    def to_langchain(self) -> BaseChatModel:
+        """Requires implementation"""
+
+config = Config.from_default(
+    default_model=MyGenerativeModel("my-model-name")
+)
+```
+
+In this case you do **not** need to set the `llm_provider` config setting, or provide any API keys.
+
+:::tip[NB]
+Currently Portia relies on LangChain `BaseChatModel` clients in several places, so we are limited to the models that LangChain supports.<br/>
+Thankfully, this is a very <a href="https://python.langchain.com/docs/integrations/providers/" target="_blank">broad set of models</a>, so there is a good chance that your model of choice is supported.
+:::
+
 
 ## Manage storage options
 You can control where you store and retrieve plan run states using the `storage_class` property in the `Config` class (<a href="/SDK/portia/config" target="_blank">**SDK reference ↗**</a>), which is an ENUM accessible from the `StorageClass` class:
 - `MEMORY` allows you to use working memory (default if PORTIA_API_KEY is not specified).
 - `DISK` allows you to use local storage. You will need to set the `storage_dir` appropriately (defaults to the project's root directory).
 - `CLOUD` uses the Portia cloud (<a href="/store-retrieve-plan-runs" target="_blank">**Use Portia cloud ↗**</a> - default if PORTIA_API_KEY is specified).
+
+## Other config settings
+
+| Property | Purpose |
+| ----------- | ----------- |
+| `planner_system_context_extension` | Enrich the system context with more information. For example you can add information specific to a frontend user session such as department, title, timezone etc. |
 
 ## Manage logging
 You can control logging behaviour with the following `Config` properties (<a href="/SDK/portia/config" target="_blank">**SDK reference ↗**</a>):
@@ -66,7 +247,7 @@ my_config = Config.from_default(
     storage_class=StorageClass.DISK, 
     storage_dir='demo_runs', # Amend this based on where you'd like your plans and plan runs saved!
     default_log_level=LogLevel.DEBUG,
-    )
+)
 
 # Instantiate a Portia instance. Load it with the default config and with some example tools
 portia = Portia(config=my_config, tools=example_tool_registry)

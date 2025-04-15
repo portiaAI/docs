@@ -80,7 +80,7 @@ A plan includes a series of steps defined by
 - `"input"` The inputs required to achieve the step. Notice how the LLM is guided to weave the outputs of previous steps as inputs to the next ones where applicable e.g. `$spacex_news_results` coming out of the first step acts as an input to the second one.
 - `"tool_id"` Any relevant tool needed for the completion of the step. Portia is able to filter for the relevant tools during the multi-shot plan generation process. As we will see later on in this tutorial you can specify the tool registries (directories) you want when handling a user prompt, including local / custom tools and ones provided by third parties. In this example we are referencing tools from Portia's cloud-hosted library, prefixed with `portia:`. 
 - `"output"` The step's final output. As mentioned above, every step output can be referenced in future steps. As we will see shortly, these outputs are serialised and saved in plan run state as it is being executed.
-- `"condition"` An optional condition that's used to control the execution of the step. If the condition is not met, the step will be skipped.
+- `"condition"` An optional condition that's used to control the execution of the step. If the condition is not met, the step will be skipped. This condition will be evaluated by our introspection agent, with the context of the plan and plan run state.
 
 
 ## Create a plan from a user prompt
