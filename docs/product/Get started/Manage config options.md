@@ -167,6 +167,8 @@ from portia import Config, GenerativeModel, LLMProvider, Message
 from pydantic import BaseModel
 from langchain_core.language_models.chat_models import BaseChatModel
 
+BaseModelT = TypeVar("BaseModelT", bound=BaseModel)
+
 class MyGenerativeModel(GenerativeModel):
     provider: LLMProvider = LLMProvider.CUSTOM
 
@@ -176,8 +178,8 @@ class MyGenerativeModel(GenerativeModel):
     def get_structured_response(
         self,
         messages: list[Message],
-        schema: type[BaseModel],
-    ) -> BaseModel:
+        schema: type[BaseModelT],
+    ) -> BaseModelT:
         """Requires implementation"""
 
     def to_langchain(self) -> BaseChatModel:
