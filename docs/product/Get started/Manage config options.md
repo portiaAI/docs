@@ -187,6 +187,7 @@ You can bring your own models to Portia by implementing the `GenerativeModel` in
 ```python
 from portia import Config, GenerativeModel, LLMProvider, Message
 from pydantic import BaseModel
+from langchain_core.language_models.chat_models import BaseChatModel
 
 class MyGenerativeModel(GenerativeModel):
     provider: LLMProvider = LLMProvider.CUSTOM
