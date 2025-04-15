@@ -30,8 +30,8 @@ Options for setting the LLM provider are:
 | Option | Values |
 | - | - |
 | `LLMProvider` enum | `LLMProvider.OPENAI`<br/>`LLMProvider.ANTHROPIC`<br/>`LLMProvider.MISTRALAI`<br/>`LLMProvider.GOOGLE_GENERATIVE_AI`<br/>`LLMProvider.AZURE_OPENAI`<br/>`LLMProvider.OLLAMA` |
-| Provider name | `"openai"`<br/>`"anthropic"`<br/>`"mistralai"`<br/>`"google-generativeai"`<br/>`"azure-openai"`<br/>`"ollama"` |
-| Inferred from environment variable | `OPENAI_API_KEY`<br/>`ANTHROPIC_API_KEY`<br/>`MISTRALAI_API_KEY`<br/>`GOOGLE_GENERATIVEAI_API_KEY`<br/>`AZURE_OPENAI_API_KEY` |
+| Provider name (`str`) | `"openai"`<br/>`"anthropic"`<br/>`"mistralai"`<br/>`"google-generativeai"`<br/>`"azure-openai"`<br/>`"ollama"` |
+| Inferred from environment variable | `OPENAI_API_KEY`<br/>`ANTHROPIC_API_KEY`<br/>`MISTRAL_API_KEY`<br/>`GOOGLE_API_KEY`<br/>`AZURE_OPENAI_API_KEY` |
 
 
 #### Examples:
@@ -96,8 +96,8 @@ You can configure each of these models in the following ways:
 
 | Option | Value |
 | - | - |
-| Model name | A `str` in the form `provider/model_name`, for example `openai/gpt-4o`. See tip below for more examples. |
-| GenerativeModel | An instance of a `GenerativeModel` class. See [Bring your own models](#bring-your-own-models) below for more details. |
+| Model name (`str`) | A `str` in the form `provider/model_name`, for example `openai/gpt-4o`. See tip below for more examples. |
+| Model object (`GenerativeModel`) | An instance of a `GenerativeModel` class. See [Bring your own models](#bring-your-own-models) below for more details. |
 
 Alternatively, if setting the models directly in the `Config` class, you should use the `models` property, which is a `GenerativeModelsConfig` instance. See the example below for more details.
 
@@ -143,12 +143,7 @@ dotenv.load_dotenv()
 config = Config.from_default()
 
 tool_registry = DefaultToolRegistry(config).replace_tool(
-    LLMTool(
-        model=OpenAIGenerativeModel(
-            model_name="gpt-4o",
-            api_key=config.must_get_api_key("openai_api_key")
-        ),
-    )
+    LLMTool(model="openai/gpt-4.1-mini")
 )
 
 portia = Portia(config=config, tools=tool_registry)
