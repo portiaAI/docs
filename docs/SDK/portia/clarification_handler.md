@@ -6,8 +6,7 @@ title: portia.clarification_handler
 Clarification Handler.
 
 This module defines the base ClarificationHandler interface that determines how to handle
-clarifications that arise during the run of a plan. It also provides a
-CLIClarificationHandler implementation that handles clarifications via the CLI.
+clarifications that arise during the run of a plan.
 
 ## ClarificationHandler Objects
 
