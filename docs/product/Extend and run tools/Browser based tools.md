@@ -8,13 +8,13 @@ import TabItem from '@theme/TabItem';
 
 # Using browser tools
 
-Browser tools (<a href="/SDK/portia/open_source_tools/browser_tool.py" target="_blank">**SDK ↗**</a>) can deploy an agent to browse the internet and retrieve data or enact actions on your behalf. Portia will use Browser tools when it recognises there is a web-based task to be performed. We use the <a href="https://browser-use.com" target="_blank">**BrowserUse (↗)**</a> library to offer a multi-modal web agent that will visually and textually analyse a website in order to navigate it and carry out a task.
+Browser tools (<a href="/SDK/portia/open_source_tools/browser_tool.py" target="_blank">**SDK ↗**</a>) can deploy an agent to browse the internet and retrieve data or enact actions on your behalf. Portia will use Browser tools when it recognises there is a web-based task to be performed. We use the <a href="https://browser-use.com" target="_blank">**Browser Use (↗)**</a> library to offer a multi-modal web agent that will visually and textually analyse a website in order to navigate it and carry out a task.
 
 Our browser tool can be used in two modes:
 - **Remote mode (DEFAULT)**: Runs on a remote chromium instance using <a href="https://www.browserbase.com/" target="_blank">**Browserbase (↗)**</a> as the underlying infrastructure. Browserbase offers infrastructure for headless browsers remotely. We spin up remote sessions for your end-users which persist through clarifications.
 - **Local mode**: Runs on a chrome instance on your own computer.
 
-The underlying library for navigating the page is provided by <a href="https://browser-use.com" target="_blank">**BrowserUse (↗)**</a>. It uses a number of LLM calls to navigate the page and complete the action.
+The underlying library for navigating the page is provided by <a href="https://browser-use.com" target="_blank">**Browser Use (↗)**</a>. It uses a number of LLM calls to navigate the page and complete the action.
 
 ## Setting up the browser based tools
 
@@ -62,7 +62,7 @@ portia = Portia(config=Config.from_default(),
                 tools=[BrowserToolForUrl("https://www.linkedin.com")])
 ```
 
-### An Example
+### A Simple E2E Example
 
 ```python skip=true title="Full example"
 from dotenv import load_dotenv
@@ -79,8 +79,7 @@ load_dotenv(override=True)
 
 task = "Get the top news headline from the BBC news website (https://www.bbc.co.uk/news)"
 
-portia = Portia(Config.from_default(),
-                tools=[BrowserTool()])
+portia = Portia(Config.from_default(), tools=[BrowserTool()])
 
 plan_run = portia.run(task)
 
@@ -123,7 +122,7 @@ In the browser tool case, whenever a browser tool encounters a page that require
 
 ## When to use API vs browser based tools
 
-Browser based tools are very flexible in terms of what they do, however they do not have the same tight permissioning as OAuth tools and require more LLM tools so we recommend balancing between the two and using browser tools when APIs are not available.
+Browser based tools are very flexible in terms of what they do, however they do not have the same tight permissioning as OAuth tools and require more LLM calls so we recommend balancing between the two and using browser tools only when APIs are not available.
 
 ## Known issues and caveats
 
@@ -131,7 +130,7 @@ Browser based tools are very flexible in terms of what they do, however they do 
 When using Browserbase as the underlying browser infrastructure, if authentication requires a popup, it will not show to the user and they will not be able to log-in. We are investigating solutions for this at the moment.
 
 ### Local chrome failing to connect
-If you see an issue whereby Chrome opens, but then immediately closes and restarts, the issue is likely because it can't find the user data directory and the debug server is not starting. You can fix this by specifying the env variable `PORTIA_BROWSER_LOCAL_EXTRA_CHROMIUM_ARGS="--user-data-dir='path/to/dir'"` and there's more information about this on the <a href="https://github.com/browser-use/browser-use/issues/291#issuecomment-2792636861">browser-use issue link</a>.
+If you see an issue whereby Chrome opens, but then immediately closes and restarts, the issue is likely because it can't find the user data directory and the debug server is not starting. You can fix this by specifying the env variable `PORTIA_BROWSER_LOCAL_EXTRA_CHROMIUM_ARGS="--user-data-dir='path/to/dir'"` and there's more information about this on the <a href="https://github.com/browser-use/browser-use/issues/291#issuecomment-2792636861">**browser-use issue link ↗**</a>.
 
 ### LLM moderation
 We have occasionally observed that LLMs might get moderated on tasks that look like authentication requests to websites. These issues are typically transient but you may want to adjust the task or plan to avoid direct requests for the agent to login to a website.
