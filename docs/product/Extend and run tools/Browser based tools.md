@@ -1,18 +1,20 @@
 ---
 sidebar_position: 6
-slug: /browser-tasks
+slug: /browser-tools
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Using browser based tools
+# Using browser tools
 
-Browser-based tools can deploy an agent to browse the internet and retrieve data or enact actions on your behalf. Our browser tool can be used in two modes:
-- **Browserbase mode (DEFAULT)**: Runs on a remote chromium instance using <a href="https://www.browserbase.com/">Browserbase</a> as the underlying infrastructure.
-- **Local mode**: Runs on a chrome instance on your own computer
+Browser tools can deploy an agent to browse the internet and retrieve data or enact actions on your behalf. Portia will use Browser tools when it recognises there is a web-based task to be performed. We use the <a href="https://browser-use.com" target="_blank">BrowserUse (↗)</a> library to offer a multi-modal web agent that will visually and textually analyse a website in order to navigate it and carry out a task.
 
-The underlying library for navigating the page is provided by <a href="https://browser-use.com">BrowserUse</a>. It uses a number of LLM calls to navigate the page and complete the action.
+Our browser tool can be used in two modes:
+- **Remote mode (DEFAULT)**: Runs on a remote chromium instance using <a href="https://www.browserbase.com/" target="_blank">Browserbase (↗)</a> as the underlying infrastructure. Browserbase offers infrastructure for headless browsers remotely. We spin up remote sessions for your end-users which persist through clarifications.
+- **Local mode**: Runs on a chrome instance on your own computer.
+
+The underlying library for navigating the page is provided by <a href="https://browser-use.com" target="_blank">BrowserUse (↗)</a>. It uses a number of LLM calls to navigate the page and complete the action.
 
 ## Setting up the browser based tools
 
