@@ -8,6 +8,14 @@ The Default execution agent for hardest problems.
 This agent uses multiple models (verifier, parser etc) to achieve the highest accuracy
 in completing tasks.
 
+## ExecutionState Objects
+
+```python
+class ExecutionState(MessagesState)
+```
+
+State for the execution agent.
+
 ## ToolArgument Objects
 
 ```python
@@ -62,6 +70,43 @@ Represents the inputs for a tool after being verified by an agent.
 
 - `args` _list[VerifiedToolArgument]_ - Arguments for the tool.
 
+## MemoryExtractionStep Objects
+
+```python
+class MemoryExtractionStep()
+```
+
+A step that extracts memory from the context.
+
+#### \_\_init\_\_
+
+```python
+def __init__(agent: DefaultExecutionAgent) -> None
+```
+
+Initialize the memory extraction step.
+
+**Arguments**:
+
+- `agent` _DefaultExecutionAgent_ - The agent using the memory extraction step.
+
+#### invoke
+
+```python
+def invoke(_: ExecutionState) -> dict[str, Any]
+```
+
+Invoke the model with the given message state.
+
+**Arguments**:
+
+- `state` _ExecutionState_ - The current state of the execution agent.
+  
+
+**Returns**:
+
+  dict[str, Any]: The LangGraph state update.
+
 ## ParserModel Objects
 
 ```python
@@ -89,8 +134,7 @@ Model to parse the arguments for a tool.
 #### \_\_init\_\_
 
 ```python
-def __init__(model: GenerativeModel, context: str,
-             agent: DefaultExecutionAgent) -> None
+def __init__(model: GenerativeModel, agent: DefaultExecutionAgent) -> None
 ```
 
 Initialize the model.
@@ -98,20 +142,19 @@ Initialize the model.
 **Arguments**:
 
 - `model` _Model_ - The language model used for argument parsing.
-- `context` _str_ - The context for argument generation.
 - `agent` _DefaultExecutionAgent_ - The agent using the parser model.
 
 #### invoke
 
 ```python
-def invoke(state: MessagesState) -> dict[str, Any]
+def invoke(state: ExecutionState) -> dict[str, Any]
 ```
 
 Invoke the model with the given message state.
 
 **Arguments**:
 
-- `state` _MessagesState_ - The current state of the conversation.
+- `state` _ExecutionState_ - The current state of the conversation.
   
 
 **Returns**:
@@ -139,14 +182,12 @@ to analyze the context and tool arguments and returns a structured validation ou
 
 - `arg_verifier_prompt` _ChatPromptTemplate_ - The prompt template used for arg verification.
 - `model` _Model_ - The model used to invoke the verification process.
-- `context` _str_ - The context in which the tool arguments are being validated.
 - `agent` _DefaultExecutionAgent_ - The agent responsible for handling the verification process.
 
 #### \_\_init\_\_
 
 ```python
-def __init__(model: GenerativeModel, context: str,
-             agent: DefaultExecutionAgent) -> None
+def __init__(model: GenerativeModel, agent: DefaultExecutionAgent) -> None
 ```
 
 Initialize the model.
@@ -160,14 +201,14 @@ Initialize the model.
 #### invoke
 
 ```python
-def invoke(state: MessagesState) -> dict[str, Any]
+def invoke(state: ExecutionState) -> dict[str, Any]
 ```
 
 Invoke the model with the given message state.
 
 **Arguments**:
 
-- `state` _MessagesState_ - The current state of the conversation.
+- `state` _ExecutionState_ - The current state of the conversation.
   
 
 **Returns**:
@@ -190,7 +231,7 @@ Model to call the tool with the verified arguments.
 #### \_\_init\_\_
 
 ```python
-def __init__(model: GenerativeModel, context: str, tools: list[StructuredTool],
+def __init__(model: GenerativeModel, tools: list[StructuredTool],
              agent: DefaultExecutionAgent) -> None
 ```
 
@@ -199,21 +240,20 @@ Initialize the model.
 **Arguments**:
 
 - `model` _GenerativeModel_ - The language model used for argument parsing.
-- `context` _str_ - The context for argument generation.
 - `agent` _DefaultExecutionAgent_ - The agent using the parser model.
 - `tools` _list[StructuredTool]_ - The tools to pass to the model.
 
 #### invoke
 
 ```python
-def invoke(state: MessagesState) -> dict[str, Any]
+def invoke(state: ExecutionState) -> dict[str, Any]
 ```
 
 Invoke the model with the given message state.
 
 **Arguments**:
 
-- `state` _MessagesState_ - The current state of the conversation.
+- `state` _ExecutionState_ - The current state of the conversation.
   
 
 **Returns**:
@@ -253,6 +293,7 @@ Possible improvements:
 def __init__(step: Step,
              plan_run: PlanRun,
              config: Config,
+             agent_memory: AgentMemory,
              tool: Tool | None = None) -> None
 ```
 
@@ -263,20 +304,21 @@ Initialize the agent.
 - `step` _Step_ - The current step in the task plan.
 - `plan_run` _PlanRun_ - The run that defines the task execution process.
 - `config` _Config_ - The configuration settings for the agent.
+- `agent_memory` _AgentMemory_ - The agent memory to be used for the task.
 - `tool` _Tool | None_ - The tool to be used for the task (optional).
 
 #### clarifications\_or\_continue
 
 ```python
 def clarifications_or_continue(
-        state: MessagesState) -> Literal[AgentNode.TOOL_AGENT, END]
+        state: ExecutionState) -> Literal[AgentNode.TOOL_AGENT, END]
 ```
 
 Determine if we should continue with the tool call or request clarifications instead.
 
 **Arguments**:
 
-- `state` _MessagesState_ - The current state of the conversation.
+- `state` _ExecutionState_ - The current state of the conversation.
   
 
 **Returns**:

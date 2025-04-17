@@ -306,10 +306,11 @@ Save an output from a plan run to agent memory.
 
 ```python
 @abstractmethod
-def get_plan_run_output(output_name: str, plan_run_id: PlanRunUUID) -> Output
+def get_plan_run_output(output_name: str,
+                        plan_run_id: PlanRunUUID) -> LocalOutput
 ```
 
-Retrieve an Output from the storage.
+Retrieve an Output from agent memory.
 
 **Arguments**:
 
@@ -450,7 +451,8 @@ Save Output from a plan run to memory.
 #### get\_plan\_run\_output
 
 ```python
-def get_plan_run_output(output_name: str, plan_run_id: PlanRunUUID) -> Output
+def get_plan_run_output(output_name: str,
+                        plan_run_id: PlanRunUUID) -> LocalOutput
 ```
 
 Retrieve an Output from memory.
@@ -598,7 +600,8 @@ Save Output from a plan run to agent memory on disk.
 #### get\_plan\_run\_output
 
 ```python
-def get_plan_run_output(output_name: str, plan_run_id: PlanRunUUID) -> Output
+def get_plan_run_output(output_name: str,
+                        plan_run_id: PlanRunUUID) -> LocalOutput
 ```
 
 Retrieve an Output from agent memory on disk.
@@ -802,7 +805,8 @@ Save Output from a plan run to Portia Cloud.
 #### get\_plan\_run\_output
 
 ```python
-def get_plan_run_output(output_name: str, plan_run_id: PlanRunUUID) -> Output
+def get_plan_run_output(output_name: str,
+                        plan_run_id: PlanRunUUID) -> LocalOutput
 ```
 
 Retrieve an Output from Portia Cloud.

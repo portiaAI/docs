@@ -67,7 +67,7 @@ making it simple to write new ones.
 #### get\_system\_context
 
 ```python
-def get_system_context() -> str
+def get_system_context(step_inputs: list[StepInput]) -> str
 ```
 
 Build a generic system context string from the step and run provided.
