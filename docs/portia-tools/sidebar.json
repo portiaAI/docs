@@ -28,18 +28,6 @@
         },
         {
           "type": "doc",
-          "label": "Browser for URL",
-          "id": "portia-tools/open-source/browser-for-url",
-          "customProps": {
-            "description": "Browser tool for the URL https://www.portialabs.ai. Can be used to navigate to the URL and complete tasks.",
-            "category": "opensource",
-            "categoryLabel": "Open Source",
-            "vendor": "opensource",
-            "vendorLabel": "Open Source"
-          }
-        },
-        {
-          "type": "doc",
           "label": "File Reader",
           "id": "portia-tools/open-source/file-reader",
           "customProps": {
