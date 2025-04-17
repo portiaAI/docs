@@ -8,25 +8,27 @@ import TabItem from '@theme/TabItem';
 
 # Handle multiple end users
 
-How to pass end user specific context to Portia.
+Portia has been built from the ground up for production deployments and one of the most important aspects of this is having a first class representation of your users within Portia. We call these entities end users, the people or companies that you are running agentic workflows for. 
+
 
 :::tip[TL;DR]
-The `ExecutionContext` class can be used to enrich your `Portia` instance with pertinent information about the execution context:
-- `end_user_id` in your `ExecutionContext` object uniquely represents the end user in your system e.g. an internal ID or an email address.
-- `additional_data` can be used to pass user specific info that may be relevant to the response such as title and department. It can also be used to pass execution context specific info e.g. related to the app through which the query was submitted to Portia (e.g. a Slack thread ID).
-- Providing an execution context to the `Portia` instance is optional. It's mostly relevant when you want end user level traceability.
+The `EndUser` class can be used represent your users within `Portia`.
+- The `external_id` field in an `EndUser` object uniquely represents the end user in your system e.g. an internal ID or an email address.
+- `names`, `emails` and `phone_numbers` can all be stored against this object. They can dynamically be updated in tools. All changes to `end_user` models are persisted in storage.
+- `additional_data` can be used to pass user specific info that may be relevant to the response such as title and department.
+- If you don't provide an `end_user` the system will generate one to represent you.
 :::
 
 
-## The plan run context at Portia
+## End Users at Portia
 
 In Production, you will be running plans for many stakeholders including customers, employees and partners. You may want to pass information specific to these individuals when they submit a prompt and / or information specific to the current context they are operating in (e.g. the particular app they are using when they submit their prompt to initiate a plan run).
 
-We refer to these "person" entities as **end users** and represent the current context in which they submitted their prompt through a `Context` object that is passed to the `Portia` instance:
-- You can define an `end_user_id` property in your `Context` object. This can be any string value that uniquely represents the end user in your system e.g. an internal ID or an email address.
-- Alongside the `end_user_id` you can also provide a set of additional attributes in the `additional_data` field. You can imagine passing a person's name, department, title etc. You could also pass useful information about the context in which Portia was called for example a Slack or Gmail thread ID so that Portia's planner may fetch the full conversation history if relevant.
+We refer to these "person" entities as **end users** and represent them through the `EndUser` model.
+- You can pass either a string or a full `EndUser` to the plan + run endpoints. The string or external ID can be any value that uniquely represents the end user in your system e.g. an internal ID or an email address.
+- Alongside the `end_user_id` you can also provide a set of additional attributes in the `additional_data` field.
 
-## Pass the execution context to the plan run
+## Pass the EndUser to the plan run
 
 ```python title="main.py"
 from dotenv import load_dotenv
@@ -36,23 +38,32 @@ from portia import (
     example_tool_registry,
     execution_context,
 )
+from portia.end_user import EndUser
 
 load_dotenv()
 
 portia = Portia(tools=example_tool_registry)
 
-# We can also provide additional execution context to the process
+# We can provide it as a string
 # highlight-start
-with execution_context(end_user_id="DemoUser123", additional_data={"email_address": "demo@portialabs.ai", "name": "Nicholas of Patara"}):
-    plan_run = portia.run(
-        "Get the temperature in Svalbard and write me a personalized greeting with the result.",
-    )
+plan_run = portia.run(
+    "Get the temperature in Svalbard and write me a personalized greeting with the result.",
+    end_user="my_user_id_123"
+)
+# highlight-end
+
+# Or provide additional information through the model:
+# highlight-start
+plan_run = portia.run(
+    "Get the temperature in Svalbard and write me a personalized greeting with the result.",
+    end_user=EndUser(external_id="my_user_id_123", name="Nicholas of Patara")
+)
 # highlight-end
 
 print(plan_run.model_dump_json(indent=2))
 ```
 
-The result of this code block will be the addition of an `execution_context` section within the `PlanRun` state, and a `final_output` that is indeed personalised to Saint Nicholas (known by his stage name Santa Claus):
+The result of this code block will be the addition of an `end_user` within the `PlanRun` state, and a `final_output` that is indeed personalised to Saint Nicholas (known by his stage name Santa Claus):
 ```json title="plan_run_state.json"
 {
   "id": "prun-d9991518-92d7-447f-bf28-4f7b9b8110ce",
@@ -61,12 +72,9 @@ The result of this code block will be the addition of an `execution_context` sec
   "clarifications": [],
   "state": "COMPLETE",
   # highlight-start
-  "execution_context": {
-    "end_user_id": "DemoUser123",
-    "additional_data": {
-      "email_address": "demo@portialabs.ai",
-      "name": "Nicholas of Patara"
-    },
+  "end_user": { 
+    "external_id": "DemoUser123",
+    "name": "Nicholas of Patara",
   },
   # highlight-end
   "step_outputs": {
@@ -85,20 +93,38 @@ The result of this code block will be the addition of an `execution_context` sec
 }
 ```
 
-Running `with execution_context` like this will:
-- Pass the `end_user_id` and `additional_data` to the planner and agent LLMs.
-- Persist the `end_user_id` and `additional_data` as part of the `PlanRun` as you saw in the output above:
-    - You can use this information for granular usage traceability. If using Portia Cloud, you will be able to see and filter stored plan runs down to specific end users (via SDK or in the Dashboard).
-    - You may want to persist the `end_user_id` on your side and use it consistently when interacting with Portia to uniquely identify the end user across plan runs. This may also be useful if you build authenticated tools with reusable OAuth tokens, so that you can maintain the user association and leverage the tokens' reusability.
-    - Some Portia cloud tools are OAuth-based. For those tools, we store OAuth tokens for reusability if and only if an `end_user_id` was passed with the plan run during which the tokens were created. During any subsequent plan run using this same `end_user_id`, we will be able to identify reusable tokens and leverage those for the relevant tool calls if needed (<a href="/run-portia-tools" target="_blank">**Run Portia tools ↗**</a>). .
 
-:::info[On persisting execution context]
-A `PlanRun` object inherits the `ExecutionContext` with which it was created as we have seen from the output above. Whenever such a plan run is resumed it will by default resume with this execution context persisted within it. You may choose to override this execution context with a `with execution_context({new execution context here})` when resuming
-```python skip=true
-...
-# if we want to resume the plan run with a new execution context, we can override it
-with execution_context(context={new execution context here}):
-    portia.run(plan_run)
-...
+## Accessing End Users in a tool
+
+End User objects are passed through to the tool run function as part of the `ToolRunContext`. This allows you to access attributes for your users in tools.
+
+You can also update attributes in tools, which will be persisted to storage upon completion of the tool call. This provides a way of storing useful data about the user.
+
+```python title="main.py"
+
+class EndUserUpdateToolSchema(BaseModel):
+    """Input for AdditionTool."""
+
+    name: str | None = Field(default=None, description="The new name for the end user.")
+
+
+class EndUserUpdateTool(Tool):
+    """Adds two numbers."""
+
+    id: str = "end_user_update"
+    name: str = "End User Update Tool"
+    description: str = "Updates the name of the end user"
+    args_schema: type[BaseModel] = EndUserUpdateToolSchema
+    output_schema: tuple[str, str] = ("str", "str: The new name")
+
+    def run(self, ctx: ToolRunContext, name: str) -> str:
+        """Change the name."""
+        ctx.end_user.name = name
+        ctx.end_user.set_attribute("has_name_update", "true")
+        return name
 ```
-:::
+
+## End User and OAuth tokens
+
+If you are using Portia Cloud Tools which support user level OAuth tokens, these tokens are stored against the EndUser of the `plan_run`. If you have the setting enabled (see Security), tokens will be reused for each end user reducing the number of authentication flows they must do.
+This makes setting an `end_user` correctly important in this case to avoid token collision issues.

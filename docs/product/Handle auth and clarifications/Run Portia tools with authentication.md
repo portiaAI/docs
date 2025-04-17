@@ -21,7 +21,7 @@ Portia offers a cloud-hosted library of tools to save you development time. You 
 We established in the preceding section that clarifications are raised when an agent needs input to progress. This concept lends itself perfectly to tool authentication. Let's break it down:
 - All Portia tools come with built-in authentication, typically using Portia OAuth clients for each relevant resource server.
 - Portia provisions the required token with the relevant scope when a tool call needs to be made.
-- Tokens provisioned by Portia are reusable / long-lived. If a `end_user_id` was passed with the parent `PlanRun`, Portia will store the provisioned OAuth token against it. You will need to persist this `end_user_id` and use it consistently across plan runs to leverage token reusability (<a href="/manage-end-users" target="_blank">**Manage multiple end users ↗**</a>).
+- Tokens provisioned by Portia are reusable / long-lived. The tokens are scoped to the `end_user` that was passed when running the plan or a default `end_user` if none was provided. You will need to reuse this `end_user_id` across plan runs to leverage token reusability (<a href="/manage-end-users" target="_blank">**Manage multiple end users ↗**</a>).
 - When a Portia tool call is made, we first attempt to retrieve an OAuth token against the `end_user_id` if provided. When no OAuth token is found, an `ActionClarification` is raised with an OAuth link as the action URL. This OAuth link uses Portia's authentication client and a Portia redirect URL.
 - Portia's OAuth server listens for the authentication result and resolves the concerned clarification, allowing the plan run to resume again.
 
@@ -151,7 +151,6 @@ In your logs you should be able to see the tools, as well as a plan and final pl
         "current_step_index": 1,
         "state": "COMPLETE",
         "execution_context": {
-            "end_user_id": null,
             "additional_data": {},
         },
         "outputs": {

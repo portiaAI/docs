@@ -315,7 +315,6 @@ In your `demo_runs` directory, you should now be able to see a plan and a plan r
         "current_step_index": 2,
         "state": "COMPLETE",
         "execution_context": {
-            "end_user_id": null,
             "additional_data": {},
         },
         "outputs": {
