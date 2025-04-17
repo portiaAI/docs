@@ -30,6 +30,7 @@
     },
     {
       "items": [
+        "SDK/portia/open_source_tools/browser_tool",
         "SDK/portia/open_source_tools/calculator_tool",
         "SDK/portia/open_source_tools/image_understanding_tool",
         "SDK/portia/open_source_tools/llm_tool",
