@@ -165,14 +165,6 @@ Example plans can be used to bias the planner towards actions, tool use and beha
 - Pull "Liked" plans based on semantic similarity to the user intent in a query by using our freshly minted `portia.storage.get_similar_plans` method (<a href="/SDK/portia/storage#get_similar_plans" target="_blank">**SDK reference ↗**</a>).
 - Finally, ingest those similar plans as example plans in the Planning agent using the `portia.plan` method's `example_plans` property (<a href="/SDK/portia/" target="_blank">**SDK reference ↗**</a>).
 
-Putting this together
-```python
-plan = portia.plan(query)
-# Like this on the dashboard
-
-similar_plans = portia.storage.get_similar_plans(new_plan_query)
-new_plan = portia.plan(new_plan_query, example_plans=similar_plans)
-```
 For a deep dive into this feature and a practical example, check out our [ULL blog post on example plans](https://blog.portialabs.ai/improve-planning-with-user-led-learning).
 
 Now that you know how to generate plans in response to a user query, let's take a look at how to run a plan in the next section.
