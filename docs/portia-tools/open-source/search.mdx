@@ -10,9 +10,13 @@ import Intro from '@site/docs/_lib/_tool-intro-open-source.mdx';
 <Intro />
 
 ## Tool details
-**Tool ID:** `portia:tavily::search`
+**Tool ID:** `search_tool`
 
-**Tool description:** Searches the internet (using Tavily) to find answers to the search query provided and returns those answers. The search tool has access to general information but can not return specific information on users or information not available on the internet
+**Tool description:** Searches the internet (using Tavily) to find answers to the search query provided and returns those answers, including images, links and a natural language answer. The search tool has access to general information but can not return specific information on users or information not available on the internet
+
+**Usage notes:**
+
+This tool uses the Tavily API. You can sign up to obtain a Tavily API key (<a href="https://tavily.com" target="_blank">**↗**</a>) and set it in the environment variable `TAVILY_API_KEY`.
 
 **Args schema:**
 ```json
