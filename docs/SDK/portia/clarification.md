@@ -58,6 +58,8 @@ to `True` once the user has completed the action associated with the link.
 
 - `category` _ClarificationCategory_ - The category for this clarification, &#x27;Action&#x27;.
 - `action_url` _HttpUrl_ - The URL for the action that the user needs to complete.
+- `require_confirmation` _bool_ - Whether the user needs to confirm once the action has been
+  completed.
 
 #### serialize\_action\_url
 
