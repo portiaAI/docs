@@ -69,11 +69,10 @@ Generate context from clarifications for the given step.
 
 - `list[str]` - A list of strings representing the clarification context.
 
-#### generate\_context\_from\_execution\_context
+#### generate\_context\_from\_run\_context
 
 ```python
-def generate_context_from_execution_context(
-        context: ExecutionContext) -> list[str]
+def generate_context_from_run_context(context: ToolRunContext) -> list[str]
 ```
 
 Generate context from the execution context.
@@ -90,7 +89,7 @@ Generate context from the execution context.
 #### build\_context
 
 ```python
-def build_context(ctx: ExecutionContext, plan_run: PlanRun,
+def build_context(ctx: ToolRunContext, plan_run: PlanRun,
                   step_inputs: list[StepInput]) -> str
 ```
 
@@ -98,7 +97,7 @@ Build the context string for the agent using inputs/outputs/clarifications/ctx.
 
 **Arguments**:
 
-- `ctx` _ExecutionContext_ - The execution context containing agent and system metadata.
+- `ctx` _ToolRunContext_ - The tool run context containing agent and system metadata.
 - `plan_run` _PlanRun_ - The current run containing outputs and clarifications.
 - `step_inputs` _list[StepInput]_ - The inputs for the current step.
   

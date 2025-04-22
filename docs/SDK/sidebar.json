@@ -55,6 +55,7 @@
     "SDK/portia/clarification_handler",
     "SDK/portia/cloud",
     "SDK/portia/config",
+    "SDK/portia/end_user",
     "SDK/portia/errors",
     "SDK/portia/execution_context",
     "SDK/portia/logger",

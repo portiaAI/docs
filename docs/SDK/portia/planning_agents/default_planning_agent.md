@@ -27,6 +27,7 @@ Init with the config.
 def generate_steps_or_error(
         query: str,
         tool_list: list[Tool],
+        end_user: EndUser,
         examples: list[Plan] | None = None) -> StepsOrError
 ```
 

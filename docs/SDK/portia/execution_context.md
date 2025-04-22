@@ -31,8 +31,6 @@ information to planning and execution agents for dynamic adjustments.
 
 **Attributes**:
 
-- `end_user_id` _Optional[str]_ - The identifier of the user for whom the run is running.
-  Used for authentication and debugging purposes.
 - `additional_data` _dict[str, str]_ - Arbitrary additional data useful for debugging.
 
 #### empty\_context
@@ -53,7 +51,6 @@ Return an empty execution context.
 @contextmanager
 def execution_context(
     context: ExecutionContext | None = None,
-    end_user_id: str | None = None,
     additional_data: dict[str, str] | None = None
 ) -> Generator[None, None, None]
 ```
@@ -70,8 +67,6 @@ tasks or threads may need independent contexts simultaneously.
 
 - `context` _Optional[ExecutionContext]_ - The execution context to set for the current task.
   If not provided, a new `ExecutionContext` is created using the provided parameters.
-- `end_user_id` _Optional[str]_ - An identifier for the end user, used to customize
-  the execution for specific users. Defaults to `None`.
 - `additional_data` _Optional[Dict[str, str]]_ - Arbitrary additional data to associate
   with the context. Defaults to an empty dictionary.
   
@@ -89,7 +84,11 @@ tasks or threads may need independent contexts simultaneously.
 
 **Example**:
 
-`context`0
+```python
+    with execution_context(additional_data={"key": "value"}):
+        # Code here runs with the specified execution context
+    # Outside the block, the execution context is cleared for the current task.
+```
 
 #### get\_execution\_context
 

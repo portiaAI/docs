@@ -73,12 +73,21 @@ Initialize storage and tools.
 - `execution_hooks` _ExecutionHooks | None_ - Hooks that can be used to modify or add
   extra functionality to the run of a plan.
 
+#### initialize\_end\_user
+
+```python
+def initialize_end_user(end_user: str | EndUser | None = None) -> EndUser
+```
+
+Handle initializing the end_user based on the provided type.
+
 #### run
 
 ```python
 def run(query: str,
         tools: list[Tool] | list[str] | None = None,
-        example_plans: list[Plan] | None = None) -> PlanRun
+        example_plans: list[Plan] | None = None,
+        end_user: str | EndUser | None = None) -> PlanRun
 ```
 
 End-to-end function to generate a plan and then execute it.
@@ -92,6 +101,7 @@ This is the simplest way to plan and execute a query using the SDK.
   If not provided all tools in the registry will be used.
 - `example_plans` _list[Plan] | None_ - Optional list of example plans. If not
   provide a default set of example plans will be used.
+- `end_user` _str | EndUser | None = None_ - The end user for this plan run.
   
 
 **Returns**:
@@ -103,7 +113,8 @@ This is the simplest way to plan and execute a query using the SDK.
 ```python
 def plan(query: str,
          tools: list[Tool] | list[str] | None = None,
-         example_plans: list[Plan] | None = None) -> Plan
+         example_plans: list[Plan] | None = None,
+         end_user: str | EndUser | None = None) -> Plan
 ```
 
 Plans how to do the query given the set of tools and any examples.
@@ -115,6 +126,7 @@ Plans how to do the query given the set of tools and any examples.
   If not provided all tools in the registry will be used.
 - `example_plans` _list[Plan] | None_ - Optional list of example plans. If not
   provide a default set of example plans will be used.
+- `end_user` _str | EndUser | None = None_ - The optional end user for this plan.
   
 
 **Returns**:
@@ -129,7 +141,7 @@ Plans how to do the query given the set of tools and any examples.
 #### run\_plan
 
 ```python
-def run_plan(plan: Plan) -> PlanRun
+def run_plan(plan: Plan, end_user: str | EndUser | None = None) -> PlanRun
 ```
 
 Run a plan.
@@ -137,6 +149,7 @@ Run a plan.
 **Arguments**:
 
 - `plan` _Plan_ - The plan to run.
+- `end_user` _str | EndUser | None = None_ - The end user to use.
   
 
 **Returns**:
@@ -250,7 +263,8 @@ This is generally because there are outstanding clarifications that need to be r
 #### create\_plan\_run
 
 ```python
-def create_plan_run(plan: Plan) -> PlanRun
+def create_plan_run(plan: Plan,
+                    end_user: str | EndUser | None = None) -> PlanRun
 ```
 
 Create a PlanRun from a Plan.
@@ -258,6 +272,7 @@ Create a PlanRun from a Plan.
 **Arguments**:
 
 - `plan` _Plan_ - The plan to create a plan run from.
+- `end_user` _str | EndUser | None = None_ - The end user this plan run is for.
   
 
 **Returns**:

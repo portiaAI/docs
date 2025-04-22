@@ -10,6 +10,7 @@ Context helpers for PlanningAgents.
 ```python
 def render_prompt_insert_defaults(query: str,
                                   tool_list: list[Tool],
+                                  end_user: EndUser,
                                   examples: list[Plan] | None = None) -> str
 ```
 

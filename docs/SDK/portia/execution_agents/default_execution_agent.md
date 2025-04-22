@@ -134,7 +134,8 @@ Model to parse the arguments for a tool.
 #### \_\_init\_\_
 
 ```python
-def __init__(model: GenerativeModel, agent: DefaultExecutionAgent) -> None
+def __init__(model: GenerativeModel, agent: DefaultExecutionAgent,
+             tool_context: ToolRunContext) -> None
 ```
 
 Initialize the model.
@@ -143,6 +144,7 @@ Initialize the model.
 
 - `model` _Model_ - The language model used for argument parsing.
 - `agent` _DefaultExecutionAgent_ - The agent using the parser model.
+- `tool_context` _ToolRunContext_ - The context for the tool.
 
 #### invoke
 
@@ -187,7 +189,8 @@ to analyze the context and tool arguments and returns a structured validation ou
 #### \_\_init\_\_
 
 ```python
-def __init__(model: GenerativeModel, agent: DefaultExecutionAgent) -> None
+def __init__(model: GenerativeModel, agent: DefaultExecutionAgent,
+             tool_context: ToolRunContext) -> None
 ```
 
 Initialize the model.
@@ -197,6 +200,7 @@ Initialize the model.
 - `model` _Model_ - The model used for argument verification.
 - `context` _str_ - The context for argument generation.
 - `agent` _DefaultExecutionAgent_ - The agent using the verifier model.
+- `tool_context` _ToolRunContext_ - The context for the tool.
 
 #### invoke
 
@@ -294,6 +298,7 @@ def __init__(step: Step,
              plan_run: PlanRun,
              config: Config,
              agent_memory: AgentMemory,
+             end_user: EndUser,
              tool: Tool | None = None) -> None
 ```
 
@@ -305,6 +310,7 @@ Initialize the agent.
 - `plan_run` _PlanRun_ - The run that defines the task execution process.
 - `config` _Config_ - The configuration settings for the agent.
 - `agent_memory` _AgentMemory_ - The agent memory to be used for the task.
+- `end_user` _EndUser_ - The end user for this execution
 - `tool` _Tool | None_ - The tool to be used for the task (optional).
 
 #### clarifications\_or\_continue
