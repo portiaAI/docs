@@ -102,6 +102,7 @@ You can also update attributes in tools, which will be persisted to storage upon
 
 ```python title="main.py"
 from pydantic import BaseModel, Field
+from portia.tool import Tool, ToolRunContext
 
 class EndUserUpdateToolSchema(BaseModel):
     """Input for AdditionTool."""
