@@ -21,5 +21,6 @@ By default, Portia will look for the API key in the `PORTIA_API_KEY` environment
 export PORTIA_API_KEY='your-api-key-here'
 ``` 
 
-
-
+:::tip[Upgrading your account]
+You can upgrade your account to a Pro plan to increase your Portia tool and plan run usage limits. Head over to the <a href="https://app.portialabs.ai/dashboard/billing" target="_blank">**Billing page ↗**</a> to upgrade or manage your current plan.
+:::
