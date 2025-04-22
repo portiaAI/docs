@@ -101,6 +101,7 @@ End User objects are passed through to the tool run function as part of the `Too
 You can also update attributes in tools, which will be persisted to storage upon completion of the tool call. This provides a way of storing useful data about the user.
 
 ```python title="main.py"
+from pydantic import BaseModel
 
 class EndUserUpdateToolSchema(BaseModel):
     """Input for AdditionTool."""
