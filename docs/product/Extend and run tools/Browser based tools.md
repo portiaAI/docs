@@ -11,8 +11,8 @@ import TabItem from '@theme/TabItem';
 Browser tools (<a href="/SDK/portia/open_source_tools/browser_tool.py" target="_blank">**SDK ↗**</a>) can deploy an agent to browse the internet and retrieve data or enact actions on your behalf. Portia will use Browser tools when it recognises there is a web-based task to be performed. We use the <a href="https://browser-use.com" target="_blank">**Browser Use (↗)**</a> library to offer a multi-modal web agent that will visually and textually analyse a website in order to navigate it and carry out a task.
 
 Our browser tool can be used in two modes:
-- **Remote mode (DEFAULT)**: Runs on a remote chromium instance using <a href="https://www.browserbase.com/" target="_blank">**Browserbase (↗)**</a> as the underlying infrastructure. Browserbase offers infrastructure for headless browsers remotely. We spin up remote sessions for your end-users which persist through clarifications.
-- **Local mode**: Runs on a chrome instance on your own computer.
+- **Remote mode**: Runs on a remote chromium instance using <a href="https://www.browserbase.com/" target="_blank">**Browserbase (↗)**</a> as the underlying infrastructure. Browserbase offers infrastructure for headless browsers remotely. We spin up remote sessions for your end-users which persist through clarifications.
+- **Local mode (DEFAULT)**: Runs on a chrome instance on your own computer. Requires Chrome to be started fresh by the agent to work.
 
 The underlying library for navigating the page is provided by <a href="https://browser-use.com" target="_blank">**Browser Use (↗)**</a>. It uses a number of LLM calls to navigate the page and complete the action.
 
@@ -20,7 +20,7 @@ The underlying library for navigating the page is provided by <a href="https://b
 
 <Tabs>
   <TabItem label="Browserbase setup" value="browserbase_setup">
-    To use browserbase infrastructure, you must ensure that you have set the `BROWSERBASE_API_KEY` and `BROWSERBASE_PROJECT_ID` in your .env file (or equivalent). These can be obtained by creating an account on <a href="https://www.browserbase.com" target="_blank">**Browserbase (↗)**</a> and a free tier is available if you'd like to test out the functionality.
+    To use browserbase infrastructure, you must ensure that you have set the `BROWSERBASE_API_KEY` and `BROWSERBASE_PROJECT_ID` in your .env file (or equivalent). These can be obtained by creating an account on <a href="https://www.browserbase.com" target="_blank">**Browserbase (↗)**</a>. The current behaviour requires a paid version of Browserbase to use.
   </TabItem>
   <TabItem label="Local setup" value="local_setup">
     With local setup, the browser tool uses chrome on the machine it is running on. This means that it is not possible to support end-users but is a good way to test or to write agents for your own purposes. To use the browser tool in local mode, you must specify the `BrowserInfrastructureOption`, i.e:
