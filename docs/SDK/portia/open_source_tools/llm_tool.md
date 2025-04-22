@@ -24,7 +24,7 @@ General purpose LLM tool. Customizable to user requirements. Won&#x27;t call oth
 #### run
 
 ```python
-def run(ctx: ToolRunContext, task: str) -> str
+def run(ctx: ToolRunContext, task: str, input_data: Sequence[str] = ()) -> str
 ```
 
 Run the LLMTool.
