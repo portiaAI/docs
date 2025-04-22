@@ -18,7 +18,7 @@ jobs:
         echo "$HOME/.local/bin" >> $GITHUB_PATH
 
     - name: Install dependencies
-      run: poetry install --no-interaction --all-extras
+      run: poetry install --no-interaction --all-extras --allow-prereleases
 
     - name: Run tests
       run: poetry run pytest
