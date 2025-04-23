@@ -16,11 +16,15 @@ Our browser tool can be used in two modes:
 
 The underlying library for navigating the page is provided by <a href="https://browser-use.com" target="_blank">**Browser Use (↗)**</a>. It uses a number of LLM calls to navigate the page and complete the action.
 
+Note that to use the browser tools, you need to install extra dependency groups (see details below)
+
 ## Setting up the browser based tools
 
 <Tabs>
   <TabItem label="Browserbase setup" value="browserbase_setup">
     To use browserbase infrastructure, you must ensure that you have set the `BROWSERBASE_API_KEY` and `BROWSERBASE_PROJECT_ID` in your .env file (or equivalent). These can be obtained by creating an account on <a href="https://www.browserbase.com" target="_blank">**Browserbase (↗)**</a>. The current behaviour requires a paid version of Browserbase to use.
+
+    To use the Browserbase version of the tool, you should install with the `tools-browser-browserbase` dependency group, i.e `portia-sdk-python[tools-brwoser-browserbase]`.
   </TabItem>
   <TabItem label="Local setup" value="local_setup">
     With local setup, the browser tool uses chrome on the machine it is running on. This means that it is not possible to support end-users but is a good way to test or to write agents for your own purposes. To use the browser tool in local mode, you must specify the `BrowserInfrastructureOption`, i.e:
@@ -30,6 +34,8 @@ The underlying library for navigating the page is provided by <a href="https://b
     ```
   
     You can specify the executable for the Chrome instance, by setting `PORTIA_BROWSER_LOCAL_CHROME_EXEC='path/to/chrome/exec'`. If not specified, the default location on most operating systems will be used. For the agent to work, all other Chrome instances must be closed before the task starts.
+
+    To use the Browserbase version of the tool, you should install with the `tools-browser-local` or `tools-browser-browserbase` dependency group, i.e `portia-sdk-python[tools-brwoser-local]`.
   </TabItem>
 </Tabs>
 
@@ -46,7 +52,8 @@ task = "Find my connections called 'Bob' on LinkedIn (https://www.linkedin.com)"
 
 # Needs BrowserBase API Key and project_id
 portia = Portia(config=Config.from_default(),
-                tools=[BrowserTool()])
+                tools=[BrowserTool()],
+                execution_hooks=CLIExecutionHooks())
 ```
 
 - **`BrowserToolForUrl(url)`**: To restrict the browser tool to a specific URL. This is particularly useful to ensure that the planner is restricted to the domains that you want it to be support.
@@ -59,7 +66,8 @@ task = "Find my connections called 'Bob' on LinkedIn"
 
 # Needs BrowserBase API Key and project_id
 portia = Portia(config=Config.from_default(),
-                tools=[BrowserToolForUrl("https://www.linkedin.com")])
+                tools=[BrowserToolForUrl("https://www.linkedin.com")],
+                execution_hooks=CLIExecutionHooks())
 ```
 
 ### A Simple E2E Example
@@ -79,22 +87,9 @@ load_dotenv(override=True)
 
 task = "Get the top news headline from the BBC news website (https://www.bbc.co.uk/news)"
 
-portia = Portia(Config.from_default(), tools=[BrowserTool()])
+portia = Portia(Config.from_default(), tools=[BrowserTool()], execution_hooks=CLIExecutionHooks())
 
 plan_run = portia.run(task)
-
-while plan_run.state == PlanRunState.NEED_CLARIFICATION:
-    # If clarifications are needed, resolve them before resuming the workflow
-    print("\nPlease resolve the following clarifications to continue")
-    for clarification in plan_run.get_outstanding_clarifications():
-        # Handling of Action clarifications
-        if isinstance(clarification, ActionClarification):
-            print(f"{clarification.user_guidance} -- Please click on the link below to proceed.")
-            print(clarification.action_url)
-            input("Press Enter to continue...")
-
-    # Once clarifications are resolved, resume the workflow
-    plan_run = portia.resume(plan_run)
 ```
 
 ## Authentication with browser based tools
@@ -111,7 +106,7 @@ In the browser tool case, whenever a browser tool encounters a page that require
   <TabItem label="Authentication with Browserbase" value="browserbase_authentication">
     In the case of Browserbase Authentication, the end-user will be provided with a URL starting with `browserbase.com/devtools-fullscreen/...`. When the end-user visits this page, they will see the authentication screen to enter their credentials (and any required 2FA or similar checks).
 
-    Once the end-user has performed the authentication, they should then indicate to your application that they have completed the flow, and you should call `portia.resume(plan_run)` to resume the agent. Note if you are using the `CLIClarificationHandler`, this will not work in this way and you will need to override it to ensure this behaviour.
+    Once the end-user has performed the authentication, they should then indicate to your application that they have completed the flow, and you should call `portia.resume(plan_run)` to resume the agent.
     
     The authentication credentials will persist until the agent completes the flow.
   </TabItem>
@@ -119,6 +114,28 @@ In the browser tool case, whenever a browser tool encounters a page that require
     When running via a Local browser, i.e via your own computer, the clarification URL will be a regular URL that you can click on to authenticate.
   </TabItem>
 </Tabs>
+
+### An E2E Example with authentication
+
+```python skip=true title="Full example"
+from dotenv import load_dotenv
+
+from portia import (
+    ActionClarification,
+    Config,
+    PlanRunState,
+    Portia,
+)
+from portia.open_source_tools.browser_tool import BrowserTool
+
+load_dotenv(override=True)
+
+task = "Find all my connections called Bob on LinkedIn (www.linkedin.com)"
+
+portia = Portia(Config.from_default(), tools=[BrowserTool()], execution_hooks=CLIExecutionHooks())
+
+plan_run = portia.run(task)
+```
 
 ## When to use API vs browser based tools
 
