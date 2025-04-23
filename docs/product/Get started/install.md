@@ -23,11 +23,11 @@ pip install portia-sdk-python
 ```
 Out of the box the SDK comes with dependencies for OpenAI (and Azure OpenAI) + Anthropic. We additionally support Mistral and Google GenAI (Gemini). These dependencies can be added with:
 ```bash
-pip install portia-sdk-python[all]
+pip install "portia-sdk-python[all]"
 # Or only Google GenAI
-pip install portia-sdk-python[google]
+pip install "portia-sdk-python[google]"
 # Or only Mistral
-pip install portia-sdk-python[mistral]
+pip install "portia-sdk-python[mistral]"
 ```
 
 
@@ -54,7 +54,7 @@ See <a href="/manage-config#configure-llm-options" target="_blank">**Configure L
     <TabItem value="mistral" label="Mistral">
     `mistral-large-latest` is set as the default model. You can sign up to their platform **[here](https://auth.mistral.ai/ui/registration)**
 
-    Ensure Mistral dependencies are installed with `pip install portia-sdk-python[mistral]` or `portia-sdk-python[all]`
+    Ensure Mistral dependencies are installed with `pip install "portia-sdk-python[mistral]"` or `"portia-sdk-python[all]"`
 
     ```bash
     export MISTRAL_API_KEY='your-api-key-here'
@@ -63,7 +63,7 @@ See <a href="/manage-config#configure-llm-options" target="_blank">**Configure L
     <TabItem value="google" label="Google GenAI">
     `gemini-flash-2.0` is set as the default model. You can sign up to their platform **[here](https://ai.google.dev/)**
 
-    Ensure Mistral dependencies are installed with `pip install portia-sdk-python[google]` or `portia-sdk-python[all]`
+    Ensure Mistral dependencies are installed with `pip install "portia-sdk-python[google]"` or `"portia-sdk-python[all]"`
 
     ```bash
     export GOOGLE_API_KEY='your-api-key-here'

@@ -107,7 +107,7 @@ plan = portia.plan('Which stock price grew faster in 2024, Amazon or Google?')
 print(plan.model_dump_json(indent=2))
 ```
 
-As mentioned earlier in the documentation, the `Portia` instance class is your main entrypoint to interact with Portia's libraries (<a href="/SDK/portia/portia" target="_blank">**SDK reference ↗**</a>). The `plan` method is available from the `Portia` instance class and allows you to generate a plan from the query. Running the `plan` method per the code above returns a `Plan` object (<a href="/SDK/portia/plan" target="_blank">**SDK reference ↗**</a>) which looks as follows:
+As mentioned earlier in the documentation, the `Portia` instance class is your main entrypoint to interact with Portia's libraries (<a href="/SDK/portia/" target="_blank">**SDK reference ↗**</a>). The `plan` method is available from the `Portia` instance class and allows you to generate a plan from the query. Running the `plan` method per the code above returns a `Plan` object (<a href="/SDK/portia/plan" target="_blank">**SDK reference ↗**</a>) which looks as follows:
 ```json title="plan.json"
 {
   "id": "plan-1dcd74a4-0af5-490a-a7d0-0df4fd983977",
@@ -156,5 +156,15 @@ As mentioned earlier in the documentation, the `Portia` instance class is your m
 The `plan` method can take the following additional parameters:
 - `tools` in order to confine the plan generation to a narrower set of tools if required (for simplicity or for user-access considerations). In our example above we provided the `example_tool_registry`, which is a collection of three open source tools in our SDK.
 - `example_plans` expects a list of `Plan` objects. This allows you to use existing plans as inspiration or templates, which improves repeatability for more routine plan runs.
+
+## User Led Learning
+
+Example plans can be used to bias the planner towards actions, tool use and behaviours, while also improving the planners ability to generate more complex plans. Broadly, the process for doing this with portia is 3 steps below
+
+- "Like" plans saved to Portia Cloud from the dashboard to signal that they are patterns you want to reinforce.
+- Pull "Liked" plans based on semantic similarity to the user intent in a query by using our freshly minted `portia.storage.get_similar_plans` method (<a href="/SDK/portia/storage#get_similar_plans" target="_blank">**SDK reference ↗**</a>).
+- Finally, ingest those similar plans as example plans in the Planning agent using the `portia.plan` method's `example_plans` property (<a href="/SDK/portia/" target="_blank">**SDK reference ↗**</a>).
+
+For a deep dive into this feature and a practical example, check out our <a href="https://blog.portialabs.ai/improve-planning-with-user-led-learning" target="_blank">**ULL blog post on example plans ↗**</a>.
 
 Now that you know how to generate plans in response to a user query, let's take a look at how to run a plan in the next section.

@@ -16,10 +16,70 @@
       "items": [
         {
           "type": "doc",
+          "label": "Browser Use",
+          "id": "portia-tools/open-source/browser",
+          "customProps": {
+            "description": "General purpose browser tool. Can be used to navigate to a URL and complete tasks. Should only be used if the task requires a browser and you are sure of the URL. Do not break the task into multiple browser tool steps!",
+            "category": "opensource",
+            "categoryLabel": "Open Source",
+            "vendor": "opensource",
+            "vendorLabel": "Open Source"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "File Reader",
+          "id": "portia-tools/open-source/file-reader",
+          "customProps": {
+            "description": "Finds and reads content from a local file on Disk",
+            "category": "opensource",
+            "categoryLabel": "Open Source",
+            "vendor": "opensource",
+            "vendorLabel": "Open Source"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "File Writer",
+          "id": "portia-tools/open-source/file-writer",
+          "customProps": {
+            "description": "Writes content to a file locally",
+            "category": "opensource",
+            "categoryLabel": "Open Source",
+            "vendor": "opensource",
+            "vendorLabel": "Open Source"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "Image Understanding",
+          "id": "portia-tools/open-source/image-understanding",
+          "customProps": {
+            "description": "Tool for understanding images from a URL. Capable of tasks like object detection, OCR, scene recognition, and image-based Q&A. This tool uses its native capabilities to analyze images and provide insights.",
+            "category": "opensource",
+            "categoryLabel": "Open Source",
+            "vendor": "opensource",
+            "vendorLabel": "Open Source"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "LLM",
+          "id": "portia-tools/open-source/llm",
+          "customProps": {
+            "description": "Jack of all trades tool to respond to a prompt by relying solely on LLM capabilities. YOU NEVER CALL OTHER TOOLS. You use your native capabilities as an LLM only. This includes using your general knowledge, your in-built reasoning and your code interpreter capabilities. This tool can be used to summarize the outputs of other tools, make general language model queries or to answer questions. This should be used only as a last resort when no other tool satisfies a step in a task, however if there are no other tools that can be used to complete a step or for steps that don't require a tool call, this SHOULD be used",
+            "category": "opensource",
+            "categoryLabel": "Open Source",
+            "vendor": "opensource",
+            "vendorLabel": "Open Source"
+          }
+        },
+        {
+          "type": "doc",
           "label": "Search",
           "id": "portia-tools/open-source/search",
           "customProps": {
-            "description": "Searches the internet (using Tavily) to find answers to the search query provided and returns those answers. The search tool has access to general information but can not return specific information on users or information not available on the internet",
+            "description": "Searches the internet (using Tavily) to find answers to the search query provided and returns those answers, including images, links and a natural language answer. The search tool has access to general information but can not return specific information on users or information not available on the internet",
             "category": "opensource",
             "categoryLabel": "Open Source",
             "vendor": "opensource",
@@ -242,6 +302,18 @@
           "id": "portia-tools/google-workspace/calendar-modify-event",
           "customProps": {
             "description": "Modifies an existing Google Calendar event. You must provide the event ID to modify, and can optionally provide new values if desired for the title, start time, end time, description, and attendees.",
+            "category": "google-workspace",
+            "categoryLabel": "Google Workspace",
+            "vendor": "google",
+            "vendorLabel": "Google"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "Contacts: Search",
+          "id": "portia-tools/google-workspace/people-search-contacts",
+          "customProps": {
+            "description": "Finds the most relevant matching contacts.",
             "category": "google-workspace",
             "categoryLabel": "Google Workspace",
             "vendor": "google",

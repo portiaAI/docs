@@ -8,3 +8,7 @@ To run the tests, use `poetry run pytest`. For this to work, you'll need to ensu
 variables listed in .env.example.
 
 If you have a test that can't be tested automatically (e.g. it requires user input or is not complete), you can add the `skip=true` tag to the example.
+
+# Tools docs generation
+
+To generate the Tools documentation, run (this script)[https://github.com/portiaAI/platform/blob/main/backend/project/tools/management/commands/generate_tool_docs.py#L585] in the Platform repo.

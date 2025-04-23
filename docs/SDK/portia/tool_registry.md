@@ -280,14 +280,6 @@ Provides access to tools within a Model Context Protocol (MCP) server.
 
 See https://modelcontextprotocol.io/introduction for more information on MCP.
 
-#### \_\_init\_\_
-
-```python
-def __init__(mcp_client_config: McpClientConfig) -> None
-```
-
-Initialize the MCPToolRegistry with the given configuration.
-
 #### from\_sse\_connection
 
 ```python
@@ -300,7 +292,22 @@ def from_sse_connection(cls,
                         sse_read_timeout: float = 60 * 5) -> McpToolRegistry
 ```
 
-Create a new MCPToolRegistry using an SSE connection.
+Create a new MCPToolRegistry using an SSE connection (Sync version).
+
+#### from\_sse\_connection\_async
+
+```python
+@classmethod
+async def from_sse_connection_async(
+        cls,
+        server_name: str,
+        url: str,
+        headers: dict[str, Any] | None = None,
+        timeout: float = 5,
+        sse_read_timeout: float = 60 * 5) -> McpToolRegistry
+```
+
+Create a new MCPToolRegistry using an SSE connection (Async version).
 
 #### from\_stdio\_connection
 
@@ -317,7 +324,24 @@ def from_stdio_connection(
 ) -> McpToolRegistry
 ```
 
-Create a new MCPToolRegistry using a stdio connection.
+Create a new MCPToolRegistry using a stdio connection (Sync version).
+
+#### from\_stdio\_connection\_async
+
+```python
+@classmethod
+async def from_stdio_connection_async(
+    cls,
+    server_name: str,
+    command: str,
+    args: list[str] | None = None,
+    env: dict[str, str] | None = None,
+    encoding: str = "utf-8",
+    encoding_error_handler: Literal["strict", "ignore", "replace"] = "strict"
+) -> McpToolRegistry
+```
+
+Create a new MCPToolRegistry using a stdio connection (Async version).
 
 ## DefaultToolRegistry Objects
 

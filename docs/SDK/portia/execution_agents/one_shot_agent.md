@@ -104,6 +104,8 @@ This agent performs the following steps:
 def __init__(step: Step,
              plan_run: PlanRun,
              config: Config,
+             agent_memory: AgentMemory,
+             end_user: EndUser,
              tool: Tool | None = None) -> None
 ```
 
@@ -114,6 +116,8 @@ Initialize the OneShotAgent.
 - `step` _Step_ - The current step in the task plan.
 - `plan_run` _PlanRun_ - The run that defines the task execution process.
 - `config` _Config_ - The configuration settings for the agent.
+- `agent_memory` _AgentMemory_ - Not supported in this execution agent.
+- `end_user` _EndUser_ - The end user for the execution.
 - `tool` _Tool | None_ - The tool to be used for the task (optional).
 
 #### execute\_sync

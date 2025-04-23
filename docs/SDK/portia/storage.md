@@ -238,32 +238,46 @@ Save a ToolCall.
 
 - `NotImplementedError` - If the method is not implemented.
 
-## LogAdditionalStorage Objects
+#### save\_end\_user
 
 ```python
-class LogAdditionalStorage(AdditionalStorage)
+@abstractmethod
+def save_end_user(end_user: EndUser) -> EndUser
 ```
 
-AdditionalStorage that logs calls rather than persisting them.
-
-Useful for storages that don&#x27;t care about tool_calls etc.
-
-#### save\_tool\_call
-
-```python
-def save_tool_call(tool_call: ToolCallRecord) -> None
-```
-
-Log the tool call.
+Save an end user.
 
 **Arguments**:
 
-- `tool_call` _ToolCallRecord_ - The ToolCallRecord object to log.
+- `end_user` _EndUser_ - The EndUser object to save.
+  
+
+**Raises**:
+
+- `NotImplementedError` - If the method is not implemented.
+
+#### get\_end\_user
+
+```python
+@abstractmethod
+def get_end_user(external_id: str) -> EndUser | None
+```
+
+Get an end user.
+
+**Arguments**:
+
+- `external_id` _str_ - The id of the end user to get.
+  
+
+**Raises**:
+
+- `NotImplementedError` - If the method is not implemented.
 
 ## Storage Objects
 
 ```python
-class Storage(PlanStorage, RunStorage, LogAdditionalStorage)
+class Storage(PlanStorage, RunStorage, AdditionalStorage)
 ```
 
 Combined base class for Plan Run + Additional storages.
@@ -306,10 +320,11 @@ Save an output from a plan run to agent memory.
 
 ```python
 @abstractmethod
-def get_plan_run_output(output_name: str, plan_run_id: PlanRunUUID) -> Output
+def get_plan_run_output(output_name: str,
+                        plan_run_id: PlanRunUUID) -> LocalOutput
 ```
 
-Retrieve an Output from the storage.
+Retrieve an Output from agent memory.
 
 **Arguments**:
 
@@ -326,11 +341,22 @@ Retrieve an Output from the storage.
 
 - `NotImplementedError` - If the method is not implemented.
 
+#### log\_tool\_call
+
+```python
+def log_tool_call(tool_call: ToolCallRecord) -> None
+```
+
+Log the tool call.
+
+**Arguments**:
+
+- `tool_call` _ToolCallRecord_ - The ToolCallRecord object to log.
+
 ## InMemoryStorage Objects
 
 ```python
-class InMemoryStorage(PlanStorage, RunStorage, LogAdditionalStorage,
-                      AgentMemory)
+class InMemoryStorage(PlanStorage, RunStorage, AdditionalStorage, AgentMemory)
 ```
 
 Simple storage class that keeps plans + runs in memory.
@@ -450,7 +476,8 @@ Save Output from a plan run to memory.
 #### get\_plan\_run\_output
 
 ```python
-def get_plan_run_output(output_name: str, plan_run_id: PlanRunUUID) -> Output
+def get_plan_run_output(output_name: str,
+                        plan_run_id: PlanRunUUID) -> LocalOutput
 ```
 
 Retrieve an Output from memory.
@@ -470,11 +497,42 @@ Retrieve an Output from memory.
 
 - `KeyError` - If the output is not found
 
+#### save\_tool\_call
+
+```python
+def save_tool_call(tool_call: ToolCallRecord) -> None
+```
+
+Log the tool call.
+
+#### save\_end\_user
+
+```python
+def save_end_user(end_user: EndUser) -> EndUser
+```
+
+Add end_user to dict.
+
+**Arguments**:
+
+- `end_user` _EndUser_ - The EndUser object to save.
+
+#### get\_end\_user
+
+```python
+def get_end_user(external_id: str) -> EndUser | None
+```
+
+Get end_user from dict or init a new one.
+
+**Arguments**:
+
+- `external_id` _str_ - The id of the end user object to get.
+
 ## DiskFileStorage Objects
 
 ```python
-class DiskFileStorage(PlanStorage, RunStorage, LogAdditionalStorage,
-                      AgentMemory)
+class DiskFileStorage(PlanStorage, RunStorage, AdditionalStorage, AgentMemory)
 ```
 
 Disk-based implementation of the Storage interface.
@@ -598,7 +656,8 @@ Save Output from a plan run to agent memory on disk.
 #### get\_plan\_run\_output
 
 ```python
-def get_plan_run_output(output_name: str, plan_run_id: PlanRunUUID) -> Output
+def get_plan_run_output(output_name: str,
+                        plan_run_id: PlanRunUUID) -> LocalOutput
 ```
 
 Retrieve an Output from agent memory on disk.
@@ -618,6 +677,38 @@ Retrieve an Output from agent memory on disk.
 
 - `FileNotFoundError` - If the output file is not found
 - `ValidationError` - If the deserialization fails
+
+#### save\_tool\_call
+
+```python
+def save_tool_call(tool_call: ToolCallRecord) -> None
+```
+
+Log the tool call.
+
+#### save\_end\_user
+
+```python
+def save_end_user(end_user: EndUser) -> EndUser
+```
+
+Write end_user to dict.
+
+**Arguments**:
+
+- `end_user` _EndUser_ - The EndUser object to save.
+
+#### get\_end\_user
+
+```python
+def get_end_user(external_id: str) -> EndUser | None
+```
+
+Get end_user from dict or init a new one.
+
+**Arguments**:
+
+- `external_id` _str_ - The id of the end user object to get.
 
 ## PortiaCloudStorage Objects
 
@@ -802,7 +893,8 @@ Save Output from a plan run to Portia Cloud.
 #### get\_plan\_run\_output
 
 ```python
-def get_plan_run_output(output_name: str, plan_run_id: PlanRunUUID) -> Output
+def get_plan_run_output(output_name: str,
+                        plan_run_id: PlanRunUUID) -> LocalOutput
 ```
 
 Retrieve an Output from Portia Cloud.
@@ -842,4 +934,43 @@ Get similar plans to the query.
 **Returns**:
 
 - `list[Plan]` - The list of similar plans.
+
+#### save\_end\_user
+
+```python
+def save_end_user(end_user: EndUser) -> EndUser
+```
+
+Save an end_user to Portia Cloud.
+
+**Arguments**:
+
+- `end_user` _EndUser_ - The EndUser object to save to the cloud.
+  
+
+**Raises**:
+
+- `StorageError` - If the request to Portia Cloud fails.
+
+#### get\_end\_user
+
+```python
+def get_end_user(external_id: str) -> EndUser
+```
+
+Retrieve an end user from Portia Cloud.
+
+**Arguments**:
+
+- `external_id` _str_ - The ID of the end user to retrieve.
+  
+
+**Returns**:
+
+- `EndUser` - The EndUser object retrieved from Portia Cloud.
+  
+
+**Raises**:
+
+- `StorageError` - If the request to Portia Cloud fails or the plan does not exist.
 

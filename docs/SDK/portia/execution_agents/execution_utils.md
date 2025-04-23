@@ -25,6 +25,7 @@ during the agent execution process.
 - `TOOLS` _str_ - A node representing the tools.
 - `ARGUMENT_VERIFIER` _str_ - A node representing the argument verifier.
 - `ARGUMENT_PARSER` _str_ - A node representing the argument parser.
+- `MEMORY_EXTRACTION` _str_ - A node representing the memory extraction step.
 
 #### next\_state\_after\_tool\_call
 

@@ -197,7 +197,6 @@ For the example query above `Read the contents of the file "weather.txt".`, wher
   "current_step_index": 0,
   "state": "COMPLETE",
   "execution_context": {
-    "end_user_id": null,
     "additional_data": {},
   },
   "outputs": {

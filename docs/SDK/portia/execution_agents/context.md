@@ -23,10 +23,18 @@ Generate the main system context.
 
 - `list[str]` - A list of strings representing the system context.
 
+## StepInput Objects
+
+```python
+class StepInput(BaseModel)
+```
+
+An input for a step being executed by an execution agent.
+
 #### generate\_input\_context
 
 ```python
-def generate_input_context(inputs: list[Variable],
+def generate_input_context(step_inputs: list[StepInput],
                            previous_outputs: dict[str, Output]) -> list[str]
 ```
 
@@ -34,7 +42,7 @@ Generate context for the inputs and indicate which ones were used.
 
 **Arguments**:
 
-- `inputs` _list[Variable]_ - The list of inputs for the current step.
+- `step_inputs` _list[StepInput]_ - The list of inputs for the current step.
 - `previous_outputs` _dict[str, Output]_ - A dictionary of previous step outputs.
   
 
@@ -61,11 +69,10 @@ Generate context from clarifications for the given step.
 
 - `list[str]` - A list of strings representing the clarification context.
 
-#### generate\_context\_from\_execution\_context
+#### generate\_context\_from\_run\_context
 
 ```python
-def generate_context_from_execution_context(
-        context: ExecutionContext) -> list[str]
+def generate_context_from_run_context(context: ToolRunContext) -> list[str]
 ```
 
 Generate context from the execution context.
@@ -82,16 +89,17 @@ Generate context from the execution context.
 #### build\_context
 
 ```python
-def build_context(ctx: ExecutionContext, step: Step, plan_run: PlanRun) -> str
+def build_context(ctx: ToolRunContext, plan_run: PlanRun,
+                  step_inputs: list[StepInput]) -> str
 ```
 
 Build the context string for the agent using inputs/outputs/clarifications/ctx.
 
 **Arguments**:
 
-- `ctx` _ExecutionContext_ - The execution context containing agent and system metadata.
-- `step` _Step_ - The current step in the PlanRun including inputs.
+- `ctx` _ToolRunContext_ - The tool run context containing agent and system metadata.
 - `plan_run` _PlanRun_ - The current run containing outputs and clarifications.
+- `step_inputs` _list[StepInput]_ - The inputs for the current step.
   
 
 **Returns**:

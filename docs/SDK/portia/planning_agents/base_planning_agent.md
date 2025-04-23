@@ -45,6 +45,7 @@ Initialize the PlanningAgent with configuration.
 def generate_steps_or_error(
         query: str,
         tool_list: list[Tool],
+        end_user: EndUser,
         examples: list[Plan] | None = None) -> StepsOrError
 ```
 
@@ -57,6 +58,7 @@ on the provided query and tools.
 
 - `query` _str_ - The user query to generate a list of steps for.
 - `tool_list` _list[Tool]_ - A list of tools available for the plan.
+- `end_user` _EndUser_ - The end user for this plan
 - `examples` _list[Plan] | None_ - Optional list of example plans to guide the PlanningAgent.
   
 

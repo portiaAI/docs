@@ -31,6 +31,7 @@ performance.
 def __init__(step: Step,
              plan_run: PlanRun,
              config: Config,
+             end_user: EndUser,
              tool: Tool | None = None) -> None
 ```
 
@@ -46,6 +47,7 @@ of the execute_sync method.
 - `step` _Step_ - The step that defines the task to be executed.
 - `plan_run` _PlanRun_ - The run that contains the step and related data.
 - `config` _Config_ - The configuration settings for the agent.
+- `end_user` _EndUser_ - The end user for the execution.
 - `tool` _Tool | None_ - An optional tool associated with the agent (default is None).
 
 #### execute\_sync
@@ -67,13 +69,20 @@ making it simple to write new ones.
 #### get\_system\_context
 
 ```python
-def get_system_context() -> str
+def get_system_context(ctx: ToolRunContext,
+                       step_inputs: list[StepInput]) -> str
 ```
 
 Build a generic system context string from the step and run provided.
 
 This function retrieves the execution context and generates a system context
 based on the step and run provided to the agent.
+
+**Arguments**:
+
+- `ctx` _ToolRunContext_ - The tool run ctx.
+- `step_inputs` _list[StepInput]_ - The inputs for the step.
+  
 
 **Returns**:
 

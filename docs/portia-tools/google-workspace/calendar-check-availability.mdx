@@ -19,11 +19,6 @@ import Intro from '@site/docs/_lib/_tool-intro-oauth.mdx';
 {
   "description": "Schema for checking Google Calendar availability.",
   "properties": {
-    "email": {
-      "description": "Email address to check availability for",
-      "title": "Email",
-      "type": "string"
-    },
     "start_time": {
       "anyOf": [
         {
@@ -35,7 +30,7 @@ import Intro from '@site/docs/_lib/_tool-intro-oauth.mdx';
         }
       ],
       "default": null,
-      "description": "Start time to check availability in ISO format, e.g 2024-09-20T20:00:00Z",
+      "description": "Start time to check availability in ISO format, e.g 2024-09-20T20:00:00. Do not include the timezone in this field.",
       "title": "Start Time"
     },
     "end_time": {
@@ -49,7 +44,7 @@ import Intro from '@site/docs/_lib/_tool-intro-oauth.mdx';
         }
       ],
       "default": null,
-      "description": "End time to check availability in ISO format, can be omitted e.g 2024-09-20T20:00:00Z",
+      "description": "End time to check availability in ISO format, can be omitted e.g 2024-09-20T20:00:00. Do not include the timezone in this field.",
       "title": "End Time"
     },
     "day": {
@@ -67,9 +62,6 @@ import Intro from '@site/docs/_lib/_tool-intro-oauth.mdx';
       "title": "Day"
     }
   },
-  "required": [
-    "email"
-  ],
   "title": "GoogleCalendarCheckAvailabilitySchema",
   "type": "object"
 }
@@ -77,5 +69,5 @@ import Intro from '@site/docs/_lib/_tool-intro-oauth.mdx';
 
 **Output schema:**
 ```
-('list[dict[str, str]]', 'Returns a list of times when the user is available.')
+('list[dict[str, str]]', 'Returns a list of times when the user is available. An empty list means the user is unavailable.')
 ```
