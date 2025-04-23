@@ -79,7 +79,6 @@ Plan run states are captured in the `PlanRun` class (<a href="/SDK/portia/plan_r
       "current_step_index": 2,
       "state": "COMPLETE",
       "execution_context": {
-        "end_user_id": null,
         "additional_data": {},
       },
       "outputs": {
