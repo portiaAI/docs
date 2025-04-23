@@ -12,11 +12,11 @@ Portia has been built from the ground up for production deployments and one of t
 
 
 :::tip[TL;DR]
-The `EndUser` class can be used represent your users within `Portia`.
+The `EndUser` class can be used to represent your users within `Portia`.
 - The `external_id` field in an `EndUser` object uniquely represents the end user in your system e.g. an internal ID or an email address.
-- `names`, `emails` and `phone_numbers` can all be stored against this object. They can dynamically be updated in tools. All changes to `end_user` models are persisted in storage.
+- `names`, `emails` and `phone_numbers` can all be stored against this object. They can dynamically be updated in tools with changes made to `end_user` models being persisted in storage.
 - `additional_data` can be used to pass user specific info that may be relevant to the response such as title and department.
-- If you don't provide an `end_user` the system will generate one to represent you.
+- If you don't provide an `end_user` the system will generate an `end_user` to represent you as the developer. This is useful if you're building a system with only one user.
 :::
 
 
@@ -105,13 +105,13 @@ from pydantic import BaseModel, Field
 from portia.tool import Tool, ToolRunContext
 
 class EndUserUpdateToolSchema(BaseModel):
-    """Input for AdditionTool."""
+    """Input for EndUserUpdateTool."""
 
     name: str | None = Field(default=None, description="The new name for the end user.")
 
 
 class EndUserUpdateTool(Tool):
-    """Adds two numbers."""
+    """Updates the name of the plan runs end user."""
 
     id: str = "end_user_update"
     name: str = "End User Update Tool"
