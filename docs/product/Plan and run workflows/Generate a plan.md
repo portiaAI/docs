@@ -27,13 +27,7 @@ Let's bring this one to life by looking at an example plan below, created in res
   "steps": [
     {
       "task": "Search for the latest SpaceX news from the past 48 hours using the search tool.",
-      "inputs": [
-        {
-          "name": "$search_query",
-          "value": "latest SpaceX news from past 48 hours",
-          "description": "Search query to find SpaceX news from the past 48 hours."
-        }
-      ],
+      "inputs": [],
       "tool_id": "search_tool",
       "output": "$spacex_news_results",
     },
@@ -50,21 +44,11 @@ Let's bring this one to life by looking at an example plan below, created in res
       "condition": "if $spacex_news_results contains at least 3 articles"
     },
     {
-      "task": "Email Avrana a summary of the top 3 SpaceX developments with the subject 'Latest SpaceX Updates'.",
+      "task": "Email Avrana (avrana@kern.ai) a summary of the top 3 SpaceX developments with the subject 'Latest SpaceX Updates'.",
       "inputs": [
         {
           "name": "$spacex_summary",
           "description": "The summary of the top 3 SpaceX developments."
-        },
-        {
-          "name": "$email_recipients",
-          "value": "['avrana@kern.ai']",
-          "description": "List of email recipients."
-        },
-        {
-          "name": "$email_subject",
-          "value": "Latest SpaceX Updates",
-          "description": "The subject line for the email."
         }
       ],
       "tool_id": "portia:google:gmail:send_email",
@@ -123,13 +107,13 @@ As mentioned earlier in the documentation, the `Portia` instance class is your m
     {
       "task": "Search for the latest stock price growth data for Amazon.",
       "inputs": [],
-      "tool_name": "Search Tool",
+      "tool_id": "search_tool",
       "output": "$amazon_stock_growth"
     },
     {
       "task": "Search for the latest stock price growth data for Google.",
       "inputs": [],
-      "tool_name": "Search Tool",
+      "tool_id": "search_tool",
       "output": "$google_stock_growth"
     },
     {
@@ -146,7 +130,7 @@ As mentioned earlier in the documentation, the `Portia` instance class is your m
           "description": "The stock price growth data for Google."
         }
       ],
-      "tool_name": null,
+      "tool_id": "llm_tool",
       "output": "$stock_growth_comparison"
     }
   ]
