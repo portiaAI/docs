@@ -65,7 +65,7 @@ Here are the key points to look out for:
 - All properties of a tool are parsed by the LLM to determine whether that tool is salient to a user's query and should therefore be invoked in response to it.
 - The `args_schema` property describes the tool inputs. This is important to help the LLM understand what parameters it can invoke a tool with.
 - The `output_schema` property describes the expected output of the tool. This helps the LLM know what to expect from the tool and informs its sequencing decisions for tool calls as well.
-- Optionally, you could override the `should_summarize` property to determine whether the tool output should be summarised by the LLM before returning the output of the tool call. It'll populate the `summary` field for the step's output in the plan run object.
+- Optionally, you can override the `should_summarize` property to determine whether the tool output should be summarised. When this setting is turned on, it uses an additional LLM call to populate the summary field in the step's output of the plan run object.
 - Every tool has a `run` function which is the actual tool implementation. The method always takes `ToolRunContext` which is contextual information implicitly passed by Portia. We will look into this more deeply in a future section (<a href="/manage-end-users" target="_blank">**Manage execution context ↗**</a>). The only thing to note now is that you have to include this argument and always import the underlying dependency.
 
 :::note[Track tool calls in logs]
