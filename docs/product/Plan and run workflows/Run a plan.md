@@ -41,13 +41,13 @@ Plan run states are captured in the `PlanRun` class (<a href="/SDK/portia/plan_r
         {
           "task": "Search for the latest stock price growth data for Amazon.",
           "inputs": [],
-          "tool_name": "Search Tool",
+          "tool_id": "search_tool",
           "output": "$amazon_stock_growth"
         },
         {
           "task": "Search for the latest stock price growth data for Google.",
           "inputs": [],
-          "tool_name": "Search Tool",
+          "tool_id": "search_tool",
           "output": "$google_stock_growth"
         },
         {
@@ -55,16 +55,14 @@ Plan run states are captured in the `PlanRun` class (<a href="/SDK/portia/plan_r
           "inputs": [
             {
               "name": "$amazon_stock_growth",
-              "value": null,
               "description": "The stock price growth data for Amazon."
             },
             {
               "name": "$google_stock_growth",
-              "value": null,
               "description": "The stock price growth data for Google."
             }
           ],
-          "tool_name": null,
+          "tool_id": "llm_tool",
           "output": "$stock_growth_comparison"
         }
       ]

@@ -98,7 +98,7 @@ Retrieved plan:
     {
       "task": "Get the current temperature in London.",
       "inputs": [],
-      "tool_name": "Weather Tool",
+      "tool_id": "weather_tool",
       "output": "$london_temperature"
     },
     {
@@ -106,11 +106,10 @@ Retrieved plan:
       "inputs": [
         {
           "name": "$london_temperature",
-          "value": null,
           "description": "The current temperature in London."
         }
       ],
-      "tool_name": null,
+      "tool_id": "llm_tool",
       "output": "$weather_joke"
     }
   ]
