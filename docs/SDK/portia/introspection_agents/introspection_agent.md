@@ -40,7 +40,7 @@ about whether to continue.
 #### \_\_init\_\_
 
 ```python
-def __init__(config: Config) -> None
+def __init__(config: Config, agent_memory: AgentMemory) -> None
 ```
 
 Initialize the BaseIntrospectionAgent with configuration.
@@ -48,6 +48,7 @@ Initialize the BaseIntrospectionAgent with configuration.
 **Arguments**:
 
 - `config` _Config_ - The configuration to initialize the BaseIntrospectionAgent.
+- `agent_memory` _AgentMemory_ - The agent memory to use
 
 #### pre\_step\_introspection
 
