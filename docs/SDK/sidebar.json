@@ -36,6 +36,7 @@
         "SDK/portia/open_source_tools/llm_tool",
         "SDK/portia/open_source_tools/local_file_reader_tool",
         "SDK/portia/open_source_tools/local_file_writer_tool",
+        "SDK/portia/open_source_tools/pdf_reader_tool",
         "SDK/portia/open_source_tools/search_tool",
         "SDK/portia/open_source_tools/weather"
       ],
