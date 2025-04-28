@@ -365,6 +365,36 @@ def __init__(config: Config) -> None
 
 Initialize the default tool registry with the given configuration.
 
+## GeneratedBaseModel Objects
+
+```python
+class GeneratedBaseModel(BaseModel)
+```
+
+BaseModel that is generated from a JSON schema.
+
+Handles serialization of fields that must omit None values: fields that are not required in
+the JSON schema, but that are not nullable. Pydantic has no concept of an omissible field,
+so we must for it to be nullable and then make sure we don&#x27;t serialize None values.
+
+#### serialize
+
+```python
+@model_serializer(mode="wrap")
+def serialize(handler: SerializerFunctionWrapHandler) -> dict[str, Any]
+```
+
+Serialize the model to a dictionary, excluding fields for which we must omit None.
+
+#### extend\_exclude\_unset\_fields
+
+```python
+@classmethod
+def extend_exclude_unset_fields(cls, fields: list[str]) -> None
+```
+
+Extend the list of fields to exclude from serialization.
+
 #### generate\_pydantic\_model\_from\_json\_schema
 
 ```python

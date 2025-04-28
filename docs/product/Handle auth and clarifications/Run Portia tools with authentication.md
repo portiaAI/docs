@@ -111,12 +111,10 @@ In your logs you should be able to see the tools, as well as a plan and final pl
         "plan_context": {
             "query": "Find the github repository of PortiaAI and give it a star for me",
             "tool_ids": [
-            "portia::list_github_repos_tool",
-            "portia::search_github_repos_tool",
-            "portia::star_github_repo_tool",
-            "portia::send_slack_message",
-            "portia::find_slack_message",
-            "portia::zendesk_list_groups_for_user_tool",
+            "portia::github::search_repos",
+            "portia::github::star_repo",
+            "portia::slack::send_message",
+            "portia::zendesk::list_groups_for_user",
             ...
             ]
         },
@@ -124,7 +122,7 @@ In your logs you should be able to see the tools, as well as a plan and final pl
             {
                 "task": "Search for the GitHub repository of PortiaAI",
                 "inputs": [],
-                "tool_name": "Portia Search GitHub Repositories",
+                "tool_id": "portia:github::search_repos",
                 "output": "$portiaai_repository"
             },
             {
@@ -132,11 +130,10 @@ In your logs you should be able to see the tools, as well as a plan and final pl
             "inputs": [
                 {
                     "name": "$portiaai_repository",
-                    "value": null,
                     "description": "The GitHub repository of PortiaAI"
                 }
             ],
-            "tool_name": "Portia Star GitHub Repository",
+            "tool_id": "portia:github::star_repo",
             "output": "$star_result"
             }
         ]

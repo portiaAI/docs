@@ -277,13 +277,13 @@ In your `demo_runs` directory, you should now be able to see a plan and a plan r
             {
                 "task": "Search for the stock price growth of Amazon in 2024.",
                 "inputs": [],
-                "tool_name": "Search Tool",
+                "tool_id": "search_tool",
                 "output": "$amazon_stock_growth_2024"
             },
             {
                 "task": "Search for the stock price growth of Google in 2024.",
                 "inputs": [],
-                "tool_name": "Search Tool",
+                "tool_id": "search_tool",
                 "output": "$google_stock_growth_2024"
             },
             {
@@ -291,16 +291,14 @@ In your `demo_runs` directory, you should now be able to see a plan and a plan r
                 "inputs": [
                     {
                         "name": "$amazon_stock_growth_2024",
-                        "value": null,
                         "description": "The stock price growth of Amazon in 2024."
                     },
                     {
                         "name": "$google_stock_growth_2024",
-                        "value": null,
                         "description": "The stock price growth of Google in 2024."
                     }
                 ],
-                "tool_name": null,
+                "tool_id": "llm_tool",
                 "output": "$faster_growth"
             }
         ]

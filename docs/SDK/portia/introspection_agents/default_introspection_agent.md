@@ -25,7 +25,7 @@ Implements the BaseIntrospectionAgent interface using an LLM to make decisions a
 #### \_\_init\_\_
 
 ```python
-def __init__(config: Config) -> None
+def __init__(config: Config, agent_memory: AgentMemory) -> None
 ```
 
 Initialize the DefaultIntrospectionAgent with configuration.
@@ -33,6 +33,7 @@ Initialize the DefaultIntrospectionAgent with configuration.
 **Arguments**:
 
 - `config` _Config_ - The configuration to initialize the DefaultIntrospectionAgent.
+- `agent_memory` _AgentMemory_ - The agent memory to use
 
 #### pre\_step\_introspection
 

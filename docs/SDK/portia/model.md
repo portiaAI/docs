@@ -339,6 +339,7 @@ def __init__(*,
              api_key: SecretStr,
              timeout: int = 120,
              max_retries: int = 3,
+             max_tokens: int = 8096,
              **kwargs: Any) -> None
 ```
 
@@ -349,6 +350,7 @@ Initialize with Anthropic client.
 - `model_name` - Name of the Anthropic model
 - `timeout` - Request timeout in seconds
 - `max_retries` - Maximum number of retries
+- `max_tokens` - Maximum number of tokens to generate
 - `api_key` - API key for Anthropic
 - `**kwargs` - Additional keyword arguments to pass to ChatAnthropic
 
