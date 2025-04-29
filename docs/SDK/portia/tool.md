@@ -32,6 +32,14 @@ Context passed to tools when running.
 - `config(Config)` - The config for the SDK as a whole.
 - `clarifications(ClarificationListType)` - Relevant clarifications for this tool plan_run.
 
+## ReadyResponse Objects
+
+```python
+class ReadyResponse(BaseModel)
+```
+
+Response from the /ready endpoint.
+
 ## Tool Objects
 
 ```python
@@ -64,7 +72,7 @@ This class serves as the blueprint for all tools. Child classes must implement t
 #### ready
 
 ```python
-def ready(ctx: ToolRunContext) -> bool
+def ready(ctx: ToolRunContext) -> ReadyResponse
 ```
 
 Check whether the tool can be plan_run.
@@ -75,12 +83,14 @@ If left unimplemented will always return true.
 
 **Arguments**:
 
-- `ctx` _ToolRunContext_ - Context of the tool run
+- `ctx` _ToolRunContext_ - Co
+  ntext of the tool run
   
 
 **Returns**:
 
-- `bool` - Whether the tool is ready to run
+- `ReadyResponse` - Whether the tool is ready to run and any clarifications that need to be
+  resolved
 
 #### run
 
@@ -262,7 +272,7 @@ as well as clarifications of different types.
 #### ready
 
 ```python
-def ready(ctx: ToolRunContext) -> bool
+def ready(ctx: ToolRunContext) -> ReadyResponse
 ```
 
 Check if the remote tool is ready by calling the /ready endpoint.
@@ -274,7 +284,8 @@ Check if the remote tool is ready by calling the /ready endpoint.
 
 **Returns**:
 
-- `bool` - Whether the tool is ready to run
+- `ReadyResponse` - Whether the tool is ready to run and any clarifications that
+  need to be resolved
 
 #### run
 

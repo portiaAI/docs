@@ -14,6 +14,7 @@
         "SDK/portia/execution_agents/context",
         "SDK/portia/execution_agents/default_execution_agent",
         "SDK/portia/execution_agents/execution_utils",
+        "SDK/portia/execution_agents/memory_extraction",
         "SDK/portia/execution_agents/one_shot_agent",
         "SDK/portia/execution_agents/output"
       ],
