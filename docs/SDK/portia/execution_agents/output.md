@@ -55,10 +55,10 @@ def get_summary() -> str | None
 
 Return the summary of the output.
 
-## LocalOutput Objects
+## LocalDataValue Objects
 
 ```python
-class LocalOutput(BaseOutput, Generic[SERIALIZABLE_TYPE_VAR])
+class LocalDataValue(BaseOutput, Generic[SERIALIZABLE_TYPE_VAR])
 ```
 
 Output that is stored locally.
@@ -115,10 +115,10 @@ Serialize the value to a string.
 
 - `str` - The serialized value as a string.
 
-## AgentMemoryOutput Objects
+## AgentMemoryValue Objects
 
 ```python
-class AgentMemoryOutput(BaseOutput, Generic[SERIALIZABLE_TYPE_VAR])
+class AgentMemoryValue(BaseOutput, Generic[SERIALIZABLE_TYPE_VAR])
 ```
 
 Output that is stored in agent memory.
@@ -156,4 +156,28 @@ def get_summary() -> str
 ```
 
 Return the summary of the output.
+
+## LocalOutput Objects
+
+```python
+@deprecated(
+    "LocalOutput is deprecated and will be removed in the 0.4 release - "
+    "use LocalDataValue instead"
+)
+class LocalOutput(LocalDataValue)
+```
+
+Alias of LocalDataValue kept for backwards compatibility.
+
+## AgentMemoryOutput Objects
+
+```python
+@deprecated(
+    "AgentMemoryOutput is deprecated and will be removed in the 0.4 release - "
+    "use AgentMemoryValue instead"
+)
+class AgentMemoryOutput(AgentMemoryValue)
+```
+
+Alias of AgentMemoryValue kept for backwards compatibility.
 
