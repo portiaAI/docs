@@ -10,7 +10,7 @@ These are stored and can be used as inputs to future steps
 ## BaseOutput Objects
 
 ```python
-class BaseOutput(BaseModel, Generic[SERIALIZABLE_TYPE_VAR])
+class BaseOutput(BaseModel)
 ```
 
 Base interface for concrete output classes to implement.
@@ -58,7 +58,7 @@ Return the summary of the output.
 ## LocalDataValue Objects
 
 ```python
-class LocalDataValue(BaseOutput, Generic[SERIALIZABLE_TYPE_VAR])
+class LocalDataValue(BaseOutput)
 ```
 
 Output that is stored locally.
@@ -118,7 +118,7 @@ Serialize the value to a string.
 ## AgentMemoryValue Objects
 
 ```python
-class AgentMemoryValue(BaseOutput, Generic[SERIALIZABLE_TYPE_VAR])
+class AgentMemoryValue(BaseOutput)
 ```
 
 Output that is stored in agent memory.
