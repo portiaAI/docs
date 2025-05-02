@@ -46,7 +46,8 @@ def generate_steps_or_error(
         query: str,
         tool_list: list[Tool],
         end_user: EndUser,
-        examples: list[Plan] | None = None) -> StepsOrError
+        examples: list[Plan] | None = None,
+        plan_inputs: list[PlanInput] | None = None) -> StepsOrError
 ```
 
 Generate a list of steps for the given query.
@@ -60,6 +61,8 @@ on the provided query and tools.
 - `tool_list` _list[Tool]_ - A list of tools available for the plan.
 - `end_user` _EndUser_ - The end user for this plan
 - `examples` _list[Plan] | None_ - Optional list of example plans to guide the PlanningAgent.
+- `plan_inputs` _list[PlanInput] | None_ - Optional list of PlanInput objects defining
+  the inputs required for the plan.
   
 
 **Returns**:

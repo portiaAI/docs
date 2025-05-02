@@ -67,6 +67,7 @@ A plan run represents a running instance of a Plan.
 - `state` _PlanRunState_ - The current state of the PlanRun.
 - `execution_context` _ExecutionContext_ - Execution context for the PlanRun.
 - `outputs` _PlanRunOutputs_ - Outputs of the PlanRun including clarifications.
+- `plan_run_inputs` _dict[str, LocalDataValue]_ - Dict mapping plan input names to their values.
 
 #### get\_outstanding\_clarifications
 
@@ -97,6 +98,14 @@ Return clarifications for the given step.
 **Returns**:
 
 - `ClarificationListType` - A list of clarifications for the given step.
+
+#### get\_potential\_step\_inputs
+
+```python
+def get_potential_step_inputs() -> dict[str, Output]
+```
+
+Return a dictionary of potential step inputs for future steps.
 
 #### \_\_str\_\_
 

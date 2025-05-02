@@ -87,7 +87,9 @@ Handle initializing the end_user based on the provided type.
 def run(query: str,
         tools: list[Tool] | list[str] | None = None,
         example_plans: list[Plan] | None = None,
-        end_user: str | EndUser | None = None) -> PlanRun
+        end_user: str | EndUser | None = None,
+        plan_run_inputs: dict[PlanInput, LocalDataValue] | None = None
+        ) -> PlanRun
 ```
 
 End-to-end function to generate a plan and then execute it.
@@ -102,6 +104,8 @@ This is the simplest way to plan and execute a query using the SDK.
 - `example_plans` _list[Plan] | None_ - Optional list of example plans. If not
   provide a default set of example plans will be used.
 - `end_user` _str | EndUser | None = None_ - The end user for this plan run.
+- `plan_run_inputs` _dict[PlanInput, LocalDataValue] | None_ - Optional dictionary mapping
+  PlanInput objects to their values.
   
 
 **Returns**:
@@ -114,7 +118,8 @@ This is the simplest way to plan and execute a query using the SDK.
 def plan(query: str,
          tools: list[Tool] | list[str] | None = None,
          example_plans: list[Plan] | None = None,
-         end_user: str | EndUser | None = None) -> Plan
+         end_user: str | EndUser | None = None,
+         plan_inputs: list[PlanInput] | None = None) -> Plan
 ```
 
 Plans how to do the query given the set of tools and any examples.
@@ -127,6 +132,8 @@ Plans how to do the query given the set of tools and any examples.
 - `example_plans` _list[Plan] | None_ - Optional list of example plans. If not
   provide a default set of example plans will be used.
 - `end_user` _str | EndUser | None = None_ - The optional end user for this plan.
+- `plan_inputs` _list[PlanInput] | None_ - Optional list of PlanInput objects defining
+  the inputs required for the plan.
   
 
 **Returns**:
@@ -141,7 +148,11 @@ Plans how to do the query given the set of tools and any examples.
 #### run\_plan
 
 ```python
-def run_plan(plan: Plan, end_user: str | EndUser | None = None) -> PlanRun
+def run_plan(
+        plan: Plan,
+        end_user: str | EndUser | None = None,
+        plan_run_inputs: dict[PlanInput, LocalDataValue] | None = None
+) -> PlanRun
 ```
 
 Run a plan.
@@ -150,6 +161,8 @@ Run a plan.
 
 - `plan` _Plan_ - The plan to run.
 - `end_user` _str | EndUser | None = None_ - The end user to use.
+- `plan_run_inputs` _dict[PlanInput, LocalDataValue] | None_ - Optional dictionary mapping
+  PlanInput objects to their values.
   
 
 **Returns**:
@@ -263,8 +276,11 @@ This is generally because there are outstanding clarifications that need to be r
 #### create\_plan\_run
 
 ```python
-def create_plan_run(plan: Plan,
-                    end_user: str | EndUser | None = None) -> PlanRun
+def create_plan_run(
+        plan: Plan,
+        end_user: str | EndUser | None = None,
+        plan_run_inputs: dict[PlanInput, LocalDataValue] | None = None
+) -> PlanRun
 ```
 
 Create a PlanRun from a Plan.
@@ -273,6 +289,8 @@ Create a PlanRun from a Plan.
 
 - `plan` _Plan_ - The plan to create a plan run from.
 - `end_user` _str | EndUser | None = None_ - The end user this plan run is for.
+- `plan_run_inputs` _dict[PlanInput, LocalDataValue] | None = None_ - The plan inputs for the
+  plan run with their values.
   
 
 **Returns**:
