@@ -159,6 +159,64 @@
       ]
     },
     {
+      "label": "Linear",
+      "type": "category",
+      "link": {
+        "type": "doc",
+        "id": "portia-tools/linear/index"
+      },
+      "items": [
+        {
+          "type": "doc",
+          "label": "Issue: Create",
+          "id": "portia-tools/linear/create-issue",
+          "customProps": {
+            "description": "\n        Creates an issue in Linear, specified by its title, description and team ID.\n        Other attributes like project, assignee and/or cycle can also be defined in the\n        issue but are not mandatory.\n        It returns a json structure with the id and title of the created issue.\n    ",
+            "category": "linear",
+            "categoryLabel": "Linear",
+            "vendor": "linear",
+            "vendorLabel": "Linear"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "Issue: Edit",
+          "id": "portia-tools/linear/edit-issue",
+          "customProps": {
+            "description": "\n        Edits an issue in Linear. This can edit \n        the title, the description, the assignee, the project,\n        the team, the cycle, or combinations thereof. The user \n        must specify the identifier of the issue to be edited.\n    ",
+            "category": "linear",
+            "categoryLabel": "Linear",
+            "vendor": "linear",
+            "vendorLabel": "Linear"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "Issue: Get Details",
+          "id": "portia-tools/linear/get-issue-details",
+          "customProps": {
+            "description": "Retrieves an issue from Linear App, specified by its identifier.It returns the identifier, title and description.",
+            "category": "linear",
+            "categoryLabel": "Linear",
+            "vendor": "linear",
+            "vendorLabel": "Linear"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "Issue: Query",
+          "id": "portia-tools/linear/query-issues",
+          "customProps": {
+            "description": "\n        Searches for issues in the Linear account according to one or\n        more search criteria. These criteria can include: team, project,\n        assignee, status, cycle, and/or one or more keywords that should be included\n        in the title or description of the issue. The criteria used to \n        retrieve the issues are extracted from a prompt given by the user.\n    ",
+            "category": "linear",
+            "categoryLabel": "Linear",
+            "vendor": "linear",
+            "vendorLabel": "Linear"
+          }
+        }
+      ]
+    },
+    {
       "label": "Slack",
       "type": "category",
       "link": {
