@@ -1,0 +1,9 @@
+{
+  "label": "Advanced",
+  "position": 6,
+  "link": {
+    "type": "generated-index",
+    "slug": "advanced",
+    "description": "Learn advanced features of Portia to unlock its full potential."
+  }
+}
