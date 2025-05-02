@@ -98,6 +98,24 @@ Inputs are outputs from previous steps.
 
 - `PlanBuilder` - The builder instance with the new input added.
 
+#### plan\_input
+
+```python
+def plan_input(name: str, description: str) -> PlanBuilder
+```
+
+Add an input variable to the plan.
+
+**Arguments**:
+
+- `name` _str_ - The name of the input.
+- `description` _str_ - The description of the input.
+  
+
+**Returns**:
+
+- `PlanBuilder` - The builder instance with the new plan input added.
+
 #### condition
 
 ```python
@@ -139,8 +157,8 @@ A reference to an output of a step.
 
 **Arguments**:
 
-- `name` _str_ - The name of the output to reference, e.g. $best_offers.
-- `description` _str_ - A description of the output.
+- `name` _str_ - The name of the output or plan input to reference, e.g. $best_offers.
+- `description` _str_ - A description of the output or plan input.
 
 #### pretty\_print
 
@@ -153,6 +171,47 @@ Return the pretty print representation of the variable.
 **Returns**:
 
 - `str` - A pretty print representation of the variable&#x27;s name, and description.
+
+## PlanInput Objects
+
+```python
+class PlanInput(BaseModel)
+```
+
+An input to a plan.
+
+**Arguments**:
+
+- `name` _str_ - The name of the input, e.g. $api_key.
+- `description` _str_ - A description of the input.
+
+#### pretty\_print
+
+```python
+def pretty_print() -> str
+```
+
+Return the pretty print representation of the plan input.
+
+**Returns**:
+
+- `str` - A pretty print representation of the input&#x27;s name, and description.
+
+#### \_\_hash\_\_
+
+```python
+def __hash__() -> int
+```
+
+Make PlanInput hashable by using name and description as the hash key.
+
+#### \_\_eq\_\_
+
+```python
+def __eq__(other: object) -> bool
+```
+
+Compare PlanInput objects for equality based on name.
 
 ## Step Objects
 
@@ -168,7 +227,8 @@ outputs, and may reference a tool to complete the task.
 **Arguments**:
 
 - `task` _str_ - The task that needs to be completed by this step.
-- `inputs` _list[Vairable]_ - The input to the step, as an output of a previous step.
+- `inputs` _list[Variable]_ - The input to the step, as a reference to an output of a previous
+  step or a plan input
 - `tool_id` _str | None_ - The ID of the tool used in this step, if applicable.
 - `output` _str_ - The unique output ID for the result of this step.
 
@@ -262,6 +322,7 @@ It also includes the context in which the plan was created.
 - `id` _PlanUUID_ - A unique ID for the plan.
 - `plan_context` _PlanContext_ - The context for when the plan was created.
 - `steps` _list[Step]_ - The set of steps that make up the plan.
+- `inputs` _list[PlanInput]_ - The inputs required by the plan.
 
 #### \_\_str\_\_
 
