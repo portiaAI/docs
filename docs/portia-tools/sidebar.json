@@ -195,7 +195,7 @@
           "label": "Issue: Get Details",
           "id": "portia-tools/linear/get-issue-details",
           "customProps": {
-            "description": "Retrieves an issue from Linear App, specified by its identifier.It returns the identifier, title and description.",
+            "description": "Retrieves an issue from Linear App, specified by its id. It returns the id, title, description, assignee and dates.",
             "category": "linear",
             "categoryLabel": "Linear",
             "vendor": "linear",

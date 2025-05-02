@@ -12,7 +12,7 @@ import Intro from '@site/docs/_lib/_tool-intro-oauth.mdx';
 ## Tool details
 **Tool ID:** `portia:linear::get_issue_by_id`
 
-**Tool description:** Retrieves an issue from Linear App, specified by its identifier.It returns the identifier, title and description.
+**Tool description:** Retrieves an issue from Linear App, specified by its id. It returns the id, title, description, assignee and dates.
 
 **Args schema:**
 ```json
@@ -20,7 +20,7 @@ import Intro from '@site/docs/_lib/_tool-intro-oauth.mdx';
   "description": "Input for GetIssueDetailsByIdTool.",
   "properties": {
     "identifier": {
-      "description": "identifier of the sought issue",
+      "description": "ID of the issue to retrieve",
       "title": "Identifier",
       "type": "string"
     }
@@ -35,5 +35,5 @@ import Intro from '@site/docs/_lib/_tool-intro-oauth.mdx';
 
 **Output schema:**
 ```
-('dict', 'A dict that contains the identifier, title, description, assignee and dates of the sought issue.')
+('dict', 'A dict that contains the id, title, description, assignee and dates of the sought issue.')
 ```
