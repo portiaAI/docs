@@ -167,7 +167,6 @@ To get to an output that looks like the plan run example above, let's expand on 
 from dotenv import load_dotenv
 from portia import (
     Portia,
-    default_config,
     example_tool_registry,
 )
 
@@ -206,7 +205,6 @@ You can also run a plan immediately from the user query, without examining the `
 from dotenv import load_dotenv
 from portia import (
     Portia,
-    default_config,
     example_tool_registry,
 )
 
@@ -224,3 +222,34 @@ print(plan_run.model_dump_json(indent=2))
 :::note[Track plan run states in logs]
 You can track plan run state changes live as they occur through the logs by setting `default_log_level` to DEBUG in the `Config` of your `Portia` instance (<a href="/manage-config#manage-logging" target="_blank">**Manage logging ↗**</a>).
 :::
+
+## Using plan inputs
+
+Plan inputs allow you to provide additional values that the system can use when running your plan.
+During planning, you define these inputs, which allows the planner to use them correctly in the plan.
+Then, when running the plan, you provide values for the inputs and these values are used by the execution agent.
+
+For example, consider a simple agent that tells you the weather in a particular city, with the city provided as a plan input.
+To set this up, we define the plan input for the planner as follows:
+```python
+from portia import (
+    Portia,
+    PlanInput
+)
+
+portia = Portia()
+
+# Specify the inputs you will use in the plan
+plan_input = PlanInput(name="$city", description="The city to get the temperature for")
+plan = portia.plan("Get the temperature for the provided city", plan_inputs=[plan_input])
+```
+
+This will create a single step plan that uses the weather tool with $city as an input to that tool.
+Then, when running the plan, we pass in a value for the input. In this case, we select "London".
+This value will then be used for the `$city` input in the plan and we will find the temperature in London.
+
+```python skip=true
+# Specify the values for those inputs when you run the plan
+plan_run_inputs = {plan_input: "London"}
+plan_run = portia.run("Get the temperature for the provided city", plan_run_inputs=plan_run_inputs)
+```
