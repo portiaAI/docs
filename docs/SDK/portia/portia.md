@@ -149,7 +149,7 @@ Plans how to do the query given the set of tools and any examples.
 
 ```python
 def run_plan(
-        plan: Plan,
+        plan: Plan | PlanUUID | UUID,
         end_user: str | EndUser | None = None,
         plan_run_inputs: dict[PlanInput, Serializable] | None = None
 ) -> PlanRun
@@ -159,7 +159,8 @@ Run a plan.
 
 **Arguments**:
 
-- `plan` _Plan_ - The plan to run.
+- `plan` _Plan | PlanUUID | UUID_ - The plan to run, or the ID of the plan to load from
+  storage.
 - `end_user` _str | EndUser | None = None_ - The end user to use.
 - `plan_run_inputs` _dict[PlanInput, Serializable] | None_ - Optional dictionary mapping
   PlanInput objects to their values.
