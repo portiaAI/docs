@@ -5,6 +5,22 @@ title: portia.open_source_tools.calculator_tool
 
 Simple Calculator Implementation.
 
+#### safe\_eval
+
+```python
+def safe_eval(node: Any) -> Any
+```
+
+Walk expression safely.
+
+#### safe\_evaluate
+
+```python
+def safe_evaluate(expression: str) -> float
+```
+
+Use ast.safe_eval to evaluate expression.
+
 ## CalculatorToolSchema Objects
 
 ```python

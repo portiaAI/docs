@@ -32,6 +32,7 @@ def __init__(step: Step,
              plan_run: PlanRun,
              config: Config,
              end_user: EndUser,
+             agent_memory: AgentMemory,
              tool: Tool | None = None) -> None
 ```
 
@@ -48,6 +49,7 @@ of the execute_sync method.
 - `plan_run` _PlanRun_ - The run that contains the step and related data.
 - `config` _Config_ - The configuration settings for the agent.
 - `end_user` _EndUser_ - The end user for the execution.
+- `agent_memory` _AgentMemory_ - The agent memory for persisting outputs.
 - `tool` _Tool | None_ - An optional tool associated with the agent (default is None).
 
 #### execute\_sync

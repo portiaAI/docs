@@ -8,10 +8,12 @@ Context helpers for PlanningAgents.
 #### render\_prompt\_insert\_defaults
 
 ```python
-def render_prompt_insert_defaults(query: str,
-                                  tool_list: list[Tool],
-                                  end_user: EndUser,
-                                  examples: list[Plan] | None = None) -> str
+def render_prompt_insert_defaults(
+        query: str,
+        tool_list: list[Tool],
+        end_user: EndUser,
+        examples: list[Plan] | None = None,
+        plan_inputs: list[PlanInput] | None = None) -> str
 ```
 
 Render the prompt for the PlanningAgent with defaults inserted if not provided.

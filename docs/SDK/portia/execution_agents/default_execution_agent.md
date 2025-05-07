@@ -70,43 +70,6 @@ Represents the inputs for a tool after being verified by an agent.
 
 - `args` _list[VerifiedToolArgument]_ - Arguments for the tool.
 
-## MemoryExtractionStep Objects
-
-```python
-class MemoryExtractionStep()
-```
-
-A step that extracts memory from the context.
-
-#### \_\_init\_\_
-
-```python
-def __init__(agent: DefaultExecutionAgent) -> None
-```
-
-Initialize the memory extraction step.
-
-**Arguments**:
-
-- `agent` _DefaultExecutionAgent_ - The agent using the memory extraction step.
-
-#### invoke
-
-```python
-def invoke(_: ExecutionState) -> dict[str, Any]
-```
-
-Invoke the model with the given message state.
-
-**Arguments**:
-
-- `state` _ExecutionState_ - The current state of the execution agent.
-  
-
-**Returns**:
-
-  dict[str, Any]: The LangGraph state update.
-
 ## ParserModel Objects
 
 ```python

@@ -28,7 +28,8 @@ def generate_steps_or_error(
         query: str,
         tool_list: list[Tool],
         end_user: EndUser,
-        examples: list[Plan] | None = None) -> StepsOrError
+        examples: list[Plan] | None = None,
+        plan_inputs: list[PlanInput] | None = None) -> StepsOrError
 ```
 
 Generate a plan or error using an LLM from a query and a list of tools.

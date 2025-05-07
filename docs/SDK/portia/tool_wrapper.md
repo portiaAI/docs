@@ -49,19 +49,10 @@ Initialize parent fields using child_tool&#x27;s attributes.
 #### ready
 
 ```python
-def ready(ctx: ToolRunContext) -> bool
+def ready(ctx: ToolRunContext) -> ReadyResponse
 ```
 
-Check if the child tool is ready.
-
-**Arguments**:
-
-- `ctx` _ToolRunContext_ - Context of the tool run
-  
-
-**Returns**:
-
-- `bool` - Whether the tool is ready to run
+Check if the child tool is ready and return ReadyResponse.
 
 #### run
 
