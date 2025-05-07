@@ -27,7 +27,6 @@ Context passed to tools when running.
 
 **Attributes**:
 
-- `execution_context(ExecutionContext)` - The execution context the tool is running in.
 - `plan_run_id(RunUUID)` - The run id the tool run is part of.
 - `config(Config)` - The config for the SDK as a whole.
 - `clarifications(ClarificationListType)` - Relevant clarifications for this tool plan_run.
