@@ -54,8 +54,6 @@ const config = {
           routeBasePath: "/",
           sidebarPath: require.resolve("./sidebars.js"),
           sidebarCollapsed: false,
-          autoCollapseCategories: true,
-          hideable: true,
           exclude: [
             // todo richard, command to prove this is ok
             "**/_*.{js,jsx,ts,tsx,md,mdx}",
