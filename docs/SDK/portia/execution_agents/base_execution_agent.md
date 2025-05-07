@@ -33,7 +33,8 @@ def __init__(step: Step,
              config: Config,
              end_user: EndUser,
              agent_memory: AgentMemory,
-             tool: Tool | None = None) -> None
+             tool: Tool | None = None,
+             execution_hooks: ExecutionHooks | None = None) -> None
 ```
 
 Initialize the base agent with the given args.
@@ -51,6 +52,7 @@ of the execute_sync method.
 - `end_user` _EndUser_ - The end user for the execution.
 - `agent_memory` _AgentMemory_ - The agent memory for persisting outputs.
 - `tool` _Tool | None_ - An optional tool associated with the agent (default is None).
+- `execution_hooks` - Optional hooks for extending execution functionality.
 
 #### execute\_sync
 
@@ -89,4 +91,37 @@ based on the step and run provided to the agent.
 **Returns**:
 
 - `str` - A string containing the system context for the agent.
+
+#### next\_state\_after\_tool\_call
+
+```python
+def next_state_after_tool_call(
+    config: Config,
+    state: MessagesState,
+    tool: Tool | None = None
+) -> Literal[AgentNode.TOOL_AGENT, AgentNode.SUMMARIZER, END]
+```
+
+Determine the next state after a tool call.
+
+This function checks the state after a tool call to determine if the run
+should proceed to the tool agent again, to the summarizer, or end.
+
+**Arguments**:
+
+- `config` _Config_ - The configuration for the run.
+- `state` _MessagesState_ - The current state of the messages.
+- `tool` _Tool | None_ - The tool involved in the call, if any.
+  
+
+**Returns**:
+
+  Literal[AgentNode.TOOL_AGENT, AgentNode.SUMMARIZER, END]: The next state to transition
+  to.
+  
+
+**Raises**:
+
+- `ToolRetryError` - If the tool has an error and the maximum retry limit has not been
+  reached.
 

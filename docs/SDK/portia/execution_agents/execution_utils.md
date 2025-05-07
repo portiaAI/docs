@@ -27,37 +27,6 @@ during the agent execution process.
 - `ARGUMENT_PARSER` _str_ - A node representing the argument parser.
 - `MEMORY_EXTRACTION` _str_ - A node representing the memory extraction step.
 
-#### next\_state\_after\_tool\_call
-
-```python
-def next_state_after_tool_call(
-    config: Config,
-    state: MessagesState,
-    tool: Tool | None = None
-) -> Literal[AgentNode.TOOL_AGENT, AgentNode.SUMMARIZER, END]
-```
-
-Determine the next state after a tool call.
-
-This function checks the state after a tool call to determine if the run
-should proceed to the tool agent again, to the summarizer, or end.
-
-**Arguments**:
-
-- `config` _Config_ - The configuration for the run.
-- `state` _MessagesState_ - The current state of the messages.
-- `tool` _Tool | None_ - The tool involved in the call, if any.
-  
-
-**Returns**:
-
-  Literal[AgentNode.TOOL_AGENT, AgentNode.SUMMARIZER, END]: The next state to transition to.
-  
-
-**Raises**:
-
-- `ToolRetryError` - If the tool has an error and the maximum retry limit has not been reached.
-
 #### is\_clarification
 
 ```python

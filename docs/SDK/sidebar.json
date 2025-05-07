@@ -59,6 +59,7 @@
     "SDK/portia/config",
     "SDK/portia/end_user",
     "SDK/portia/errors",
+    "SDK/portia/execution_hooks",
     "SDK/portia/logger",
     "SDK/portia/mcp_session",
     "SDK/portia/model",

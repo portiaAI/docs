@@ -262,7 +262,8 @@ def __init__(step: Step,
              config: Config,
              agent_memory: AgentMemory,
              end_user: EndUser,
-             tool: Tool | None = None) -> None
+             tool: Tool | None = None,
+             execution_hooks: ExecutionHooks | None = None) -> None
 ```
 
 Initialize the agent.
@@ -275,6 +276,7 @@ Initialize the agent.
 - `agent_memory` _AgentMemory_ - The agent memory to be used for the task.
 - `end_user` _EndUser_ - The end user for this execution
 - `tool` _Tool | None_ - The tool to be used for the task (optional).
+- `execution_hooks` _ExecutionHooks | None_ - The execution hooks for the agent.
 
 #### clarifications\_or\_continue
 

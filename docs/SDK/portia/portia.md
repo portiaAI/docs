@@ -22,26 +22,6 @@ The `Portia` class provides methods to:
 Modules in this file work with different storage backends (memory, disk, cloud) and can handle
 complex queries using various planning and execution agent configurations.
 
-## ExecutionHooks Objects
-
-```python
-class ExecutionHooks()
-```
-
-Hooks that can be used to modify or add extra functionality to the run of a plan.
-
-Currently, the only hook is a clarification handler which can be used to handle clarifications
-that arise during the run of a plan.
-
-#### \_\_init\_\_
-
-```python
-def __init__(
-        clarification_handler: ClarificationHandler | None = None) -> None
-```
-
-Initialize ExecutionHooks with default values.
-
 ## Portia Objects
 
 ```python
