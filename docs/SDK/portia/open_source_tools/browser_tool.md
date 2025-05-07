@@ -231,6 +231,15 @@ def construct_auth_clarification_url(ctx: ToolRunContext,
 
 Construct the URL for the auth clarification.
 
+#### step\_complete
+
+```python
+@abstractmethod
+def step_complete(ctx: ToolRunContext) -> None
+```
+
+Call when the step is complete to e.g release the session.
+
 ## BrowserInfrastructureProviderLocal Objects
 
 ```python
@@ -308,6 +317,14 @@ Get the path to the Chrome instance based on the operating system or env variabl
 
 - `RuntimeError` - If the platform is not supported (not macOS, Windows, or Linux) and the
   env variable isn&#x27;t set.
+
+#### step\_complete
+
+```python
+def step_complete(ctx: ToolRunContext) -> None
+```
+
+Call when the step is complete to e.g release the session.
 
 #### get\_extra\_chromium\_args
 

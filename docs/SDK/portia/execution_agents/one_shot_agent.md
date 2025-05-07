@@ -10,6 +10,14 @@ attempt is a one-shot call. It is useful when the tool call is simple, minimizin
 However, for more complex tool calls, the DefaultExecutionAgent is recommended as it will
 be more successful than the OneShotAgent.
 
+## ExecutionState Objects
+
+```python
+class ExecutionState(MessagesState)
+```
+
+State for the execution agent.
+
 ## OneShotToolCallingModel Objects
 
 ```python
@@ -28,7 +36,6 @@ It is recommended to use the DefaultExecutionAgent for more complex tasks.
 **Arguments**:
 
 - `model` _GenerativeModel_ - The language model to use for generating responses.
-- `context` _str_ - The context to provide to the language model when generating a response.
 - `tools` _list[StructuredTool]_ - A list of tools that can be used during the task.
 - `agent` _OneShotAgent_ - The agent responsible for managing the task.
   
@@ -41,8 +48,8 @@ It is recommended to use the DefaultExecutionAgent for more complex tasks.
 #### \_\_init\_\_
 
 ```python
-def __init__(model: GenerativeModel, context: str, tools: list[StructuredTool],
-             agent: OneShotAgent) -> None
+def __init__(model: GenerativeModel, tools: list[StructuredTool],
+             agent: OneShotAgent, tool_context: ToolRunContext) -> None
 ```
 
 Initialize the OneShotToolCallingModel.
@@ -50,14 +57,14 @@ Initialize the OneShotToolCallingModel.
 **Arguments**:
 
 - `model` _GenerativeModel_ - The language model to use for generating responses.
-- `context` _str_ - The context to be used when generating the response.
 - `tools` _list[StructuredTool]_ - A list of tools that can be used during the task.
 - `agent` _OneShotAgent_ - The agent that is managing the task.
+- `tool_context` _ToolRunContext_ - The context for the tool.
 
 #### invoke
 
 ```python
-def invoke(state: MessagesState) -> dict[str, Any]
+def invoke(state: ExecutionState) -> dict[str, Any]
 ```
 
 Invoke the model with the given message state.
@@ -67,7 +74,7 @@ and past errors, then generates a response by invoking the model.
 
 **Arguments**:
 
-- `state` _MessagesState_ - The state containing the messages and other necessary data.
+- `state` _ExecutionState_ - The state containing the messages and other necessary data.
   
 
 **Returns**:
@@ -83,14 +90,17 @@ class OneShotAgent(BaseExecutionAgent)
 Agent responsible for achieving a task by using langgraph.
 
 This agent performs the following steps:
-1. Calls the tool with unverified arguments.
-2. Retries tool calls up to 4 times.
+1. Extracts inputs from agent memory (if applicable)
+2. Calls the tool with unverified arguments.
+3. Retries tool calls up to 4 times.
 
 **Arguments**:
 
 - `step` _Step_ - The current step in the task plan.
 - `plan_run` _PlanRun_ - The run that defines the task execution process.
 - `config` _Config_ - The configuration settings for the agent.
+- `agent_memory` _AgentMemory_ - The agent memory for persisting outputs.
+- `end_user` _EndUser_ - The end user for the execution.
 - `tool` _Tool | None_ - The tool to be used for the task (optional).
   
 
@@ -116,7 +126,7 @@ Initialize the OneShotAgent.
 - `step` _Step_ - The current step in the task plan.
 - `plan_run` _PlanRun_ - The run that defines the task execution process.
 - `config` _Config_ - The configuration settings for the agent.
-- `agent_memory` _AgentMemory_ - Not supported in this execution agent.
+- `agent_memory` _AgentMemory_ - The agent memory for persisting outputs.
 - `end_user` _EndUser_ - The end user for the execution.
 - `tool` _Tool | None_ - The tool to be used for the task (optional).
 
