@@ -137,6 +137,19 @@ As we mentioned above End Users are first class citizens in the Portia Ecosystem
 This is particularly relevant for the `additional_data` field on the End User. This field allows you to store any additional data you like against users. This can either be done through the cloud interface, by providing it when running a plan, or by updating it in a tool. 
 
 ```python title="main.py"
+from dotenv import load_dotenv
+from portia import (
+    Portia,
+    default_config,
+    example_tool_registry,
+    execution_context,
+)
+from portia.end_user import EndUser
+
+load_dotenv()
+
+portia = Portia(tools=example_tool_registry)
+
 plan_run = portia.run(
     "Get the temperature in Svalbard and write me a personalized greeting with the result.",
     end_user=EndUser(external_id="my_user_id_123", name="Nicholas of Patara", additional_data={"weather_preferences": "I prefer my weather in the form of a Haiku"})
