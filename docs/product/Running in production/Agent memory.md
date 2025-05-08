@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-slug: /handling-large-data-sources
+slug: /agent-memory
 ---
 
 import Tabs from '@theme/Tabs';
