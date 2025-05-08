@@ -94,16 +94,6 @@ This agent performs the following steps:
 2. Calls the tool with unverified arguments.
 3. Retries tool calls up to 4 times.
 
-**Arguments**:
-
-- `step` _Step_ - The current step in the task plan.
-- `plan_run` _PlanRun_ - The run that defines the task execution process.
-- `config` _Config_ - The configuration settings for the agent.
-- `agent_memory` _AgentMemory_ - The agent memory for persisting outputs.
-- `end_user` _EndUser_ - The end user for the execution.
-- `tool` _Tool | None_ - The tool to be used for the task (optional).
-  
-
 **Methods**:
 
 - `execute_sync()` - Executes the core logic of the agent&#x27;s task, using the provided tool
@@ -116,7 +106,8 @@ def __init__(step: Step,
              config: Config,
              agent_memory: AgentMemory,
              end_user: EndUser,
-             tool: Tool | None = None) -> None
+             tool: Tool | None = None,
+             execution_hooks: ExecutionHooks | None = None) -> None
 ```
 
 Initialize the OneShotAgent.
@@ -129,6 +120,7 @@ Initialize the OneShotAgent.
 - `agent_memory` _AgentMemory_ - The agent memory for persisting outputs.
 - `end_user` _EndUser_ - The end user for the execution.
 - `tool` _Tool | None_ - The tool to be used for the task (optional).
+- `execution_hooks` _ExecutionHooks | None_ - The execution hooks for the agent.
 
 #### execute\_sync
 

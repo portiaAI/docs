@@ -65,7 +65,6 @@ A plan run represents a running instance of a Plan.
 - `plan_id` _PlanUUID_ - The ID of the Plan this run uses.
 - `current_step_index` _int_ - The current step that is being executed.
 - `state` _PlanRunState_ - The current state of the PlanRun.
-- `execution_context` _ExecutionContext_ - Execution context for the PlanRun.
 - `outputs` _PlanRunOutputs_ - Outputs of the PlanRun including clarifications.
 - `plan_run_inputs` _dict[str, LocalDataValue]_ - Dict mapping plan input names to their values.
 
