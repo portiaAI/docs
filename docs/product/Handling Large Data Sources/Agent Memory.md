@@ -15,25 +15,7 @@ When a step of a plan produces a large output, for example if a large document i
 In their plan run state, they also maintain a reference to this output.
 Then, if the large output is needed by future steps when running the plan, the value will be pulled in from agent memory as needed.
 
-<div style={{
-  overflow: 'hidden',
-  marginLeft: 'auto',
-  marginRight: 'auto',
-  borderRadius: '10px',
-  width: '100%',
-  maxWidth: '800px',
-  position: 'relative'
-}}>
-  <img 
-    src="/img/agent-memory.png" 
-    alt="Agent memory diagram showing how large outputs are stored and referenced" 
-    style={{
-      width: '100%',
-      height: 'auto',
-      display: 'block'
-    }}
-  />
-</div>
+![Agent memory](/img/agent_memory.png)
 
 Agent memories are scoped to a particular run of a plan and persist when a plan is paused to handle a clarification and later resumed. If you are running with Portia cloud storage, you can view the values your agents have stored in agent memory by navigating to the <a href="https://app.portialabs.ai/dashboard/agent-memory" target="_blank">**Agent Memory page ↗**</a>.
 
