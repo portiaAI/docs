@@ -9,7 +9,6 @@
     {
       "label": "Open Source",
       "type": "category",
-      "collapsed": true,
       "link": {
         "type": "doc",
         "id": "portia-tools/open-source/index"
