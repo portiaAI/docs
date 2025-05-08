@@ -27,9 +27,9 @@ Represents an argument for a tool as extracted from the goal and context.
 **Attributes**:
 
 - `name` _str_ - The name of the argument, as requested by the tool.
+- `explanation` _str_ - Explanation of the source for the value of the argument.
 - `value` _Any | None_ - The value of the argument, as provided in the goal or context.
 - `valid` _bool_ - Whether the value is a valid type and/or format for the given argument.
-- `explanation` _str_ - Explanation of the source for the value of the argument.
 
 ## ToolInputs Objects
 
