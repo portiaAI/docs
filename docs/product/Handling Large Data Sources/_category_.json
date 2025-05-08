@@ -1,0 +1,9 @@
+{
+  "label": "Handling Large Data Sources",
+  "position": 5,
+  "link": {
+    "type": "generated-index",
+    "slug": "handling-large-data-sources",
+    "description": "Learn how to handle large data sources in Portia."
+  }
+}

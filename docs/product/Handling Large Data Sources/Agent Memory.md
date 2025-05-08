@@ -1,24 +1,45 @@
 ---
 sidebar_position: 1
-slug: /advanced
+slug: /handling-large-data-sources
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Agent Memory in Portia
+# How agent memory works in Portia AI
 
 With Portia, agents can leverage memory by default.
-This allows them to work efficiently when large pieces of data are produced / processed during plans, avoiding issues caused when language model context windows fill up.
+This allows them to work efficiently when large pieces of data are produced / processed during plans, avoiding latency, cost and performance issues caused when language model context windows fill up.
 
-When a step of a plan produces a large output, for example if a large document is read or downloaded, agents in Portia will store this output in agent memory.
-If the large output is then needed by future steps when running the plan, the value will be pulled in from agent memory as needed.
+When a step of a plan produces a large output, for example if a large document is read or downloaded, agents in Portia will automatically store this output in agent memory.
+In their plan run state, they also maintain a reference to this output.
+Then, if the large output is needed by future steps when running the plan, the value will be pulled in from agent memory as needed.
+
+<div style={{
+  overflow: 'hidden',
+  marginLeft: 'auto',
+  marginRight: 'auto',
+  borderRadius: '10px',
+  width: '100%',
+  maxWidth: '800px',
+  position: 'relative'
+}}>
+  <img 
+    src="/img/agent-memory.png" 
+    alt="Agent memory diagram showing how large outputs are stored and referenced" 
+    style={{
+      width: '100%',
+      height: 'auto',
+      display: 'block'
+    }}
+  />
+</div>
 
 Agent memories are scoped to a particular run of a plan and persist when a plan is paused to handle a clarification and later resumed. If you are running with Portia cloud storage, you can view the values your agents have stored in agent memory by navigating to the <a href="https://app.portialabs.ai/dashboard/agent-memory" target="_blank">**Agent Memory page ↗**</a>.
 
 ## Configuring agent memory
 
-Agent memory uses the storage class that you have configured for your agent.
+Agent memory uses the storage class that you have configured for your Portia client.
 This means you can store memories locally, in the Portia cloud or on disk.
 For more details on the available storage classes, see our 
 <a href="/manage-config#manage-storage-options" target="_blank">storage options section ↗</a>.
