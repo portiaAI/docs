@@ -193,7 +193,7 @@ Here we are storing the `Plan` object returned by the `plan` method. We then use
 If you want to see an example where a user iterates on a plan before we proceed with plan run, take a look at the intro example in our <a href="https://github.com/portiaAI/portia-agent-examples/blob/main/get_started_google_tools/README.md" target="_blank">**examples repo (↗)**</a>.
 :::
 
-## Run a plan directly from a user query
+## Run directly from a user query
 <details>
 <summary>**Tavily API key required**</summary>
 
@@ -223,11 +223,12 @@ print(plan_run.model_dump_json(indent=2))
 You can track plan run state changes live as they occur through the logs by setting `default_log_level` to DEBUG in the `Config` of your `Portia` instance (<a href="/manage-config#manage-logging" target="_blank">**Manage logging ↗**</a>).
 :::
 
-## Using plan inputs
+## Run using plan inputs
 
-Plan inputs allow you to provide additional values that the system can use when running your plan.
-During planning, you define these inputs, which allows the planner to use them correctly in the plan.
-Then, when running the plan, you provide values for the inputs and these values are used by the execution agent.
+@@@ UPDATE AS PART OF PLAN RUN UPDATES
+So far the starting point for all plan runs is a user query for a specific set of inputs e.g. "get the weather in Beirut". This is in contrast to a generalised query e.g. "get the weather for a given city" where the city is provided dynamically per plan run. The PlanInput abstraction allows you to use a generalised query or plan "template" where the input differs with every plan run.
+
+In the planning stage, you would define the list of plan inputs, providing a name and description for each, and pass those along with a generalised query as arguments to the portia.plan method. The planning agent is capable of generating a plan with "placeholders" for each plan input. To run that generalised plan, Portia then expects you to provide specific values for the inputs at each run.
 
 For example, consider a simple agent that tells you the weather in a particular city, with the city provided as a plan input.
 To set this up, we define the plan input for the planner as follows:
