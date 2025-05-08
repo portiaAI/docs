@@ -19,7 +19,7 @@ The `EndUser` class can be used to represent your users within `Portia`.
 - The `external_id` field in an `EndUser` object uniquely represents the end user in your system e.g. an internal ID or an email address.
 - `names`, `emails` and `phone_numbers` can all be stored against this object. They can dynamically be updated in tools with changes made to `end_user` models being persisted in storage.
 - `additional_data` can be used to pass user specific info that may be relevant to the response such as title and department.
-- Authentication is tied to the end user you use when executing a `plan_run`. This allows us to re-use tokens (subject to your token retention policy) improving user experience.
+- Authentication is tied to the end user you use when executing a `plan_run`. This allows us to re-use Oauth tokens (subject to your token retention policy) improving user experience.
 :::
 
 :::info[Important]
