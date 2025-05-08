@@ -141,6 +141,37 @@ The `plan` method can take the following additional parameters:
 - `tools` in order to confine the plan generation to a narrower set of tools if required (for simplicity or for user-access considerations). In our example above we provided the `example_tool_registry`, which is a collection of three open source tools in our SDK.
 - `example_plans` expects a list of `Plan` objects. This allows you to use existing plans as inspiration or templates, which improves repeatability for more routine plan runs.
 
+## Plan Builder
+If you don't want to create plans via LLM, and instead have structured steps that you know in advance or can create with templating or other structured methods, then the PlanBuilder interface can be used. The process to create a plan via the PlanBuilder interface is to outline all the steps, inputs and outputs needed, and the build the object into a Plan Object.
+
+The plan is built up iteratively, with each function building on the previous part, `.step` adds a step to the end of a plan, `.input` and `.condition` adds to the last step added (but can be overwritten with a step_index variable). Finally, it needs to be built via `.build`
+```python title='plan_builder.py'
+from portia.plan import PlanBuilder
+
+query = "What is the capital of france and what is the population of the city? If the city has a population of over 1 million, then find the mayor of the city."
+
+plan = PlanBuilder(
+  query # optional to provide, as the steps are built below, but provides context for storage and plan purpose
+).step(
+    task="Find the capital of france", # step task
+    tool_id="google_search", # tool id maps to a tool in the tool registry
+    output="$capital_of_france", # output variable name maps step output to variable
+).step(
+    task="Find the population of the capital of france",
+    tool_id="google_search",
+    output="$population_of_capital",
+).input( # add an input to step 2
+    name="$capital_of_france", # input variable name maps to a variable in the plan run outputs from step 1
+    description="Capital of france" # optional description for the variable
+).step(
+    task="Find the mayor of the city",
+    tool_id="google_search",
+    output="$mayor_of_city",
+).condition(
+    condition="$population_of_capital > 1000000", # adding a condition to the step
+).build() # build the plan once finalized
+
+```
 ## User Led Learning
 
 Example plans can be used to bias the planner towards actions, tool use and behaviours, while also improving the planners ability to generate more complex plans. Broadly, the process for doing this with portia is 3 steps below
