@@ -12,9 +12,12 @@ export type Tool = {
   };
 };
 
-const toolSidebar = sidebars.productSidebar[1];
+const toolSidebar = sidebars.toolsSidebar[0];
 
 const getLeaves = (sidebar) => {
+  if (!sidebar) {
+    return [];
+  }
   return sidebar.items
     .map((item) => {
       if (item.type === "category") {
