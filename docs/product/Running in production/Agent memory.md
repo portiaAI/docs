@@ -6,7 +6,7 @@ slug: /handling-large-data-sources
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# How agent memory works in Portia AI
+# Using agent memory
 
 With Portia, agents can leverage memory by default.
 This allows them to work efficiently when large pieces of data are produced / processed during plans, avoiding latency, cost and performance issues caused when language model context windows fill up.
