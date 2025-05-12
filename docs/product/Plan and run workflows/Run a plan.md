@@ -225,23 +225,19 @@ You can track plan run state changes live as they occur through the logs by sett
 
 ## Run using plan inputs
 
-@@@ UPDATE AS PART OF PLAN RUN UPDATES
 So far the starting point for all plan runs is a user query for a specific set of inputs e.g. "get the weather in Beirut". This is in contrast to a generalised query e.g. "get the weather for a given city" where the city is provided dynamically per plan run. The PlanInput abstraction allows you to use a generalised query or plan "template" where the input differs with every plan run.
 
-In the planning stage, you would define the list of plan inputs, providing a name and description for each, and pass those along with a generalised query as arguments to the portia.plan method. The planning agent is capable of generating a plan with "placeholders" for each plan input. To run that generalised plan, Portia then expects you to provide specific values for the inputs at each run.
+In the planning stage, you would define the list of plan inputs, providing a name and optional description for each, and pass those along with a generalised query as arguments to the portia.plan method. The planning agent is capable of generating a plan with "placeholders" for each plan input. To run that generalised plan, Portia then expects you to provide specific values for the inputs at each run.
 
 For example, consider a simple agent that tells you the weather in a particular city, with the city provided as a plan input.
 To set this up, we define the plan input for the planner as follows:
 ```python
-from portia import (
-    Portia,
-    PlanInput
-)
+from portia import Portia
 
 portia = Portia()
 
 # Specify the inputs you will use in the plan
-plan_input = PlanInput(name="$city", description="The city to get the temperature for")
+plan_input = {"name":"$city", "description"="The city to get the temperature for"}
 plan = portia.plan("Get the temperature for the provided city", plan_inputs=[plan_input])
 ```
 
@@ -251,6 +247,6 @@ This value will then be used for the `$city` input in the plan and we will find 
 
 ```python skip=true
 # Specify the values for those inputs when you run the plan
-plan_run_inputs = {plan_input: "London"}
+plan_run_inputs = {"name": "$city", "value": "London"}
 plan_run = portia.run("Get the temperature for the provided city", plan_run_inputs=plan_run_inputs)
 ```
