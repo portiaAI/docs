@@ -2170,9 +2170,9 @@
     yaml-ast-parser "0.0.43"
 
 "@redocly/openapi-core@^1.4.0":
-  version "1.34.2"
-  resolved "https://registry.yarnpkg.com/@redocly/openapi-core/-/openapi-core-1.34.2.tgz#859de74a3261fb09a3dc695be4a8d9b1f2059d75"
-  integrity sha512-glfkQFJizLdq2fBkNvc2FJW0sxDb5exd0wIXhFk+WHaFLMREBC3CxRo2Zq7uJIdfV9U3YTceMbXJklpDfmmwFQ==
+  version "1.34.3"
+  resolved "https://registry.yarnpkg.com/@redocly/openapi-core/-/openapi-core-1.34.3.tgz#0e72750bc8cc784d3e19679d0742299a17a8c435"
+  integrity sha512-3arRdUp1fNx55itnjKiUhO6t4Mf91TsrTIYINDNLAZPS0TPd5YpiXRctwjel0qqWoOOhjA34cZ3m4dksLDFUYg==
   dependencies:
     "@redocly/ajv" "^8.11.2"
     "@redocly/config" "^0.22.0"
@@ -2781,9 +2781,9 @@
     "@types/node" "*"
 
 "@types/node@*":
-  version "22.15.14"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-22.15.14.tgz#889fd356a04d003a6d5650ccc003ef4d712430d7"
-  integrity sha512-BL1eyu/XWsFGTtDWOYULQEs4KR0qdtYfCxYAUYRoB7JP7h9ETYLgQTww6kH8Sj2C0pFGgrpM0XKv6/kbIzYJ1g==
+  version "22.15.17"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-22.15.17.tgz#355ccec95f705b664e4332bb64a7f07db30b7055"
+  integrity sha512-wIX2aSZL5FE+MR0JlvF87BNVrtFWf6AE6rxSE9X7OwnVvoyCQjpzSRJ+M87se/4QCkCiebQAqrJ0y6fwIyi7nw==
   dependencies:
     undici-types "~6.21.0"
 
@@ -4707,7 +4707,7 @@ docusaurus-plugin-redoc@2.2.3:
     "@redocly/openapi-core" "1.16.0"
     redoc "2.4.0"
 
-docusaurus-theme-redoc@2.2.3, docusaurus-theme-redoc@^2.0.0:
+docusaurus-theme-redoc@2.2.3, docusaurus-theme-redoc@^2.1.3:
   version "2.2.3"
   resolved "https://registry.yarnpkg.com/docusaurus-theme-redoc/-/docusaurus-theme-redoc-2.2.3.tgz#883a90cc4086d73669c8ea77857301fb8cb9b77c"
   integrity sha512-n0pseml+Z4JD/nVehGxb8EZzrmI5krJc05P+B7JIV4NEGoLtUab455UxANXMGel1JnsNem0aplxWrY1fskccOw==
@@ -4858,9 +4858,9 @@ ee-first@1.1.1:
   integrity sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==
 
 electron-to-chromium@^1.5.149:
-  version "1.5.150"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.5.150.tgz#3120bf34453a7a82cb4d9335df20680b2bb40649"
-  integrity sha512-rOOkP2ZUMx1yL4fCxXQKDHQ8ZXwisb2OycOQVKHgvB3ZI4CvehOd4y2tfnnLDieJ3Zs1RL1Dlp3cMkyIn7nnXA==
+  version "1.5.151"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.5.151.tgz#5edd6c17e1b2f14b4662c41b9379f96cc8c2bb7c"
+  integrity sha512-Rl6uugut2l9sLojjS4H4SAr3A4IgACMLgpuEMPYCVcKydzfyPrn5absNRju38IhQOf/NwjJY8OGWjlteqYeBCA==
 
 emoji-regex@^8.0.0:
   version "8.0.0"
@@ -5074,9 +5074,9 @@ estree-util-to-js@^2.0.0:
     source-map "^0.7.0"
 
 estree-util-value-to-estree@^3.0.1:
-  version "3.3.3"
-  resolved "https://registry.yarnpkg.com/estree-util-value-to-estree/-/estree-util-value-to-estree-3.3.3.tgz#800b03a551b466dd77ed2c574b042a9992546cf2"
-  integrity sha512-Db+m1WSD4+mUO7UgMeKkAwdbfNWwIxLt48XF2oFU9emPfXkIu+k5/nlOj313v7wqtAPo0f9REhUvznFrPkG8CQ==
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/estree-util-value-to-estree/-/estree-util-value-to-estree-3.4.0.tgz#827122e40c3a756d3c4cf5d5d296fa06026a1a4f"
+  integrity sha512-Zlp+gxis+gCfK12d3Srl2PdX2ybsEA8ZYy6vQGVQTNNYLEGRQQ56XB64bjemN8kxIKXP1nC9ip4Z+ILy9LGzvQ==
   dependencies:
     "@types/estree" "^1.0.0"
 
@@ -6002,9 +6002,9 @@ htmlparser2@^8.0.1:
     entities "^4.4.0"
 
 http-cache-semantics@^4.1.1:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/http-cache-semantics/-/http-cache-semantics-4.1.1.tgz#abe02fcb2985460bf0323be664436ec3476a6d5a"
-  integrity sha512-er295DKPVsV82j5kw1Gjt+ADA/XYHsajl82cGNQG2eyoPkvgUhX+nDIyelzhIWbbsXP39EHcI6l5tYs2FYqYXQ==
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/http-cache-semantics/-/http-cache-semantics-4.2.0.tgz#205f4db64f8562b76a4ff9235aa5279839a09dd5"
+  integrity sha512-dTxcvPXqPvXBQpq5dUr6mEMJX4oIEFv6bwom3FDwKRDsuIjjJGANqhBuoAn9c1RQJIdAKav33ED65E2ys+87QQ==
 
 http-deceiver@^1.2.7:
   version "1.2.7"
@@ -8752,9 +8752,9 @@ postcss@^8.4.21, postcss@^8.4.24, postcss@^8.4.26, postcss@^8.4.33, postcss@^8.4
     source-map-js "^1.2.1"
 
 posthog-js@^1.233.1:
-  version "1.240.0"
-  resolved "https://registry.yarnpkg.com/posthog-js/-/posthog-js-1.240.0.tgz#3dd80cb7fdab62729f851495a7fc53b11739c267"
-  integrity sha512-zZhedVycGracBMWVRvWJMkB2EiB/dUoe/eM+CsFCnda/PN3Se+V7a6CLGuLZKLF9EfHswCxxU/PIxgDrhbAgjQ==
+  version "1.240.6"
+  resolved "https://registry.yarnpkg.com/posthog-js/-/posthog-js-1.240.6.tgz#c64ce71b0f8749055add7cb872af6400463b7768"
+  integrity sha512-Pz5r/LrMchGf9jCVnTXJrbyMhKriZRGLSZ5qt8c8QrPkmG2JOnFHNWmmBlu+iqmzbY3+oROrhwyP4IgQl2z34w==
   dependencies:
     core-js "^3.38.1"
     fflate "^0.4.8"
@@ -8827,9 +8827,9 @@ property-information@^6.0.0:
   integrity sha512-PgTgs/BlvHxOu8QuEN7wi5A0OmXaBcHpmCSTehcs6Uuu9IkDIEo13Hy7n898RHfrQ49vKCoGeWZSaAK01nwVig==
 
 property-information@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/property-information/-/property-information-7.0.0.tgz#3508a6d6b0b8eb3ca6eb2c6623b164d2ed2ab112"
-  integrity sha512-7D/qOz/+Y4X/rzSB6jKxKUsQnphO046ei8qxG59mtM3RG3DHgTK81HrxrmoDVINJb8NKT5ZsRbwHvQ6B68Iyhg==
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/property-information/-/property-information-7.1.0.tgz#b622e8646e02b580205415586b40804d3e8bfd5d"
+  integrity sha512-TwEZ+X+yCJmYfL7TPUOcvBZ4QfoT5YenQiJuX//0th53DE6w0xxLEtfK3iyryQFddXuvkIk51EEgrJQ0WJkOmQ==
 
 proto-list@~1.2.1:
   version "1.2.4"
@@ -10027,9 +10027,9 @@ style-to-object@1.0.8:
     inline-style-parser "0.2.4"
 
 styled-components@^6.1.11:
-  version "6.1.17"
-  resolved "https://registry.yarnpkg.com/styled-components/-/styled-components-6.1.17.tgz#59032edd7efa59e114ddbc41165f0984d0fa4fb7"
-  integrity sha512-97D7DwWanI7nN24v0D4SvbfjLE9656umNSJZkBkDIWL37aZqG/wRQ+Y9pWtXyBIM/NSfcBzHLErEsqHmJNSVUg==
+  version "6.1.18"
+  resolved "https://registry.yarnpkg.com/styled-components/-/styled-components-6.1.18.tgz#9647497a92326ba9d758051c914f15004d524bb9"
+  integrity sha512-Mvf3gJFzZCkhjY2Y/Fx9z1m3dxbza0uI9H1CbNZm/jSHCojzJhQ0R7bByrlFJINnMzz/gPulpoFFGymNwrsMcw==
   dependencies:
     "@emotion/is-prop-valid" "1.2.2"
     "@emotion/unitless" "0.8.1"
