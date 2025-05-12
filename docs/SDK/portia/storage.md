@@ -861,14 +861,12 @@ def save_tool_call(tool_call: ToolCallRecord) -> None
 
 Save a tool call to Portia Cloud.
 
+This method attempts to save the tool call to Portia Cloud but will not raise exceptions
+if the request fails. Instead, it logs the error and continues execution.
+
 **Arguments**:
 
 - `tool_call` _ToolCallRecord_ - The ToolCallRecord object to save to the cloud.
-  
-
-**Raises**:
-
-- `StorageError` - If the request to Portia Cloud fails.
 
 #### save\_plan\_run\_output
 

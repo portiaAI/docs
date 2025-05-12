@@ -44,7 +44,6 @@ within a PlanRun including metadata, input and output data, and status.
   belongs.
 - `step` _int_ - The step number of the tool call in the PlanRun.
 - `end_user_id` _str | None_ - The ID of the end user, if applicable. Can be None.
-- `additional_data` _dict[str, str]_ - Additional data from the execution context.
 - `status` _ToolCallStatus_ - The current status of the tool call (e.g., IN_PROGRESS, SUCCESS).
 - `input` _Any_ - The input data passed to the tool call.
 - `output` _Any_ - The output data returned from the tool call.

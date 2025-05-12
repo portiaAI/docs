@@ -8,7 +8,7 @@ package-mode = false
 [tool.poetry.dependencies]
 python = ">=3.11,<3.14"
 pytest-examples = "^0.0.15"
-portia-sdk-python = { git = "https://github.com/portiaAI/portia-sdk-python.git", branch = "main", extras = ["all"] }
+portia-sdk-python = { version = "^0.3.3", extras = ["all"], allow-prereleases = true }
 
 
 [tool.poetry.group.dev.dependencies]

@@ -153,8 +153,6 @@ You should be able to inspect the state changes for the above plan run in the lo
 <small>Animation above made on the brilliant <a href="https://snappify.com" target="_blank">**snappify.com ↗**</a>.</small>
 
 
-
-
 ## Run from a pre-expressed plan
 <details>
 <summary>**Tavily API key required**</summary>
@@ -222,6 +220,40 @@ print(plan_run.model_dump_json(indent=2))
 :::note[Track plan run states in logs]
 You can track plan run state changes live as they occur through the logs by setting `default_log_level` to DEBUG in the `Config` of your `Portia` instance (<a href="/manage-config#manage-logging" target="_blank">**Manage logging ↗**</a>).
 :::
+
+## Run a plan stored in Portia cloud
+
+When you set the storage_class property to CLOUD in the config of your Portia instance (see <a href="/manage-config##manage-storage-options" target="_blank">**Manage storage options ↗**</a> for more details), plans will automatically be stored in the cloud once created. You can then easily retrieve plans from storage in order to run them:
+
+```python
+from dotenv import load_dotenv
+from portia import (
+    Portia,
+    default_config,
+    Config,
+    StorageClass,
+    PlanUUID
+)
+
+# Load the Portia API key
+load_dotenv()
+
+# Set up the Portia instance to use cloud storage
+config = Config.from_default(storage_class=StorageClass.CLOUD)
+portia = Portia(config=config)
+
+# This will create a plan that is stored in Portia Cloud
+plan = portia.plan('Which stock price grew faster in 2024, Amazon or Google?')
+
+# We can then either run the plan directly from the object...
+run = portia.run_plan(plan=plan)
+
+# Or we can use the ID so that the plan is loaded from storage
+run = portia.run_plan(plan=PlanUUID.from_string("plan-f8003b53-9b62-44e2-ac67-887146c07949"))
+```
+
+This can be very useful if you want to run a plan from a different process to the one that created the plan.
+
 
 ## Run using plan inputs
 

@@ -27,9 +27,9 @@ Represents an argument for a tool as extracted from the goal and context.
 **Attributes**:
 
 - `name` _str_ - The name of the argument, as requested by the tool.
+- `explanation` _str_ - Explanation of the source for the value of the argument.
 - `value` _Any | None_ - The value of the argument, as provided in the goal or context.
 - `valid` _bool_ - Whether the value is a valid type and/or format for the given argument.
-- `explanation` _str_ - Explanation of the source for the value of the argument.
 
 ## ToolInputs Objects
 
@@ -262,7 +262,8 @@ def __init__(step: Step,
              config: Config,
              agent_memory: AgentMemory,
              end_user: EndUser,
-             tool: Tool | None = None) -> None
+             tool: Tool | None = None,
+             execution_hooks: ExecutionHooks | None = None) -> None
 ```
 
 Initialize the agent.
@@ -275,6 +276,7 @@ Initialize the agent.
 - `agent_memory` _AgentMemory_ - The agent memory to be used for the task.
 - `end_user` _EndUser_ - The end user for this execution
 - `tool` _Tool | None_ - The tool to be used for the task (optional).
+- `execution_hooks` _ExecutionHooks | None_ - The execution hooks for the agent.
 
 #### clarifications\_or\_continue
 
