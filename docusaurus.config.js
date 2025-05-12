@@ -18,9 +18,9 @@ const config = {
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
 
-  plugins: [require.resolve("docusaurus-lunr-search"), 'docusaurus2-dotenv-2'],
+  plugins: [require.resolve("docusaurus-lunr-search"), "docusaurus2-dotenv-2"],
 
-  clientModules: ['./src/clientModules/posthog.ts'],
+  clientModules: ["./src/clientModules/posthog.ts"],
   // Even if you don't use internalization, you can use this field to set useful
   // metadata like html lang. For example, if your site is Chinese, you may want
   // to replace "en" with "zh-Hans".
