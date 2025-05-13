@@ -277,5 +277,5 @@ This value will then be used for the `$city` input in the plan and we will find 
 ```python skip=true
 # Specify the values for those inputs when you run the plan
 plan_run_inputs = {"name": "$city", "value": "London"}
-plan_run = portia.run("Get the temperature for the provided city", plan_run_inputs=plan_run_inputs)
+plan_run = portia.run("Get the temperature for the provided city", plan_run_inputs=[plan_run_inputs])
 ```
