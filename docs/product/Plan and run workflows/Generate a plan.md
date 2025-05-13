@@ -141,10 +141,14 @@ The `plan` method can take the following additional parameters:
 - `tools` in order to confine the plan generation to a narrower set of tools if required (for simplicity or for user-access considerations). In our example above we provided the `example_tool_registry`, which is a collection of three open source tools in our SDK.
 - `example_plans` expects a list of `Plan` objects. This allows you to use existing plans as inspiration or templates, which improves repeatability for more routine plan runs.
 
-## Plan Builder
-If you don't want to create plans via LLM, and instead have structured steps that you know in advance or can create with templating or other structured methods, then the PlanBuilder interface can be used. The process to create a plan via the PlanBuilder interface is to outline all the steps, inputs and outputs needed, and the build the object into a Plan Object.
+## Build a plan manually
+If you prefer to explicitly define a plan step by step rather than rely our planning agent, e.g. for established processes in your business, you can use the PlanBuilder interface. This obviously implies outlining all the steps, inputs, outputs and tools.
 
-The plan is built up iteratively, with each function building on the previous part, `.step` adds a step to the end of a plan, `.input` and `.condition` adds to the last step added (but can be overwritten with a step_index variable). Finally, it needs to be built via `.build`
+The `PlanBuilder` offers methods to create each part of the plan iteratively
+- `.step` method adds a step to the end of the plan. It takes a task, toold and output name as argument
+- `.input` and `.condition` methods add to the last step added, but can be overwritten with a step_index variable, and map outputs from one step to inputs of chosen (default last step), or considerations
+- `.build` finally builds the `Plan` objective
+
 ```python title='plan_builder.py'
 from portia.plan import PlanBuilder
 
