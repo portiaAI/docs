@@ -3,7 +3,7 @@
 
 <a href="https://www.portialabs.ai">Portia AI</a> is an open-source, multi-agent framework for running reliable production grade agents (<a href="https://github.com/portiaAI/portia-sdk-python">**github repo here↗**</a>). The framework enables both browser-based and API based agents.
 
-For browser-based agents, Portia AI uses Browserbase to enable persistent authentication. When the browser agent needs to authenticate to achieve the task, it creates a structured `clarification` (TODO -- insert link) with a browserbase debug URL (TODO -- insert link) that the user can sign in. Portia incorporates the concept of end-user into the framework to delineate the OAuth tokens and browserbase sessions associated with them. This enables deverlopers to create powerful applications that can be used by anyone.
+For browser-based agents, Portia AI uses Browserbase to enable persistent authentication. When the browser agent needs to authenticate to achieve the task, it creates a <a href="https://docs.portialabs.ai/understand-clarifications">structured `clarification`</a> with a <a href="https://docs.browserbase.com/guides/authentication#use-the-session-live-view-to-login">browserbase live session URL</a> that the user can use to sign in. Portia incorporates the concept of end-user into the framework to delineate the OAuth tokens and browserbase sessions associated with them. This enables deverlopers to create powerful applications that can be used by anyone.
 
 Here are some examples of the kinds of queries that can be handled in 20 lines of code with the Portia / Browserbase integration:
 - Send a message to Bob Smith on LinkedIn asking him if he's free on Tuesday for a meeting.
@@ -12,5 +12,7 @@ Here are some examples of the kinds of queries that can be handled in 20 lines o
 
 The below video shows how you can make a LinkedIn agent with Browserbase and Portia AI:
 
-TODO: include link
+<div style={{ position: 'relative', paddingBottom: '64.90384615384616%', height: '0' }}>
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/hSq8Ww-hagg?si=frZ9F3XsB8xMnYey" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
 
