@@ -22,26 +22,6 @@ The `Portia` class provides methods to:
 Modules in this file work with different storage backends (memory, disk, cloud) and can handle
 complex queries using various planning and execution agent configurations.
 
-## ExecutionHooks Objects
-
-```python
-class ExecutionHooks()
-```
-
-Hooks that can be used to modify or add extra functionality to the run of a plan.
-
-Currently, the only hook is a clarification handler which can be used to handle clarifications
-that arise during the run of a plan.
-
-#### \_\_init\_\_
-
-```python
-def __init__(
-        clarification_handler: ClarificationHandler | None = None) -> None
-```
-
-Initialize ExecutionHooks with default values.
-
 ## Portia Objects
 
 ```python
@@ -84,12 +64,14 @@ Handle initializing the end_user based on the provided type.
 #### run
 
 ```python
-def run(query: str,
-        tools: list[Tool] | list[str] | None = None,
-        example_plans: list[Plan] | None = None,
-        end_user: str | EndUser | None = None,
-        plan_run_inputs: dict[PlanInput, Serializable] | None = None
-        ) -> PlanRun
+def run(
+    query: str,
+    tools: list[Tool] | list[str] | None = None,
+    example_plans: list[Plan] | None = None,
+    end_user: str | EndUser | None = None,
+    plan_run_inputs: list[PlanInput] | list[dict[str, str]] | dict[str, str]
+    | None = None
+) -> PlanRun
 ```
 
 End-to-end function to generate a plan and then execute it.
@@ -104,8 +86,10 @@ This is the simplest way to plan and execute a query using the SDK.
 - `example_plans` _list[Plan] | None_ - Optional list of example plans. If not
   provide a default set of example plans will be used.
 - `end_user` _str | EndUser | None = None_ - The end user for this plan run.
-- `plan_run_inputs` _dict[PlanInput, Serializable] | None_ - Optional dictionary mapping
-  PlanInput objects to their values.
+  plan_run_inputs (list[PlanInput] | list[dict[str, str]] | dict[str, str] | None):
+  Provides input values for the run. This can be a list of PlanInput objects, a list
+  of dicts with keys &quot;name&quot;, &quot;description&quot; (optional) and &quot;value&quot;, or a dict of
+  plan run input name to value.
   
 
 **Returns**:
@@ -115,11 +99,14 @@ This is the simplest way to plan and execute a query using the SDK.
 #### plan
 
 ```python
-def plan(query: str,
-         tools: list[Tool] | list[str] | None = None,
-         example_plans: list[Plan] | None = None,
-         end_user: str | EndUser | None = None,
-         plan_inputs: list[PlanInput] | None = None) -> Plan
+def plan(
+    query: str,
+    tools: list[Tool] | list[str] | None = None,
+    example_plans: list[Plan] | None = None,
+    end_user: str | EndUser | None = None,
+    plan_inputs: list[PlanInput] | list[dict[str, str]] | list[str]
+    | None = None
+) -> Plan
 ```
 
 Plans how to do the query given the set of tools and any examples.
@@ -132,8 +119,11 @@ Plans how to do the query given the set of tools and any examples.
 - `example_plans` _list[Plan] | None_ - Optional list of example plans. If not
   provide a default set of example plans will be used.
 - `end_user` _str | EndUser | None = None_ - The optional end user for this plan.
-- `plan_inputs` _list[PlanInput] | None_ - Optional list of PlanInput objects defining
-  the inputs required for the plan.
+- `plan_inputs` _list[PlanInput] | None_ - Optional list of inputs required for the plan.
+  This can be a list of Planinput objects, a list of dicts with keys &quot;name&quot; and
+  &quot;description&quot; (optional), or a list of plan run input names. If a value is provided
+  with a PlanInput object or in a dictionary, it will be ignored as values are only
+  used when running the plan.
   
 
 **Returns**:
@@ -149,9 +139,12 @@ Plans how to do the query given the set of tools and any examples.
 
 ```python
 def run_plan(
-        plan: Plan | PlanUUID | UUID,
-        end_user: str | EndUser | None = None,
-        plan_run_inputs: dict[PlanInput, Serializable] | None = None
+    plan: Plan | PlanUUID | UUID,
+    end_user: str | EndUser | None = None,
+    plan_run_inputs: list[PlanInput]
+    | list[dict[str, Serializable]]
+    | dict[str, Serializable]
+    | None = None
 ) -> PlanRun
 ```
 
@@ -162,8 +155,10 @@ Run a plan.
 - `plan` _Plan | PlanUUID | UUID_ - The plan to run, or the ID of the plan to load from
   storage.
 - `end_user` _str | EndUser | None = None_ - The end user to use.
-- `plan_run_inputs` _dict[PlanInput, Serializable] | None_ - Optional dictionary mapping
-  PlanInput objects to their values.
+  plan_run_inputs (list[PlanInput] | list[dict[str, Serializable]] | dict[str, Serializable] | None):
+  Provides input values for the run. This can be a list of PlanInput objects, a list
+  of dicts with keys &quot;name&quot;, &quot;description&quot; (optional) and &quot;value&quot;, or a dict of
+  plan run input name to value.
   
 
 **Returns**:
@@ -277,11 +272,9 @@ This is generally because there are outstanding clarifications that need to be r
 #### create\_plan\_run
 
 ```python
-def create_plan_run(
-        plan: Plan,
-        end_user: str | EndUser | None = None,
-        plan_run_inputs: dict[PlanInput, Serializable] | None = None
-) -> PlanRun
+def create_plan_run(plan: Plan,
+                    end_user: str | EndUser | None = None,
+                    plan_run_inputs: list[PlanInput] | None = None) -> PlanRun
 ```
 
 Create a PlanRun from a Plan.
@@ -290,7 +283,7 @@ Create a PlanRun from a Plan.
 
 - `plan` _Plan_ - The plan to create a plan run from.
 - `end_user` _str | EndUser | None = None_ - The end user this plan run is for.
-- `plan_run_inputs` _dict[PlanInput, Serializable] | None = None_ - The plan inputs for the
+- `plan_run_inputs` _list[PlanInput] | None = None_ - The plan inputs for the
   plan run with their values.
   
 

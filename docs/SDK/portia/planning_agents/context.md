@@ -13,7 +13,8 @@ def render_prompt_insert_defaults(
         tool_list: list[Tool],
         end_user: EndUser,
         examples: list[Plan] | None = None,
-        plan_inputs: list[PlanInput] | None = None) -> str
+        plan_inputs: list[PlanInput] | None = None,
+        previous_errors: list[StepsOrError] | None = None) -> str
 ```
 
 Render the prompt for the PlanningAgent with defaults inserted if not provided.

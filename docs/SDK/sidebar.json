@@ -11,6 +11,7 @@
           "type": "category"
         },
         "SDK/portia/execution_agents/base_execution_agent",
+        "SDK/portia/execution_agents/clarification_tool",
         "SDK/portia/execution_agents/context",
         "SDK/portia/execution_agents/default_execution_agent",
         "SDK/portia/execution_agents/execution_utils",
@@ -59,6 +60,7 @@
     "SDK/portia/config",
     "SDK/portia/end_user",
     "SDK/portia/errors",
+    "SDK/portia/execution_hooks",
     "SDK/portia/logger",
     "SDK/portia/mcp_session",
     "SDK/portia/model",

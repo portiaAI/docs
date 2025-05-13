@@ -76,9 +76,6 @@ Plan run states are captured in the `PlanRun` class (<a href="/SDK/portia/plan_r
       "plan_id": "plan-a89efeb0-51ef-4f2c-b435-a936c27c3cfc",
       "current_step_index": 2,
       "state": "COMPLETE",
-      "execution_context": {
-        "additional_data": {},
-      },
       "outputs": {
         "clarifications": [],
         "step_outputs": {
@@ -153,8 +150,6 @@ You should be able to inspect the state changes for the above plan run in the lo
 <small>Animation above made on the brilliant <a href="https://snappify.com" target="_blank">**snappify.com ↗**</a>.</small>
 
 
-
-
 ## Run from a pre-expressed plan
 <details>
 <summary>**Tavily API key required**</summary>
@@ -167,7 +162,6 @@ To get to an output that looks like the plan run example above, let's expand on 
 from dotenv import load_dotenv
 from portia import (
     Portia,
-    default_config,
     example_tool_registry,
 )
 
@@ -194,7 +188,7 @@ Here we are storing the `Plan` object returned by the `plan` method. We then use
 If you want to see an example where a user iterates on a plan before we proceed with plan run, take a look at the intro example in our <a href="https://github.com/portiaAI/portia-agent-examples/blob/main/get_started_google_tools/README.md" target="_blank">**examples repo (↗)**</a>.
 :::
 
-## Run a plan directly from a user query
+## Run directly from a user query
 <details>
 <summary>**Tavily API key required**</summary>
 
@@ -206,7 +200,6 @@ You can also run a plan immediately from the user query, without examining the `
 from dotenv import load_dotenv
 from portia import (
     Portia,
-    default_config,
     example_tool_registry,
 )
 
@@ -224,3 +217,65 @@ print(plan_run.model_dump_json(indent=2))
 :::note[Track plan run states in logs]
 You can track plan run state changes live as they occur through the logs by setting `default_log_level` to DEBUG in the `Config` of your `Portia` instance (<a href="/manage-config#manage-logging" target="_blank">**Manage logging ↗**</a>).
 :::
+
+## Run a plan stored in Portia cloud
+
+When you set the storage_class property to CLOUD in the config of your Portia instance (see <a href="/manage-config##manage-storage-options" target="_blank">**Manage storage options ↗**</a> for more details), plans will automatically be stored in the cloud once created. You can then easily retrieve plans from storage in order to run them:
+
+```python
+from dotenv import load_dotenv
+from portia import (
+    Portia,
+    default_config,
+    Config,
+    StorageClass,
+    PlanUUID
+)
+
+# Load the Portia API key
+load_dotenv()
+
+# Set up the Portia instance to use cloud storage
+config = Config.from_default(storage_class=StorageClass.CLOUD)
+portia = Portia(config=config)
+
+# This will create a plan that is stored in Portia Cloud
+plan = portia.plan('Which stock price grew faster in 2024, Amazon or Google?')
+
+# We can then either run the plan directly from the object...
+run = portia.run_plan(plan=plan)
+
+# Or we can use the ID so that the plan is loaded from storage
+run = portia.run_plan(plan=PlanUUID.from_string("plan-f8003b53-9b62-44e2-ac67-887146c07949"))
+```
+
+This can be very useful if you want to run a plan from a different process to the one that created the plan.
+
+
+## Run using plan inputs
+
+So far the starting point for all plan runs is a user query for a specific set of inputs e.g. "get the weather in Beirut". This is in contrast to a generalised query e.g. "get the weather for a given city" where the city is provided dynamically per plan run. The PlanInput abstraction allows you to use a generalised query or plan "template" where the input differs with every plan run.
+
+In the planning stage, you would define the list of plan inputs, providing a name and optional description for each, and pass those along with a generalised query as arguments to the portia.plan method. The planning agent is capable of generating a plan with "placeholders" for each plan input. To run that generalised plan, Portia then expects you to provide specific values for the inputs at each run.
+
+For example, consider a simple agent that tells you the weather in a particular city, with the city provided as a plan input.
+To set this up, we define the plan input for the planner as follows:
+```python
+from portia import Portia
+
+portia = Portia()
+
+# Specify the inputs you will use in the plan
+plan_input = {"name":"$city", "description": "The city to get the temperature for"}
+plan = portia.plan("Get the temperature for the provided city", plan_inputs=[plan_input])
+```
+
+This will create a single step plan that uses the weather tool with $city as an input to that tool.
+Then, when running the plan, we pass in a value for the input. In this case, we select "London".
+This value will then be used for the `$city` input in the plan and we will find the temperature in London.
+
+```python skip=true
+# Specify the values for those inputs when you run the plan
+plan_run_inputs = {"name": "$city", "value": "London"}
+plan_run = portia.run("Get the temperature for the provided city", plan_run_inputs=plan_run_inputs)
+```

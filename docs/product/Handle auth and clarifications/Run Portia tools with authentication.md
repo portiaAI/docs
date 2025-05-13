@@ -147,9 +147,6 @@ In your logs you should be able to see the tools, as well as a plan and final pl
         "plan_id": "plan-71fbe578-0c3f-4266-b5d7-933e8bb10ef2",
         "current_step_index": 1,
         "state": "COMPLETE",
-        "execution_context": {
-            "additional_data": {},
-        },
         "outputs": {
             "clarifications": [
                 {

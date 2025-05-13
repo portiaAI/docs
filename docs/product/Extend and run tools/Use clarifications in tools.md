@@ -159,9 +159,6 @@ For the example query above `Read the contents of the file "weather.txt".`, wher
   "plan_id": "plan-b87de5ac-41d9-4722-8baa-8015327511db",
   "current_step_index": 0,
   "state": "COMPLETE",
-  "execution_context": {
-    "additional_data": {},
-  },
   "outputs": {
     "clarifications": [
       {
