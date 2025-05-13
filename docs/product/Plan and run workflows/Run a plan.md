@@ -269,7 +269,7 @@ from portia import Portia
 portia = Portia()
 
 # Specify the inputs you will use in the plan
-plan_input = {"name":"$city", "description"="The city to get the temperature for"}
+plan_input = {"name":"$city", "description": "The city to get the temperature for"}
 plan = portia.plan("Get the temperature for the provided city", plan_inputs=[plan_input])
 ```
 
