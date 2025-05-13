@@ -8,7 +8,7 @@ import TabItem from '@theme/TabItem';
 
 # Using browser tools
 
-Browser tools (<a href="/SDK/portia/open_source_tools/browser_tool.py" target="_blank">**SDK ↗**</a>) can deploy an agent to browse the internet and retrieve data or enact actions on your behalf. Portia will use Browser tools when it recognises there is a web-based task to be performed. We use the <a href="https://browser-use.com" target="_blank">**Browser Use (↗)**</a> library to offer a multi-modal web agent that will visually and textually analyse a website in order to navigate it and carry out a task.
+Browser tools (<a href="/SDK/portia/open_source_tools/browser_tool" target="_blank">**SDK ↗**</a>) can deploy an agent to browse the internet and retrieve data or enact actions on your behalf. Portia will use Browser tools when it recognises there is a web-based task to be performed. We use the <a href="https://browser-use.com" target="_blank">**Browser Use (↗)**</a> library to offer a multi-modal web agent that will visually and textually analyse a website in order to navigate it and carry out a task.
 
 Our browser tool can be used in two modes:
 - **Remote mode**: Runs on a remote chromium instance using <a href="https://www.browserbase.com/" target="_blank">**Browserbase (↗)**</a> as the underlying infrastructure. Browserbase offers infrastructure for headless browsers remotely. We spin up remote sessions for your end-users which persist through clarifications.
