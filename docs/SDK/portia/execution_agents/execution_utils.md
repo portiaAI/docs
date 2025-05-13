@@ -55,6 +55,24 @@ should continue, or if the run should end.
 
   Literal[AgentNode.TOOLS, END]: The next state to transition to.
 
+#### get\_arg\_value\_with\_templating
+
+```python
+def get_arg_value_with_templating(step_inputs: list[StepInput],
+                                  arg: Any) -> Any
+```
+
+Return the value of an argument, handling any templating required.
+
+#### template\_in\_required\_inputs
+
+```python
+def template_in_required_inputs(response: BaseMessage,
+                                step_inputs: list[StepInput]) -> BaseMessage
+```
+
+Template any required inputs into the tool calls.
+
 #### process\_output
 
 ```python
