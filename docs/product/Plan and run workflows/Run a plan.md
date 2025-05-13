@@ -76,9 +76,6 @@ Plan run states are captured in the `PlanRun` class (<a href="/SDK/portia/plan_r
       "plan_id": "plan-a89efeb0-51ef-4f2c-b435-a936c27c3cfc",
       "current_step_index": 2,
       "state": "COMPLETE",
-      "execution_context": {
-        "additional_data": {},
-      },
       "outputs": {
         "clarifications": [],
         "step_outputs": {
@@ -269,7 +266,7 @@ from portia import Portia
 portia = Portia()
 
 # Specify the inputs you will use in the plan
-plan_input = {"name":"$city", "description"="The city to get the temperature for"}
+plan_input = {"name":"$city", "description": "The city to get the temperature for"}
 plan = portia.plan("Get the temperature for the provided city", plan_inputs=[plan_input])
 ```
 

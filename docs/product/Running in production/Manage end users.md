@@ -6,9 +6,11 @@ slug: /manage-end-users
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Handle multiple end users
+# Managing end users
 
-Portia has been built from the ground up for production deployments and one of the most important aspects of this is having a first class representation of your users within Portia. We call these entities end users, the people or companies that you are running agentic workflows for. 
+Whilst building an agent for yourself can be very rewarding most agentic use cases run for many users. For example you may be an engineer creating a new agent for all the staff in your business. It may be important for the agent to know information about the specific member of staff that the agent is running for. Imagine a query like "Send me a summary of the latest results". This requires information about who the "me" is.
+
+Portia has been built from the ground up for production deployments and so has a first class representation of your users within Portia. We call these entities end users, the people or companies that you are running agentic workflows for. 
 
 
 :::tip[TL;DR]
@@ -16,7 +18,11 @@ The `EndUser` class can be used to represent your users within `Portia`.
 - The `external_id` field in an `EndUser` object uniquely represents the end user in your system e.g. an internal ID or an email address.
 - `names`, `emails` and `phone_numbers` can all be stored against this object. They can dynamically be updated in tools with changes made to `end_user` models being persisted in storage.
 - `additional_data` can be used to pass user specific info that may be relevant to the response such as title and department.
-- If you don't provide an `end_user` the system will generate an `end_user` to represent you as the developer. This is useful if you're building a system with only one user.
+- Authentication is tied to the end user you use when executing a `plan_run`. This allows us to re-use Oauth tokens (subject to your token retention policy) improving user experience.
+:::
+
+:::info[Important]
+- If you don't provide an `end_user` the system will generate an `end_user` to represent you as the developer. This is useful if you're building a system with only one user. You'll see this represented as users with the prefix `portia::`.
 :::
 
 
@@ -36,7 +42,6 @@ from portia import (
     Portia,
     default_config,
     example_tool_registry,
-    execution_context,
 )
 from portia.end_user import EndUser
 
@@ -63,7 +68,7 @@ plan_run = portia.run(
 print(plan_run.model_dump_json(indent=2))
 ```
 
-The result of this code block will be the addition of an `end_user` within the `PlanRun` state, and a `final_output` that is indeed personalised to Saint Nicholas (known by his stage name Santa Claus):
+The result of this code block will be the addition of an `end_user_id` within the `PlanRun` state, and a `final_output` that is indeed personalised to Saint Nicholas (known by his stage name Santa Claus):
 ```json title="plan_run_state.json"
 {
   "id": "prun-d9991518-92d7-447f-bf28-4f7b9b8110ce",
@@ -72,10 +77,7 @@ The result of this code block will be the addition of an `end_user` within the `
   "clarifications": [],
   "state": "COMPLETE",
   # highlight-start
-  "end_user": { 
-    "external_id": "DemoUser123",
-    "name": "Nicholas of Patara",
-  },
+  "end_user_id":  "DemoUser123",
   # highlight-end
   "step_outputs": {
     "$svalbard_temperature": {
@@ -124,6 +126,31 @@ class EndUserUpdateTool(Tool):
         ctx.end_user.name = name
         ctx.end_user.set_attribute("has_name_update", "true")
         return name
+```
+
+## End User State Management
+
+As we mentioned above End Users are first class citizens in the Portia Ecosystem. This means they are independent entities with their own state. Changes you make to them are persisted in storage and we refresh the state before commencing `plan_runs`. 
+
+This is particularly relevant for the `additional_data` field on the End User. This field allows you to store any additional data you like against users. This can either be done through the cloud interface, by providing it when running a plan, or by updating it in a tool. 
+
+```python title="main.py"
+from dotenv import load_dotenv
+from portia import (
+    Portia,
+    default_config,
+    example_tool_registry,
+)
+from portia.end_user import EndUser
+
+load_dotenv()
+
+portia = Portia(tools=example_tool_registry)
+
+plan_run = portia.run(
+    "Get the temperature in Svalbard and write me a personalized greeting with the result.",
+    end_user=EndUser(external_id="my_user_id_123", name="Nicholas of Patara", additional_data={"weather_preferences": "I prefer my weather in the form of a Haiku"})
+)
 ```
 
 ## End User and OAuth tokens
