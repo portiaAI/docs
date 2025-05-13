@@ -45,5 +45,3 @@ portia = Portia(config=my_config,
 
 plan_run = portia.run(task, end_user="end_user")
 ```
-
-# TODO(Emma) -- add linear for a full tutorial
