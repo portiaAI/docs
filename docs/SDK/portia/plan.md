@@ -197,22 +197,6 @@ Return the pretty print representation of the plan input.
 
 - `str` - A pretty print representation of the input&#x27;s name, and description.
 
-#### \_\_hash\_\_
-
-```python
-def __hash__() -> int
-```
-
-Make PlanInput hashable by using name and description as the hash key.
-
-#### \_\_eq\_\_
-
-```python
-def __eq__(other: object) -> bool
-```
-
-Compare PlanInput objects for equality based on name.
-
 ## Step Objects
 
 ```python
