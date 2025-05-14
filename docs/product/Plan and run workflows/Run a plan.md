@@ -222,7 +222,7 @@ You can track plan run state changes live as they occur through the logs by sett
 
 When you set the storage_class property to CLOUD in the config of your Portia instance (see <a href="/manage-config##manage-storage-options" target="_blank">**Manage storage options ↗**</a> for more details), plans will automatically be stored in the cloud once created. You can then easily retrieve plans from storage in order to run them:
 
-```python
+```python skip=true
 from dotenv import load_dotenv
 from portia import (
     Portia,
@@ -277,5 +277,5 @@ This value will then be used for the `$city` input in the plan and we will find 
 ```python skip=true
 # Specify the values for those inputs when you run the plan
 plan_run_inputs = {"name": "$city", "value": "London"}
-plan_run = portia.run("Get the temperature for the provided city", plan_run_inputs=plan_run_inputs)
+plan_run = portia.run("Get the temperature for the provided city", plan_run_inputs=[plan_run_inputs])
 ```
