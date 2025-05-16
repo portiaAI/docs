@@ -47,7 +47,7 @@ portia = Portia(config=my_config,
 plan_run = portia.run(task, end_user="end_user1")
 ```
 
-4/ Create an agent with authentication!
+## 4/ Create an agent with authentication!
 
 Whenever a browser tool encounters a page that requires authentication, it will raise a clarification request to the user. The user will need to provide the necessary credentials or authentication information into the website displayed via a Browserbase live link to proceed. The cookies for that authentication can then be reused for future agent plan runs until they expire (and the user will be asked to authenticate again). To use authentication within Portia and Browserbase, a paid version of Browserbase is required.
 
