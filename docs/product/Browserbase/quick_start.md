@@ -1,3 +1,4 @@
+# Quickstart
 # Get started with authenticated web agents
 ## Build a web agent that can authenticate as a user for advanced web browsing capabilities
 
