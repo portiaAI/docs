@@ -10,6 +10,7 @@ Then copy your API Key directly from the input and set the BROWSERBASE_API_KEY a
 
 You will also need an API key for an LLM. The below example uses Anthropic by setting ANTHROPIC_API_KEY, but you can add OPENAI_API_KEY, GOOGLE_API_KEY or your own <a href="https://docs.portialabs.ai/manage-config#api-keys">local LLM</a>.
 
+
 ## 2/ Install Portia with Browserbase
 
 ```pip install portia-sdk-python[tools-browser-browserbase]```
