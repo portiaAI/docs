@@ -1,5 +1,10 @@
-# Portia AI integration
-## Persistent seamless authentication within a multi-agent framework
+---
+sidebar_position: 1
+slug: /introduction
+---
+
+# Introduction
+## Persistent seamless authentication within the Portia multi-agent framework
 
 <a href="https://www.portialabs.ai">Portia AI</a> is an open-source, multi-agent framework for running reliable production grade agents (<a href="https://github.com/portiaAI/portia-sdk-python">**github repo here↗**</a>). Its core tenets are to enable both multi-agent task planning with human feedback and stateful multi-agent task execution with human control. The framework enables both browser-based and API based agents.
 

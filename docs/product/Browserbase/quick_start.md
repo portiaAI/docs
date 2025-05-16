@@ -1,7 +1,7 @@
 # Get started with authenticated web agents
 ## Build a web agent that can authenticate as a user for advanced web browsing capabilities
 
-1/ Get your API key
+### 1/ Get your API key
 
 Go over the Dashboard’s Settings tab:
 
@@ -9,11 +9,11 @@ Then copy your API Key directly from the input and set the BROWSERBASE_API_KEY a
 
 You will also need an API key for an LLM. The below example uses Anthropic by setting ANTHROPIC_API_KEY, but you can add OPENAI_API_KEY, GOOGLE_API_KEY or your own <a href="https://docs.portialabs.ai/manage-config#api-keys">local LLM</a>.
 
-2/ Install Portia with Browserbase
+### 2/ Install Portia with Browserbase
 
 ```pip install portia-sdk-python[tools-browser-browserbase]```
 
-3/ Create a simple agent
+### 3/ Create a simple agent
 
 The below simple agent examples works with the free trial version of Browserbase to retrieve the headlines from a news website.
 
