@@ -103,6 +103,62 @@ def _get_function_color_(record: Any) -> str
 
 Get color based on function/module name. Default is white.
 
+## SafeLogger Objects
+
+```python
+class SafeLogger(LoggerInterface)
+```
+
+A logger that catches exceptions and logs them to the child logger.
+
+#### \_\_init\_\_
+
+```python
+def __init__(child_logger: LoggerInterface) -> None
+```
+
+Initialize the SafeLogger.
+
+#### debug
+
+```python
+def debug(msg: str, *args: Any, **kwargs: Any) -> None
+```
+
+Wrap the child logger&#x27;s debug method to catch exceptions.
+
+#### info
+
+```python
+def info(msg: str, *args: Any, **kwargs: Any) -> None
+```
+
+Wrap the child logger&#x27;s info method to catch exceptions.
+
+#### warning
+
+```python
+def warning(msg: str, *args: Any, **kwargs: Any) -> None
+```
+
+Wrap the child logger&#x27;s warning method to catch exceptions.
+
+#### error
+
+```python
+def error(msg: str, *args: Any, **kwargs: Any) -> None
+```
+
+Wrap the child logger&#x27;s error method to catch exceptions.
+
+#### critical
+
+```python
+def critical(msg: str, *args: Any, **kwargs: Any) -> None
+```
+
+Wrap the child logger&#x27;s critical method to catch exceptions.
+
 ## LoggerManager Objects
 
 ```python

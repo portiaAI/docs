@@ -43,6 +43,8 @@ Subclasses must implement the methods to save and retrieve plans.
   Save a plan.
   get_plan(self, plan_id: PlanUUID) -&gt; Plan:
   Get a plan by ID.
+  plan_exists(self, plan_id: PlanUUID) -&gt; bool:
+  Check if a plan exists without raising an error.
 
 #### save\_plan
 
@@ -79,6 +81,29 @@ Retrieve a plan by its ID.
 **Returns**:
 
 - `Plan` - The Plan object associated with the provided plan_id.
+  
+
+**Raises**:
+
+- `NotImplementedError` - If the method is not implemented.
+
+#### plan\_exists
+
+```python
+@abstractmethod
+def plan_exists(plan_id: PlanUUID) -> bool
+```
+
+Check if a plan exists without raising an error.
+
+**Arguments**:
+
+- `plan_id` _PlanUUID_ - The UUID of the plan to check.
+  
+
+**Returns**:
+
+- `bool` - True if the plan exists, False otherwise.
   
 
 **Raises**:
@@ -405,6 +430,23 @@ Get plan from dict.
 
 - `PlanNotFoundError` - If the plan is not found.
 
+#### plan\_exists
+
+```python
+def plan_exists(plan_id: PlanUUID) -> bool
+```
+
+Check if a plan exists in memory.
+
+**Arguments**:
+
+- `plan_id` _PlanUUID_ - The UUID of the plan to check.
+  
+
+**Returns**:
+
+- `bool` - True if the plan exists, False otherwise.
+
 #### save\_plan\_run
 
 ```python
@@ -584,6 +626,23 @@ Retrieve a Plan object by its ID.
 **Raises**:
 
 - `PlanNotFoundError` - If the Plan is not found or validation fails.
+
+#### plan\_exists
+
+```python
+def plan_exists(plan_id: PlanUUID) -> bool
+```
+
+Check if a plan exists on disk.
+
+**Arguments**:
+
+- `plan_id` _PlanUUID_ - The UUID of the plan to check.
+  
+
+**Returns**:
+
+- `bool` - True if the plan exists, False otherwise.
 
 #### save\_plan\_run
 
@@ -789,6 +848,23 @@ Retrieve a plan from Portia Cloud.
 **Raises**:
 
 - `StorageError` - If the request to Portia Cloud fails or the plan does not exist.
+
+#### plan\_exists
+
+```python
+def plan_exists(plan_id: PlanUUID) -> bool
+```
+
+Check if a plan exists in Portia Cloud.
+
+**Arguments**:
+
+- `plan_id` _PlanUUID_ - The UUID of the plan to check.
+  
+
+**Returns**:
+
+- `bool` - True if the plan exists, False otherwise.
 
 #### save\_plan\_run
 
