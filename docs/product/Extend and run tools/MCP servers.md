@@ -56,7 +56,7 @@ The `server_name` argument is used by Portia to identify where tools have come f
                 "GITHUB_PERSONAL_ACCESS_TOKEN",
                 "ghcr.io/github/github-mcp-server"
             ],
-            "env": {
+            env={
                 "GITHUB_PERSONAL_ACCESS_TOKEN": "<YOUR TOKEN>"
             }
         )
