@@ -24,13 +24,22 @@ import Intro from '@site/docs/_lib/_tool-intro-open-source.mdx';
       "title": "Task",
       "type": "string"
     },
-    "input_data": {
-      "description": "Any relevant data that should be used to complete the task. Important: This should include all relevant data in their entirety, from the first to the last character (i.e. NOT a summary).",
-      "items": {
-        "type": "string"
-      },
-      "title": "Input Data",
-      "type": "array"
+    "task_data": {
+      "anyOf": [
+        {
+          "items": {},
+          "type": "array"
+        },
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Task data that should be used to complete the task. Can be a string, a list of strings, or a list of objects that will be converted to strings. Important: This should include all relevant data in their entirety, from the first to the last character (i.e. NOT a summary).",
+      "title": "Task Data"
     }
   },
   "required": [
