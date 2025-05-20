@@ -44,7 +44,7 @@ The `server_name` argument is used by Portia to identify where tools have come f
                 f"--api-key={os.getenv('STRIPE_API_KEY')}",
             ],
         )
-        # Integrates an MCP server using docker
+        # Integrates Github MCP server using docker
         + McpToolRegistry.from_stdio_connection(
             server_name="github",
             command="docker",
@@ -57,7 +57,7 @@ The `server_name` argument is used by Portia to identify where tools have come f
                 "ghcr.io/github/github-mcp-server"
             ],
             "env": {
-            "GITHUB_PERSONAL_ACCESS_TOKEN": "<YOUR TOKEN>"
+                "GITHUB_PERSONAL_ACCESS_TOKEN": "<YOUR TOKEN>"
             }
         )
         + DefaultToolRegistry(config)
@@ -92,7 +92,7 @@ The `server_name` argument is used by Portia to identify where tools have come f
 </Tabs>
 
 :::info[Pre-requisites]
-To run the stdio example, make sure `npx` is available in your environment. Many MCP servers are currently provided to run in this way, usually either run with the `npx` or `uvx` command. For other MCP servers that use `docker`, make sure that `docker` is available and running in your environment.
+To run the stdio example, make sure `npx` and `docker` are available in your environment. Many MCP servers are currently provided to run in this way, usually either run with the `npx`, `docker` or `uvx` command.
 :::
 
 When you provide a `McpToolRegistry`, Portia will pull in the tool definitions from the MCP server, making them available to the Planner and Execution Agents during a plan run. To see an example of this implementation, head over to our agent-examples repo where we built an agent to manage customer refunds (<a href="https://github.com/portiaAI/portia-agent-examples/tree/main/refund-agent-mcp" target="_blank">**↗**</a>).
