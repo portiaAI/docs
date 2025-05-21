@@ -1,0 +1,9 @@
+{
+  "label": "Telemetry",
+  "position": 7,
+  "link": {
+    "type": "generated-index",
+    "slug": "telemetry",
+    "description": "Understand Portia's telemetry and privacy settings"
+  }
+}
