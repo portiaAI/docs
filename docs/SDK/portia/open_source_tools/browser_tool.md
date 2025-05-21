@@ -54,7 +54,7 @@ This schema defines the expected input parameters for the BrowserTool class.
 ## BrowserTaskOutput Objects
 
 ```python
-class BrowserTaskOutput(BaseModel)
+class BrowserTaskOutput(BaseModel, Generic[T])
 ```
 
 Output schema for browser task execution.
@@ -64,7 +64,7 @@ including both the task result and any authentication requirements.
 
 **Attributes**:
 
-- `task_output` _str_ - The result or output from executing the requested task.
+- `task_output` _T_ - The result or output from executing the requested task.
 - `human_login_required` _bool_ - Indicates if manual user authentication is needed.
   Defaults to False.
 - `login_url` _str, optional_ - The URL where the user needs to go to authenticate.
@@ -92,7 +92,7 @@ This enum defines the available options for running browser automation tasks.
 ## BrowserTool Objects
 
 ```python
-class BrowserTool(Tool[str])
+class BrowserTool(Tool[str | BaseModel])
 ```
 
 General purpose browser tool. Customizable to user requirements.
@@ -124,6 +124,8 @@ can handle separate end users. The infrastructure provider can be specified usin
 - `custom_infrastructure_provider` _BrowserInfrastructureProvider, optional_ - A custom
   infrastructure provider to use. If not provided, the infrastructure provider will be
   resolved from the `infrastructure_option` argument.
+- `id`0 _BaseModel, optional_ - A Pydantic model to use for structured
+  output. If not provided, the tool will return a string.
 
 #### infrastructure\_provider
 
@@ -137,7 +139,8 @@ Get the infrastructure provider instance (cached).
 #### run
 
 ```python
-def run(ctx: ToolRunContext, url: str, task: str) -> str | ActionClarification
+def run(ctx: ToolRunContext, url: str,
+        task: str) -> str | BaseModel | ActionClarification
 ```
 
 Run the BrowserTool.
@@ -199,7 +202,8 @@ Initialize the BrowserToolForUrl.
 #### run
 
 ```python
-def run(ctx: ToolRunContext, task: str) -> str | ActionClarification
+def run(ctx: ToolRunContext,
+        task: str) -> str | BaseModel | ActionClarification
 ```
 
 Run the BrowserToolForUrl.
