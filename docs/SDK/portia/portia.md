@@ -38,7 +38,8 @@ execution via ExecutionAgents.
 ```python
 def __init__(config: Config | None = None,
              tools: ToolRegistry | list[Tool] | None = None,
-             execution_hooks: ExecutionHooks | None = None) -> None
+             execution_hooks: ExecutionHooks | None = None,
+             telemetry: BaseProductTelemetry | None = None) -> None
 ```
 
 Initialize storage and tools.
@@ -52,6 +53,7 @@ Initialize storage and tools.
   from Portia cloud if a Portia API key is set.
 - `execution_hooks` _ExecutionHooks | None_ - Hooks that can be used to modify or add
   extra functionality to the run of a plan.
+- `telemetry` _BaseProductTelemetry | None_ - Anonymous telemetry service.
 
 #### initialize\_end\_user
 
@@ -121,7 +123,8 @@ Plans how to do the query given the set of tools and any examples.
 - `example_plans` _list[Plan] | None_ - Optional list of example plans. If not
   provide a default set of example plans will be used.
 - `end_user` _str | EndUser | None = None_ - The optional end user for this plan.
-- `plan_inputs` _list[PlanInput] | None_ - Optional list of inputs required for the plan.
+- `plan_inputs` _list[PlanInput] | list[dict[str, str]] | list[str] | None_ - Optional list
+  of inputs required for the plan.
   This can be a list of Planinput objects, a list of dicts with keys &quot;name&quot; and
   &quot;description&quot; (optional), or a list of plan run input names. If a value is provided
   with a PlanInput object or in a dictionary, it will be ignored as values are only
