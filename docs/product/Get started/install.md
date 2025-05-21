@@ -109,7 +109,7 @@ Let's submit a basic prompt to your LLM using our framework to make sure it's al
     <TabItem value="azure-openai" label="Azure OpenAI">
     To use Azure OpenAI from the CLI, just run:
     ```bash
-    portia-cli run --llm-provider="azure_openai" "add 1 + 2"
+    portia-cli run --llm-provider="azure-openai" "add 1 + 2"
     ```
     </TabItem>
 </Tabs>
