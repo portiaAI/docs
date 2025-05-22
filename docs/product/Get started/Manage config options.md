@@ -36,26 +36,118 @@ Options for setting the LLM provider are:
 
 #### Examples:
 
-Using the `LLMProvider` enum:
-```python
-from portia import LLMProvider, Config
+<Tabs groupId="llm-provider">
+    <TabItem value="openai" label="Open AI" default>
+        Using the `LLMProvider` enum:
+        ```python
+        from portia import LLMProvider, Config
 
-config = Config.from_default(llm_provider=LLMProvider.OPENAI)
-```
+        config = Config.from_default(llm_provider=LLMProvider.OPENAI)
+        ```
 
-Passing the Provider name as a string value:
-```python
-from portia import LLMProvider, Config
+        Passing the Provider name as a string value:
+        ```python
+        from portia import LLMProvider, Config
 
-config = Config.from_default(llm_provider="anthropic")
-```
+        config = Config.from_default(llm_provider="anthropic")
+        ```
 
-Inferred from environment variables (if `OPENAI_API_KEY=sk-...` is in the environment variables):
-```python
-from portia import LLMProvider, Config
+        Inferred from environment variables (if `OPENAI_API_KEY=sk-...` is in the environment variables):
+        ```python
+        from portia import LLMProvider, Config
 
-config = Config.from_default()  # config.llm_provider => LLMProvider.OPENAI
-```
+        config = Config.from_default()  # config.llm_provider => LLMProvider.OPENAI
+        ```
+    </TabItem>
+    <TabItem value="anthropic" label="Anthropic">
+        Using the `LLMProvider` enum:
+        ```python
+        from portia import LLMProvider, Config
+
+        config = Config.from_default(llm_provider=LLMProvider.ANTHROPIC)
+        ```
+
+        Passing the Provider name as a string value:
+        ```python
+        from portia import LLMProvider, Config
+
+        config = Config.from_default(llm_provider="anthropic")
+        ```
+
+        Inferred from environment variables (if `ANTHROPIC_API_KEY=sk-...` is in the environment variables):
+        ```python
+        from portia import LLMProvider, Config
+
+        config = Config.from_default()  # config.llm_provider => LLMProvider.ANTHROPIC
+        ```
+    </TabItem>
+    <TabItem value="mistralai" label="Mistral AI">
+        Using the `LLMProvider` enum:
+        ```python
+        from portia import LLMProvider, Config
+
+        config = Config.from_default(llm_provider=LLMProvider.MISTRALAI)
+        ```
+
+        Passing the Provider name as a string value:
+        ```python
+        from portia import LLMProvider, Config
+
+        config = Config.from_default(llm_provider="mistralai")
+        ```
+
+        Inferred from environment variables (if `MISTRAL_API_KEY=sk-...` is in the environment variables):
+        ```python
+        from portia import LLMProvider, Config
+
+        config = Config.from_default()  # config.llm_provider => LLMProvider.MISTRALAI
+        ```
+    </TabItem>
+    <TabItem value="google" label="Google">
+        Using the `LLMProvider` enum:
+        ```python
+        from portia import LLMProvider, Config
+
+        config = Config.from_default(llm_provider=LLMProvider.GOOGLE)
+        ```
+
+        Passing the Provider name as a string value:
+        ```python
+        from portia import LLMProvider, Config
+
+        config = Config.from_default(llm_provider="google")
+        ```
+
+        Inferred from environment variables (if `GOOGLE_API_KEY=sk-...` is in the environment variables):
+        ```python
+        from portia import LLMProvider, Config
+
+        config = Config.from_default()  # config.llm_provider => LLMProvider.GOOGLE
+        ```
+    </TabItem>
+    <TabItem value="azure-openai" label="Azure OpenAI">
+        Using the `LLMProvider` enum:
+        ```python skip=true
+        from portia import LLMProvider, Config
+
+        config = Config.from_default(llm_provider=LLMProvider.AZURE_OPENAI)
+        ```
+
+        Passing the Provider name as a string value:
+        ```python skip=true
+        from portia import LLMProvider, Config
+
+        config = Config.from_default(llm_provider="azure-openai")
+        ```
+
+        Inferred from environment variables (if `AZURE_OPENAI_API_KEY=sk-...` _and_ `AZURE_OPENAI_ENDPOINT=https://...` are in the environment variables):
+        ```python skip=true
+        from portia import LLMProvider, Config
+
+        config = Config.from_default()  # config.llm_provider => LLMProvider.AZURE_OPENAI
+        ```
+    </TabItem>
+</Tabs>
 
 ### API keys
 
