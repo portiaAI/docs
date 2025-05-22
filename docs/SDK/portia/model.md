@@ -56,8 +56,12 @@ Enum for supported LLM providers.
 - `OPENAI` - OpenAI provider.
 - `ANTHROPIC` - Anthropic provider.
 - `MISTRALAI` - MistralAI provider.
-- `GOOGLE_GENERATIVE_AI` - Google Generative AI provider.
+- `GOOGLE` - Google Generative AI provider.
 - `AZURE_OPENAI` - Azure OpenAI provider.
+
+#### GOOGLE\_GENERATIVE\_AI
+
+noqa: PIE796 - Alias for GOOGLE member
 
 ## GenerativeModel Objects
 
