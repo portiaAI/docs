@@ -103,13 +103,13 @@ Let's submit a basic prompt to your LLM using our framework to make sure it's al
     <TabItem value="google" label="Google GenAI">
     To use Google GenAI from the CLI, just run:
     ```bash
-    portia-cli run --llm-provider="google_generative_ai" "add 1 + 2"
+    portia-cli run --llm-provider="google" "add 1 + 2"
     ```
     </TabItem>
     <TabItem value="azure-openai" label="Azure OpenAI">
     To use Azure OpenAI from the CLI, just run:
     ```bash
-    portia-cli run --llm-provider="azure_openai" "add 1 + 2"
+    portia-cli run --llm-provider="azure-openai" "add 1 + 2"
     ```
     </TabItem>
 </Tabs>
