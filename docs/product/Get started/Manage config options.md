@@ -202,7 +202,7 @@ Thankfully, this is a very <a href="https://python.langchain.com/docs/integratio
 ## Manage storage options
 You can control where you store and retrieve plan run states using the `storage_class` property in the `Config` class (<a href="/SDK/portia/config" target="_blank">**SDK reference ↗**</a>), which is an ENUM accessible from the `StorageClass` class:
 - `MEMORY` allows you to use working memory (default if PORTIA_API_KEY is not specified).
-- `DISK` allows you to use local storage. You will need to set the `storage_dir` appropriately (defaults to the project's root directory).
+- `DISK` allows you to use local storage. You will need to set the `storage_dir` appropriately (defaults to .portia in the directory you are running Portia from).
 - `CLOUD` uses the Portia cloud (<a href="/store-retrieve-plan-runs" target="_blank">**Use Portia cloud ↗**</a> - default if PORTIA_API_KEY is specified).
 
 ## Other config settings
