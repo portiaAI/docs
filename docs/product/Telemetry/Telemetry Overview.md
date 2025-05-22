@@ -3,10 +3,6 @@ sidebar_position: 1
 slug: /telemetry
 ---
 
-:::warning
-The below documentation is for our upcoming telemetry. This is currently turned OFF in production, but the documentation is here since the code for is it is in the SDK and may mean users want clarity. This message will be removed once it is fully rolled out.
-:::
-
 :::tip
 By default, the telemetry data collected by the library is not personally identifiable information under GDPR and other privacy regulations as the data is deliberately anonymized.
 
