@@ -1,0 +1,17 @@
+import OauthIntro from "./_tool-intro-oauth.mdx"
+
+<OauthIntro />
+
+## Selecting Microsoft Tools
+
+Microsoft tools are included in Portia's cloud registry but are not included in the default `DefaultToolRegistry` class.
+This is due to tool clashes with the Google tools (i.e. the agent wouldn't know whether to check Gmail or Outlook for email tasks).
+In order to use Microsoft tools rather than Google tools, simply filter out the Google tools from the Portia cloud registry rather than using the default registry:
+
+```python
+from portia import PortiaToolRegistry, default_config
+
+registry = PortiaToolRegistry(default_config()).filter_tools(lambda tool: not tool.id.startswith("portia:google:"))registry = PortiaToolRegistry(default_config()).filter_tools(
+    lambda tool: not tool.id.startswith("portia:google:")
+)
+```

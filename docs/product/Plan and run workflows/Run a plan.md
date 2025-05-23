@@ -245,13 +245,16 @@ plan = portia.plan('Which stock price grew faster in 2024, Amazon or Google?')
 # We can then either run the plan directly from the object...
 run = portia.run_plan(plan=plan)
 
+# @@@ SORT THIS
 <!-- Setup a plan with the correct id. This won't be rendered on the website
 from portia.plan import PlanBuilder, PlanUUID
 from uuid import UUID
 plan = PlanBuilder("test").build()
-plan.id = PlanUUID(uuid=UUID("f8003b53-9b62-44e2-ac67-887146c07949"))
+plan_id = PlanUUID(uuid=UUID("f8003b53-9b62-44e2-ac67-887146c07949"))
+plan.id = plan_id
 try:
-  portia.storage.save_plan(plan)
+  if not portia.storage.get_plan(plan_id):
+    portia.storage.save_plan(plan)
 except Exception as e:
   pass
 -->

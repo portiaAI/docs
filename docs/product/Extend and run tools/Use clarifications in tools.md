@@ -130,15 +130,11 @@ from portia import InMemoryToolRegistry
 complete_tool_registry = complete_tool_registry + InMemoryToolRegistry.from_local_tools([FileReaderTool()])
 -->
 
-print("test123")
-
 # Instantiate a Portia instance. Load it with the default config and with the tools above
 portia = Portia(tools=complete_tool_registry)
 
 # Execute the plan from the user query
 plan_run = portia.run('Read the contents of the file "weather.txt".')
-
-print("456")
 
 # Check if the plan run was paused due to raised clarifications
 while plan_run.state == PlanRunState.NEED_CLARIFICATION:

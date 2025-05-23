@@ -16,7 +16,7 @@ Input for LLM Tool.
 ## LLMTool Objects
 
 ```python
-class LLMTool(Tool[str])
+class LLMTool(Tool[str | BaseModel])
 ```
 
 General purpose LLM tool. Customizable to user requirements. Won&#x27;t call other tools.
@@ -44,7 +44,7 @@ Process task_data into a string, handling different input types.
 ```python
 def run(ctx: ToolRunContext,
         task: str,
-        task_data: list[Any] | str | None = None) -> str
+        task_data: list[Any] | str | None = None) -> str | BaseModel
 ```
 
 Run the LLMTool.

@@ -109,8 +109,8 @@ Let's group our custom tools into a registry so we can import it into code after
 """Registry containing my custom tools."""
 
 from portia import InMemoryToolRegistry
-from my_custom_tools.file_writer_tool import FileWriterTool
 from my_custom_tools.file_reader_tool import FileReaderTool
+from my_custom_tools.file_writer_tool import FileWriterTool
 
 custom_tool_registry = InMemoryToolRegistry.from_local_tools(
     [

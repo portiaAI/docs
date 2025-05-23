@@ -28,7 +28,7 @@ performance.
 #### \_\_init\_\_
 
 ```python
-def __init__(step: Step,
+def __init__(plan: Plan,
              plan_run: PlanRun,
              config: Config,
              end_user: EndUser,
@@ -46,13 +46,22 @@ of the execute_sync method.
 
 **Arguments**:
 
-- `step` _Step_ - The step that defines the task to be executed.
+- `plan` _Plan_ - The plan containing the steps.
 - `plan_run` _PlanRun_ - The run that contains the step and related data.
 - `config` _Config_ - The configuration settings for the agent.
 - `end_user` _EndUser_ - The end user for the execution.
 - `agent_memory` _AgentMemory_ - The agent memory for persisting outputs.
 - `tool` _Tool | None_ - An optional tool associated with the agent (default is None).
 - `execution_hooks` - Optional hooks for extending execution functionality.
+
+#### step
+
+```python
+@property
+def step() -> Step
+```
+
+Get the current step from the plan.
 
 #### execute\_sync
 

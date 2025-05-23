@@ -21,6 +21,14 @@ def set_additional_data(key_name: str, key_value: str) -> None
 
 Set a field in the additional data blob.
 
+#### remove\_additional\_data
+
+```python
+def remove_additional_data(key_name: str) -> None
+```
+
+Set a field in the additional data blob.
+
 #### get\_additional\_data
 
 ```python
