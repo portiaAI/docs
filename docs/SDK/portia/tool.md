@@ -318,6 +318,27 @@ during the request or parsing are raised as `ToolHardError`.
 
 - `ToolHardError` - If the request fails or there is an error parsing the response.
 
+#### batch\_ready\_check
+
+```python
+@classmethod
+def batch_ready_check(cls, config: Config, tool_ids: set[str],
+                      tool_run_context: ToolRunContext) -> ReadyResponse
+```
+
+Batch check readiness for Portia cloud tools.
+
+**Arguments**:
+
+- `config` _Config_ - The config for the SDK as a whole.
+- `tool_ids` _set[str]_ - The list of tool IDs to check readiness for.
+- `tool_run_context` _ToolRunContext_ - The context of the execution.
+  
+
+**Returns**:
+
+- `ReadyResponse` - The readiness response for the tools.
+
 ## PortiaMcpTool Objects
 
 ```python
