@@ -11,7 +11,7 @@ import TabItem from '@theme/TabItem';
 Let's build two custom tools that allow an LLM to write / read content to / from a local file. We're going to create our custom tools in a separate folder called `my_custom_tools` at the root of the project directory and create a `file_writer_tool.py` and `file_reader_tool.py` file within it, with the following:
 <Tabs>
   <TabItem value="file_reader" label="file_reader_tool.py">
-    ```python title="my_custom_tools/file_reader_tool.py"
+    ```python title="my_custom_tools/file_reader_tool.py" id=file_reader_tool
     from pathlib import Path
     import pandas as pd
     import json
@@ -56,7 +56,7 @@ Let's build two custom tools that allow an LLM to write / read content to / from
     ```
   </TabItem>
   <TabItem value="file_writer" label="file_writer_tool.py">
-    ```python title="my_custom_tools/file_writer_tool.py"
+    ```python title="my_custom_tools/file_writer_tool.py" id=file_writer_tool
     from pathlib import Path
     from pydantic import BaseModel, Field
     from portia.tool import Tool, ToolRunContext
@@ -105,12 +105,12 @@ If those tools look familiar it's because we actually offer them in our open sou
 ## Manage tool registries
 
 Let's group our custom tools into a registry so we can import it into code afterwards. Let's create a `registry.py` file in the `my_custom_tools` directory and declare our registry as follow:
-```python title="registry.py" skip=true
+```python title="registry.py" depends_on=file_reader_tool depends_on=file_writer_tool
 """Registry containing my custom tools."""
 
 from portia import InMemoryToolRegistry
-from my_custom_tools.file_reader_tool import FileReaderTool
 from my_custom_tools.file_writer_tool import FileWriterTool
+from my_custom_tools.file_reader_tool import FileReaderTool
 
 custom_tool_registry = InMemoryToolRegistry.from_local_tools(
     [
@@ -135,7 +135,7 @@ We will use a simple GET endpoint from OpenWeatherMap in this section. Please si
 We're assuming you already have a Tavily key provisioned from the previous sections in this doc. If not, then head over to their website and do so (<a href="https://tavily.com/" target="_blank">**↗**</a>). We will set it in the environment variable `TAVILY_API_KEY`.
 </details>
 
-```python title="main.py" skip=true
+```python title="main.py"
 from dotenv import load_dotenv
 from portia import (
     Portia,

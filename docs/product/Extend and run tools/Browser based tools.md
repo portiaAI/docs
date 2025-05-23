@@ -25,7 +25,8 @@ The underlying library for navigating the page is provided by <a href="https://b
   <TabItem label="Local setup" value="local_setup">
     With local setup, the browser tool uses chrome on the machine it is running on. This means that it is not possible to support end-users but is a good way to test or to write agents for your own purposes. To use the browser tool in local mode, you must specify the `BrowserInfrastructureOption`, i.e:
     
-    ```python skip=true
+    ```python
+    from portia.open_source_tools.browser_tool import BrowserInfrastructureOption, BrowserTool
     browser_tool = BrowserTool(infrastructure_option=BrowserInfrastructureOption.LOCAL)
     ```
   
@@ -38,7 +39,7 @@ The underlying library for navigating the page is provided by <a href="https://b
 The `BrowserTool` is located in our open source tools folder <a href="/SDK/portia/open_source_tools/browser_tool.py" target="_blank">**SDK ↗**</a>. Additionally, there are 2 ways to use the tool:
 - **`BrowserTool()`**: This is a general browser tool and it will be used when a URL is provided as part of the query.
 
-```python title="BrowserTool example" skip=true
+```python title="BrowserTool example"
 from portia import Config, Portia
 from portia.open_source_tools.browser_tool import BrowserTool
 
@@ -51,7 +52,7 @@ portia = Portia(config=Config.from_default(),
 
 - **`BrowserToolForUrl(url)`**: To restrict the browser tool to a specific URL. This is particularly useful to ensure that the planner is restricted to the domains that you want it to be support.
 
-```python title="BrowserToolForUrl example" skip=true
+```python title="BrowserToolForUrl example"
 from portia import Config, Portia
 from portia.open_source_tools.browser_tool import BrowserToolForUrl
 
@@ -64,7 +65,7 @@ portia = Portia(config=Config.from_default(),
 
 ### A Simple E2E Example
 
-```python skip=true title="Full example"
+```python title="Full example"
 from dotenv import load_dotenv
 
 from portia import (

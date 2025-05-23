@@ -222,7 +222,7 @@ You can track plan run state changes live as they occur through the logs by sett
 
 When you set the storage_class property to CLOUD in the config of your Portia instance (see <a href="/manage-config##manage-storage-options" target="_blank">**Manage storage options ↗**</a> for more details), plans will automatically be stored in the cloud once created. You can then easily retrieve plans from storage in order to run them:
 
-```python skip=true
+```python
 from dotenv import load_dotenv
 from portia import (
     Portia,
@@ -245,6 +245,17 @@ plan = portia.plan('Which stock price grew faster in 2024, Amazon or Google?')
 # We can then either run the plan directly from the object...
 run = portia.run_plan(plan=plan)
 
+<!-- Setup a plan with the correct id. This won't be rendered on the website
+from portia.plan import PlanBuilder, PlanUUID
+from uuid import UUID
+plan = PlanBuilder("test").build()
+plan.id = PlanUUID(uuid=UUID("f8003b53-9b62-44e2-ac67-887146c07949"))
+try:
+  portia.storage.save_plan(plan)
+except Exception as e:
+  pass
+-->
+
 # Or we can use the ID so that the plan is loaded from storage
 run = portia.run_plan(plan=PlanUUID.from_string("plan-f8003b53-9b62-44e2-ac67-887146c07949"))
 ```
@@ -260,7 +271,7 @@ In the planning stage, you would define the list of plan inputs, providing a nam
 
 For example, consider a simple agent that tells you the weather in a particular city, with the city provided as a plan input.
 To set this up, we define the plan input for the planner as follows:
-```python
+```python id=plan-input-intro
 from portia import Portia
 
 portia = Portia()
@@ -274,7 +285,7 @@ This will create a single step plan that uses the weather tool with $city as an 
 Then, when running the plan, we pass in a value for the input. In this case, we select "London".
 This value will then be used for the `$city` input in the plan and we will find the temperature in London.
 
-```python skip=true
+```python depends_on=plan-input-intro
 # Specify the values for those inputs when you run the plan
 plan_run_inputs = {"name": "$city", "value": "London"}
 plan_run = portia.run("Get the temperature for the provided city", plan_run_inputs=[plan_run_inputs])

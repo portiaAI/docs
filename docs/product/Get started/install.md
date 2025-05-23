@@ -250,7 +250,7 @@ As a final verification step for your installation, set up the required environm
     <TabItem value="azure-openai" label="Azure OpenAI">
         In your local `.env` file, set up your API key and API endpoint as environment variables using `AZURE_OPENAI_API_KEY` and `AZURE_OPENAI_ENDPOINT`.<br/>
         Then create a file e.g. `main.py` in your project directory and paste the following code in.
-        ```python title="main.py" skip=true
+        ```python title="main.py"
         import os
         from dotenv import load_dotenv
         from portia import (
