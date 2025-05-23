@@ -8,10 +8,10 @@ import TabItem from '@theme/TabItem';
 
 # Execution hooks
 
-Execution hooks provide the ability for users to extend, intervene in or modify the running of an agent in Portia.
+Execution hooks provide the ability for users to extend, intervene in or modify the running of agents in Portia, including allowing human control to be overlayed into the multi-agent plan run deterministically.
 This is done by allowing you to run custom code at specific points in the agent run.
 This can be very useful in a wide range of circumstances:
-* To add human-in-the-loop verification before tool calls
+* To add human-in-the-loop verification before tool calls. For example, if you're building an agent to verify and then administer product refunds to customers, you likely want to include a human-in-the-loop check before the agent gives out the refund.
 * To add guardrails into the system, causing the agent to exit if a bad output is given or skip steps if certain conditions are met
 * To modify the args that tools are called with (for example to redact any leaked PII (personally identifiable information))
 * To stream updates of the system to a frontend to display to the user
@@ -59,7 +59,7 @@ portia = Portia(
 
 ### Human-in-the-loop checks
 
-In the 'before tool call' and 'after tool call' hooks, you can raise clarifications with the user if you require their input.
+In the 'before tool call' and 'after tool call' hooks, you can raise **clarifications** with the user if you require their input.
 As with other clarifications, these clarifications are then handled by the user through your chosen clarification handler (see <a href="/understand-clarifications" target="_blank">the clarification docs ↗</a>. for more details).
 This allows you to create powerful human-in-the-loop checks and guardrails.
 As an example, the below code uses a `UserVerificationClarification` to ensure that the user verifies all calls to the refund tool.
