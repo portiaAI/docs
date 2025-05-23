@@ -103,13 +103,13 @@ Let's submit a basic prompt to your LLM using our framework to make sure it's al
     <TabItem value="google" label="Google GenAI">
     To use Google GenAI from the CLI, just run:
     ```bash
-    portia-cli run --llm-provider="google_generative_ai" "add 1 + 2"
+    portia-cli run --llm-provider="google" "add 1 + 2"
     ```
     </TabItem>
     <TabItem value="azure-openai" label="Azure OpenAI">
     To use Azure OpenAI from the CLI, just run:
     ```bash
-    portia-cli run --llm-provider="azure_openai" "add 1 + 2"
+    portia-cli run --llm-provider="azure-openai" "add 1 + 2"
     ```
     </TabItem>
 </Tabs>
@@ -236,7 +236,7 @@ As a final verification step for your installation, set up the required environm
 
         # Create a default Portia config with LLM provider set to Google GenAI and model set to Gemini 2.0 Flash
         google_config = Config.from_default(
-            llm_provider=LLMProvider.GOOGLE_GENERATIVE_AI,
+            llm_provider=LLMProvider.GOOGLE,
             default_model="google/gemini-2.0-flash",
             google_api_key=GOOGLE_API_KEY
         )

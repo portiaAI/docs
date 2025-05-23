@@ -98,6 +98,21 @@ Return clarifications for the given step.
 
 - `ClarificationListType` - A list of clarifications for the given step.
 
+#### get\_clarification\_for\_step
+
+```python
+def get_clarification_for_step(
+        category: ClarificationCategory,
+        step: int | None = None) -> Clarification | None
+```
+
+Return a clarification of the given category for the given step if it exists.
+
+**Arguments**:
+
+- `step` _int | None_ - the step to get a clarification for. Defaults to current step.
+- `category` _ClarificationCategory | None_ - the category of the clarification to get.
+
 #### get\_potential\_step\_inputs
 
 ```python

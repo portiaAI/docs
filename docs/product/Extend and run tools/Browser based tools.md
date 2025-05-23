@@ -110,11 +110,11 @@ In the browser tool case, whenever a browser tool encounters a page that require
 
 <Tabs>
   <TabItem label="Authentication with Browserbase" value="browserbase_authentication">
-    In the case of Browserbase Authentication, the end-user will be provided with a URL starting with `browserbase.com/devtools-fullscreen/...`. When the end-user visits this page, they will see the authentication screen to enter their credentials (and any required 2FA or similar checks).
+    In the case of Browserbase Authentication, the end-user will be provided with a URL starting with `browserbase.com/devtools-fullscreen/...`. When the end-user visits this page, they will see the authentication screen to enter their credentials (and any required 2FA or similar checks). This requires a paid version of Browserbase to work.
 
     Once the end-user has performed the authentication, they should then indicate to your application that they have completed the flow, and you should call `portia.resume(plan_run)` to resume the agent. Note if you are using the `CLIClarificationHandler`, this will not work in this way and you will need to override it to ensure this behaviour.
     
-    The authentication credentials will persist until the agent completes the flow.
+    The authentication credentials will be saved against the end user and can be reused until they expire. When the credentials expire, a new clarification will be raised to reset the authentication. If you want to disable persistent authentication across agent runs, you should clear the `bb_context_id` attribute.
   </TabItem>
   <TabItem label="Local Browser Authentication" value="local_authentication">
     When running via a Local browser, i.e via your own computer, the clarification URL will be a regular URL that you can click on to authenticate.

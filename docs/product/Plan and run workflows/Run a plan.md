@@ -249,9 +249,11 @@ run = portia.run_plan(plan=plan)
 from portia.plan import PlanBuilder, PlanUUID
 from uuid import UUID
 plan = PlanBuilder("test").build()
-plan.id = PlanUUID(uuid=UUID("f8003b53-9b62-44e2-ac67-887146c07949"))
+plan_id = PlanUUID(uuid=UUID("f8003b53-9b62-44e2-ac67-887146c07949"))
+plan.id = plan_id
 try:
-  portia.storage.save_plan(plan)
+  if not portia.storage.get_plan(plan_id):
+    portia.storage.save_plan(plan)
 except Exception as e:
   pass
 -->

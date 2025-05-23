@@ -152,6 +152,20 @@ acceptance by setting the resolved flag to `True`.
 
 - `category` _ClarificationCategory_ - The category for this clarification, &#x27;Value Confirmation&#x27;.
 
+## UserVerificationClarification Objects
+
+```python
+class UserVerificationClarification(Clarification)
+```
+
+User verification clarification.
+
+Represents a clarification where the user some information that they must verify.
+
+**Attributes**:
+
+- `category` _ClarificationCategory_ - The category for this clarification, &#x27;User Verification&#x27;.
+
 ## CustomClarification Objects
 
 ```python

@@ -56,8 +56,12 @@ Enum for supported LLM providers.
 - `OPENAI` - OpenAI provider.
 - `ANTHROPIC` - Anthropic provider.
 - `MISTRALAI` - MistralAI provider.
-- `GOOGLE_GENERATIVE_AI` - Google Generative AI provider.
+- `GOOGLE` - Google Generative AI provider.
 - `AZURE_OPENAI` - Azure OpenAI provider.
+
+#### GOOGLE\_GENERATIVE\_AI
+
+noqa: PIE796 - Alias for GOOGLE member
 
 ## GenerativeModel Objects
 
@@ -153,7 +157,10 @@ Base class for LangChain-based models.
 #### \_\_init\_\_
 
 ```python
-def __init__(client: BaseChatModel, model_name: str) -> None
+def __init__(client: BaseChatModel,
+             model_name: str,
+             *,
+             cache: BaseCache | None = None) -> None
 ```
 
 Initialize with LangChain client.
@@ -162,6 +169,7 @@ Initialize with LangChain client.
 
 - `client` - LangChain chat model instance
 - `model_name` - The name of the model
+- `cache` - Optional cache instance
 
 #### to\_langchain
 
@@ -216,6 +224,7 @@ def __init__(*,
              seed: int = 343,
              max_retries: int = 3,
              temperature: float = 0,
+             cache: BaseCache | None = None,
              **kwargs: Any) -> None
 ```
 
@@ -228,6 +237,7 @@ Initialize with OpenAI client.
 - `seed` - Random seed for model generation
 - `max_retries` - Maximum number of retries
 - `temperature` - Temperature parameter
+- `cache` - Optional cache instance
 - `**kwargs` - Additional keyword arguments to pass to ChatOpenAI
 
 #### get\_structured\_response
@@ -278,6 +288,7 @@ def __init__(*,
              seed: int = 343,
              max_retries: int = 3,
              temperature: float = 0,
+             cache: BaseCache | None = None,
              **kwargs: Any) -> None
 ```
 
@@ -292,6 +303,7 @@ Initialize with Azure OpenAI client.
 - `api_key` - API key for Azure OpenAI
 - `max_retries` - Maximum number of retries
 - `temperature` - Temperature parameter (defaults to 1 for O_3_MINI, 0 otherwise)
+- `cache` - Optional cache instance
 - `**kwargs` - Additional keyword arguments to pass to AzureChatOpenAI
 
 #### get\_structured\_response
@@ -340,6 +352,7 @@ def __init__(*,
              timeout: int = 120,
              max_retries: int = 3,
              max_tokens: int = 8096,
+             cache: BaseCache | None = None,
              **kwargs: Any) -> None
 ```
 
@@ -352,6 +365,7 @@ Initialize with Anthropic client.
 - `max_retries` - Maximum number of retries
 - `max_tokens` - Maximum number of tokens to generate
 - `api_key` - API key for Anthropic
+- `cache` - Optional cache instance
 - `**kwargs` - Additional keyword arguments to pass to ChatAnthropic
 
 #### get\_structured\_response
