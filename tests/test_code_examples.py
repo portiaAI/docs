@@ -1,8 +1,8 @@
+from typing import Any, Callable
 from unittest.mock import MagicMock, patch
 
 import pytest
 from dotenv import load_dotenv
-from portia import InMemoryToolRegistry
 from pytest_examples import CodeExample, EvalExample, find_examples
 
 load_dotenv(override=True)
@@ -10,8 +10,16 @@ load_dotenv(override=True)
 IMPORTS_TO_MOCK = {
     "my_custom_tools.file_writer_tool": MagicMock(),
     "my_custom_tools.file_reader_tool": MagicMock(),
-    "my_custom_tools.registry.custom_tool_registry": InMemoryToolRegistry(),
+    "my_custom_tools.registry": MagicMock(),
 }
+
+
+def mock_import(
+    name: str, original_import: Callable[[str, Any, Any], Any], args: Any, kwargs: Any
+) -> Any:
+    if name in IMPORTS_TO_MOCK:
+        return IMPORTS_TO_MOCK[name]
+    return original_import(name, *args, **kwargs)
 
 
 def mock_input(prompt: str) -> str:
@@ -51,8 +59,8 @@ def test_docstrings(example: CodeExample, eval_example: EvalExample):
     with (
         patch(
             "builtins.__import__",
-            side_effect=lambda name, *args, **kwargs: IMPORTS_TO_MOCK.get(
-                name, original_import(name, *args, **kwargs)
+            side_effect=lambda name, *args, **kwargs: mock_import(
+                name, original_import, args, kwargs
             ),
         ),
         patch("builtins.input", side_effect=mock_input),

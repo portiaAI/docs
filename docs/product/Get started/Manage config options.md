@@ -33,29 +33,85 @@ Options for setting the LLM provider are:
 | Provider name (`str`) | `"openai"`<br/>`"anthropic"`<br/>`"mistralai"`<br/>`"google-generativeai"`<br/>`"azure-openai"`<br/>`"ollama"` |
 | Inferred from environment variable | `OPENAI_API_KEY`<br/>`ANTHROPIC_API_KEY`<br/>`MISTRAL_API_KEY`<br/>`GOOGLE_API_KEY`<br/>`AZURE_OPENAI_API_KEY` |
 
-
 #### Examples:
 
-Using the `LLMProvider` enum:
-```python
-from portia import LLMProvider, Config
+<Tabs groupId="llm-provider">
+    <TabItem value="openai" label="OpenAI" default>
+    ```python
+    from portia import LLMProvider, Config
 
-config = Config.from_default(llm_provider=LLMProvider.OPENAI)
-```
+    # Using enum
+    config = Config.from_default(llm_provider=LLMProvider.OPENAI)
 
-Passing the Provider name as a string value:
-```python
-from portia import LLMProvider, Config
+    # Using string
+    config = Config.from_default(llm_provider="openai")
 
-config = Config.from_default(llm_provider="anthropic")
-```
+    # Inferred from environment variable
+    # If OPENAI_API_KEY=sk-... is set in environment variables
+    config = Config.from_default()  # config.llm_provider => LLMProvider.OPENAI
+    ```
+    </TabItem>
+    <TabItem value="anthropic" label="Anthropic">
+    ```python
+    from portia import LLMProvider, Config
 
-Inferred from environment variables (if `OPENAI_API_KEY=sk-...` is in the environment variables):
-```python
-from portia import LLMProvider, Config
+    # Using enum
+    config = Config.from_default(llm_provider=LLMProvider.ANTHROPIC)
 
-config = Config.from_default()  # config.llm_provider => LLMProvider.OPENAI
-```
+    # Using string
+    config = Config.from_default(llm_provider="anthropic")
+
+    # Inferred from environment variable
+    # If ANTHROPIC_API_KEY=sk-... is set in environment variables
+    config = Config.from_default()  # config.llm_provider => LLMProvider.ANTHROPIC
+    ```
+    </TabItem>
+    <TabItem value="mistral" label="Mistral">
+    ```python
+    from portia import LLMProvider, Config
+
+    # Using enum
+    config = Config.from_default(llm_provider=LLMProvider.MISTRALAI)
+
+    # Using string
+    config = Config.from_default(llm_provider="mistralai")
+
+    # Inferred from environment variable
+    # If MISTRAL_API_KEY=sk-... is set in environment variables
+    config = Config.from_default()  # config.llm_provider => LLMProvider.MISTRALAI
+    ```
+    </TabItem>
+    <TabItem value="google" label="Google GenAI">
+    ```python
+    from portia import LLMProvider, Config
+
+    # Using enum
+    config = Config.from_default(llm_provider=LLMProvider.GOOGLE_GENERATIVE_AI)
+
+    # Using string
+    config = Config.from_default(llm_provider="google")
+
+    # Inferred from environment variable
+    # If GOOGLE_API_KEY=sk-... is set in environment variables
+    config = Config.from_default()  # config.llm_provider => LLMProvider.GOOGLE_GENERATIVE_AI
+    ```
+    </TabItem>
+    <TabItem value="azure-openai" label="Azure OpenAI">
+    ```python
+    from portia import LLMProvider, Config
+
+    # Using enum
+    config = Config.from_default(llm_provider=LLMProvider.AZURE_OPENAI)
+
+    # Using string
+    config = Config.from_default(llm_provider="azure-openai")
+
+    # Inferred from environment variable
+    # If AZURE_OPENAI_API_KEY=sk-... is set in environment variables
+    config = Config.from_default()  # config.llm_provider => LLMProvider.AZURE_OPENAI
+    ```
+    </TabItem>
+</Tabs>
 
 ### API keys
 
@@ -66,15 +122,70 @@ The API keys for the LLM Providers can be set via `Config` class properties or e
 | Config property | `openai_api_key`<br/>`anthropic_api_key`<br/>`mistralai_api_key`<br/>`google_api_key`<br/>`azure_openai_api_key` |
 | Environment variable | `OPENAI_API_KEY`<br/>`ANTHROPIC_API_KEY`<br/>`MISTRAL_API_KEY`<br/>`GOOGLE_API_KEY`<br/>`AZURE_OPENAI_API_KEY` |
 
-
 #### Examples:
 
-Passing the API key to the `Config` class:
-```python
-from portia import Config
+<Tabs groupId="api-keys">
+    <TabItem value="openai" label="OpenAI" default>
+    ```python
+    from portia import Config
 
-config = Config.from_default(anthropic_api_key="sk-...")
-```
+    # Using Config property
+    config = Config.from_default(openai_api_key="sk-...")
+
+    # Using environment variable
+    # export OPENAI_API_KEY='sk-...'
+    config = Config.from_default()
+    ```
+    </TabItem>
+    <TabItem value="anthropic" label="Anthropic">
+    ```python
+    from portia import Config
+
+    # Using Config property
+    config = Config.from_default(anthropic_api_key="sk-...")
+
+    # Using environment variable
+    # export ANTHROPIC_API_KEY='sk-...'
+    config = Config.from_default()
+    ```
+    </TabItem>
+    <TabItem value="mistral" label="Mistral">
+    ```python
+    from portia import Config
+
+    # Using Config property
+    config = Config.from_default(mistralai_api_key="sk-...")
+
+    # Using environment variable
+    # export MISTRAL_API_KEY='sk-...'
+    config = Config.from_default()
+    ```
+    </TabItem>
+    <TabItem value="google" label="Google GenAI">
+    ```python
+    from portia import Config
+
+    # Using Config property
+    config = Config.from_default(google_api_key="sk-...")
+
+    # Using environment variable
+    # export GOOGLE_API_KEY='sk-...'
+    config = Config.from_default()
+    ```
+    </TabItem>
+    <TabItem value="azure-openai" label="Azure OpenAI">
+    ```python
+    from portia import Config
+
+    # Using Config property
+    config = Config.from_default(azure_openai_api_key="sk-...")
+
+    # Using environment variable
+    # export AZURE_OPENAI_API_KEY='sk-...'
+    config = Config.from_default()
+    ```
+    </TabItem>
+</Tabs>
 
 ### Model overrides
 
@@ -125,7 +236,13 @@ Mixing and matching models from different providers. Make sure that the relevant
 ```python
 from portia import Config
 
-config = Config.from_default(default_model="openai/gpt-4.1", planning_model="anthropic/claude-3-5-sonnet")
+mixed_config = Config.from_default(
+    default_model="openai/gpt-4.1",
+    planning_model="anthropic/claude-3-5-sonnet",
+    execution_model="mistralai/mistral-large-latest",
+    introspection_model="google/gemini-2.0-flash",
+    summarizer_model="azure-openai/gpt-4o"
+)
 ```
 
 
@@ -205,12 +322,6 @@ You can control where you store and retrieve plan run states using the `storage_
 - `DISK` allows you to use local storage. You will need to set the `storage_dir` appropriately (defaults to the project's root directory).
 - `CLOUD` uses the Portia cloud (<a href="/store-retrieve-plan-runs" target="_blank">**Use Portia cloud ↗**</a> - default if PORTIA_API_KEY is specified).
 
-## Other config settings
-
-| Property | Purpose |
-| ----------- | ----------- |
-| `planner_system_context_extension` | Enrich the system context with more information. For example you can add information specific to a frontend user session such as department, title, timezone etc. |
-
 ## Manage logging
 You can control logging behaviour with the following `Config` properties (<a href="/SDK/portia/config" target="_blank">**SDK reference ↗**</a>):
 | Property | Purpose |
@@ -218,6 +329,12 @@ You can control logging behaviour with the following `Config` properties (<a hre
 | `default_log_level` | Controls the minimal log level, i.e. setting it to `DEBUG` will print all logs whereas setting it to `ERROR` will only display ERROR logs and above. This defaults to `INFO`. The ENUM is accessible via the `LogLevel` class |
 | `default_log_sink` | Controls where logs are sent. By default this string is set to  `"sys.stdout"` (STDOUT) but can also be set to  `"sys.stderr"` (STDERR) or to a file by setting this to a file path e.g. `"./logs.txt"` |
 | `json_log_serialize` | Sets whether logs are JSON serialized before sending them to the log sink. |
+
+## Other config settings
+
+| Property | Purpose |
+| ----------- | ----------- |
+| `llm_redis_cache_url` | Specify a URL for a redis instance that can be used for LLM caching. This can also be set with the `LLM_REDIS_CACHE_URL` environment variable. If this is set, then we will hit this cache instance before any calls to LLMs. The URL should include any auth details that are needed for access to the redis. |
 
 ## Bringing it all together
 <details>
@@ -242,11 +359,14 @@ from portia.open_source_tools.registry import example_tool_registry
 
 load_dotenv()
 
-# Load the default config with specified storage and logging options
+# Load the default config with specified storage, logging and caching options
 my_config = Config.from_default(
     storage_class=StorageClass.DISK, 
     storage_dir='demo_runs', # Amend this based on where you'd like your plans and plan runs saved!
     default_log_level=LogLevel.DEBUG,
+    default_log_sink="sys.stdout",
+    json_log_serialize=True,
+    llm_redis_cache_url="redis://localhost:6379"
 )
 
 # Instantiate a Portia instance. Load it with the default config and with some example tools

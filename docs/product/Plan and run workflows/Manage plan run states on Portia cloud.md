@@ -66,10 +66,11 @@ from portia.plan_run import PlanRunUUID
 from uuid import UUID
 plan = PlanBuilder("test").build()
 plan_run = Portia().run_plan(plan)
-plan_run.id = PlanRunUUID(uuid=UUID("229956fb-820d-4099-b69c-0606ca620b86")
+plan_run.id = PlanRunUUID(uuid=UUID("229956fb-820d-4099-b69c-0606ca620b86"))
 try:
-  portia.storage.save_plan_run(plan_run)
+  Portia().storage.save_plan_run(plan_run)
 except Exception as e:
+  print("Exception: " + str(e))
   pass
 -->
 

@@ -69,7 +69,7 @@ class FileReaderTool(Tool[str]):
         alt_file_paths = self.find_file(filename)
         if alt_file_paths:
             return MultipleChoiceClarification(
-                plan_run_id=ctx.plan_run_id,
+                plan_run_id=ctx.plan_run.id,
                 argument_name="filename",
                 user_guidance=f"Found {filename} in these location(s). Pick one to continue:\n{alt_file_paths}",
                 options=alt_file_paths,
@@ -96,11 +96,11 @@ class FileReaderTool(Tool[str]):
 
 The block below results in the tool using the `find_file` method to look for alternative locations and raising this clarification if multiple paths are found in the project directory. Here we're using `MultipleChoiceClarification` specifically, which takes a `options` property where the paths found are enumerated. You can explore the other types a `Clarification` object can take in our documentation (<a href="/SDK/portia/clarification" target="_blank">**SDK reference ↗**</a>).
 
-```python depends_on=clarification_file_reader_tool
+```python skip=true skip_reason=copied-from-example-above
 alt_file_paths = self.find_file(filename)
 if alt_file_paths:
     return MultipleChoiceClarification(
-        plan_run_id=ctx.plan_run_id,
+        plan_run_id=ctx.plan_run.id,
         argument_name="filename",
         user_guidance=f"Found {filename} in these location(s). Pick one to continue:\n{alt_file_paths}",
         options=alt_file_paths,
@@ -115,7 +115,7 @@ In this example, our custom tool `FileReaderTool` will attempt to open a non-exi
 Note: Our `weather.txt` file contains "The current weather in Llanfairpwllgwyngyllgogerychwyrndrobwllllantysiliogogogoch is broken clouds with a temperature of 6.76°C."
 :::
 
-```python title="main.py"
+```python title="main.py" depends_on=clarification_file_reader_tool
 from portia import Portia
 from portia.config import default_config
 from portia.open_source_tools.registry import example_tool_registry
@@ -125,11 +125,20 @@ from portia.plan_run import PlanRunState
 
 # Load example and custom tool registries into a single one
 complete_tool_registry = example_tool_registry + custom_tool_registry
+<!-- Add the tool the tool registry because the custom registry above is mocked. This won't be rendered on the website
+from portia import InMemoryToolRegistry
+complete_tool_registry = complete_tool_registry + InMemoryToolRegistry.from_local_tools([FileReaderTool()])
+-->
+
+print("test123")
+
 # Instantiate a Portia instance. Load it with the default config and with the tools above
 portia = Portia(tools=complete_tool_registry)
 
 # Execute the plan from the user query
 plan_run = portia.run('Read the contents of the file "weather.txt".')
+
+print("456")
 
 # Check if the plan run was paused due to raised clarifications
 while plan_run.state == PlanRunState.NEED_CLARIFICATION:

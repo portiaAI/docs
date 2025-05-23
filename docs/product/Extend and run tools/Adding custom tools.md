@@ -105,7 +105,7 @@ If those tools look familiar it's because we actually offer them in our open sou
 ## Manage tool registries
 
 Let's group our custom tools into a registry so we can import it into code afterwards. Let's create a `registry.py` file in the `my_custom_tools` directory and declare our registry as follow:
-```python title="registry.py" depends_on=file_reader_tool depends_on=file_writer_tool
+```python title="registry.py" depends_on=file_reader_tool
 """Registry containing my custom tools."""
 
 from portia import InMemoryToolRegistry
