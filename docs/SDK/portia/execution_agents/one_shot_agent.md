@@ -101,7 +101,7 @@ This agent performs the following steps:
 #### \_\_init\_\_
 
 ```python
-def __init__(step: Step,
+def __init__(plan: Plan,
              plan_run: PlanRun,
              config: Config,
              agent_memory: AgentMemory,
@@ -114,7 +114,7 @@ Initialize the OneShotAgent.
 
 **Arguments**:
 
-- `step` _Step_ - The current step in the task plan.
+- `plan` _Plan_ - The plan containing the steps.
 - `plan_run` _PlanRun_ - The run that defines the task execution process.
 - `config` _Config_ - The configuration settings for the agent.
 - `agent_memory` _AgentMemory_ - The agent memory for persisting outputs.

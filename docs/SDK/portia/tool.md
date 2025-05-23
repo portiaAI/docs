@@ -27,7 +27,8 @@ Context passed to tools when running.
 
 **Attributes**:
 
-- `plan_run_id(RunUUID)` - The run id the tool run is part of.
+- `plan_run(PlanRun)` - The run the tool run is part of.
+- `plan(Plan)` - The plan the tool run is part of.
 - `config(Config)` - The config for the SDK as a whole.
 - `clarifications(ClarificationListType)` - Relevant clarifications for this tool plan_run.
 
