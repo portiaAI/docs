@@ -31,3 +31,5 @@ htmlcov/
 poetry.lock
 
 demo_runs/
+
+.portia
