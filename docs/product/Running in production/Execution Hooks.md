@@ -76,7 +76,7 @@ def clarify_before_refunds(
     step: Step,
 ) -> Clarification | None:
     # Only raise a clarification for the refund tool
-    if tool.id == "refund_tool":
+    if tool.id != "refund_tool":
         return None
 
     # Find if the clarification if we already raised it
