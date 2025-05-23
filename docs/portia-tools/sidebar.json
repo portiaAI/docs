@@ -361,7 +361,7 @@
           "label": "Email: Draft",
           "id": "portia-tools/google-workspace/gmail-draft-email",
           "customProps": {
-            "description": "Drafts an email for the recipients indicated. Should not be used with the send email tool.Instead to send a draft email use the send_draft_email_tool.",
+            "description": "Drafts an email for the recipients indicated. Should not be used with the send email tool. Instead to send a draft email use the send_draft_email_tool. If the user hasn't given you an explicit title or body to the email, choose something appropriate based on the context of the email.",
             "category": "google-workspace",
             "categoryLabel": "Google Workspace",
             "vendor": "google",
@@ -385,7 +385,7 @@
           "label": "Email: Send",
           "id": "portia-tools/google-workspace/gmail-send-email",
           "customProps": {
-            "description": "Sends an email to the recipients indicated. Should not be used with the draft email tool.",
+            "description": "Sends an email to the recipients indicated. Should not be used with the draft email tool. If the user hasn't given you an explicit title or body to the email, choose something appropriate based on the context of the email.",
             "category": "google-workspace",
             "categoryLabel": "Google Workspace",
             "vendor": "google",
@@ -414,6 +414,64 @@
             "categoryLabel": "Google Workspace",
             "vendor": "google",
             "vendorLabel": "Google"
+          }
+        }
+      ]
+    },
+    {
+      "label": "Microsoft",
+      "type": "category",
+      "link": {
+        "type": "doc",
+        "id": "portia-tools/microsoft/index"
+      },
+      "items": [
+        {
+          "type": "doc",
+          "label": "Outlook: Draft",
+          "id": "portia-tools/microsoft/outlook-draft-email",
+          "customProps": {
+            "description": "Drafts an email for the recipients indicated. Should not be used with the send email tool. Instead to send a draft email use the send_draft_email_tool. If the user hasn't given you an explicit title or body to the email, choose something appropriate based on the context of the email.",
+            "category": "microsoft",
+            "categoryLabel": "Microsoft",
+            "vendor": "microsoft",
+            "vendorLabel": "Micrososft"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "Outlook: Search",
+          "id": "portia-tools/microsoft/outlook-search-email",
+          "customProps": {
+            "description": "Searches for emails in the user's Outlook inbox and returns emails content that match the query.",
+            "category": "microsoft",
+            "categoryLabel": "Microsoft",
+            "vendor": "microsoft",
+            "vendorLabel": "Microsoft"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "Outlook: Send",
+          "id": "portia-tools/microsoft/outlook-send-email",
+          "customProps": {
+            "description": "Sends an email to the recipients indicated. Should not be used with the draft email tool. Instead to send a draft email use the send_draft_email_tool. If the user hasn't given you an explicit title or body to the email, choose something appropriate based on the context of the email.",
+            "category": "microsoft",
+            "categoryLabel": "Microsoft",
+            "vendor": "microsoft",
+            "vendorLabel": "Microsoft"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "Outlook: Send Draft",
+          "id": "portia-tools/microsoft/outlook-send-draft-email",
+          "customProps": {
+            "description": "Sends a previously drafted email with the email title, body and recipients indicated in the draft. Requires a draft id which is obtained from the DraftEmailTool.",
+            "category": "microsoft",
+            "categoryLabel": "Microsoft",
+            "vendor": "microsoft",
+            "vendorLabel": "Microsoft"
           }
         }
       ]
