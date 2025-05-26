@@ -337,6 +337,17 @@ def exceeds_output_threshold(value: str | list[str | dict]) -> bool
 
 Determine whether the provided output value exceeds the large output threshold.
 
+#### get\_agent\_default\_model
+
+```python
+def get_agent_default_model(
+        agent_key: str,
+        llm_provider: LLMProvider | None = None
+) -> GenerativeModel | str | None
+```
+
+Get the default model for the given agent key.
+
 #### fill\_default\_models
 
 ```python
