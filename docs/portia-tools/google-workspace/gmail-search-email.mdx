@@ -12,7 +12,7 @@ import Intro from '@site/docs/_lib/_tool-intro-oauth.mdx';
 ## Tool details
 **Tool ID:** `portia:google:gmail:search_email`
 
-**Tool description:** Searches for emails in the user's inbox and 
+**Tool description:** Searches for emails and drafts in the user's inbox and returns emails content that match the query.
 
 **Args schema:**
 ```json
@@ -35,5 +35,5 @@ import Intro from '@site/docs/_lib/_tool-intro-oauth.mdx';
 
 **Output schema:**
 ```
-('list[dict[str, str]]', 'list[dict[str, str]]: List of emails with the following keys: from, to, subject, date, body.')
+('list[dict[str, str]]', 'list[dict[str, str]]: List of emails with the following keys: from, to, subject, date, body and id of the email.')
 ```
