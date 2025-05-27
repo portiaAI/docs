@@ -109,7 +109,7 @@ In the browser tool case, whenever a browser tool encounters a page that require
 
 <Tabs>
   <TabItem label="Authentication with Browserbase" value="browserbase_authentication">
-    In the case of Browserbase Authentication, the end-user will be provided with a URL starting with `browserbase.com/devtools-fullscreen/...`. When the end-user visits this page, they will see the authentication screen to enter their credentials (and any required 2FA or similar checks). This requires a paid version of Browserbase to work.
+    In the case of Browserbase Authentication, the end-user will be provided with a URL starting with `browserbase.com/devtools-fullscreen/...`. When the end-user visits this page, they will see the authentication screen to enter their credentials (and any required 2FA or similar checks). This requires a paid version of Browserbase to work. In addition, Browserbase sessions have a timeout (default is 1hr with a max of 6hr) and the clarification must be handled by the user within this time.
 
     Once the end-user has performed the authentication, they should then indicate to your application that they have completed the flow, and you should call `portia.resume(plan_run)` to resume the agent. Note if you are using the `CLIClarificationHandler`, this will not work in this way and you will need to override it to ensure this behaviour.
     
