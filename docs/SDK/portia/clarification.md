@@ -166,6 +166,41 @@ Represents a clarification where the user some information that they must verify
 
 - `category` _ClarificationCategory_ - The category for this clarification, &#x27;User Verification&#x27;.
 
+#### validate\_response
+
+```python
+@field_validator("response")
+@classmethod
+def validate_response(cls, v: Any) -> Any
+```
+
+Validate that response is a boolean value or None.
+
+**Arguments**:
+
+- `v` - The value to validate.
+  
+
+**Returns**:
+
+- `Any` - The validated value.
+  
+
+**Raises**:
+
+- `ValueError` - If the response is not a boolean.
+
+#### user\_confirmed
+
+```python
+@property
+def user_confirmed() -> bool
+```
+
+Whether the user has confirmed the verification.
+
+Returns the response attribute as a boolean value.
+
 ## CustomClarification Objects
 
 ```python
