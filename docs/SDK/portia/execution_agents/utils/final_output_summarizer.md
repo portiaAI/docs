@@ -32,7 +32,7 @@ Initialize the summarizer agent.
 #### create\_summary
 
 ```python
-def create_summary(plan: Plan, plan_run: PlanRun) -> str | None
+def create_summary(plan: Plan, plan_run: PlanRun) -> str | BaseModel | None
 ```
 
 Execute the summarizer llm and return the summary as a string.
@@ -45,5 +45,5 @@ Execute the summarizer llm and return the summary as a string.
 
 **Returns**:
 
-  str | None: The generated summary or None if generation fails.
+  str | BaseModel | None: The generated summary or None if generation fails.
 

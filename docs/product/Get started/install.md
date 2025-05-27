@@ -236,7 +236,7 @@ As a final verification step for your installation, set up the required environm
 
         # Create a default Portia config with LLM provider set to Google GenAI and model set to Gemini 2.0 Flash
         google_config = Config.from_default(
-            llm_provider=LLMProvider.GOOGLE_GENERATIVE_AI,
+            llm_provider=LLMProvider.GOOGLE,
             default_model="google/gemini-2.0-flash",
             google_api_key=GOOGLE_API_KEY
         )

@@ -82,6 +82,17 @@ def handle_value_confirmation_clarification(
 
 Handle a value confirmation clarification.
 
+#### handle\_user\_verification\_clarification
+
+```python
+def handle_user_verification_clarification(
+        clarification: UserVerificationClarification,
+        on_resolution: Callable[[Clarification, object], None],
+        on_error: Callable[[Clarification, object], None]) -> None
+```
+
+Handle a user verification clarification.
+
 #### handle\_custom\_clarification
 
 ```python

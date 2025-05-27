@@ -39,7 +39,8 @@ added to the plan before building it.
 #### \_\_init\_\_
 
 ```python
-def __init__(query: str | None = None) -> None
+def __init__(query: str | None = None,
+             structured_output_schema: type[BaseModel] | None = None) -> None
 ```
 
 Initialize the builder with the plan query.
@@ -47,6 +48,8 @@ Initialize the builder with the plan query.
 **Arguments**:
 
 - `query` _str_ - The original query given by the user.
+- `structured_output_schema` _type[BaseModel] | None_ - The optional structured output schema
+  for the query.
 
 #### step
 
@@ -354,7 +357,7 @@ Return the pretty print representation of the plan.
 
 ```python
 @model_validator(mode="after")
-def validate_plan() -> Plan
+def validate_plan() -> Self
 ```
 
 Validate the plan.

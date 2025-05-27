@@ -38,7 +38,8 @@ execution via ExecutionAgents.
 ```python
 def __init__(config: Config | None = None,
              tools: ToolRegistry | list[Tool] | None = None,
-             execution_hooks: ExecutionHooks | None = None) -> None
+             execution_hooks: ExecutionHooks | None = None,
+             telemetry: BaseProductTelemetry | None = None) -> None
 ```
 
 Initialize storage and tools.
@@ -52,6 +53,7 @@ Initialize storage and tools.
   from Portia cloud if a Portia API key is set.
 - `execution_hooks` _ExecutionHooks | None_ - Hooks that can be used to modify or add
   extra functionality to the run of a plan.
+- `telemetry` _BaseProductTelemetry | None_ - Anonymous telemetry service.
 
 #### initialize\_end\_user
 
@@ -64,14 +66,13 @@ Handle initializing the end_user based on the provided type.
 #### run
 
 ```python
-def run(
-    query: str,
-    tools: list[Tool] | list[str] | None = None,
-    example_plans: list[Plan] | None = None,
-    end_user: str | EndUser | None = None,
-    plan_run_inputs: list[PlanInput] | list[dict[str, str]] | dict[str, str]
-    | None = None
-) -> PlanRun
+def run(query: str,
+        tools: list[Tool] | list[str] | None = None,
+        example_plans: list[Plan] | None = None,
+        end_user: str | EndUser | None = None,
+        plan_run_inputs: list[PlanInput] | list[dict[str, str]]
+        | dict[str, str] | None = None,
+        structured_output_schema: type[BaseModel] | None = None) -> PlanRun
 ```
 
 End-to-end function to generate a plan and then execute it.
@@ -90,6 +91,10 @@ This is the simplest way to plan and execute a query using the SDK.
   Provides input values for the run. This can be a list of PlanInput objects, a list
   of dicts with keys &quot;name&quot;, &quot;description&quot; (optional) and &quot;value&quot;, or a dict of
   plan run input name to value.
+- `structured_output_schema` _type[BaseModel] | None_ - The optional structured output schema
+  for the query. This is passed on to plan runs created from this plan but will not be
+  stored with the plan itself if using cloud storage and must be re-attached to the
+  plan run if using cloud storage.
   
 
 **Returns**:
@@ -99,14 +104,13 @@ This is the simplest way to plan and execute a query using the SDK.
 #### plan
 
 ```python
-def plan(
-    query: str,
-    tools: list[Tool] | list[str] | None = None,
-    example_plans: list[Plan] | None = None,
-    end_user: str | EndUser | None = None,
-    plan_inputs: list[PlanInput] | list[dict[str, str]] | list[str]
-    | None = None
-) -> Plan
+def plan(query: str,
+         tools: list[Tool] | list[str] | None = None,
+         example_plans: list[Plan] | None = None,
+         end_user: str | EndUser | None = None,
+         plan_inputs: list[PlanInput] | list[dict[str, str]] | list[str]
+         | None = None,
+         structured_output_schema: type[BaseModel] | None = None) -> Plan
 ```
 
 Plans how to do the query given the set of tools and any examples.
@@ -119,11 +123,16 @@ Plans how to do the query given the set of tools and any examples.
 - `example_plans` _list[Plan] | None_ - Optional list of example plans. If not
   provide a default set of example plans will be used.
 - `end_user` _str | EndUser | None = None_ - The optional end user for this plan.
-- `plan_inputs` _list[PlanInput] | None_ - Optional list of inputs required for the plan.
+- `plan_inputs` _list[PlanInput] | list[dict[str, str]] | list[str] | None_ - Optional list
+  of inputs required for the plan.
   This can be a list of Planinput objects, a list of dicts with keys &quot;name&quot; and
   &quot;description&quot; (optional), or a list of plan run input names. If a value is provided
   with a PlanInput object or in a dictionary, it will be ignored as values are only
   used when running the plan.
+- `structured_output_schema` _type[BaseModel] | None_ - The optional structured output schema
+  for the query. This is passed on to plan runs created from this plan but will be
+  not be stored with the plan itself if using cloud storage and must be re-attached
+  to the plan run if using cloud storage.
   
 
 **Returns**:
@@ -139,13 +148,13 @@ Plans how to do the query given the set of tools and any examples.
 
 ```python
 def run_plan(
-    plan: Plan | PlanUUID | UUID,
-    end_user: str | EndUser | None = None,
-    plan_run_inputs: list[PlanInput]
+        plan: Plan | PlanUUID | UUID,
+        end_user: str | EndUser | None = None,
+        plan_run_inputs: list[PlanInput]
     | list[dict[str, Serializable]]
     | dict[str, Serializable]
-    | None = None
-) -> PlanRun
+    | None = None,
+        structured_output_schema: type[BaseModel] | None = None) -> PlanRun
 ```
 
 Run a plan.
@@ -159,6 +168,8 @@ Run a plan.
   Provides input values for the run. This can be a list of PlanInput objects, a list
   of dicts with keys &quot;name&quot;, &quot;description&quot; (optional) and &quot;value&quot;, or a dict of
   plan run input name to value.
+- `structured_output_schema` _type[BaseModel] | None_ - The optional structured output schema
+  for the plan run. This is passed on to plan runs created from this plan but will be
   
 
 **Returns**:
