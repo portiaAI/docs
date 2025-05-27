@@ -34,7 +34,7 @@ With that out of the way, let's look at running the first sample script!
 
 ## 1. GitHub OAuth integration
 
-**File**: [`1_github_oauth.py`](TODO)
+**File**: [`1_github_oauth.py`](https://github.com/portiaAI/portia-agent-examples/blob/main/getting-started/1_github_oauth.py)
 
 This is the most straightforward example of using Portia to connect to third-party APIs with OAuth.
 It demonstrates how an agent can perform actions on behalf of a user,
@@ -196,7 +196,7 @@ Trying out the more complex example can show you how powerful autonomous agents 
 
 ## 2. Tools, End Users, and LLMs
 
-**File**: [`2_tools_end_users_llms.py`](TODO)
+**File**: [`2_tools_end_users_llms.py`](https://github.com/portiaAI/portia-agent-examples/blob/main/getting-started/2_tools_end_users_llms.py)
 
 This example builds on the previous one by:
 
@@ -287,7 +287,7 @@ This example shows how Portia agents can become personalized assistants that com
 
 ## 3. Model Context Protocol (MCP)
 
-**File**: `3_mcp.py`
+**File**: [`3_mcp.py`](https://github.com/portiaAI/portia-agent-examples/blob/main/getting-started/3_mcp.py)
 
 The third example introduces the [Model Context Protocol (MCP)](https://modelcontextprotocol.io/introduction).
 At the time of writing, MCP is all-the-rage among the cool kids!
@@ -317,7 +317,7 @@ If you were executing it directly from the shell, you could download and run it 
 uvx mcp-server-fetch
 ```
 
-UVX is provided as part of [UV](TODO) and will automatically download and run an executable Python package.
+UVX is provided as part of [UV](https://github.com/astral-sh/uv) and will automatically download and run an executable Python package.
 It's also super-fast!
 
 I configured an `MCPToolRegistry` that will run this server with the following code:
@@ -353,7 +353,7 @@ print(portia.run(task).outputs.final_output)
 
 ## 4. Browser Automation
 
-**File**: [`4_browser_use.py`](TODO)
+**File**: [`4_browser_use.py`](https://github.com/portiaAI/portia-agent-examples/blob/main/getting-started/4_browser_use.py)
 
 This final example introduces browser-based automation, showing how Portia can automate interactions in real browsers – especially useful when no API is available.
 This is a particularly powerful feature when used with websites that require authentication.
@@ -448,9 +448,9 @@ This highlights Portia's flexibility when building agents that must operate outs
 
 Check out the following video,
 showing this feature in action,
-with an even more complex and powerful use-case!
+with an even more complex and powerful use-case.
 
-[TODO](https://youtu.be/hSq8Ww-hagg)
+<iframe width="560" height="315" src="https://www.youtube.com/embed/hSq8Ww-hagg?si=MEae99Z8n-3X_9Fd" title="Build an AI browser agent to manage LinkedIn connections, with Portia AI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 ---
 
