@@ -439,12 +439,6 @@ You can control where you store and retrieve plan run states using the `storage_
 - `DISK` allows you to use local storage. You will need to set the `storage_dir` appropriately (defaults to .portia in the directory you are running Portia from).
 - `CLOUD` uses the Portia cloud (<a href="/store-retrieve-plan-runs" target="_blank">**Use Portia cloud ↗**</a> - default if PORTIA_API_KEY is specified).
 
-## Other config settings
-
-| Property | Purpose |
-| ----------- | ----------- |
-| `planner_system_context_extension` | Enrich the system context with more information. For example you can add information specific to a frontend user session such as department, title, timezone etc. |
-
 ## Manage logging
 You can control logging behaviour with the following `Config` properties (<a href="/SDK/portia/config" target="_blank">**SDK reference ↗**</a>):
 | Property | Purpose |
@@ -452,6 +446,13 @@ You can control logging behaviour with the following `Config` properties (<a hre
 | `default_log_level` | Controls the minimal log level, i.e. setting it to `DEBUG` will print all logs whereas setting it to `ERROR` will only display ERROR logs and above. This defaults to `INFO`. The ENUM is accessible via the `LogLevel` class |
 | `default_log_sink` | Controls where logs are sent. By default this string is set to  `"sys.stdout"` (STDOUT) but can also be set to  `"sys.stderr"` (STDERR) or to a file by setting this to a file path e.g. `"./logs.txt"` |
 | `json_log_serialize` | Sets whether logs are JSON serialized before sending them to the log sink. |
+
+
+## Other config settings
+
+| Property | Purpose |
+| ----------- | ----------- |
+| `llm_redis_cache_url` | Specify a URL for a redis instance that can be used for LLM caching. This can also be set with the `LLM_REDIS_CACHE_URL` environment variable. If this is set, then we will hit this cache instance before any calls to LLMs. The URL should include any auth details that are needed for access to the redis. |
 
 ## Bringing it all together
 <details>
@@ -476,11 +477,12 @@ from portia.open_source_tools.registry import example_tool_registry
 
 load_dotenv()
 
-# Load the default config with specified storage and logging options
+# Load the default config with specified storage, logging and caching options
 my_config = Config.from_default(
     storage_class=StorageClass.DISK, 
     storage_dir='demo_runs', # Amend this based on where you'd like your plans and plan runs saved!
     default_log_level=LogLevel.DEBUG,
+    llm_redis_cache_url="redis://localhost:6379"
 )
 
 # Instantiate a Portia instance. Load it with the default config and with some example tools
