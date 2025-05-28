@@ -448,11 +448,11 @@ You can control logging behaviour with the following `Config` properties (<a hre
 | `json_log_serialize` | Sets whether logs are JSON serialized before sending them to the log sink. |
 
 
-## Other config settings
+## Manage caching
 
 | Property | Purpose |
 | ----------- | ----------- |
-| `llm_redis_cache_url` | Specify a URL for a redis instance that can be used for LLM caching. This can also be set with the `LLM_REDIS_CACHE_URL` environment variable. If this is set, then we will hit this cache instance before any calls to LLMs. The URL should include any auth details that are needed for access to the redis. |
+| `llm_redis_cache_url` | You can specify a URL for a redis instance for the purposes of LLM caching using the llm_redis_cache_url property of your Portia client Config. This can also be set with the LLM_REDIS_CACHE_URL environment variable. If this is set, then we will hit this cache instance before any calls to LLMs. The URL should include any auth details that are needed for access to the redis including username/password e.g. redis://default:$PASSWORD@localhost:6379 |
 
 ## Bringing it all together
 <details>
