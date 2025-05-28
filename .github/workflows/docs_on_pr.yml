@@ -21,7 +21,7 @@ jobs:
         run: poetry install --no-interaction --all-extras
 
       - name: Run tests
-        run: poetry run pytest
+        run: poetry run pytest -n 10
         env:
           PORTIA_API_KEY: ${{ secrets.PORTIA_STAGING_API_KEY }}
           PORTIA_API_ENDPOINT: ${{ secrets.PORTIA_STAGING_API_ENDPOINT }}

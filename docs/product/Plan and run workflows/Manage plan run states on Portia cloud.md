@@ -22,6 +22,22 @@ We will use a simple GET endpoint from OpenWeatherMap in this section. Please si
 We have seen how to configure the location where plan runs are stored and retrieved previously (<a href="/manage-config" target="_blank">**Manage config options ↗**</a>). We can simply set the `storage_class` property to `CLOUD` in the config of our `Portia` instance. 
 With this config and as long as the API key has been set up appropriately as described in the previous section (<a href="/setup-account" target="_blank">**Set up your account ↗**</a>), you should see plan runs executed by your `Portia` instance appear in the `Plan runs` tab of your Portia dashboard and see a change in the aggregate plan run metrics in the Home page as well.
 
+<!-- Setup a plan run with the correct id. This won't be rendered on the website
+from portia import Portia
+from portia.plan import PlanBuilder, PlanUUID
+from portia.plan_run import PlanRunUUID
+from uuid import UUID
+plan = PlanBuilder("test").build()
+plan_run = Portia().run_plan(plan)
+plan_run_id = PlanRunUUID(uuid=UUID("229956fb-820d-4099-b69c-0606ca620b86"))
+plan_run.id = plan_run_id
+try:
+  if not portia.storage.get_plan_run(plan_run_id):
+    Portia().storage.save_plan_run(plan_run)
+except Exception as e:
+  pass
+-->
+
 ```python title="main.py"
 from dotenv import load_dotenv
 from portia import Portia
@@ -47,7 +63,7 @@ Take a moment to examine the plan run created by the code above in your dashboar
 ## Retrieve plan runs from the cloud
 
 You can retrieve both plans and run states for a stored plan run. For that you would use the `get_plan_run` and `get_plan` methods of the `Storage` class. You will need to specify the `PortiaCloudStorage` class in particular here. Go ahead and copy your plan run ID from the dashboard entry created in the previous section into the code below.
-```python title="main.py" id=manage-plan-run-intro
+```python title="main.py" id=manage_plan_run_intro
 from dotenv import load_dotenv
 from portia import Config, StorageClass
 from portia.storage import PortiaCloudStorage
@@ -58,22 +74,6 @@ load_dotenv()
 my_config = Config.from_default(storage_class=StorageClass.CLOUD)
 # Use the PortiaCloudStorage class to interact with cloud storage
 my_store = PortiaCloudStorage(config=my_config)
-
-<!-- Setup a plan with the correct id. This won't be rendered on the website
-from portia import Portia
-from portia.plan import PlanBuilder, PlanUUID
-from portia.plan_run import PlanRunUUID
-from uuid import UUID
-plan = PlanBuilder("test").build()
-plan_run = Portia().run_plan(plan)
-plan_run_id = PlanRunUUID(uuid=UUID("229956fb-820d-4099-b69c-0606ca620b86"))
-plan_run.id = plan_run_id
-try:
-  if not portia.storage.get_plan_run(plan_run_id):
-    Portia().storage.save_plan_run(plan_run)
-except Exception as e:
-  pass
--->
 
 # Retrieve a plan and its run from the cloud
 plan_run = my_store.get_plan_run("229956fb-820d-4099-b69c-0606ca620b86")
@@ -134,7 +134,7 @@ Retrieved plan:
 
 If you wanted to retrieve plan runs in bulk, you can use the `get_plan_runs` method (plural!) from `StorageClass`. This returns paginated data so you will need to process that information further to cycle through all results. Remember the first page number returned is always 1 (not 0!).
 
-```python depends_on=manage-plan-run-intro
+```python depends_on=manage_plan_run_intro
 plan_run_list_init = my_store.get_plan_runs() # again, plural!
 total_pages = plan_run_list_init.total_pages
 

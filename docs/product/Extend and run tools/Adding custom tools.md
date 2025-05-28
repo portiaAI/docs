@@ -56,7 +56,7 @@ Let's build two custom tools that allow an LLM to write / read content to / from
     ```
   </TabItem>
   <TabItem value="file_writer" label="file_writer_tool.py">
-    ```python title="my_custom_tools/file_writer_tool.py" id=file_writer_tool
+    ```python title="my_custom_tools/file_writer_tool.py"
     from pathlib import Path
     from pydantic import BaseModel, Field
     from portia.tool import Tool, ToolRunContext

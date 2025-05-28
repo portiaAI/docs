@@ -96,7 +96,7 @@ class FileReaderTool(Tool[str]):
 
 The block below results in the tool using the `find_file` method to look for alternative locations and raising this clarification if multiple paths are found in the project directory. Here we're using `MultipleChoiceClarification` specifically, which takes a `options` property where the paths found are enumerated. You can explore the other types a `Clarification` object can take in our documentation (<a href="/SDK/portia/clarification" target="_blank">**SDK reference ↗**</a>).
 
-```python skip=true skip_reason=copied-from-example-above
+```python skip=true skip_reason=copied_from_example_above
 alt_file_paths = self.find_file(filename)
 if alt_file_paths:
     return MultipleChoiceClarification(
@@ -125,11 +125,6 @@ from portia.plan_run import PlanRunState
 
 # Load example and custom tool registries into a single one
 complete_tool_registry = example_tool_registry + custom_tool_registry
-<!-- Add the tool the tool registry because the custom registry above is mocked. This won't be rendered on the website
-from portia import InMemoryToolRegistry
-complete_tool_registry = complete_tool_registry + InMemoryToolRegistry.from_local_tools([FileReaderTool()])
--->
-
 # Instantiate a Portia instance. Load it with the default config and with the tools above
 portia = Portia(tools=complete_tool_registry)
 

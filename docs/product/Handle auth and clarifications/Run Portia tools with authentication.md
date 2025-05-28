@@ -41,7 +41,7 @@ We're assuming you already have a Portia API key from the dashboard and set it i
 
 </details>
 
-```python title="main.py" skip=true
+```python title="main.py"
 from dotenv import load_dotenv
 from portia import (
     ActionClarification,
