@@ -347,7 +347,7 @@ Anthropic model implementation.
 
 ```python
 def __init__(*,
-             model_name: str = "claude-3-5-sonnet-latest",
+             model_name: str = "claude-3-7-sonnet-latest",
              api_key: SecretStr,
              timeout: int = 120,
              max_retries: int = 3,
