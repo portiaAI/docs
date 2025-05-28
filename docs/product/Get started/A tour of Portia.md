@@ -466,4 +466,5 @@ with an even more complex and powerful use-case.
 These examples form a practical foundation for building agents with Portia.
 Look out for tutorials that take these concepts even further, with some sample web applications, integrating with popular frameworks.
 
-Explore more at [docs.portialabs.ai](https://docs.portialabs.ai).
+We have more tutorials on our [blog](https://blog.portialabs.ai/),
+or check out our [GitHub repository](https://github.com/portiaAI/portia-sdk-python).
