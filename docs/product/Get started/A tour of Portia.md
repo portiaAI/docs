@@ -428,7 +428,7 @@ you should see a browser start up.
 It should navigate to the LinkedIn log in page,
 and then pause, allowing you to log into your LinkedIn account.
 Once you have logged in,
-return to the command-line and press Enter.
+return to the command-line and follow the instructions to continue.
 The agent should then control the browser,
 identifying the search box at the top of the screen,
 and then using it to locate all your connections called "Bob".
