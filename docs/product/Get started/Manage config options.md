@@ -127,21 +127,21 @@ Options for setting the LLM provider are:
     </TabItem>
     <TabItem value="azure-openai" label="Azure OpenAI">
         Using the `LLMProvider` enum:
-        ```python skip=true
+        ```python
         from portia import LLMProvider, Config
 
         config = Config.from_default(llm_provider=LLMProvider.AZURE_OPENAI)
         ```
 
         Passing the Provider name as a string value:
-        ```python skip=true
+        ```python
         from portia import LLMProvider, Config
 
         config = Config.from_default(llm_provider="azure-openai")
         ```
 
         Inferred from environment variables (if `AZURE_OPENAI_API_KEY=sk-...` _and_ `AZURE_OPENAI_ENDPOINT=https://...` are in the environment variables):
-        ```python skip=true
+        ```python
         from portia import LLMProvider, Config
 
         config = Config.from_default()  # config.llm_provider => LLMProvider.AZURE_OPENAI
@@ -195,7 +195,7 @@ The API keys for the LLM Providers can be set via `Config` class properties or e
     </TabItem>
     <TabItem value="azure-openai" label="Azure OpenAI">
         Passing the API key to the `Config` class:
-        ```python skip=true
+        ```python
         from portia import Config
         # NB You must also set the Azure OpenAI endpoint to your Azure OpenAI instance!
         config = Config.from_default(azure_openai_api_key="sk-...", azure_openai_endpoint="https://...")
@@ -275,7 +275,7 @@ Examples:
     </TabItem>
     <TabItem value="azure-openai" label="Azure OpenAI">
         Setting the default model by its name:
-        ```python skip=true
+        ```python
         from portia import Config
 
         config = Config.from_default(default_model="azure-openai/gpt-4o")
@@ -370,7 +370,7 @@ You can replace the tool in the `DefaultToolRegistry` with your own instance of 
         ```
     </TabItem>
     <TabItem value="azure-openai" label="Azure OpenAI">
-        ```python skip=true
+        ```python
         import dotenv
         from portia import Config, DefaultToolRegistry, LLMTool, Portia
         from portia.model import OpenAIGenerativeModel
