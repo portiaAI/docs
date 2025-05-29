@@ -69,6 +69,7 @@
     "SDK/portia/end_user",
     "SDK/portia/errors",
     "SDK/portia/execution_hooks",
+    "SDK/portia/gemini_langsmith_wrapper",
     "SDK/portia/logger",
     "SDK/portia/mcp_session",
     "SDK/portia/model",
