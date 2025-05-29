@@ -30,5 +30,5 @@ This retention policy is best for usability as it minimizes the number of times 
 
 Under the No Refresh policy, Portia will store the encrypted tokens until they expire. However no refresh tokens will be stored. 
 
-This policy offers a blend of security and usability, with tokens being stored for a far shorter length of time (usually 24hours though it depends on the third party). 
+This policy offers a blend of security and usability, with tokens being stored for a far shorter length of time (usually 24 hours though it depends on the third party). 
 
