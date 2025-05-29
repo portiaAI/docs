@@ -49,3 +49,19 @@ within a PlanRun including metadata, input and output data, and status.
 - `output` _Any_ - The output data returned from the tool call.
 - `latency_seconds` _float_ - The latency in seconds for the tool call to complete.
 
+#### serialize\_input
+
+```python
+def serialize_input() -> Any
+```
+
+Handle serialization of inputs.
+
+#### serialize\_output
+
+```python
+def serialize_output() -> Any
+```
+
+Handle serialization of outputs.
+
