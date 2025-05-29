@@ -11,7 +11,7 @@ Use clarifications to leverage Portia tools' native authentication support.
 
 :::tip[TL;DR]
 - All Portia tools come with built-in authentication, typically using Portia OAuth clients for each relevant resource server.
-- When a plan containing Portia tools is run, `Portia` immediately raises `ActionClarification`s to request user authorization for the subset of tools that require it.
+- At the start of a plan run containing Portia tools, `Portia` raises `ActionClarification`s to request user authorization for the subset of tools that require it.
 :::
 
 Portia offers a cloud-hosted library of tools to save you development time. You can find the ever-growing list of Portia tools in the next section (<a href="/portia-tools" target="_blank">**Portia tool catalogue ↗**</a>). All Portia tools come with plug and play authentication. Let's delve into how to handle the user authentication flow.
@@ -22,9 +22,12 @@ We established in the preceding section that clarifications are raised when an a
 - All Portia tools come with built-in authentication, typically using Portia OAuth clients for each relevant resource server.
 - Portia provisions the required token with the relevant scope when a tool call needs to be made.
 - Tokens provisioned by Portia have a user-configurable retention period (see more <a href="/security" target="_blank">**here ↗**</a>). The tokens are scoped to the `end_user` that was passed when running the plan or a default `end_user` if none was provided. You will need to reuse this `end_user_id` across plan runs to leverage token reusability (<a href="/manage-end-users" target="_blank">**Manage multiple end users ↗**</a>).
-- When a plan is run, before we start executing the steps, we first check the readiness of all tools contained in the steps of the plan. For Portia tools supporting OAuth, readiness includes validating that we have an access token stored for the `end_user_id` provided. If no OAuth token is found, an `ActionClarification` is raised with an OAuth link as the action URL. This OAuth link uses Portia's authentication client and a Portia redirect URL.
+- When a plan is run, before we start executing the steps, we first check the readiness of all tools contained in the steps of the plan. For Portia tools supporting OAuth, readiness includes validating that we have an access token stored for the `end_user_id` provided. If no OAuth token is found, an `ActionClarification` is raised with an OAuth link as the action URL. This OAuth link uses the relevant Portia authentication client and a Portia redirect URL.
 - Portia's OAuth server listens for the authentication result and resolves the concerned clarification, allowing the plan run to resume again.
-- Note that there may be multiple tools that require permissions from the same OAuth client. In this case, Portia will combine together the required scopes, reducing the number of `ActionClarification`s that need to be resolved.
+
+:::info
+Note that there may be multiple tools that require permissions from the same OAuth client. In this case, Portia will combine together the required scopes, reducing the number of `ActionClarification`s that need to be resolved.
+:::
 
 Optionally, you can configure a custom URL where users will be redirected after successful authentication. To do so, follow these steps:
 1. Log into your Portia <a href="https://app.portialabs.ai" target="_blank">**dashboard ↗**</a>
