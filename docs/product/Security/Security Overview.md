@@ -26,12 +26,6 @@ Under the default policy, Portia will store the encrypted token until it expires
 
 This retention policy is best for usability as it minimizes the number of times users will need to go through the OAuth authentication flow. 
 
-### Use Once
-
-Under the Use Once policy, Portia will only retain OAuth access tokens for one use. Once the token has been used it will be deleted. No refresh tokens are stored under this policy either. 
-
-This policy is best for security as it minimizes the amount of time tokens are stored but comes at the cost of ease of use. Users will be prompted far more often for authentication (including multiple times in the same workflow if a tool is used multiple times).
-
 ### No Refresh
 
 Under the No Refresh policy, Portia will store the encrypted tokens until they expire. However no refresh tokens will be stored. 
