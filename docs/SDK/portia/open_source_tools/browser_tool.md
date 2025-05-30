@@ -258,6 +258,8 @@ def setup_browser(ctx: ToolRunContext) -> Browser
 
 Get a Browser instance.
 
+This is called at the start of every step using this tool.
+
 #### construct\_auth\_clarification\_url
 
 ```python
@@ -275,7 +277,7 @@ Construct the URL for the auth clarification.
 def step_complete(ctx: ToolRunContext) -> None
 ```
 
-Call when the step is complete to e.g release the session.
+Call when the step is complete to e.g. release the session if needed.
 
 ## BrowserInfrastructureProviderLocal Objects
 
