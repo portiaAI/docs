@@ -20,10 +20,23 @@ The underlying library for navigating the page is provided by <a href="https://b
 
 <Tabs>
   <TabItem label="Browserbase setup" value="browserbase_setup">
-    To use browserbase infrastructure, you must ensure that you have set the `BROWSERBASE_API_KEY` and `BROWSERBASE_PROJECT_ID` in your .env file (or equivalent). These can be obtained by creating an account on <a href="https://www.browserbase.com" target="_blank">**Browserbase (↗)**</a>. The current behaviour requires a paid version of Browserbase to use.
+    To use browserbase infrastructure, you need to install the required `tools-browser-browserbase` dependency group:
+    ```
+    pip install "portia-sdk-python[tools-browser-browserbase]"
+    # Alternatively, install our 'all' dependency group to get everything
+    pip install "portia-sdk-python[all]"
+    ```
+    You must also ensure that you have set the `BROWSERBASE_API_KEY` and `BROWSERBASE_PROJECT_ID` in your .env file (or equivalent). These can be obtained by creating an account on <a href="https://www.browserbase.com" target="_blank">**Browserbase (↗)**</a>. The current behaviour requires a paid version of Browserbase to use.
   </TabItem>
   <TabItem label="Local setup" value="local_setup">
-    With local setup, the browser tool uses chrome on the machine it is running on. This means that it is not possible to support end-users but is a good way to test or to write agents for your own purposes. To use the browser tool in local mode, you must specify the `BrowserInfrastructureOption`, i.e:
+    With local setup, the browser tool uses chrome on the machine it is running on. This means that it is not possible to support end-users but is a good way to test or to write agents for your own purposes. To use the browser tool in local mode, you need to install the required `tools-browser-local` dependency group:
+    ```
+    pip install "portia-sdk-python[tools-browser-local]"
+    # Alternatively, install our 'all' dependency group to get everything
+    pip install "portia-sdk-python[all]"
+    ```
+
+    You must then specify the `BrowserInfrastructureOption` when creating the tool, i.e:
     
     ```python
     from portia.open_source_tools.browser_tool import BrowserInfrastructureOption, BrowserTool
@@ -110,7 +123,7 @@ In the browser tool case, whenever a browser tool encounters a page that require
 
 <Tabs>
   <TabItem label="Authentication with Browserbase" value="browserbase_authentication">
-    In the case of Browserbase Authentication, the end-user will be provided with a URL starting with `browserbase.com/devtools-fullscreen/...`. When the end-user visits this page, they will see the authentication screen to enter their credentials (and any required 2FA or similar checks). This requires a paid version of Browserbase to work.
+    In the case of Browserbase Authentication, the end-user will be provided with a URL starting with `browserbase.com/devtools-fullscreen/...`. When the end-user visits this page, they will see the authentication screen to enter their credentials (and any required 2FA or similar checks). This requires a paid version of Browserbase to work. In addition, Browserbase sessions have a timeout (default is 1hr with a max of 6hr) and the clarification must be handled by the user within this time.
 
     Once the end-user has performed the authentication, they should then indicate to your application that they have completed the flow, and you should call `portia.resume(plan_run)` to resume the agent. Note if you are using the `CLIClarificationHandler`, this will not work in this way and you will need to override it to ensure this behaviour.
     
