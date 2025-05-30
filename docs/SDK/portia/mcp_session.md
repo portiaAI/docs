@@ -6,7 +6,7 @@ title: portia.mcp_session
 Configuration and client code for interactions with Model Context Protocol (MCP) servers.
 
 This module provides a context manager for creating MCP ClientSessions, which are used to
-interact with MCP servers. It supports both the SSE and stdio transports.
+interact with MCP servers. It supports SSE, stdio, and StreamableHTTP transports.
 
 NB. The MCP Python SDK is asynchronous, so care must be taken when using MCP functionality
 from this module in an async context.
@@ -14,6 +14,7 @@ from this module in an async context.
 Classes:
     SseMcpClientConfig: Configuration for an MCP client that connects via SSE.
     StdioMcpClientConfig: Configuration for an MCP client that connects via stdio.
+    StreamableHttpMcpClientConfig: Configuration for an MCP client that connects via StreamableHTTP.
     McpClientConfig: The configuration to connect to an MCP server.
 
 ## SseMcpClientConfig Objects
@@ -31,6 +32,14 @@ class StdioMcpClientConfig(BaseModel)
 ```
 
 Configuration for an MCP client that connects via stdio.
+
+## StreamableHttpMcpClientConfig Objects
+
+```python
+class StreamableHttpMcpClientConfig(BaseModel)
+```
+
+Configuration for an MCP client that connects via StreamableHTTP.
 
 #### get\_mcp\_session
 
