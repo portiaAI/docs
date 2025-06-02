@@ -65,6 +65,8 @@ jobs:
 
     - name: Install dependencies
       run: |
+        # In production, we use the production branch of the sdk
+        poetry add "portia-sdk-python[all]@git+https://github.com/portiaAI/portia-sdk-python.git@latest-prod-release"
         poetry install --no-interaction --all-extras
         poetry run pip install pytest-xdist
 

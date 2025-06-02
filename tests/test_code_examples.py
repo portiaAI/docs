@@ -1,3 +1,4 @@
+from contextlib import ExitStack
 from typing import Any, Callable
 from unittest.mock import MagicMock, patch
 
@@ -5,6 +6,7 @@ import pytest
 from dotenv import load_dotenv
 from portia import FileReaderTool, FileWriterTool, InMemoryToolRegistry
 from pytest_examples import CodeExample, EvalExample, find_examples
+from testcontainers.redis import RedisContainer
 
 load_dotenv(override=True)
 
@@ -18,6 +20,10 @@ IMPORTS_TO_MOCK = {
     "my_custom_tools.file_writer_tool": MagicMock(),
     "my_custom_tools.file_reader_tool": MagicMock(),
     "my_custom_tools.registry": mock_registry_module,
+}
+
+TEST_CONTAINERS = {
+    "redis": RedisContainer,
 }
 
 
@@ -42,18 +48,35 @@ def test_docstrings(example: CodeExample, eval_example: EvalExample):
         )
         return
 
+    # Bring up any test containers specified for the example
+    test_containers = [
+        tag.split("test_containers=")[1]
+        for tag in example.prefix_tags()
+        if "test_containers=" in tag
+    ]
+    container_contexts = [
+        TEST_CONTAINERS[container_name]() for container_name in test_containers
+    ]
+
     # We mock out some imports that we use in docs that don't actually exist
     original_import = __import__
-    with (
+
+    # Create all the context managers we need
+    contexts = [
+        *container_contexts,
         patch(
             "builtins.__import__",
             side_effect=lambda name, *args, **kwargs: mock_import(
                 name, original_import, args, kwargs
             ),
         ),
-        # We also mock out user input, as obviously we can't actually take that
         patch("builtins.input", side_effect=mock_input),
-    ):
+    ]
+
+    # Use ExitStack to handle all context managers
+    with ExitStack() as stack:
+        for context in contexts:
+            stack.enter_context(context)
         eval_example.run(example)
 
 
