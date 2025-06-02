@@ -77,6 +77,7 @@
     "SDK/portia/plan_run",
     "SDK/portia/portia",
     "SDK/portia/storage",
+    "SDK/portia/token_counter",
     "SDK/portia/tool",
     "SDK/portia/tool_call",
     "SDK/portia/tool_registry",
