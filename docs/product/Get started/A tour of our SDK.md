@@ -3,15 +3,15 @@ sidebar_position: 6
 slug: /getting-started-tour
 ---
 
-# A Tour of Portia AI
+# A Tour of our SDK
 
 Portia AI enables developers to build powerful, production-ready agents that can interact with real-world APIs, manage context intelligently, and even automate web browsers.
-This tutorial will walk you through four progressive examples from the Portia SDK.
-Each example builds on the last to show how to develop increasingly capable AI agents using only a few lines of code.
+This tutorial provides a whistlestop tour of the SDK to get you started.
+It provides four examples, each building on top of the previous to show how to develop increasingly capable AI agents with just a few lines of code.
+For a more complete showcase of the SDK's features, including more advanced features or to dive deeper into a particular feature, check out our [full docs site ↗](https://docs.portialabs.ai/).
+Our [examples repository ↗](https://github.com/portiaAI/portia-agent-examples) on GitHub also provides some advanced agent examples that can be a useful reference.
 
 ## Before you start
-
-Check out the [examples repository](https://github.com/portiaAI/portia-agent-examples) from GitHub
 
 Make sure you have the SDK environment set up:
 
@@ -26,15 +26,15 @@ Make sure you have the SDK environment set up:
    This will:
 
    * Obtain an appropriate version of Python if necessary.
-   * Create a virtual environment for your Python dependencies
-   * Install all required dependencies
+   * Create a virtual environment for your Python dependencies.
+   * Install all required dependencies.
    * Run your script!
   
 With that out of the way, let's look at running the first sample script!
 
 ## 1. GitHub OAuth integration
 
-**File**: [`1_github_oauth.py`](https://github.com/portiaAI/portia-agent-examples/blob/main/getting-started/1_github_oauth.py)
+**File**: [`1_github_oauth.py` ↗](https://github.com/portiaAI/portia-agent-examples/blob/main/getting-started/1_github_oauth.py)
 
 This is the most straightforward example of using Portia to connect to third-party APIs with OAuth.
 It demonstrates how an agent can perform actions on behalf of a user,
@@ -42,14 +42,14 @@ such as starring a GitHub repository or checking availability on their Google Ca
 
 ### Key concepts
 
-* OAuth authentication for third-party services
-* Use of `Portia` with multiple tools
-* Simple command execution
+* OAuth authentication for third-party services.
+* Use of `Portia` with multiple tools.
+* Simple command execution.
 
 ### Configuring Portia with a .env file
 
 Before we get started with the Portia-specific code, let's talk about configuration.
-In all of our examples, we use the popular [`python-dotenv`](https://pypi.org/project/python-dotenv/) library.
+In all of our examples, we use the popular [`python-dotenv` ↗](https://pypi.org/project/python-dotenv/) library.
 This library will read a `.env` file from your current directory,
 and copy the variables defined in the file into the Python program's environment.
 
@@ -57,9 +57,9 @@ Portia automatically reads certain environment variables, such as `PORTIA_API_KE
 which allows it to connect to the Portia cloud service.
 Portia cloud provides useful extra services, such as the ability to:
 
-* see all the plans created or run against your account,
-* store credentials for different services, like the GitHub API
-* approve certain good plans, making future planning more reliable for your use-cases.
+* See all the plans created or run against your account.
+* Store credentials for different services, like the GitHub API.
+* Approve certain good plans, making future planning more reliable for your use-cases.
 
 Portia will also automatically look for a variable called `OPENAI_API_KEY`.
 If it's available, Portia will configure OpenAI as your underlying default LLM,
@@ -74,8 +74,7 @@ and use the first one that is defined:
 * `AZURE_OPENAI_API_KEY`
 
 Instead of implicitly loading configuration from your environment (and a .env file),
-it's often better to explicitly configure Portia,
-instead of implicitly loading configuration from the environment.
+it's often better to explicitly configure Portia.
 This can be done when obtaining a `Config` instance,
 for example: `config = Config.from_default(llm_provider=LLMProvider.MISTRALAI)`
 will override any other API keys configured in the environment.
@@ -83,7 +82,7 @@ will override any other API keys configured in the environment.
 ### Code walkthrough
 
 Let's step through the first code example.
-I'll go slower through this first file,
+We'll go slower through this first file,
 so you can understand all the details,
 and in later examples I'll just cover what's changed.
 
@@ -105,7 +104,7 @@ As you can see here, command-line functionality is stored in `portia.cli`.
 | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `Config`             | This object will load configuration from the environment, and allow you to configure Portia explicitly in code.                                                                                                                                                                                                |
 | `Portia`             | This is the primary class in the Portia SDK, and allows you to plan what an agent will do, and execute that plan with the assistance of any tools that Portia is configured with.                                                                                                                              |
-| `PortiaToolRegistry` | This is the default set of tools that allows Portia to interact with APIs such as GitHub and Google. The list of tools provided in the PortiaTool Registry is growing all the time. You can find a complete list in the [Portia Tool Catalogue](https://docs.portialabs.ai/portia-tools)                       |
+| `PortiaToolRegistry` | This is the default set of tools that allows Portia to interact with APIs such as GitHub and Google. The list of tools provided in the PortiaTool Registry is growing all the time. You can find a complete list in the [Portia Tool Catalogue ↗](https://docs.portialabs.ai/portia-tools)                       |
 | `StorageClass`       | This is an enum, allowing you to configure where Portia's state is stored. If you use `StorageClass.CLOUD`, Portia will store plans and plan runs on Portia's servers, allowing various extended functionality. If you would rather store your state locally, use `StorageClass.MEMORY` or `StorageClass.DISK` |
 
 With that out of the way, let's define a task!
@@ -124,9 +123,9 @@ If I don't have any free times, please output the next time after 12pm when I am
 """
 ```
 
-You'll notice, just from the length of the strings, that one task is significantly more complex than the other. For now I'll just focus on `task0`, which automatically [gives us a star on GitHub](https://github.com/portiaAI/portia-sdk-python).
+You'll notice, just from the length of the strings, that one task is significantly more complex than the other. For now I'll just focus on `task0`, which automatically [gives us a star on GitHub ↗](https://github.com/portiaAI/portia-sdk-python).
 
-The next step is to put all of the classes that I imported to work,
+The next step is to put all of the classes that we imported to work,
 and to compose a `Portia` instance.
 The following code combines configuration,
 the list of tools in the Portia Catalogue,
@@ -137,7 +136,7 @@ and interact with the user on the command-line.
 ```python
 # Instantiate a Portia runner.
 # Load it with the default config from the environment, and with Portia cloud tools.
-# Use the CLIExecutionHooks to allow the user to handle any clarifications in the CLI.
+# Use the CLIExecutionHooks to allow the user to provide input to the agents via the CLI when needed
 my_config = Config.from_default(storage_class=StorageClass.CLOUD)
 portia = Portia(
    config=my_config,
@@ -158,7 +157,7 @@ plan_run = portia.run(task0)
 
 In this example:
 
-* The agent is initialized with the [default tools](https://docs.portialabs.ai/portia-tools/) that are provided with Portia.
+* The agent is initialized with the [default tools ↗](https://docs.portialabs.ai/portia-tools/) that are provided with Portia.
  This includes tools for connecting to the GitHub API and Google Calendar.
 * The `run` method receives a high-level instruction.
 * Portia handles breaking down the instruction,
@@ -167,7 +166,7 @@ In this example:
 ### Running the example
 
 If you haven't done it already, now is a good time to copy the `.env.example`
-file and to add your configuration for `PORTIA_API_KEY`,
+file and to add your configuration for `PORTIA_API_KEY` (you can grab this from the [the Portia dashboard ↗](https://app.portialabs.ai/dashboard/api-keys) if you don't already have one),
 and provide a key for your favourite LLM.
 
 This code has been designed to run with `uv`.
@@ -185,7 +184,7 @@ is super-powerful.
 We call this process a "clarification."
 
 If you're planning to write your own tools to take advantage of this feature,
-do check out the documentation for [clarifications](https://docs.portialabs.ai/understand-clarifications).
+do check out the documentation for [clarifications ↗](https://docs.portialabs.ai/understand-clarifications).
 
 ### Before moving on
 
@@ -196,9 +195,9 @@ Trying out the more complex example can show you how powerful autonomous agents 
 
 ## 2. Tools, End Users, and LLMs
 
-**File**: [`2_tools_end_users_llms.py`](https://github.com/portiaAI/portia-agent-examples/blob/main/getting-started/2_tools_end_users_llms.py)
+**File**: [`2_tools_end_users_llms.py` ↗](https://github.com/portiaAI/portia-agent-examples/blob/main/getting-started/2_tools_end_users_llms.py)
 
-This example builds on the previous one by:
+### Key concepts
 
 * Introducing more diverse tools.
 * Supporting named end users.
@@ -220,7 +219,7 @@ In order to execute this task,
 three tools will be required.
 
 * One tool will be needed to research the price of gold.
- In this example, the planning agent should choose the [Tavily](https://tavily.com/) tool.
+ In this example, the planning agent should choose the [Tavily tool ↗](https://tavily.com/).
  Tavily is a research API designed for agents.
 * A tool to send an email.
  The planning agent should choose a Google Mail tool for this.
@@ -287,16 +286,22 @@ This example shows how Portia agents can become personalized assistants that com
 
 ## 3. Model Context Protocol (MCP)
 
-**File**: [`3_mcp.py`](https://github.com/portiaAI/portia-agent-examples/blob/main/getting-started/3_mcp.py)
+**File**: [`3_mcp.py` ↗](https://github.com/portiaAI/portia-agent-examples/blob/main/getting-started/3_mcp.py)
 
-The third example introduces the [Model Context Protocol (MCP)](https://modelcontextprotocol.io/introduction).
+### Key concepts
+
+* Setting up an MCP tool registry.
+* Configuring Portia to use an MCP tool registry.
+* Viewing the final output of a run.
+
+### Code walkthrough
+
+The third example introduces the [Model Context Protocol (MCP) ↗](https://modelcontextprotocol.io/introduction).
 At the time of writing, MCP is all-the-rage among the cool kids!
 This is a protocol that allows agents to interact with remote tool registries.
 Many companies are now providing MCP services alongside their more traditional APIs.
 In some cases, including the example below,
 the MCP server is a local process that is run directly by the Python code.
-
-### Code walkthrough
 
 Portia supports MCP through the `MCPToolRegistry` class,
 which you'll see below.
@@ -309,7 +314,7 @@ task = "Read the portialabs.ai website and tell me what they do"
 
 In order to complete this task, a tool will be needed to fetch a web page.
 Fortunately, there's an MCP tool to do just that!
-The [mcp-server-fetch](https://github.com/modelcontextprotocol/servers/tree/main/src/fetch) tool is an MCP server that can be run as a local Python process.
+The [mcp-server-fetch ↗](https://github.com/modelcontextprotocol/servers/tree/main/src/fetch) tool is an MCP server that can be run as a local Python process.
 If you were executing it directly from the shell, you could download and run it by calling
 
 ```bash
@@ -317,13 +322,13 @@ If you were executing it directly from the shell, you could download and run it 
 uvx mcp-server-fetch
 ```
 
-UVX is provided as part of [UV](https://github.com/astral-sh/uv) and will automatically download and run an executable Python package.
+UVX is provided as part of [UV ↗](https://github.com/astral-sh/uv) and will automatically download and run an executable Python package.
 It's also super-fast!
 
-I configured an `MCPToolRegistry` that will run this server with the following code:
+We configured an `MCPToolRegistry` that will run this server with the following code:
 
 ```python
-McpToolRegistry.from_stdio_connection(
+registry = McpToolRegistry.from_stdio_connection(
    server_name="fetch",
    command="uvx",
    args=["mcp-server-fetch"],
@@ -353,7 +358,15 @@ print(portia.run(task).outputs.final_output)
 
 ## 4. Browser Automation
 
-**File**: [`4_browser_use.py`](https://github.com/portiaAI/portia-agent-examples/blob/main/getting-started/4_browser_use.py)
+**File**: [`4_browser_use.py` ↗](https://github.com/portiaAI/portia-agent-examples/blob/main/getting-started/4_browser_use.py)
+
+### Key concepts
+
+* Use of local browser automation
+* Use of Browserbase (remote browser-as-a-service)
+* Extraction of real-world data from websites
+
+### Code walkthrough
 
 This final example introduces browser-based automation, showing how Portia can automate interactions in real browsers – especially useful when no API is available.
 This is a particularly powerful feature when used with websites that require authentication.
@@ -364,15 +377,7 @@ where they can then be used remotely to drive the browser,
 still authenticated as the local user.
 It's important to note that at no point are user credentials shared with Portia!
 
-### Capabilities Demonstrated
-
-* Use of local browser automation
-* Use of Browserbase (remote browser-as-a-service)
-* Extraction of real-world data from websites
-
-### Code walkthrough
-
-As with the other examples, let start by looking at the task I wish the agent to complete:
+As with the other examples, let start by looking at the task we wish the agent to complete:
 
 ```python
 task = (
@@ -395,7 +400,7 @@ browser_tool = BrowserTool(
 
 The code above defines a local browser tool.
 If (as here), `infrastructure_option`, is set to `BrowserInfrastructureOption.LOCAL`, then the tool will run Chrome locally, with no remote browser component.
-If the argument is set to `BrowserInfrastructureOption.LOCAL` then it will use the remote [Browserbase](https://www.browserbase.com/) service.
+If the argument is set to `BrowserInfrastructureOption.REMOTE` then it will use the remote [Browserbase ↗](https://www.browserbase.com/) service.
 In production you'd want to use the Browserbase tool,
 but that does require a paid account.
 So for running this example locally,
@@ -466,5 +471,5 @@ with an even more complex and powerful use-case.
 These examples form a practical foundation for building agents with Portia.
 Look out for tutorials that take these concepts even further, with some sample web applications, integrating with popular frameworks.
 
-We have more tutorials on our [blog](https://blog.portialabs.ai/),
-or check out our [GitHub repository](https://github.com/portiaAI/portia-sdk-python).
+We have more tutorials on our [blog ↗](https://blog.portialabs.ai/),
+or check out our [GitHub repository ↗](https://github.com/portiaAI/portia-sdk-python).
