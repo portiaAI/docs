@@ -19,7 +19,7 @@
           "label": "Browser Use",
           "id": "portia-tools/open-source/browser",
           "customProps": {
-            "description": "General purpose browser tool. Can be used to navigate to a URL and complete tasks. Should only be used if the task requires a browser and you are sure of the URL. This tool handles a full end to end task. DO NOT break a single task into multiple browser tool steps as each step is run in an independent new session!",
+            "description": "General purpose browser tool. Can be used to navigate to a URL and complete tasks. Should only be used if the task requires a browser and you are sure of the URL. This tool handles a full end to end task. It is capable of doing multiple things across different URLs within the same root domain as part of the end to end task. As a result, do not call this tool more than once back to back unless it is for different root domains - just call it once with the combined task and the URL set to the root domain.",
             "category": "opensource",
             "categoryLabel": "Open Source",
             "vendor": "opensource",
