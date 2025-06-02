@@ -1,4 +1,4 @@
-name: Test Code Examples
+name: Daily Test Code Examples
 
 on:
   schedule:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   test-staging:
-    name: Check code examples in docs against staging
+    name: Main branch test (Staging)
     runs-on: ubuntu-latest
 
     steps:
@@ -50,7 +50,7 @@ jobs:
         channel-id: C07V8NK09RC
 
   test-production:
-    name: Check code examples in docs against production
+    name: Production branch test
     runs-on: ubuntu-latest
 
     steps:

@@ -1,4 +1,4 @@
-name: Test Code Examples
+name: PR Test Code Examples
 
 on:
   workflow_dispatch:
