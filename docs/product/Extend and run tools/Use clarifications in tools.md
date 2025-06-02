@@ -15,7 +15,7 @@ You can raise a `Clarification` in any custom tool definition to prompt a plan r
 ## Add a clarification to your custom tool
 Let's pick up the custom tool example we looked at previously (<a href="/add-custom-tools" target="_blank">**Add custom tools ↗**</a>). We will now examine the code that defines a clarification in a tool explicitly. We're going to add a clarification to the `FileReaderTool` custom tool to handle cases where a file is not found. Instead of throwing an error directly, we will attempt to find the file in other folders in the project directory. We do that by adding the highlighted lines in the `FileReaderTool` class definition as shown below.
 
-```python title="my_custom_tools/file_reader_tool.py"
+```python title="my_custom_tools/file_reader_tool.py" id=clarification_file_reader_tool
 from pathlib import Path
 import pandas as pd
 import json
@@ -69,7 +69,7 @@ class FileReaderTool(Tool[str]):
         alt_file_paths = self.find_file(filename)
         if alt_file_paths:
             return MultipleChoiceClarification(
-                plan_run_id=ctx.plan_run_id,
+                plan_run_id=ctx.plan_run.id,
                 argument_name="filename",
                 user_guidance=f"Found {filename} in these location(s). Pick one to continue:\n{alt_file_paths}",
                 options=alt_file_paths,
@@ -96,11 +96,11 @@ class FileReaderTool(Tool[str]):
 
 The block below results in the tool using the `find_file` method to look for alternative locations and raising this clarification if multiple paths are found in the project directory. Here we're using `MultipleChoiceClarification` specifically, which takes a `options` property where the paths found are enumerated. You can explore the other types a `Clarification` object can take in our documentation (<a href="/SDK/portia/clarification" target="_blank">**SDK reference ↗**</a>).
 
-```python skip=true
+```python skip=true skip_reason=copied_from_example_above
 alt_file_paths = self.find_file(filename)
 if alt_file_paths:
     return MultipleChoiceClarification(
-        plan_run_id=ctx.plan_run_id,
+        plan_run_id=ctx.plan_run.id,
         argument_name="filename",
         user_guidance=f"Found {filename} in these location(s). Pick one to continue:\n{alt_file_paths}",
         options=alt_file_paths,
@@ -115,7 +115,7 @@ In this example, our custom tool `FileReaderTool` will attempt to open a non-exi
 Note: Our `weather.txt` file contains "The current weather in Llanfairpwllgwyngyllgogerychwyrndrobwllllantysiliogogogoch is broken clouds with a temperature of 6.76°C."
 :::
 
-```python title="main.py" skip=true
+```python title="main.py" depends_on=clarification_file_reader_tool
 from portia import Portia
 from portia.config import default_config
 from portia.open_source_tools.registry import example_tool_registry
@@ -192,7 +192,9 @@ For the example query above `Read the contents of the file "weather.txt".`, wher
 ## Accessing clarifications in your custom tool
 The above example showed how you can access a clarification in your custom tool when it relates directly to the tool's arguments. If however you wanted to access a clarification from your tool that is not related to the tool's arguments, you can do so by using the `ToolRunContext` object that is passed to the `run` method of your tool.
 
-```python skip=true
+```python
+from portia import ToolRunContext, MultipleChoiceClarification
+
 def run(self, ctx: ToolRunContext, filename: str) -> str | dict[str,any] | MultipleChoiceClarification:
     """Run the FileReaderTool."""
     clarifications = ctx.clarifications

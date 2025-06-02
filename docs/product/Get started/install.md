@@ -40,13 +40,13 @@ See <a href="/manage-config#configure-llm-options" target="_blank">**Configure L
 
 <Tabs groupId="llm-provider">
     <TabItem value="openai" label="Open AI" default>
-    `gpt-4o` is set as the default model. You can sign up to their platform **[here](https://platform.openai.com/signup)**
+    `gpt-4.1` is set as the default model. You can sign up to their platform **[here](https://platform.openai.com/signup)**
     ```bash
     export OPENAI_API_KEY='your-api-key-here'
     ```
     </TabItem>
     <TabItem value="anthropic" label="Anthropic">
-    `sonnet-3.5` is set as the default model. You can sign up to their platform **[here](https://www.anthropic.com/api)**
+    `sonnet-3.7` and `sonnet-3.5 are both used by default. You can sign up to their platform **[here](https://www.anthropic.com/api)**
     ```bash
     export ANTHROPIC_API_KEY='your-api-key-here'
     ```
@@ -61,7 +61,7 @@ See <a href="/manage-config#configure-llm-options" target="_blank">**Configure L
     ```
     </TabItem>
     <TabItem value="google" label="Google GenAI">
-    `gemini-flash-2.0` is set as the default model. You can sign up to their platform **[here](https://ai.google.dev/)**
+    `gemini-2.0-flash` is set as the default model. You can sign up to their platform **[here](https://ai.google.dev/)**
 
     Ensure Mistral dependencies are installed with `pip install "portia-sdk-python[google]"` or `"portia-sdk-python[all]"`
 
@@ -70,7 +70,7 @@ See <a href="/manage-config#configure-llm-options" target="_blank">**Configure L
     ```
     </TabItem>
     <TabItem value="azure-openai" label="Azure OpenAI">
-    `gpt-4o-mini` is set as the default model. You can sign up to their platform **[here](https://azure.microsoft.com/en-us/products/ai-services/openai-service)**
+    `gpt-4.1` is set as the default model. You can sign up to their platform **[here](https://azure.microsoft.com/en-us/products/ai-services/openai-service)**
 
     ```bash
     export AZURE_OPENAI_API_KEY='your-api-key-here'
@@ -250,7 +250,7 @@ As a final verification step for your installation, set up the required environm
     <TabItem value="azure-openai" label="Azure OpenAI">
         In your local `.env` file, set up your API key and API endpoint as environment variables using `AZURE_OPENAI_API_KEY` and `AZURE_OPENAI_ENDPOINT`.<br/>
         Then create a file e.g. `main.py` in your project directory and paste the following code in.
-        ```python title="main.py" skip=true
+        ```python title="main.py"
         import os
         from dotenv import load_dotenv
         from portia import (
