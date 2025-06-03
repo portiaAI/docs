@@ -151,7 +151,7 @@ including those at each step in the plan.
 This is very useful for debugging what the agent did,
 as well as obtaining any output from `plan_run.outputs`.
 
-```python id=tour_code_4 depends_on=tour_code_1 depends_on=tour_code_3
+```python id=tour_code_4 depends_on=tour_code_2,tour_code_3
 plan_run = portia.run(task0)
 ```
 
@@ -228,7 +228,7 @@ three tools will be required.
 Let's skip to near the end 🙂!
 The following code configures a Portia instance:
 
-```python id=tour_code_6 depends_on=tour_code_1 depends_on=tour_code_3
+```python id=tour_code_6 depends_on=tour_code_3
 # Insert other imports detailed above
 from portia import open_source_tool_registry
 
@@ -250,7 +250,14 @@ in the same way as you might combine two Python lists.
 Finally, let's look at the code that executes the task.
 It's slightly different from before:
 
-```python id=tour_code_7 depends_on=tour_code_1 depends_on=tour_code_3 depends_on=tour_code_6
+<!-- Don't send the email in our tests. This won't be shown on the website
+```python id=tour_code_invisible_1
+task2 = (
+   "Research the price of gold in the last 30 days."
+)
+```
+-->
+```python id=tour_code_7 depends_on=tour_code_5,tour_code_6,tour_code_invisible_1
 plan = portia.plan(task2)
 print(plan.pretty_print())
 
@@ -341,7 +348,7 @@ registry = McpToolRegistry.from_stdio_connection(
 
 This will execute the underlying shell command, _and_ return a `ToolRegistry` object that will allow Portia to call it.
 
-```python id=tour_code_10 depends_on=tour_code_1 depends_on=tour_code_3 depends_on=tour_code_9
+```python id=tour_code_10 depends_on=tour_code_3,tour_code_9
 portia = Portia(
    config=my_config,
    tools=registry,
@@ -354,7 +361,7 @@ your Python code would require access to the end-result of the agent's research.
 This can be found in the `PlanRun.outputs.final_output` attribute,
 as shown in the last line of code:
 
-```python id=tour_code_11 depends_on=tour_code_1 depends_on=tour_code_3 depends_on=tour_code_9 depends_on=tour_code_10
+```python id=tour_code_11 depends_on=tour_code_8,tour_code_10
 print(portia.run(task).outputs.final_output)
 ```
 
@@ -411,7 +418,7 @@ but that does require a paid account.
 So for running this example locally,
 we recommend that you run using the local browser tool.
 
-```python id=tour_code_14 depends_on=tour_code_1 depends_on=tour_code_3 depends_on=tour_code_13
+```python id=tour_code_14 depends_on=tour_code_3,tour_code_12,tour_code_13
 portia = Portia(
    config=my_config,
    tools=[browser_tool],

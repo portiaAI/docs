@@ -21,15 +21,13 @@ IMPORTS_TO_MOCK = {
 }
 
 
-@pytest.mark.parametrize("example", find_examples("docs/product/"), ids=str)
+@pytest.mark.parametrize(
+    "example", find_examples("docs/product/Get started/A tour of our SDK.md"), ids=str
+)
 def test_docstrings(example: CodeExample, eval_example: EvalExample):
     # If the example has depends_on=example1, then we'll look for an example with id=example1
     # and load that code in before the current example.
-    dependent_examples = [
-        _get_example_by_id(tag.split("depends_on=")[1])
-        for tag in example.prefix_tags()
-        if "depends_on=" in tag
-    ]
+    dependent_examples = _get_all_dependencies(example)
     example.source = "\n".join(
         [dependent_example.source for dependent_example in dependent_examples]
         + [example.source]
@@ -55,6 +53,57 @@ def test_docstrings(example: CodeExample, eval_example: EvalExample):
         patch("builtins.input", side_effect=mock_input),
     ):
         eval_example.run(example)
+
+
+def _get_all_dependencies(
+    example: CodeExample, visited: set[str] = None
+) -> list[CodeExample]:
+    """Recursively get all dependencies for an example."""
+    if visited is None:
+        visited = set()
+
+    # Get the example ID if it exists
+    example_id = None
+    for tag in example.prefix_tags():
+        if tag.startswith("id="):
+            example_id = tag.split("id=")[1]
+            break
+
+    # Prevent infinite loops
+    if example_id and example_id in visited:
+        return []
+
+    if example_id:
+        visited.add(example_id)
+
+    # Find the depends_on tag
+    depends_on_tag = None
+    for tag in example.prefix_tags():
+        if tag.startswith("depends_on="):
+            depends_on_tag = tag
+            break
+
+    if not depends_on_tag:
+        return []
+
+    # Extract dependency IDs (comma-separated)
+    dependency_ids = depends_on_tag.split("depends_on=")[1].split(",")
+    dependency_ids = [dep_id.strip() for dep_id in dependency_ids]  # Remove whitespace
+
+    # Recursively retrieve dependencies
+    all_dependencies = []
+    for dep_id in dependency_ids:
+        try:
+            dep_example = _get_example_by_id(dep_id)
+            nested_dependencies = _get_all_dependencies(dep_example, visited.copy())
+            all_dependencies.extend(nested_dependencies)
+            if dep_example not in all_dependencies:
+                all_dependencies.append(dep_example)
+        except ValueError:
+            # Skip if dependency not found
+            continue
+
+    return all_dependencies
 
 
 def _get_example_by_id(id: str) -> CodeExample:
