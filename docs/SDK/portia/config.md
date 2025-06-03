@@ -287,6 +287,15 @@ def parse_feature_flags() -> Self
 
 Add feature flags if not provided.
 
+#### setup\_cache
+
+```python
+@model_validator(mode="after")
+def setup_cache() -> Self
+```
+
+Set up LLM cache if Redis URL is provided.
+
 #### parse\_storage\_class
 
 ```python
