@@ -86,7 +86,7 @@ We'll go slower through this first file,
 so you can understand all the details,
 and in later examples I'll just cover what's changed.
 
-```python
+```python id=tour_code_1
 from portia import (
    Config,
    Portia,
@@ -110,7 +110,7 @@ As you can see here, command-line functionality is stored in `portia.cli`.
 With that out of the way, let's define a task!
 This file contains two hard-coded tasks:
 
-```python
+```python id=tour_code_2
 # A relatively simple task:
 task0 = "Star the github repo for portiaAI/portia-sdk-python"
 
@@ -133,7 +133,7 @@ and adds in the `CLIExecutionHooks`,
 which adds control-flow for Portia to interrupt the run when required,
 and interact with the user on the command-line.
 
-```python
+```python id=tour_code_3 depends_on=tour_code_1
 # Instantiate a Portia runner.
 # Load it with the default config from the environment, and with Portia cloud tools.
 # Use the CLIExecutionHooks to allow the user to provide input to the agents via the CLI when needed
@@ -151,7 +151,7 @@ including those at each step in the plan.
 This is very useful for debugging what the agent did,
 as well as obtaining any output from `plan_run.outputs`.
 
-```python
+```python id=tour_code_4 depends_on=tour_code_1 depends_on=tour_code_3
 plan_run = portia.run(task0)
 ```
 
@@ -207,7 +207,7 @@ Trying out the more complex example can show you how powerful autonomous agents 
 
 Here's the task that will be execute by default:
 
-```python
+```python id=tour_code_5
 # Needs Tavily API key
 task2 = (
    "Research the price of gold in the last 30 days, "
@@ -228,7 +228,10 @@ three tools will be required.
 Let's skip to near the end 🙂!
 The following code configures a Portia instance:
 
-```python
+```python id=tour_code_6 depends_on=tour_code_1 depends_on=tour_code_3
+# Insert other imports detailed above
+from portia import open_source_tool_registry
+
 portia = Portia(
    config=my_config,
    tools=PortiaToolRegistry(my_config) + open_source_tool_registry,
@@ -247,7 +250,7 @@ in the same way as you might combine two Python lists.
 Finally, let's look at the code that executes the task.
 It's slightly different from before:
 
-```python
+```python id=tour_code_7 depends_on=tour_code_1 depends_on=tour_code_3 depends_on=tour_code_6
 plan = portia.plan(task2)
 print(plan.pretty_print())
 
@@ -308,7 +311,7 @@ which you'll see below.
 
 Here's the task that the example code will execute:
 
-```python
+```python id=tour_code_8
 task = "Read the portialabs.ai website and tell me what they do"
 ```
 
@@ -327,7 +330,8 @@ It's also super-fast!
 
 We configured an `MCPToolRegistry` that will run this server with the following code:
 
-```python
+```python id=tour_code_9
+from portia import McpToolRegistry
 registry = McpToolRegistry.from_stdio_connection(
    server_name="fetch",
    command="uvx",
@@ -337,7 +341,7 @@ registry = McpToolRegistry.from_stdio_connection(
 
 This will execute the underlying shell command, _and_ return a `ToolRegistry` object that will allow Portia to call it.
 
-```python
+```python id=tour_code_10 depends_on=tour_code_1 depends_on=tour_code_3 depends_on=tour_code_9
 portia = Portia(
    config=my_config,
    tools=registry,
@@ -350,7 +354,7 @@ your Python code would require access to the end-result of the agent's research.
 This can be found in the `PlanRun.outputs.final_output` attribute,
 as shown in the last line of code:
 
-```python
+```python id=tour_code_11 depends_on=tour_code_1 depends_on=tour_code_3 depends_on=tour_code_9 depends_on=tour_code_10
 print(portia.run(task).outputs.final_output)
 ```
 
@@ -379,7 +383,7 @@ It's important to note that at no point are user credentials shared with Portia!
 
 As with the other examples, let start by looking at the task we wish the agent to complete:
 
-```python
+```python id=tour_code_12
 task = (
    "Find my connections called 'Bob' on LinkedIn (https://www.linkedin.com)"
 )
@@ -390,7 +394,8 @@ like the previous example did.
 Instead, it needs the user to log into LinkedIn,
 so that the agent can drive the browser as the logged-in user.
 
-```python
+```python id=tour_code_13
+from portia.open_source_tools.browser_tool import BrowserTool, BrowserInfrastructureOption
 # Change `infrastructure_option` to `BrowserInfrastructureOption.REMOTE` to use Browserbase
 # instead of local Chrome.
 browser_tool = BrowserTool(
@@ -406,7 +411,7 @@ but that does require a paid account.
 So for running this example locally,
 we recommend that you run using the local browser tool.
 
-```python
+```python id=tour_code_14 depends_on=tour_code_1 depends_on=tour_code_3 depends_on=tour_code_13
 portia = Portia(
    config=my_config,
    tools=[browser_tool],
