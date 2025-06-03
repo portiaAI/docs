@@ -127,21 +127,21 @@ Options for setting the LLM provider are:
     </TabItem>
     <TabItem value="azure-openai" label="Azure OpenAI">
         Using the `LLMProvider` enum:
-        ```python skip=true
+        ```python
         from portia import LLMProvider, Config
 
         config = Config.from_default(llm_provider=LLMProvider.AZURE_OPENAI)
         ```
 
         Passing the Provider name as a string value:
-        ```python skip=true
+        ```python
         from portia import LLMProvider, Config
 
         config = Config.from_default(llm_provider="azure-openai")
         ```
 
         Inferred from environment variables (if `AZURE_OPENAI_API_KEY=sk-...` _and_ `AZURE_OPENAI_ENDPOINT=https://...` are in the environment variables):
-        ```python skip=true
+        ```python
         from portia import LLMProvider, Config
 
         config = Config.from_default()  # config.llm_provider => LLMProvider.AZURE_OPENAI
@@ -195,7 +195,7 @@ The API keys for the LLM Providers can be set via `Config` class properties or e
     </TabItem>
     <TabItem value="azure-openai" label="Azure OpenAI">
         Passing the API key to the `Config` class:
-        ```python skip=true
+        ```python
         from portia import Config
         # NB You must also set the Azure OpenAI endpoint to your Azure OpenAI instance!
         config = Config.from_default(azure_openai_api_key="sk-...", azure_openai_endpoint="https://...")
@@ -275,7 +275,7 @@ Examples:
     </TabItem>
     <TabItem value="azure-openai" label="Azure OpenAI">
         Setting the default model by its name:
-        ```python skip=true
+        ```python
         from portia import Config
 
         config = Config.from_default(default_model="azure-openai/gpt-4o")
@@ -370,7 +370,7 @@ You can replace the tool in the `DefaultToolRegistry` with your own instance of 
         ```
     </TabItem>
     <TabItem value="azure-openai" label="Azure OpenAI">
-        ```python skip=true
+        ```python
         import dotenv
         from portia import Config, DefaultToolRegistry, LLMTool, Portia
         from portia.model import OpenAIGenerativeModel
@@ -439,12 +439,6 @@ You can control where you store and retrieve plan run states using the `storage_
 - `DISK` allows you to use local storage. You will need to set the `storage_dir` appropriately (defaults to .portia in the directory you are running Portia from).
 - `CLOUD` uses the Portia cloud (<a href="/store-retrieve-plan-runs" target="_blank">**Use Portia cloud ↗**</a> - default if PORTIA_API_KEY is specified).
 
-## Other config settings
-
-| Property | Purpose |
-| ----------- | ----------- |
-| `planner_system_context_extension` | Enrich the system context with more information. For example you can add information specific to a frontend user session such as department, title, timezone etc. |
-
 ## Manage logging
 You can control logging behaviour with the following `Config` properties (<a href="/SDK/portia/config" target="_blank">**SDK reference ↗**</a>):
 | Property | Purpose |
@@ -452,6 +446,13 @@ You can control logging behaviour with the following `Config` properties (<a hre
 | `default_log_level` | Controls the minimal log level, i.e. setting it to `DEBUG` will print all logs whereas setting it to `ERROR` will only display ERROR logs and above. This defaults to `INFO`. The ENUM is accessible via the `LogLevel` class |
 | `default_log_sink` | Controls where logs are sent. By default this string is set to  `"sys.stdout"` (STDOUT) but can also be set to  `"sys.stderr"` (STDERR) or to a file by setting this to a file path e.g. `"./logs.txt"` |
 | `json_log_serialize` | Sets whether logs are JSON serialized before sending them to the log sink. |
+
+
+## Manage caching
+
+| Property | Purpose |
+| ----------- | ----------- |
+| `llm_redis_cache_url` | You can specify a URL for a redis instance for the purposes of LLM caching using the llm_redis_cache_url property of your Portia client Config. This can also be set with the LLM_REDIS_CACHE_URL environment variable. If this is set, then we will hit this cache instance before any calls to LLMs. The URL should include any auth details that are needed for access to the redis including username/password e.g. redis://default:$PASSWORD@localhost:6379 |
 
 ## Bringing it all together
 <details>
@@ -464,7 +465,7 @@ Let's test out a couple of these parameters. We will start first by loading the 
 - We will explicitly save plans and runs to disk in a `demo_runs` directory. In the default config the `storage_class` is set to `MEMORY` so we will change it to `DISK`
 - We will set the `default_log_level` to `DEBUG`, which will result in the generated plan, every change in the plan run state and all tool calls appearing in the logs.
 
-```python title="main.py"
+```python title="main.py" skip=true skip_reason="Redis container not available"
 from dotenv import load_dotenv
 from portia import (
     Config,
@@ -476,11 +477,12 @@ from portia.open_source_tools.registry import example_tool_registry
 
 load_dotenv()
 
-# Load the default config with specified storage and logging options
+# Load the default config with specified storage, logging and caching options
 my_config = Config.from_default(
     storage_class=StorageClass.DISK, 
     storage_dir='demo_runs', # Amend this based on where you'd like your plans and plan runs saved!
     default_log_level=LogLevel.DEBUG,
+    llm_redis_cache_url="redis://localhost:6379"
 )
 
 # Instantiate a Portia instance. Load it with the default config and with some example tools

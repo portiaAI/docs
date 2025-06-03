@@ -47,7 +47,24 @@ Take a moment to examine the plan run created by the code above in your dashboar
 ## Retrieve plan runs from the cloud
 
 You can retrieve both plans and run states for a stored plan run. For that you would use the `get_plan_run` and `get_plan` methods of the `Storage` class. You will need to specify the `PortiaCloudStorage` class in particular here. Go ahead and copy your plan run ID from the dashboard entry created in the previous section into the code below.
-```python title="main.py" skip=true
+<!-- Setup a plan run with the correct id. This won't be rendered on the website
+```python id=plan_run_invisible_setup
+from portia import Portia
+from portia.plan import PlanBuilder, PlanUUID
+from portia.plan_run import PlanRunUUID
+from uuid import UUID
+plan = PlanBuilder("test").build()
+plan_run = Portia().run_plan(plan)
+plan_run_id = PlanRunUUID(uuid=UUID("229956fb-820d-4099-b69c-0606ca620b86"))
+plan_run.id = plan_run_id
+try:
+  if not portia.storage.get_plan_run(plan_run_id):
+    Portia().storage.save_plan_run(plan_run)
+except Exception as e:
+  pass
+```
+-->
+```python title="main.py" id=manage_plan_run_intro depends_on=plan_run_invisible_setup
 from dotenv import load_dotenv
 from portia import Config, StorageClass
 from portia.storage import PortiaCloudStorage
@@ -118,7 +135,7 @@ Retrieved plan:
 
 If you wanted to retrieve plan runs in bulk, you can use the `get_plan_runs` method (plural!) from `StorageClass`. This returns paginated data so you will need to process that information further to cycle through all results. Remember the first page number returned is always 1 (not 0!).
 
-```python skip=true
+```python depends_on=plan_run_invisible_setup depends_on=manage_plan_run_intro
 plan_run_list_init = my_store.get_plan_runs() # again, plural!
 total_pages = plan_run_list_init.total_pages
 

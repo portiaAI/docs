@@ -27,7 +27,7 @@ We track the following Portia function calls:
 
 For each of these, we track usage of features and tool IDs, e.g for `Portia.run`:
 
-```python skip=true
+```python skip=true skip_reason=not_expecting_code_to_be_run
 self.telemetry.capture(PortiaFunctionCallTelemetryEvent(
     function_name='portia_run', function_args={
         'tools': ",".join([tool.id if isinstance(tool, Tool) else tool for tool in tools]) if tools else None,

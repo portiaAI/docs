@@ -32,6 +32,10 @@ This schema defines the expected input parameters for the BrowserToolForUrl clas
 - `task` _str_ - The task description that should be performed by the browser tool.
   This is a required field that specifies what actions should be taken
   on the predefined URL.
+- `task_data` _list[Any] | str | None_ - Task data that should be used to complete the task.
+  Can be a string, a list of strings, or a list of objects that will be converted to
+  strings. Important: This should include all relevant data in their entirety,
+  from the first to the last character (i.e. NOT a summary).
 
 ## BrowserToolSchema Objects
 
@@ -50,6 +54,10 @@ This schema defines the expected input parameters for the BrowserTool class.
 - `task` _str_ - The task description that should be performed by the browser tool.
   This is a required field that specifies what actions should be taken
   on the provided URL.
+- `task_data` _list[Any] | str | None_ - Task data that should be used to complete the task.
+  Can be a string, a list of strings, or a list of objects that will be converted to
+  strings. Important: This should include all relevant data in their entirety,
+  from the first to the last character (i.e. NOT a summary).
 
 ## BrowserTaskOutput Objects
 
@@ -136,11 +144,33 @@ def infrastructure_provider() -> BrowserInfrastructureProvider
 
 Get the infrastructure provider instance (cached).
 
+#### process\_task\_data
+
+```python
+@staticmethod
+def process_task_data(task_data: list[Any] | str | None) -> str
+```
+
+Process task_data into a string, handling different input types.
+
+**Arguments**:
+
+- `task_data` - Data that can be a None, a string or a list of objects.
+  
+
+**Returns**:
+
+  A string representation of the data, with list items joined by newlines.
+
 #### run
 
 ```python
-def run(ctx: ToolRunContext, url: str,
-        task: str) -> str | BaseModel | ActionClarification
+def run(
+    ctx: ToolRunContext,
+    url: str,
+    task: str,
+    task_data: list[Any] | str | None = None
+) -> str | BaseModel | ActionClarification
 ```
 
 Run the BrowserTool.
@@ -202,8 +232,11 @@ Initialize the BrowserToolForUrl.
 #### run
 
 ```python
-def run(ctx: ToolRunContext,
-        task: str) -> str | BaseModel | ActionClarification
+def run(
+    ctx: ToolRunContext,
+    task: str,
+    task_data: list[Any] | str | None = None
+) -> str | BaseModel | ActionClarification
 ```
 
 Run the BrowserToolForUrl.
@@ -225,6 +258,8 @@ def setup_browser(ctx: ToolRunContext) -> Browser
 
 Get a Browser instance.
 
+This is called at the start of every step using this tool.
+
 #### construct\_auth\_clarification\_url
 
 ```python
@@ -242,7 +277,7 @@ Construct the URL for the auth clarification.
 def step_complete(ctx: ToolRunContext) -> None
 ```
 
-Call when the step is complete to e.g release the session.
+Call when the step is complete to e.g. release the session if needed.
 
 ## BrowserInfrastructureProviderLocal Objects
 

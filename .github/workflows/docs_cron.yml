@@ -1,4 +1,4 @@
-name: Test Code Examples
+name: Daily Test Code Examples
 
 on:
   schedule:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   test-staging:
-    name: Check code examples in docs against staging
+    name: Main branch test (Staging)
     runs-on: ubuntu-latest
 
     steps:
@@ -23,7 +23,7 @@ jobs:
       run: poetry install --no-interaction --all-extras
 
     - name: Run tests
-      run: poetry run pytest
+      run: poetry run pytest -n 10
       env:
         PORTIA_API_KEY: ${{ secrets.PORTIA_STAGING_API_KEY }}
         PORTIA_API_ENDPOINT: ${{ secrets.PORTIA_STAGING_API_ENDPOINT }}
@@ -33,6 +33,12 @@ jobs:
         OPENWEATHERMAP_API_KEY: ${{ secrets.OPENWEATHERMAP_API_KEY }}
         TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
         GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+        AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
+        AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
+        LANGCHAIN_API_KEY: ${{ secrets.LANGCHAIN_API_KEY }}
+        LANGCHAIN_TRACING_V2: true
+        LANGCHAIN_ENDPOINT: https://api.smith.langchain.com
+        LANGCHAIN_PROJECT: docs-testing
 
     - name: Notify Slack on failure
       if: failure()
@@ -44,7 +50,7 @@ jobs:
         channel-id: C07V8NK09RC
 
   test-production:
-    name: Check code examples in docs against production
+    name: Production branch test
     runs-on: ubuntu-latest
 
     steps:
@@ -58,10 +64,12 @@ jobs:
         echo "$HOME/.local/bin" >> $GITHUB_PATH
 
     - name: Install dependencies
-      run: poetry install --no-interaction --all-extras
+      run: |
+        poetry install --no-interaction --all-extras
+        poetry run pip install pytest-xdist
 
     - name: Run tests
-      run: poetry run pytest
+      run: poetry run pytest -n 10
       env:
         PORTIA_API_KEY: ${{ secrets.PORTIA_API_KEY }}
         OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -70,6 +78,12 @@ jobs:
         OPENWEATHERMAP_API_KEY: ${{ secrets.OPENWEATHERMAP_API_KEY }}
         TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
         GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+        AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
+        AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
+        LANGCHAIN_API_KEY: ${{ secrets.LANGCHAIN_API_KEY }}
+        LANGCHAIN_TRACING_V2: true
+        LANGCHAIN_ENDPOINT: https://api.smith.langchain.com
+        LANGCHAIN_PROJECT: docs-testing
 
     - name: Notify Slack on failure
       if: failure()

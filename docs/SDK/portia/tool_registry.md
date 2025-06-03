@@ -343,6 +343,42 @@ async def from_stdio_connection_async(
 
 Create a new MCPToolRegistry using a stdio connection (Async version).
 
+#### from\_streamable\_http\_connection
+
+```python
+@classmethod
+def from_streamable_http_connection(
+        cls,
+        server_name: str,
+        url: str,
+        headers: dict[str, Any] | None = None,
+        timeout: float = 30,
+        sse_read_timeout: float = 60 * 5,
+        *,
+        terminate_on_close: bool = True,
+        auth: httpx.Auth | None = None) -> McpToolRegistry
+```
+
+Create a new MCPToolRegistry using a StreamableHTTP connection (Sync version).
+
+#### from\_streamable\_http\_connection\_async
+
+```python
+@classmethod
+async def from_streamable_http_connection_async(
+        cls,
+        server_name: str,
+        url: str,
+        headers: dict[str, Any] | None = None,
+        timeout: float = 30,
+        sse_read_timeout: float = 60 * 5,
+        *,
+        terminate_on_close: bool = True,
+        auth: httpx.Auth | None = None) -> McpToolRegistry
+```
+
+Create a new MCPToolRegistry using a StreamableHTTP connection (Async version).
+
 ## DefaultToolRegistry Objects
 
 ```python

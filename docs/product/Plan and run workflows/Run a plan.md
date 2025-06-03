@@ -222,7 +222,24 @@ You can track plan run state changes live as they occur through the logs by sett
 
 When you set the storage_class property to CLOUD in the config of your Portia instance (see <a href="/manage-config##manage-storage-options" target="_blank">**Manage storage options ↗**</a> for more details), plans will automatically be stored in the cloud once created. You can then easily retrieve plans from storage in order to run them:
 
-```python skip=true
+<!-- Setup a plan with the correct id. This won't be rendered on the website
+```python id=plan_invisible_setup
+from portia.plan import PlanBuilder, PlanUUID
+from portia import Portia
+from uuid import UUID
+portia = Portia()
+plan = PlanBuilder("test").build()
+plan_id = PlanUUID(uuid=UUID("f8003b53-9b62-44e2-ac67-887146c07949"))
+plan.id = plan_id
+try:
+  if not portia.storage.get_plan(plan_id):
+    portia.storage.save_plan(plan)
+except Exception as e:
+  pass
+```
+-->
+
+```python depends_on=plan_invisible_setup
 from dotenv import load_dotenv
 from portia import (
     Portia,
@@ -260,7 +277,7 @@ In the planning stage, you would define the list of plan inputs, providing a nam
 
 For example, consider a simple agent that tells you the weather in a particular city, with the city provided as a plan input.
 To set this up, we define the plan input for the planner as follows:
-```python
+```python id=plan_with_inputs
 from portia import Portia
 
 portia = Portia()
@@ -274,7 +291,7 @@ This will create a single step plan that uses the weather tool with $city as an 
 Then, when running the plan, we pass in a value for the input. In this case, we select "London".
 This value will then be used for the `$city` input in the plan and we will find the temperature in London.
 
-```python skip=true
+```python depends_on=plan_with_inputs
 # Specify the values for those inputs when you run the plan
 plan_run_inputs = {"name": "$city", "value": "London"}
 plan_run = portia.run("Get the temperature for the provided city", plan_run_inputs=[plan_run_inputs])

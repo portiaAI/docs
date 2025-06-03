@@ -1,4 +1,4 @@
-name: Test Code Examples
+name: PR Test Code Examples
 
 on:
   workflow_dispatch:
@@ -21,7 +21,7 @@ jobs:
         run: poetry install --no-interaction --all-extras
 
       - name: Run tests
-        run: poetry run pytest
+        run: poetry run pytest -n 10
         env:
           PORTIA_API_KEY: ${{ secrets.PORTIA_STAGING_API_KEY }}
           PORTIA_API_ENDPOINT: ${{ secrets.PORTIA_STAGING_API_ENDPOINT }}
@@ -31,3 +31,9 @@ jobs:
           OPENWEATHERMAP_API_KEY: ${{ secrets.OPENWEATHERMAP_API_KEY }}
           TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
           GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+          LANGCHAIN_API_KEY: ${{ secrets.LANGCHAIN_API_KEY }}
+          LANGCHAIN_TRACING_V2: true
+          LANGCHAIN_ENDPOINT: https://api.smith.langchain.com
+          LANGCHAIN_PROJECT: docs-testing
+          AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
+          AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}

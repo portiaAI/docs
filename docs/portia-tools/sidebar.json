@@ -19,7 +19,7 @@
           "label": "Browser Use",
           "id": "portia-tools/open-source/browser",
           "customProps": {
-            "description": "General purpose browser tool. Can be used to navigate to a URL and complete tasks. Should only be used if the task requires a browser and you are sure of the URL. This tool handles a full end to end task. DO NOT break a single task into multiple browser tool steps as each step is run in an independent new session!",
+            "description": "General purpose browser tool. Can be used to navigate to a URL and complete tasks. Should only be used if the task requires a browser and you are sure of the URL. This tool handles a full end to end task. It is capable of doing multiple things across different URLs within the same root domain as part of the end to end task. As a result, do not call this tool more than once back to back unless it is for different root domains - just call it once with the combined task and the URL set to the root domain.",
             "category": "opensource",
             "categoryLabel": "Open Source",
             "vendor": "opensource",
@@ -361,7 +361,7 @@
           "label": "Email: Draft",
           "id": "portia-tools/google-workspace/gmail-draft-email",
           "customProps": {
-            "description": "Drafts an email for the recipients indicated. Should not be used with the send email tool. Instead to send a draft email use the send_draft_email_tool. If the user hasn't given you an explicit title or body to the email, choose something appropriate based on the context of the email.",
+            "description": "Drafts an email for the recipients indicated. Should not be used with the send email tool. Instead to send a draft email use the portia:google:gmail:send_draft_email. If the user hasn't given you an explicit title or body to the email, choose something appropriate based on the context of the email.",
             "category": "google-workspace",
             "categoryLabel": "Google Workspace",
             "vendor": "google",
@@ -373,7 +373,7 @@
           "label": "Email: Search",
           "id": "portia-tools/google-workspace/gmail-search-email",
           "customProps": {
-            "description": "Searches for emails in the user's inbox and ",
+            "description": "Searches for emails and drafts in the user's inbox and returns emails content that match the query.",
             "category": "google-workspace",
             "categoryLabel": "Google Workspace",
             "vendor": "google",
@@ -397,7 +397,7 @@
           "label": "Email: Send Draft",
           "id": "portia-tools/google-workspace/gmail-send-draft-email",
           "customProps": {
-            "description": "Sends a previously drafted email with the email title, body and recipientsindicated in the draft. Required a draft id which is obtained from the DraftEmailTool.",
+            "description": "Sends a previously drafted email with the email title, body and recipients indicated in the draft. Requires a draft id which is obtained from the DraftEmailTool. Only use this tool if you actually want to send an email, not if the user just wants to draft an email.",
             "category": "google-workspace",
             "categoryLabel": "Google Workspace",
             "vendor": "google",
@@ -467,7 +467,7 @@
           "label": "Outlook: Send Draft",
           "id": "portia-tools/microsoft/outlook-send-draft-email",
           "customProps": {
-            "description": "Sends a previously drafted email with the email title, body and recipients indicated in the draft. Requires a draft id which is obtained from the DraftEmailTool.",
+            "description": "Sends a previously drafted email with the email title, body and recipients indicated in the draft. Requires a draft id which is obtained from the DraftEmailTool. Only use this tool if you actually want to send an email, not if the user just wants to draft an email.",
             "category": "microsoft",
             "categoryLabel": "Microsoft",
             "vendor": "microsoft",
