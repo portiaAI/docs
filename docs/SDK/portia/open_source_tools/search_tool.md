@@ -16,7 +16,7 @@ Input for SearchTool.
 ## SearchTool Objects
 
 ```python
-class SearchTool(Tool[str])
+class SearchTool(Tool)
 ```
 
 Searches the internet to find answers to the search query provided..

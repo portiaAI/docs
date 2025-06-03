@@ -108,7 +108,7 @@ Serialize the value to a string.
 
 **Arguments**:
 
-- `value` _SERIALIZABLE_TYPE_VAR | None_ - The value to serialize.
+- `value` _Serializable | None_ - The value to serialize.
   
 
 **Returns**:

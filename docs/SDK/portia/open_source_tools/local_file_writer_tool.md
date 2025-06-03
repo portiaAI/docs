@@ -16,7 +16,7 @@ Schema defining the inputs for the FileWriterTool.
 ## FileWriterTool Objects
 
 ```python
-class FileWriterTool(Tool[str])
+class FileWriterTool(Tool)
 ```
 
 Writes content to a file.

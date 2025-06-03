@@ -16,7 +16,7 @@ Input for WeatherTool.
 ## WeatherTool Objects
 
 ```python
-class WeatherTool(Tool[str])
+class WeatherTool(Tool)
 ```
 
 Get the weather for a given city.
