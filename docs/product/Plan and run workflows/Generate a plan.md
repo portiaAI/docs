@@ -208,15 +208,15 @@ portia = Portia(tools=example_tool_registry)
 
 # Final Output schema type to coerce to
 class FinalPlanOutput(BaseModel):
-    result: float
+    result: float # result here is an integer output from calculator tool, but will be converted to a float via structured output
 
 # Example via plan builder, attach to the plan at top level
 plan = PlanBuilder(
-  "Add 1 + 1 then divide by 3", structured_output_schema=FinalPlanOutput
+  "Add 1 + 1", structured_output_schema=FinalPlanOutput
 ).step(
-  "Add 1 + 1 then divide by 3", tool_id='calculator_tool'
+  "Add 1 + 1", tool_id='calculator_tool'
 ).build()
 
-plan2 = portia.plan("Add 1 + 1, then divide by 3", structured_output_schema=FinalPlanOutput) 
+plan2 = portia.plan("Add 1 + 1", structured_output_schema=FinalPlanOutput) 
 ```
 Run the plan as normal and the final output will be an instance of the attached schema. 
