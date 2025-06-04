@@ -217,6 +217,7 @@ plan = PlanBuilder(
   "Add 1 + 1", tool_id='calculator_tool'
 ).build()
 
+# Example via plan interface
 plan2 = portia.plan("Add 1 + 1", structured_output_schema=FinalPlanOutput) 
 ```
 Run the plan as normal and the final output will be an instance of the attached schema. 
