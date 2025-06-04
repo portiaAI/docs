@@ -100,7 +100,7 @@ This enum defines the available options for running browser automation tasks.
 ## BrowserTool Objects
 
 ```python
-class BrowserTool(Tool)
+class BrowserTool(Tool[str | BaseModel])
 ```
 
 General purpose browser tool. Customizable to user requirements.

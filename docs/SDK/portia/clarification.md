@@ -38,7 +38,7 @@ or a user choice from a list.
 
 - `id` _ClarificationUUID_ - A unique identifier for this clarification.
 - `category` _ClarificationCategory_ - The category of this clarification, indicating its type.
-- `response` _Serializable | None_ - The user&#x27;s response to this clarification, if any.
+- `response` _SERIALIZABLE_TYPE_VAR | None_ - The user&#x27;s response to this clarification, if any.
 - `step` _int | None_ - The step this clarification is associated with, if applicable.
 - `user_guidance` _str_ - Guidance provided to the user to assist with the clarification.
 - `resolved` _bool_ - Whether the clarification has been resolved by the user.

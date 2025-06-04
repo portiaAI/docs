@@ -16,7 +16,7 @@ Input for LLM Tool.
 ## LLMTool Objects
 
 ```python
-class LLMTool(Tool)
+class LLMTool(Tool[str | BaseModel])
 ```
 
 General purpose LLM tool. Customizable to user requirements. Won&#x27;t call other tools.

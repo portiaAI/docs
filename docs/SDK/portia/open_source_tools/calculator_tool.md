@@ -32,7 +32,7 @@ Input for the CalculatorTool.
 ## CalculatorTool Objects
 
 ```python
-class CalculatorTool(Tool)
+class CalculatorTool(Tool[float])
 ```
 
 Takes a basic maths question in natural language and returns the result.

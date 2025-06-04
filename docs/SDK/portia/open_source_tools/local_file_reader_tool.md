@@ -16,7 +16,7 @@ Schema defining the inputs for the FileReaderTool.
 ## FileReaderTool Objects
 
 ```python
-class FileReaderTool(Tool)
+class FileReaderTool(Tool[str])
 ```
 
 Finds and reads content from a local file on Disk.

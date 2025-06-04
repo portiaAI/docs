@@ -43,7 +43,7 @@ Response from the /ready endpoint.
 ## Tool Objects
 
 ```python
-class Tool(BaseModel)
+class Tool(BaseModel, Generic[SERIALIZABLE_TYPE_VAR])
 ```
 
 Abstract base class for a tool.
@@ -97,7 +97,7 @@ If left unimplemented will always return true.
 ```python
 @abstractmethod
 def run(ctx: ToolRunContext, *args: Any,
-        **kwargs: Any) -> Serializable | Clarification
+        **kwargs: Any) -> SERIALIZABLE_TYPE_VAR | Clarification
 ```
 
 Run the tool.
@@ -236,7 +236,7 @@ This function serializes the arguments schema by returning the class name of the
 ## PortiaRemoteTool Objects
 
 ```python
-class PortiaRemoteTool(Tool)
+class PortiaRemoteTool(Tool, Generic[SERIALIZABLE_TYPE_VAR])
 ```
 
 Tool that passes run execution to Portia Cloud.
@@ -291,7 +291,7 @@ Check if the remote tool is ready by calling the /ready endpoint.
 
 ```python
 def run(ctx: ToolRunContext, *args: Any,
-        **kwargs: Any) -> Serializable | None | Clarification
+        **kwargs: Any) -> SERIALIZABLE_TYPE_VAR | None | Clarification
 ```
 
 Invoke the run endpoint and handle the response.
@@ -310,7 +310,7 @@ during the request or parsing are raised as `ToolHardError`.
 
 **Returns**:
 
-  Serializable | None | Clarification: The result of the run execution, which
+  SERIALIZABLE_TYPE_VAR | None | Clarification: The result of the run execution, which
   could either be a serialized value, None, or a `Clarification` object.
   
 
@@ -342,7 +342,7 @@ Batch check readiness for Portia cloud tools.
 ## PortiaMcpTool Objects
 
 ```python
-class PortiaMcpTool(Tool)
+class PortiaMcpTool(Tool[str])
 ```
 
 A Portia Tool wrapper for an MCP server-based tool.

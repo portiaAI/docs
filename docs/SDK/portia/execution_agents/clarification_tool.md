@@ -16,7 +16,7 @@ Schema defining the inputs for the ClarificationTool.
 ## ClarificationTool Objects
 
 ```python
-class ClarificationTool(Tool)
+class ClarificationTool(Tool[str])
 ```
 
 Raises a clarification if the agent is unsure of an argument.

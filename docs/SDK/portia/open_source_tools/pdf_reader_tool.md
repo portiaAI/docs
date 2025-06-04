@@ -16,7 +16,7 @@ Input for PDFReaderTool.
 ## PDFReaderTool Objects
 
 ```python
-class PDFReaderTool(Tool)
+class PDFReaderTool(Tool[str])
 ```
 
 Read a PDF file and extract its text content using Mistral OCR.

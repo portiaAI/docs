@@ -25,7 +25,7 @@ Check that only one of image_url or image_file is provided.
 ## ImageUnderstandingTool Objects
 
 ```python
-class ImageUnderstandingTool(Tool)
+class ImageUnderstandingTool(Tool[str])
 ```
 
 General purpose image understanding tool. Customizable to user requirements.
