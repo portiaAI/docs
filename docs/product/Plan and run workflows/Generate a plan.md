@@ -187,3 +187,37 @@ Example plans can be used to bias the planner towards actions, tool use and beha
 For a deep dive into this feature and a practical example, check out our <a href="https://blog.portialabs.ai/improve-planning-with-user-led-learning" target="_blank">**ULL blog post on example plans ↗**</a>.
 
 Now that you know how to generate plans in response to a user query, let's take a look at how to run a plan in the next section.
+
+## Structured Output Schema
+
+For some plans you might want to have a structured output at the end of a plan, for this we allow the ability to attach a structured output schema to the plan that the summarizer agent will attempt to coerce the results to. This is optional. To use, attach to the Plan object, and any Plan Runs that are created from this will attempt to use structured output for the final result, this can pull information from any point of the plan steps and is not just the final step. To attach a schema, you can do it through the PlanBuilder or the Plan interfaces, as below.
+
+### PlanBuilder
+```python title='plan_structured_output.py'
+from portia.plan import PlanBuilder
+from pydantic import BaseModel
+from dotenv import load_dotenv
+from portia import (
+    Portia,
+    default_config,
+    example_tool_registry,
+)
+
+load_dotenv()
+portia = Portia(tools=example_tool_registry)
+
+# Final Output schema type to coerce to
+class FinalPlanOutput(BaseModel):
+    result: float # result here is an integer output from calculator tool, but will be converted to a float via structured output
+
+# Example via plan builder, attach to the plan at top level
+plan = PlanBuilder(
+  "Add 1 + 1", structured_output_schema=FinalPlanOutput
+).step(
+  "Add 1 + 1", tool_id='calculator_tool'
+).build()
+
+# Example via plan interface
+plan2 = portia.plan("Add 1 + 1", structured_output_schema=FinalPlanOutput) 
+```
+Run the plan as normal and the final output will be an instance of the attached schema. 
