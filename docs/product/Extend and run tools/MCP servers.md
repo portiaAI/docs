@@ -19,7 +19,7 @@ To find out more about these options, see the official MCP docs (<a href="https:
 The `server_name` argument is used by Portia to identify where tools have come from, you can set this to whatever makes most sense for the MCP server you are integrating. If you re-use old `Plan` objects later on, make sure to use the same `server_name` with the MCP server.
 
 <Tabs>
-  <TabItem value="mcp_stdio" label="mcp_stdio_example.py">
+  <TabItem value="mcp_stdio" label="STDIO">
     ```python title="mcp_stdio_example.py"
     import os
 
@@ -67,7 +67,7 @@ The `server_name` argument is used by Portia to identify where tools have come f
     portia = Portia(config=config, tools=tool_registry)
     ```
   </TabItem>
-  <TabItem value="mcp_streamable_http" label="mcp_streamable_http_example.py">
+  <TabItem value="mcp_streamable_http" label="Streamable HTTP">
     ```python title="mcp_streamable_http_example.py"
     from portia import (
         DefaultToolRegistry,
@@ -90,7 +90,7 @@ The `server_name` argument is used by Portia to identify where tools have come f
     portia = Portia(config=config, tools=tool_registry)
     ```
   </TabItem>
-  <TabItem value="mcp_sse" label="mcp_sse_example.py">
+  <TabItem value="mcp_sse" label="SSE">
     ```python title="mcp_sse_example.py"
     from portia import (
         DefaultToolRegistry,
