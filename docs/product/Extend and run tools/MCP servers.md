@@ -8,10 +8,11 @@ import TabItem from '@theme/TabItem';
 
 # Integrating an MCP Server
 
-The Model Context Protocol (MCP) makes it very easy to integrate third-party tools into your Portia AI project. To find out more you can visit the official MCP docs (<a href="https://modelcontextprotocol.io/" target="_blank">**↗**</a>). We offer the two methods currently available to interact with MCP servers:
+The Model Context Protocol (MCP) makes it very easy to integrate third-party tools into your Portia AI project. To find out more you can visit the official MCP docs (<a href="https://modelcontextprotocol.io/" target="_blank">**↗**</a>). We offer the three methods currently available to interact with MCP servers:
 
-- **stdio** (Standard input/output): The server runs as a subprocess of your main python process. Below we interact with that process via an npx command and a docker command provided with the correct arguments.
-- **sse** (Server-Sent Events): Communication is over HTTP, you can run the server locally or deploy a server remotely. Per below, you just need to specify the current server name and URL.
+- **STDIO** (Standard input/output): The server runs as a subprocess of your main python process. Below we interact with that process via an npx command and a docker command provided with the correct arguments.
+- **Streamable HTTP**: Communication is over HTTP, you can run the server locally or deploy a server remotely. Per below, you just need to specify the current server name and URL.
+- **SSE** (Server-Sent Events): A legacy method of communication over HTTP, since replaced by Streamable HTTP.
 
 To find out more about these options, see the official MCP docs (<a href="https://modelcontextprotocol.io/docs/concepts/transports" target="_blank">**↗**</a>).
 
@@ -59,6 +60,29 @@ The `server_name` argument is used by Portia to identify where tools have come f
             env={
                 "GITHUB_PERSONAL_ACCESS_TOKEN": "<YOUR TOKEN>"
             }
+        )
+        + DefaultToolRegistry(config)
+    )
+
+    portia = Portia(config=config, tools=tool_registry)
+    ```
+  </TabItem>
+  <TabItem value="mcp_streamable_http" label="mcp_streamable_http_example.py">
+    ```python title="mcp_streamable_http_example.py"
+    from portia import (
+        DefaultToolRegistry,
+        Portia,
+        McpToolRegistry,
+        Config,
+    )
+
+    config = Config.from_default()
+
+    tool_registry = (
+        # Assumes server is running on port 8000
+        McpToolRegistry.from_streamable_http_connection(
+            server_name="mcp_streamable_http_example_server",
+            url="http://localhost:8000",
         )
         + DefaultToolRegistry(config)
     )
