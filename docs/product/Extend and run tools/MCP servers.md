@@ -82,7 +82,7 @@ The `server_name` argument is used by Portia to identify where tools have come f
         # Assumes server is running on port 8000
         McpToolRegistry.from_streamable_http_connection(
             server_name="mcp_streamable_http_example_server",
-            url="http://localhost:8000",
+            url="http://mcp.example.com/http",
         )
         + DefaultToolRegistry(config)
     )
