@@ -58,7 +58,7 @@ plan_run = Portia().run_plan(plan)
 plan_run_id = PlanRunUUID(uuid=UUID("229956fb-820d-4099-b69c-0606ca620b86"))
 plan_run.id = plan_run_id
 try:
-  if not portia.storage.get_plan_run(plan_run_id):
+  if not Portia().storage.get_plan_run(plan_run_id):
     Portia().storage.save_plan_run(plan_run)
 except Exception as e:
   pass
