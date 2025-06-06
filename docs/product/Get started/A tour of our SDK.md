@@ -3,7 +3,7 @@ sidebar_position: 6
 slug: /getting-started-tour
 ---
 
-# A Tour of our SDK
+# A tour of our SDK
 
 Portia AI enables developers to build powerful, production-ready agents that can interact with real-world APIs, manage context intelligently, and even automate web browsers.
 This tutorial provides a whistlestop tour of the SDK to get you started.
@@ -193,7 +193,7 @@ Trying out the more complex example can show you how powerful autonomous agents 
 
 ---
 
-## 2. Tools, End Users, and LLMs
+## 2. Tools, end users, and LLMs
 
 **File**: [`2_tools_end_users_llms.py` ↗](https://github.com/portiaAI/portia-agent-examples/blob/main/getting-started/2_tools_end_users_llms.py)
 
@@ -367,7 +367,7 @@ print(portia.run(task).outputs.final_output)
 
 ---
 
-## 4. Browser Automation
+## 4. Browser automation
 
 **File**: [`4_browser_use.py` ↗](https://github.com/portiaAI/portia-agent-examples/blob/main/getting-started/4_browser_use.py)
 
@@ -471,7 +471,7 @@ with an even more complex and powerful use-case.
 
 ---
 
-## Summary Table
+## Summary table
 
 | Example File                | Focus             | Features Introduced                      |
 | --------------------------- | ----------------- | ---------------------------------------- |

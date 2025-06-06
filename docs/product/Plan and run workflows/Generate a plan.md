@@ -176,7 +176,7 @@ plan = PlanBuilder(
 ).build() # build the plan once finalized
 
 ```
-## User Led Learning
+## User led learning
 
 Example plans can be used to bias the planner towards actions, tool use and behaviours, while also improving the planners ability to generate more complex plans. Broadly, the process for doing this with portia is 3 steps below
 
@@ -188,7 +188,7 @@ For a deep dive into this feature and a practical example, check out our <a href
 
 Now that you know how to generate plans in response to a user query, let's take a look at how to run a plan in the next section.
 
-## Structured Output Schema
+## Structured output schema
 
 For some plans you might want to have a structured output at the end of a plan, for this we allow the ability to attach a structured output schema to the plan that the summarizer agent will attempt to coerce the results to. This is optional. To use, attach to the Plan object, and any Plan Runs that are created from this will attempt to use structured output for the final result, this can pull information from any point of the plan steps and is not just the final step. To attach a schema, you can do it through the PlanBuilder or the Plan interfaces, as below.
 
@@ -205,7 +205,7 @@ from portia import (
 load_dotenv()
 portia = Portia(tools=example_tool_registry)
 
-# Final Output schema type to coerce to
+# Final output schema type to coerce to
 class FinalPlanOutput(BaseModel):
     result: float # result here is an integer output from calculator tool, but will be converted to a float via structured output
 

@@ -26,7 +26,7 @@ The `EndUser` class can be used to represent your users within `Portia`.
 :::
 
 
-## End Users at Portia
+## End users at Portia
 
 In Production, you will be running plans for many stakeholders including customers, employees and partners. You may want to pass information specific to these individuals when they submit a prompt and / or information specific to the current context they are operating in (e.g. the particular app they are using when they submit their prompt to initiate a plan run).
 
@@ -96,7 +96,7 @@ The result of this code block will be the addition of an `end_user_id` within th
 ```
 
 
-## Accessing End Users in a tool
+## Accessing end users in a tool
 
 End User objects are passed through to the tool run function as part of the `ToolRunContext`. This allows you to access attributes for your users in tools.
 
@@ -128,7 +128,7 @@ class EndUserUpdateTool(Tool):
         return name
 ```
 
-## End User State Management
+## End user state management
 
 As we mentioned above End Users are first class citizens in the Portia Ecosystem. This means they are independent entities with their own state. Changes you make to them are persisted in storage and we refresh the state before commencing `plan_runs`. 
 
@@ -153,7 +153,7 @@ plan_run = portia.run(
 )
 ```
 
-## End User and OAuth tokens
+## End user and OAuth tokens
 
 If you are using Portia Cloud Tools which support user level OAuth tokens, these tokens are stored against the EndUser of the `plan_run`. If you have the setting enabled (see Security), tokens will be reused for each end user reducing the number of authentication flows they must do.
 This makes setting an `end_user` correctly important in this case to avoid token collision issues.
