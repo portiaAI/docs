@@ -203,6 +203,15 @@ Get structured response using LangChain model.
 
 - `BaseModelT` - The structured response from the model.
 
+#### set\_cache
+
+```python
+@classmethod
+def set_cache(cls, cache: BaseCache) -> None
+```
+
+Set the cache for the model.
+
 ## OpenAIGenerativeModel Objects
 
 ```python
