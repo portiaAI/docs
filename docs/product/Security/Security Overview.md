@@ -6,7 +6,7 @@ slug: /security
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Portia Cloud Security
+# Portia cloud security
 
 Understanding the security of your agentic system is critical to deploying agents in production. Portia uses production-grade security and encryption and offers granular customization of security policies to ensure your data is secure within our systems. 
 
