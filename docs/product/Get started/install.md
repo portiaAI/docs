@@ -136,7 +136,7 @@ Portia will return the final state of the plan run created in response to the su
 }
 ```
 
-### Test your installation from a python file
+### Test your installation from a Python file
 As a final verification step for your installation, set up the required environment variables in the `.env` of a project directory of your choice, namely the relevant LLM API keys. We can now replicate the CLI-driven test above from a python file within that directory.
 
 <Tabs groupId="llm-provider">

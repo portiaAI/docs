@@ -14,7 +14,7 @@ We use **PostHog** for telemetry collection. The data is completely anonymized a
 
 We track the following events.
 
-### Portia Function Calls
+### Portia function calls
 We track the following Portia function calls:
 - `Portia.run`
 - `Portia.plan`
@@ -38,7 +38,7 @@ self.telemetry.capture(PortiaFunctionCallTelemetryEvent(
 ))
 ```
 
-### Portia Tool Calls
+### Portia tool calls
 We also track when a tool call happens and the name of the tool that was executed. None of the arguments to the tool are tracked.
 
 # Opting out

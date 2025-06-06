@@ -6,7 +6,7 @@ slug: /mcp-servers
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Integrating an MCP Server
+# Integrating an MCP server
 
 The Model Context Protocol (MCP) makes it very easy to integrate third-party tools into your Portia AI project. To find out more you can visit the official MCP docs (<a href="https://modelcontextprotocol.io/" target="_blank">**↗**</a>). We offer the three methods currently available to interact with MCP servers:
 
