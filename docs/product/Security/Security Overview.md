@@ -6,7 +6,7 @@ slug: /security
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Portia Cloud Security
+# Portia cloud security
 
 Understanding the security of your agentic system is critical to deploying agents in production. Portia uses production-grade security and encryption and offers granular customization of security policies to ensure your data is secure within our systems. 
 
@@ -26,7 +26,7 @@ Under the default policy, Portia will store the encrypted token until it expires
 
 This retention policy is best for usability as it minimizes the number of times users will need to go through the OAuth authentication flow. 
 
-### No Refresh
+### No refresh
 
 Under the No Refresh policy, Portia will store the encrypted tokens until they expire. However no refresh tokens will be stored. 
 

@@ -54,11 +54,14 @@ Initialize the builder with the plan query.
 #### step
 
 ```python
-def step(task: str,
-         tool_id: str | None = None,
-         output: str | None = None,
-         inputs: list[Variable] | None = None,
-         condition: str | None = None) -> PlanBuilder
+def step(
+        task: str,
+        tool_id: str | None = None,
+        output: str | None = None,
+        inputs: list[Variable] | None = None,
+        condition: str | None = None,
+        structured_output_schema: type[BaseModel] | None = None
+) -> PlanBuilder
 ```
 
 Add a step to the plan.
@@ -71,6 +74,9 @@ Add a step to the plan.
 - `inputs` _list[Variable] | None_ - The inputs to the step
 - `condition` _str | None_ - A human readable condition which controls if the step should run
   or not.
+- `structured_output_schema` _type[BaseModel] | None_ - The optional structured output schema
+  for the step. Will override the tool output schema if provided by calling step
+  summarizer with structured response.
   
 
 **Returns**:

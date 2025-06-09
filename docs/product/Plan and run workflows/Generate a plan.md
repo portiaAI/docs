@@ -176,7 +176,7 @@ plan = PlanBuilder(
 ).build() # build the plan once finalized
 
 ```
-## User Led Learning
+## User led learning
 
 Example plans can be used to bias the planner towards actions, tool use and behaviours, while also improving the planners ability to generate more complex plans. Broadly, the process for doing this with portia is 3 steps below
 

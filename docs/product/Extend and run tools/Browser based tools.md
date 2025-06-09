@@ -58,7 +58,7 @@ from portia.open_source_tools.browser_tool import BrowserTool
 
 task = "Find my connections called 'Bob' on LinkedIn (https://www.linkedin.com)"
 
-# Needs BrowserBase API Key and project_id
+# Needs BrowserBase API key and project_id
 portia = Portia(config=Config.from_default(),
                 tools=[BrowserTool()])
 ```
@@ -71,12 +71,12 @@ from portia.open_source_tools.browser_tool import BrowserToolForUrl
 
 task = "Find my connections called 'Bob' on LinkedIn"
 
-# Needs BrowserBase API Key and project_id
+# Needs BrowserBase API key and project_id
 portia = Portia(config=Config.from_default(),
                 tools=[BrowserToolForUrl("https://www.linkedin.com")])
 ```
 
-### A Simple E2E Example
+### A simple E2E example
 
 ```python title="Full example"
 from dotenv import load_dotenv

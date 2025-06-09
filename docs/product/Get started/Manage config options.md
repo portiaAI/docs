@@ -19,7 +19,7 @@ The `Config` class of your `Portia` instance allows you to:
 ## Configure LLM options
 The `Config` class (<a href="/SDK/portia/config" target="_blank">**SDK reference ↗**</a>) allows you to control various LLM and agent execution options.
 
-### LLM Provider
+### LLM provider
 
 Portia uses providers such as OpenAI and Anthropic for usage of generative AI models. You can configure the provider that Portia will use with the `llm_provider` config setting.
 
@@ -291,7 +291,7 @@ from portia import Config
 config = Config.from_default(default_model="openai/gpt-4.1", planning_model="anthropic/claude-3-5-sonnet")
 ```
 
-### Models for Tools
+### Models for tools
 
 A couple of the tools provided in the Portia SDK use generative models to complete tasks, specifically:
 
@@ -465,7 +465,7 @@ Let's test out a couple of these parameters. We will start first by loading the 
 - We will explicitly save plans and runs to disk in a `demo_runs` directory. In the default config the `storage_class` is set to `MEMORY` so we will change it to `DISK`
 - We will set the `default_log_level` to `DEBUG`, which will result in the generated plan, every change in the plan run state and all tool calls appearing in the logs.
 
-```python title="main.py" skip=true skip_reason="Redis container not available"
+```python title="main.py" test_containers=redis
 from dotenv import load_dotenv
 from portia import (
     Config,
