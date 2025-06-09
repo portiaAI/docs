@@ -99,4 +99,31 @@ plan = (PlanBuilder("get the weather in london and summarize the weather")
         .build())
 ```
 
+## BrowserTool Outputs
+The BrowserTool allows structured outputs to be returned from a browser tool call, and these will be coerced to the type of the basemodel provided and follows all the same rules as a pydantic model, including validation and description for fields in the same way as the plan structured output above, but only for a browser tool call within the plan. 
 
+```python title='browser_tool_output.py'
+from portia import Portia, config, PlanBuilder
+from portia.open_source_tools.browser_tool import BrowserTool
+import dotenv
+from pydantic import BaseModel, Field
+
+# basics
+dotenv.load_dotenv(override=True)
+
+config = config.Config.from_default()
+
+
+class Recipes(BaseModel):
+    recipe_names: list[str] = Field(description="List of recipe names found on the page")
+
+browsertool = BrowserTool(structured_output_schema=Recipes) # structured output schema attached
+tools = [browsertool]
+portia = Portia(config, tools=tools)
+
+plan = PlanBuilder(
+    "Get the top recipes from bbcgoodfood"
+).step(
+    "get all the names of recipes on the frontpage of bbcgoodfood.com", tool_id=browsertool.id
+).build()
+```
