@@ -70,7 +70,7 @@ plan2 = portia.plan("Add 1 + 1", structured_output_schema=FinalPlanOutput)
 Run the plan as normal and the final output will be an instance of the attached schema. It will be coerced to the type of the basemodel provided and follows all the same rules as a pydantic model, including validation and description for fields.
 
 ## LLM Tool Outputs
-The LLMTool allows structured outputs to be returned from a tool call, and these will be coerced to the type of the basemodel provided and follows all the same rules as a pydantic model, including validation and description for fields in the same way as the plan structured output above, but only for an LLM tool call within the plan. 
+The LLMTool allows structured outputs to be returned from a tool call, and these will be coerced to the type of the BaseModel provided. This follows all the same rules as a pydantic model, including validation and description for fields in the same way as the plan structured output above, but only for an LLM tool call within the plan. 
 
 ```python title='llm_tool_output.py'
 from portia import Portia, config, PlanBuilder
