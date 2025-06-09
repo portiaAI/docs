@@ -93,13 +93,16 @@ structured_llm_tool = LLMTool(structured_output_schema=WeatherOutput) # structur
 tools = [structured_llm_tool, WeatherTool()] # structured_llm_tool has a structured output schema attached
 portia = Portia(config, tools=tools) # register the tools with the portia instance, including the structured_llm_tool
 
-plan = (PlanBuilder("get the weather in london and summarize the weather")
-        .step("get the weather in london", tool_id=weather_tool.id)
-        .step("summarize the weather", tool_id=structured_llm_tool.id)
-        .build())
+plan = PlanBuilder(
+  "get the weather in london and summarize the weather"
+).step(
+  "get the weather in london", tool_id=weather_tool.id
+).step(
+  "summarize the weather", tool_id=structured_llm_tool.id
+).build()
 ```
 
-## BrowserTool Outputs
+## Browser Tool Outputs
 The BrowserTool allows structured outputs to be returned from a browser tool call, and these will be coerced to the type of the basemodel provided and follows all the same rules as a pydantic model, including validation and description for fields in the same way as the plan structured output above, but only for a browser tool call within the plan. 
 
 ```python title='browser_tool_output.py'
