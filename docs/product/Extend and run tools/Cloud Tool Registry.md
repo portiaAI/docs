@@ -12,7 +12,7 @@ When your agents are connected to Portia Cloud, they gain access to an extensive
 The registry includes popular services like Gmail, Google Calendar, Slack, GitHub, Zendesk, and many more.
 You can check out the full list <a href="https://app.portialabs.ai/dashboard/tool-registry" target="_blank"> in the dashboard ↗</a>.
 Authentication for these tools is handled seemlessly by Portia using MCP's OAuth flow.
-This means all tools are available using just the Portia API key and you don't have to worry about implementing OAuth flows or tokens yourself!
+This means all tools are available using just the Portia API key and you don't have to worry about implementing OAuth flows or handling tokens yourself!
 
 <figure style={{ textAlign: 'center' }}>
   <img src="/img/tool_registry.png" alt="Tool registry" />

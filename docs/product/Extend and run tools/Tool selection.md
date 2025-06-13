@@ -60,34 +60,67 @@ load_dotenv()
 portia = Portia(tools=DefaultToolRegistry(default_config()))
 ```
 
-The default tool registry contains our <a href="https://docs.portialabs.ai/portia-tools/open-source/" target="_blank">open-source tools ↗</a>
+## Available tools
 
-All of Portia's Cloud tools are available in the `PortiaToolRegistry` class (<a href="/run-portia-tools" target="_blank">**SDK reference ↗**</a>). You can access individual tools from this registry and combine them with your own tools to produce a new tool registry:
+When setting up your tool registry, there are four sources of tools you can use:
 
-```python
-from dotenv import load_dotenv
-from portia import (
-    default_config,
-    InMemoryToolRegistry,
-    Portia,
-    PortiaToolRegistry,
-)
-from portia.open_source_tools.calculator_tool import CalculatorTool
-from portia.open_source_tools.search_tool import SearchTool
-from portia.open_source_tools.weather import WeatherTool
+### Open source tools
 
+Portia provides an open source tool registry that contains a selection of general-purpose utility tools. For example, it includes a Tavily tool for web search, an OpenWeatherMap tool for determining weather and a PDF reader tool, among many others.
+The open source tool registry can be used as follows, though for some of the tools you will need to retrieve an API key first:
 
-load_dotenv()
+```
+from portia import open_source_tool_registry, Portia
 
-# Instantiate a Portia instance. Load it with the example tools and Portia's github search tool.
-github_search_tool = PortiaToolRegistry(config=default_config()).get_tool("portia:github::search_repos")
-my_registry = InMemoryToolRegistry().from_local_tools(
-    [CalculatorTool(), SearchTool(), WeatherTool(), github_search_tool])
-
-portia = Portia(tools=([CalculatorTool(), SearchTool(), WeatherTool(), github_search_tool]))
+portia = Portia(tools=open_source_tool_registry)
 ```
 
-You can also create a new tool registry by filtering tools from `PortiaToolRegistry` to create the subset you want. For example, the default tool registry includes Gmail as the email client but you might want to instead use Outlook. This can be done by setting up a filter to only include the Outlook tools from the registry:
+For more details, check out our <a href="https://docs.portialabs.ai/portia-tools/open-source/" target="_blank">open-source tool documentation ↗</a>.
+
+### Portia cloud registry
+
+Portia cloud provides an extensive tool registry offering tools from well-known providers such as Google, Github, Microsoft and Slack.
+Where possible, this uses integrations based on remote MCP servers offered by the providers, allowing our tool registry to grow rapidly as providers bring out new remote MCP servers.
+
+Your Portia tool registry is available through the  `PortiaToolRegistry` class (<a href="/run-portia-tools" target="_blank">**SDK reference ↗**</a>). This gives access to all the tools you have enabled in your registry:
+
+```
+from portia import Portia, PortiaToolRegistry
+
+portia = Portia(tools=PortiaToolRegistry())
+```
+
+
+More details can be found on our <a href="https://docs.portialabs.ai/portia-tools/open-source/" target="_blank">Cloud tool registry ↗</a> page, including how to enable and disable tools within the registry.
+
+### MCP Servers
+
+You can easily provide Portia with access to locally running MCP servers through our `McpToolRegistry` class.
+This is done as follows, with more details available on our <a href="/mcp-servers" target="_blank">integrating MCP servers ↗</a> page.
+
+```
+from portia import Portia, McpToolRegistry
+
+tool_registry = (
+    # Assumes server is running on port 8000
+    McpToolRegistry.from_sse_connection(
+        server_name="mcp_sse_example_server",
+        url="http://localhost:8000",
+    )
+)
+portia = Portia(tools=tool_registry)
+```
+
+In addition, we will soon be releasing support for custom remote MCP servers in our cloud registry.
+This will enable you to register any remote MCP server with the registry, allowing you to seemlessly integrate tools from any provider that offers a remote MCP server while Portia handles the authentication for you.
+
+### Custom tools
+
+As outlined in the <a href="/mcp-servers" target="_blank">Introduction to tools ↗</a>, it is easy to define your own tools in python code with Portia. In (<a href="/adding-custom-tools" target="_blank">**Adding custom tools ↗**</a>), we'll walk through how to do this in more detail by creating our own tool registries with custom tools.
+
+## Filtering tool registries
+
+You can also create new tool registries from existing ones by filtering tools to your desired subset. For example, you might want to prevent one of your agents from accessing emails in Gmail. This can be done by setting up a filter to exclude the Gmail tools from the registry:
 
 ```python
 from dotenv import load_dotenv
@@ -100,13 +133,9 @@ from portia import (
 
 load_dotenv()
 
-def include_outlook_filter(tool: Tool) -> bool:
-    return tool.id.startswith("portia:microsoft:outlook:")
+def exclude_gmail_filter(tool: Tool) -> bool:
+    return not tool.id.startswith("portia:google:gmail:")
 
-registry = PortiaToolRegistry(config=default_config()).filter_tools(include_outlook_filter)
+registry = PortiaToolRegistry(config=default_config()).filter_tools(exclude_gmail_filter)
 portia = Portia(tools=registry)
 ```
-
-In (<a href="/adding-custom-tools" target="_blank">**Adding custom tools ↗**</a>) you'll see how to create your own tool registries with custom tools.
-
-

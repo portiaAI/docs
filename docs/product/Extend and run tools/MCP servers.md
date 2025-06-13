@@ -1,5 +1,5 @@
 ---
-sidebar_position: 6
+sidebar_position: 4
 slug: /mcp-servers
 ---
 
@@ -15,6 +15,11 @@ The Model Context Protocol (MCP) makes it very easy to integrate third-party too
 - **SSE** (Server-Sent Events): A legacy method of communication over HTTP, since replaced by Streamable HTTP.
 
 To find out more about these options, see the official MCP docs (<a href="https://modelcontextprotocol.io/docs/concepts/transports" target="_blank">**↗**</a>).
+
+:::info[Coming soon - Connect any remote MCP server into our cloud registry]
+Support for connecting any remote MCP server into our cloud registry is coming soon.
+This will allow you to seemlessly integrate tools from any remote MCP server into your agent, with Portia handling tool discovery and authentication for you.
+:::
 
 The `server_name` argument is used by Portia to identify where tools have come from, you can set this to whatever makes most sense for the MCP server you are integrating. If you re-use old `Plan` objects later on, make sure to use the same `server_name` with the MCP server.
 
