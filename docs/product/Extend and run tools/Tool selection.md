@@ -31,7 +31,8 @@ If you don't specify the `tools` argument, your `Portia` instance will use a def
 :::info[Default tools]
 The default tool set comprises:
 * The [open source tool set](https://docs.portialabs.ai/open-source-tools), with the Search tool and Weather tool only included if you have the corresponding Tavily / OpenWeatherMap API keys specified.
-* If you have an API key for Portia Cloud, the default Portia Cloud tools, which consists of:
+* If you have an API key for Portia Cloud, the tools from your cloud tool registry.
+Further information on this tool registry, including how it can be configured, can be found on the <a href="/cloud-tool-registry" target="_blank">Cloud tool registry page ↗</a>. Our cloud tool registry contains an extensive tool catalog, including:
   * [Slack tools](https://docs.portialabs.ai/slack-tools)
   * [Google gSuite tools](https://docs.portialabs.ai/gsuite-tools)§
   * [Zendesk tools](https://docs.portialabs.ai/zendesk-tools)
@@ -40,7 +41,7 @@ The default tool set comprises:
 
 ## Tool registries
 
-A tool registry is a collection of tools and is represented by the `ToolRegistry` class (<a href="/run-portia-tools" target="_blank">**SDK reference ↗**</a>). Tool registries are useful to group frequently used tools together, e.g. you could imagine having a tool registry by function in your organisation. Portial's default tool registry can be accessed by calling `DefaultToolRegistry(config=default_config())`.
+A tool registry is a collection of tools and is represented by the `ToolRegistry` class (<a href="/run-portia-tools" target="_blank">**SDK reference ↗**</a>). Tool registries are useful to group frequently used tools together, e.g. you could imagine having a tool registry by function in your organisation. Portia's default tool registry can be accessed by calling `DefaultToolRegistry(config=default_config())`.
 
 ```python
 from dotenv import load_dotenv
@@ -58,6 +59,8 @@ load_dotenv()
 # Instantiate a Portia instance. Load it with the example tools and Portia's tools.
 portia = Portia(tools=DefaultToolRegistry(default_config()))
 ```
+
+The default tool registry contains our <a href="https://docs.portialabs.ai/portia-tools/open-source/" target="_blank">open-source tools ↗</a>
 
 All of Portia's Cloud tools are available in the `PortiaToolRegistry` class (<a href="/run-portia-tools" target="_blank">**SDK reference ↗**</a>). You can access individual tools from this registry and combine them with your own tools to produce a new tool registry:
 
