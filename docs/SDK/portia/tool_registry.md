@@ -34,15 +34,17 @@ and provide additional functionality.
 - `with_tool(tool` - Tool, *, overwrite: bool = False) -&gt; None:
   Inserts a new tool.
 - `replace_tool(tool` - Tool) -&gt; None:
-  Replaces a tool with a new tool.
+  Replaces a tool with a new tool in the current registry.
   NB. This is a shortcut for `with_tool(tool, overwrite=True)`.
 - `get_tool(tool_id` - str) -&gt; Tool:
   Retrieves a tool by its ID.
   get_tools() -&gt; list[Tool]:
   Retrieves all tools in the registry.
 - `match_tools(query` - str | None = None, tool_ids: list[str] | None = None) -&gt; list[Tool]:
-  Optionally, retrieve tools that match a given query and tool_ids. Useful to implement
-  tool filtering.
+  Optionally, retrieve tools that match a given query and tool_ids.
+- `filter_tools(predicate` - Callable[[Tool], bool]) -&gt; ToolRegistry:
+  Create a new tool registry with only the tools that match the predicate. Useful to
+  implement tool exclusions.
 
 #### \_\_init\_\_
 
@@ -165,6 +167,34 @@ Filter the tools in the registry based on a predicate.
 **Returns**:
 
 - `Self` - A new ToolRegistry with the filtered tools.
+
+#### with\_tool\_description
+
+```python
+def with_tool_description(tool_id: str,
+                          updated_description: str,
+                          *,
+                          overwrite: bool = False) -> None
+```
+
+Update a tool with an extension or override of the tool description.
+
+**Arguments**:
+
+- `tool_id` _str_ - The id of the tool to update.
+- `updated_description` _str_ - The tool description to update. If `overwrite` is False, this
+  will extend the existing tool description, otherwise, the entire tool description
+  will be updated.
+- `overwrite` _bool_ - Whether to update or extend the existing tool description.
+  
+
+**Returns**:
+
+- `None` - The tool registry is updated in place.
+  
+  Particularly useful for customising tools in MCP servers for usecases. A deep copy is made
+  of the underlying tool such that the tool description is only updated within this registry.
+  Logs a warning if the tool is not found.
 
 #### \_\_add\_\_
 
