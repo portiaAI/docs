@@ -413,6 +413,14 @@ Handles serialization of fields that must omit None values: fields that are not 
 the JSON schema, but that are not nullable. Pydantic has no concept of an omissible field,
 so we must for it to be nullable and then make sure we don&#x27;t serialize None values.
 
+#### \_\_init\_subclass\_\_
+
+```python
+def __init_subclass__(cls) -> None
+```
+
+Ensure omissible fields are isolated between models.
+
 #### serialize
 
 ```python
