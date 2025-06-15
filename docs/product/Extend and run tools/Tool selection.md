@@ -62,7 +62,7 @@ portia = Portia(tools=DefaultToolRegistry(default_config()))
 
 ## Available tools
 
-When setting up your tool registry, there are four sources of tools you can use:
+When setting up your tool registry, there are four sources of tools you can use: our open-source tools, our Portia cloud tools, an MCP tool registry and custom code tools. Portia's cloud tools comprise a mix of cloud-hosted and remote MCP servers, both with authentication fully handled for you. If you wish to handle MCP servers and authentication yourself, our MCP tool registry is a good fit. An introduction to each of these tool sources is given below.
 
 ### Open source tools
 
@@ -80,6 +80,7 @@ For more details, check out our <a href="https://docs.portialabs.ai/portia-tools
 ### Portia cloud registry
 
 Portia cloud provides an extensive tool registry offering tools from well-known providers such as Google, Github, Microsoft and Slack.
+For all of these tools, Portia handles authentication seemlessly for you.
 Where possible, this uses integrations based on remote MCP servers offered by the providers, allowing our tool registry to grow rapidly as providers bring out new remote MCP servers.
 
 Your Portia tool registry is available through the  `PortiaToolRegistry` class (<a href="/run-portia-tools" target="_blank">**SDK reference ↗**</a>). This gives access to all the tools you have enabled in your registry:
