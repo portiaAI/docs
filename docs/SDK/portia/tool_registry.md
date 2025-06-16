@@ -174,7 +174,7 @@ Filter the tools in the registry based on a predicate.
 def with_tool_description(tool_id: str,
                           updated_description: str,
                           *,
-                          overwrite: bool = False) -> None
+                          overwrite: bool = False) -> ToolRegistry
 ```
 
 Update a tool with an extension or override of the tool description.
@@ -190,7 +190,7 @@ Update a tool with an extension or override of the tool description.
 
 **Returns**:
 
-- `None` - The tool registry is updated in place.
+- `Self` - The tool registry is updated in place and returned.
   
   Particularly useful for customising tools in MCP servers for usecases. A deep copy is made
   of the underlying tool such that the tool description is only updated within this registry.
