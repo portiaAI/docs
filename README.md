@@ -1,6 +1,25 @@
-We use [docusaurus](https://docusaurus.io) to generate our docs. Docusaurus is a static website generator that runs under Node.js. We use a [Node.js](https://nodejs.org) project management tool called [yarn](https://yarnpkg.com) to install Docusaurus and to manage project dependencies. If you do not have Node.js and yarn installed on your system, install them first.
+We use [docusaurus](https://docusaurus.io) to generate our docs. Docusaurus is a static website generator that runs under Node.js. We use a [Node.js](https://nodejs.org) project management tool called [yarn](https://yarnpkg.com) to install Docusaurus and to manage project dependencies.
 
-To render locally use 'npm run start'. You can specify a different port if you're running other sites on localhost by prefixing this command with PORT=3002 (or some other number)
+## Getting Started
+
+### Prerequisites
+If you do not have Node.js and yarn installed on your system, install them first.
+
+### Installation and Running
+1. Install dependencies:
+   ```bash
+   yarn install
+   ```
+
+2. Start the development server:
+   ```bash
+   yarn start
+   ```
+
+3. (Optional) To run on a different port, prefix the command with `PORT=3002` (or some other number):
+   ```bash
+   PORT=3002 yarn start
+   ```
 
 ## Code Examples
 Code examples in the docs are tested automatically using [pytest-examples](https://github.com/pydantic/pytest-examples).

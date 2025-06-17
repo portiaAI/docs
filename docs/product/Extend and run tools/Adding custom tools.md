@@ -22,7 +22,7 @@ Let's build two custom tools that allow an LLM to write / read content to / from
     class FileReaderToolSchema(BaseModel):
         """Schema defining the inputs for the FileReaderTool."""
 
-        filename: str = Field(..., 
+        filename: str = Field(...,
             description="The location where the file should be read from",
         )
 
@@ -36,9 +36,9 @@ Let's build two custom tools that allow an LLM to write / read content to / from
         args_schema: type[BaseModel] = FileReaderToolSchema
         output_schema: tuple[str, str] = ("str", "A string dump or JSON of the file content")
 
-        def run(self, _: ToolRunContext, filename: str) -> str | dict[str,any]:       
+        def run(self, _: ToolRunContext, filename: str) -> str | dict[str,any]:
             """Run the FileReaderTool."""
-            
+
             file_path = Path(filename)
             suffix = file_path.suffix.lower()
 
@@ -64,10 +64,10 @@ Let's build two custom tools that allow an LLM to write / read content to / from
     class FileWriterToolSchema(BaseModel):
         """Schema defining the inputs for the FileWriterTool."""
 
-        filename: str = Field(..., 
+        filename: str = Field(...,
             description="The location where the file should be saved",
         )
-        content: str = Field(..., 
+        content: str = Field(...,
             description="The content to write to the file",
         )
 
@@ -83,7 +83,7 @@ Let's build two custom tools that allow an LLM to write / read content to / from
 
         def run(self, _: ToolRunContext, filename: str, content: str) -> str:
             """Run the FileWriterTool."""
-            
+
             filepath = Path(filename)
             if filepath.is_file():
                 with open(filepath, "w") as file:
@@ -151,7 +151,7 @@ complete_tool_registry = example_tool_registry + custom_tool_registry
 portia = Portia(tools=complete_tool_registry)
 
 # Execute the plan from the user query
-plan_run = portia.run('Get the weather in the town with the longest name in England' 
+plan_run = portia.run('Get the weather in the town with the longest name in England'
                                 + 'and write it to demo_runs/weather.txt.')
 
 # Serialise into JSON and print the output
