@@ -10,6 +10,10 @@ jobs:
   test-staging:
     name: Main branch test (Staging)
     runs-on: ubuntu-latest
+    timeout-minutes: 20
+    concurrency:
+      group: ${{ github.workflow }}-staging
+      cancel-in-progress: true
 
     steps:
     - uses: actions/checkout@v4
@@ -55,6 +59,10 @@ jobs:
   test-production:
     name: Production branch test
     runs-on: ubuntu-latest
+    timeout-minutes: 20
+    concurrency:
+      group: ${{ github.workflow }}-production
+      cancel-in-progress: true
 
     steps:
     - uses: actions/checkout@v4
