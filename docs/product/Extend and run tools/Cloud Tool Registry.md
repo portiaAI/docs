@@ -11,7 +11,7 @@ import TabItem from '@theme/TabItem';
 When your agents are connected to Portia Cloud, they gain access to an extensive tool registry with powerful integrations.
 The registry includes popular services like Gmail, Google Calendar, Slack, GitHub, Zendesk, and many more.
 You can check out the full list <a href="https://app.portialabs.ai/dashboard/tool-registry" target="_blank"> in the dashboard ↗</a>.
-Authentication for these tools is handled seemlessly by Portia using MCP's OAuth flow.
+Authentication for these tools is handled seamlessly by Portia using MCP's OAuth flow.
 This means all tools are available using just the Portia API key and you don't have to worry about implementing OAuth flows or handling tokens yourself!
 
 <figure style={{ textAlign: 'center' }}>
@@ -19,17 +19,20 @@ This means all tools are available using just the Portia API key and you don't h
   <figcaption>A snippet of our tool registry</figcaption>
 </figure>
 
-The registry cotains applications, which are a collection of tools.
+The registry contains applications, which are a collection of tools.
 It is fully configurable, allowing you to turn applications on and off so you can control which tools your agents have access to.
 The applications in the registry are a combination of remote MCP servers from official providers and tools developed by Portia.
 
 ## Remote MCP Servers
 
+The Model Context Protocol (MCP) makes it very easy to integrate third-party tools with Portia AI.
+To find out more about MCP you can visit the official MCP docs (<a href="https://modelcontextprotocol.io/" target="_blank">**↗**</a>).
+
 We support remote MCP execution within our tool registry and, where possible, our integrations use remote MCP servers from official providers, with communication over a streamable HTTP connection.
 This allows our tool registry to grow rapidly as providers bring out new remote MCP servers.
 We support authentication natively for all of these servers and are in the process of adding many other features to make working with them easier
 
-We also support connecting in your own MCP server. This allows you to seemlessly integrate tools from any provider with a remote MCP server while Portia handles the authentication for you.
+We also support connecting in your own MCP server. This allows you to seamlessly integrate tools from any provider with a remote MCP server while Portia handles the authentication for you.
 
 <figure style={{ textAlign: 'center' }}>
   <div style={{ display: 'flex', justifyContent: 'center' }}>
