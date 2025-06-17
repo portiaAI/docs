@@ -82,6 +82,7 @@ For more details, check out our <a href="https://docs.portialabs.ai/portia-tools
 Portia cloud provides an extensive tool registry offering tools from well-known providers such as Google, Github, Microsoft and Slack.
 For all of these tools, Portia handles authentication seemlessly for you.
 Where possible, this uses integrations based on remote MCP servers offered by the providers, allowing our tool registry to grow rapidly as providers bring out new remote MCP servers.
+You can also connect in you own remote MCP servers through our Tool Registry dashboard, allowing you to seemlessly integrate tools from any provider with a remote MCP server while Portia handles the authentication for you.
 
 Your Portia tool registry is available through the  `PortiaToolRegistry` class (<a href="/run-portia-tools" target="_blank">**SDK reference ↗**</a>). This gives access to all the tools you have enabled in your registry:
 
@@ -91,12 +92,12 @@ from portia import Portia, PortiaToolRegistry
 portia = Portia(tools=PortiaToolRegistry())
 ```
 
-
-More details can be found on our <a href="https://docs.portialabs.ai/portia-tools/open-source/" target="_blank">Cloud tool registry ↗</a> page, including how to enable and disable tools within the registry.
+More details can be found on our <a href="https://docs.portialabs.ai/portia-tools/open-source/" target="_blank">Cloud tool registry ↗</a> page, including how to enable / disable tools within the registry and how to connect in your own remote MCP server.
 
 ### MCP Servers
 
-You can easily provide Portia with access to locally running MCP servers through our `McpToolRegistry` class.
+You can easily add local or remote MCP servers directly into a Portia agent through our `McpToolRegistry` class.
+This allows you to integrate any provider with an MCP server.
 This is done as follows, with more details available on our <a href="/mcp-servers" target="_blank">integrating MCP servers ↗</a> page.
 
 ```
@@ -112,8 +113,7 @@ tool_registry = (
 portia = Portia(tools=tool_registry)
 ```
 
-In addition, we will soon be releasing support for custom remote MCP servers in our cloud registry.
-This will enable you to register any remote MCP server with the registry, allowing you to seemlessly integrate tools from any provider that offers a remote MCP server while Portia handles the authentication for you.
+The key difference between integrating an MCP server this way and through the Portia cloud registry is that authentication needs to be handled manually when integrating directly into the Portia instance.
 
 ### Custom tools
 
@@ -121,7 +121,7 @@ As outlined in the <a href="/mcp-servers" target="_blank">Introduction to tools 
 
 ## Filtering tool registries
 
-You can also create new tool registries from existing ones by filtering tools to your desired subset. For example, you might want to prevent one of your agents from accessing emails in Gmail. This can be done by setting up a filter to exclude the Gmail tools from the registry:
+You can create new tool registries from existing ones by filtering tools to your desired subset. For example, you might want to prevent one of your agents from accessing emails in Gmail. This can be done by setting up a filter to exclude the Gmail tools from the registry:
 
 ```python
 from dotenv import load_dotenv

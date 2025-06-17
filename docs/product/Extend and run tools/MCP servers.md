@@ -8,7 +8,13 @@ import TabItem from '@theme/TabItem';
 
 # Integrating an MCP server
 
-The Model Context Protocol (MCP) makes it very easy to integrate third-party tools into your Portia AI project. To find out more you can visit the official MCP docs (<a href="https://modelcontextprotocol.io/" target="_blank">**↗**</a>). We offer the three methods currently available to interact with MCP servers:
+The Model Context Protocol (MCP) makes it very easy to integrate third-party tools into your Portia AI project. To find out more you can visit the official MCP docs (<a href="https://modelcontextprotocol.io/" target="_blank">**↗**</a>). We offer two main methods of integrating MCP servers into your Portia agent:
+* Our cloud registry - you can connect any remote MCP server into our cloud registry and authentication will be seemlessly by Portia cloud.
+* Directly into the SDK - you can connect any MCP server (local or remote) directly into our SDK
+
+## Integrating with the SDK
+
+When integrating an SDK server directly wih the SDK, we offer the three methods currently available for interacting with MCP servers:
 
 - **STDIO** (Standard input/output): The server runs as a subprocess of your main python process. Below we interact with that process via an npx command and a docker command provided with the correct arguments.
 - **Streamable HTTP**: Communication is over HTTP, you can run the server locally or deploy a server remotely. Per below, you just need to specify the current server name and URL.
@@ -127,3 +133,10 @@ To run the stdio example, make sure `npx` and `docker` are available in your env
 When you provide a `McpToolRegistry`, Portia will pull in the tool definitions from the MCP server, making them available to the Planner and Execution Agents during a plan run. To see an example of this implementation, head over to our agent-examples repo where we built an agent to manage customer refunds (<a href="https://github.com/portiaAI/portia-agent-examples/tree/main/refund-agent-mcp" target="_blank">**↗**</a>).
 
 There are many open source MCP servers already available: check out the list of servers on the official MCP github repository (<a href="https://github.com/modelcontextprotocol/servers" target="_blank">**↗**</a>).
+
+## Integrating with our cloud registry
+
+Remote MCP servers can easily be connected to our cloud tool registry through the [Tool Registry page of the dashboard ↗](https://app.portialabs.ai/dashboard/tool-registry).
+This allows you to seemlessly integrate tools from any provider with a remote MCP server while Portia handles the authentication for you.
+Our cloud connects to the server via SSE or Streamable HTTP and once connected, all tools from that server will be available through our `PortiaToolRegistry` class.
+For more details, check out our <a href="http://localhost:3001/cloud-tool-registry#remote-mcp-servers" target="_blank">Cloud tool registry documentation ↗</a>.
