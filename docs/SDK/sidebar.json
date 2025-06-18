@@ -80,6 +80,7 @@
     "SDK/portia/token_counter",
     "SDK/portia/tool",
     "SDK/portia/tool_call",
+    "SDK/portia/tool_decorator",
     "SDK/portia/tool_registry",
     "SDK/portia/tool_wrapper"
   ],

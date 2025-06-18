@@ -233,6 +233,14 @@ This function serializes the arguments schema by returning the class name of the
 
 - `str` - The class name of the argument schema.
 
+#### pretty
+
+```python
+def pretty() -> str
+```
+
+Return a pretty string representation of the tool.
+
 ## PortiaRemoteTool Objects
 
 ```python
