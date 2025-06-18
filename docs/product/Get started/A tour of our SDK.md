@@ -141,7 +141,7 @@ my_config = Config.from_default(storage_class=StorageClass.CLOUD)
 portia = Portia(
    config=my_config,
    tools=PortiaToolRegistry(my_config),
-   execution_hooks=CLIExecutionHooks(),
+   # execution_hooks=CLIExecutionHooks(), # add this if you want to use terminal to interact with any plan clarifications raised
 )
 ```
 
@@ -352,7 +352,7 @@ This will execute the underlying shell command, _and_ return a `ToolRegistry` ob
 portia = Portia(
    config=my_config,
    tools=registry,
-   execution_hooks=CLIExecutionHooks(),
+   # execution_hooks=CLIExecutionHooks(), # add this if you want to use terminal to interact with any plan clarifications raised
 )
 ```
 
@@ -422,7 +422,7 @@ we recommend that you run using the local browser tool.
 portia = Portia(
    config=my_config,
    tools=[browser_tool],
-   execution_hooks=CLIExecutionHooks(),
+   # execution_hooks=CLIExecutionHooks(), # add this if you want to use terminal to interact with any plan clarifications raised
 )
 
 plan_run = portia.run(task)
