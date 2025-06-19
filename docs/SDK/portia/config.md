@@ -277,6 +277,7 @@ from files or default values.
 - `portia_api_key`5 - The planning agent type.
 - `portia_api_key`6 - The execution agent type.
 - `portia_api_key`7 - A dictionary of feature flags for the SDK.
+- `portia_api_key`8 - Whether to enable clarifications for the execution agent.
 
 #### parse\_feature\_flags
 
