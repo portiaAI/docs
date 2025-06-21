@@ -23,6 +23,11 @@
   --ifm-color-primary-lightest: #ffffff;
 }
 
+/* Make all links bold by default */
+a {
+  font-weight: var(--ifm-font-weight-bold);
+}
+
 table {
   font-size: 14px;
 }
