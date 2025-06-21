@@ -3,10 +3,10 @@ sidebar_position: 2
 slug: /tool-selection
 ---
 
-# Providing your agent with tools
+# Providing agent with tools
 Learn how to select the tools that your agent can use to answer a user query.
 :::tip[TL;DR]
-- You can specify the tools that your agent can use to answer a user query by using the `tools` argument in your `Portia` instance. If you don't specify this, the `Portia` instance will use a default set of tools.
+- You can specify the tools that agents can use to answer a user query by using the `tools` argument in your `Portia` instance. If you don't specify this, the `Portia` instance will use a default set of tools.
 - Tool registries are useful to group frequently used tools together. They are represented by the `ToolRegistry` class (<a href="/SDK/portia/tool_registry" target="_blank">**SDK reference ↗**</a>).
 :::
 
