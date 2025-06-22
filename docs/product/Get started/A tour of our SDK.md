@@ -8,7 +8,6 @@ slug: /getting-started-tour
 Portia AI enables developers to build powerful, production-ready agents that can interact with real-world APIs, manage context intelligently, and even automate web browsers.
 This tutorial provides a whistlestop tour of the SDK to get you started.
 It provides four examples, each building on top of the previous to show how to develop increasingly capable AI agents with just a few lines of code.
-For a more complete showcase of the SDK's features, including more advanced features or to dive deeper into a particular feature, check out our [full docs site ↗](https://docs.portialabs.ai/).
 Our [examples repository ↗](https://github.com/portiaAI/portia-agent-examples) on GitHub also provides some advanced agent examples that can be a useful reference.
 
 ## Before you start
@@ -104,7 +103,7 @@ As you can see here, command-line functionality is stored in `portia.cli`.
 | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `Config`             | This object will load configuration from the environment, and allow you to configure Portia explicitly in code.                                                                                                                                                                                                |
 | `Portia`             | This is the primary class in the Portia SDK, and allows you to plan what an agent will do, and execute that plan with the assistance of any tools that Portia is configured with.                                                                                                                              |
-| `PortiaToolRegistry` | This is the default set of tools that allows Portia to interact with APIs such as GitHub and Google. The list of tools provided in the PortiaTool Registry is growing all the time. You can find a complete list in the [Portia Tool Catalogue ↗](https://docs.portialabs.ai/portia-tools)                       |
+| `PortiaToolRegistry` | This is the default set of tools that allows Portia to interact with APIs such as GitHub and Google. The list of tools provided in the PortiaTool Registry is growing all the time. You can find a complete list in the [Portia Tool Catalogue ↗](/portia-tools)                       |
 | `StorageClass`       | This is an enum, allowing you to configure where Portia's state is stored. If you use `StorageClass.CLOUD`, Portia will store plans and plan runs on Portia's servers, allowing various extended functionality. If you would rather store your state locally, use `StorageClass.MEMORY` or `StorageClass.DISK` |
 
 With that out of the way, let's define a task!
@@ -184,7 +183,7 @@ is super-powerful.
 We call this process a "clarification."
 
 If you're planning to write your own tools to take advantage of this feature,
-do check out the documentation for [clarifications ↗](https://docs.portialabs.ai/understand-clarifications).
+do check out the documentation for [clarifications ↗](/understand-clarifications).
 
 ### Before moving on
 
