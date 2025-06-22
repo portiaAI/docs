@@ -1,16 +1,16 @@
 ---
 sidebar_position: 2
-slug: /tool-selection
+slug: /integrating-tools
 ---
 
-# Providing agent with tools
-Learn how to select the tools that your agent can use to answer a user query.
+# Integrating tools
+Learn how to integrate tools that your agent can use to answer a user query.
 :::tip[TL;DR]
 - You can specify the tools that agents can use to answer a user query by using the `tools` argument in your `Portia` instance. If you don't specify this, the `Portia` instance will use a default set of tools.
 - Tool registries are useful to group frequently used tools together. They are represented by the `ToolRegistry` class (<a href="/SDK/portia/tool_registry" target="_blank">**SDK reference ↗**</a>).
 :::
 
-## Overview of tool selection
+## Overview of tool integration
 As part of defining your `Portia` instance for a query, you can specify the tools that the LLM can use to answer the query. This is done by specifying the `tools` argument in the `Portia` instance definition.
 
 ```python
@@ -30,7 +30,7 @@ If you don't specify the `tools` argument, your `Portia` instance will use a def
 
 :::info[Default tools]
 The default tool set comprises:
-* The [**open source tool set**](https://docs.portialabs.ai/open-source-tools), with the Search tool and Weather tool only included if you have the corresponding Tavily / OpenWeatherMap API keys specified.
+* The [**open source tool set**](/portia-tools/open-source/), with the Search tool and Weather tool only included if you have the corresponding Tavily / OpenWeatherMap API keys specified.
 * If you have an API key for Portia Cloud, the tools from your cloud tool registry will be included. This includes the ability to integrate any remote MCP server, as well as a suite of pre-created integrations you can use straight off the bat.
 Further information on this tool registry, including how it can be configured, can be found on the <a href="/cloud-tool-registry" target="_blank">**Remote MCP and cloud tools page ↗**</a>.
 :::

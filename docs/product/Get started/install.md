@@ -289,4 +289,4 @@ We will review the various elements in `main.py` in more detail in later section
 - A `Portia` instance also expects `tools`. This can be a list of tools, or a `ToolRegistry` (i.e a collection of tools you want to use).
 
 If you got this far then we're off to the races :racehorse:. Let's get you set up with a Portia account so you can also use our cloud features. 
-Don't worry it comes with a free trial (<a href="https://www.portialabs.ai/pricing" target="_blank">**Pricing page ↗**</a>) :wink:
+Don't worry it comes with a free trial (<a href="/pricing" target="_blank">**Pricing page ↗**</a>) :wink:
