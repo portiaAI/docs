@@ -12,7 +12,7 @@ Let's build two custom tools that allow an LLM to write / read content to / from
 
 ## Using the @tool decorator
 
-The `@tool` decorator converts your functions into portia tools, eliminating the need to manually create [jsonschema](https://json-schema.org/) and map jsonschema to function. Let's create our custom tools in a separate folder called `custom_tools` at the root of the project directory:
+The `@tool` decorator converts your functions into Portia tools. Let's create our custom tools in a separate folder called `custom_tools` at the root of the project directory:
 
 <Tabs>
   <TabItem value="file_reader" label="file_reader_tool.py">
