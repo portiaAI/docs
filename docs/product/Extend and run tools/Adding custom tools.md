@@ -12,11 +12,11 @@ Let's build two custom tools that allow an LLM to write / read content to / from
 
 ## Using the @tool decorator
 
-The `@tool` decorator converts your functions into portia tools, eliminating the need to manually create [jsonschema](https://json-schema.org/) and map jsonschema to function. Let's create our custom tools in a separate folder called `my_custom_tools` at the root of the project directory:
+The `@tool` decorator converts your functions into portia tools, eliminating the need to manually create [jsonschema](https://json-schema.org/) and map jsonschema to function. Let's create our custom tools in a separate folder called `custom_tools` at the root of the project directory:
 
 <Tabs>
   <TabItem value="file_reader" label="file_reader_tool.py">
-    ```python title="my_custom_tools/file_reader_tool.py" id=file_reader_tool
+    ```python title="custom_tools/file_reader_tool.py" id=file_reader_tool
     from pathlib import Path
     import pandas as pd
     import json
@@ -45,7 +45,7 @@ The `@tool` decorator converts your functions into portia tools, eliminating the
     ```
   </TabItem>
   <TabItem value="file_writer" label="file_writer_tool.py">
-    ```python title="my_custom_tools/file_writer_tool.py"
+    ```python title="custom_tools/file_writer_tool.py" id=file_writer_tool
     from pathlib import Path
     from typing import Annotated
     from portia import tool
@@ -76,25 +76,23 @@ If those tools look familiar it's because we actually offer them in our open sou
 
 ## Manage tool registries
 
-Let's group our custom tools into a registry so we can import it into code afterwards. Let's create a `registry.py` file in the `my_custom_tools` directory and declare our registry as follow:
-```python title="registry.py" depends_on=file_reader_tool
+Let's group our custom tools into a registry so we can import it into code afterwards. Let's create a `registry.py` file in the `custom_tools` directory and declare our registry as follow:
+```python title="custom_tools/registry.py" depends_on=file_reader_tool,file_writer_tool id=registry
 """Registry containing my custom tools."""
 
 from portia import ToolRegistry
-from my_custom_tools.file_reader_tool import file_reader_tool
-from my_custom_tools.file_writer_tool import file_writer_tool
 
-custom_tool_registry = ToolRegistry([
+my_tool_registry = ToolRegistry([
     file_reader_tool(),
     file_writer_tool(),
 ])
 ```
 
-Here we are loading our freshly minted local tools into a tool registry called `custom_tool_registry` represented by the `ToolRegistry` class. This takes a list of instantiated tool functions as a parameter.<br/>
+Here we are loading our freshly minted local tools into a tool registry called `my_tool_registry` represented by the `ToolRegistry` class. This takes a list of instantiated tool functions as a parameter.<br/>
 
 ## Bringing it together in an example
 
-Now let's bring it all together. We can combine any number of tool registries into a single one with the `+` operator. This can just as well be done to combine local and Portia tools together in one fell swoop! For this example, we will combine our custom tool(s) from the `custom_tool_registry` we created above with the `example_tool_registry` using `complete_tool_registry = example_tool_registry + custom_tool_registry`.<br/>
+Now let's bring it all together. We can combine any number of tool registries into a single one with the `+` operator. This can just as well be done to combine local and Portia tools together in one fell swoop! For this example, we will combine our custom tool(s) from the `my_tool_registry` we created above with the `example_tool_registry` using `complete_tool_registry = example_tool_registry + my_tool_registry`.<br/>
 **Note: Make a `demo_runs` directory at this point. We will be using repeatedly.**
 
 <details>
@@ -105,7 +103,7 @@ We will use a simple GET endpoint from OpenWeatherMap in this section. Please si
 We're assuming you already have a Tavily key provisioned from the previous sections in this doc. If not, then head over to their website and do so (<a href="https://tavily.com/" target="_blank">**↗**</a>). We will set it in the environment variable `TAVILY_API_KEY`.
 </details>
 
-```python title="main.py"
+```python title="custom_tools/main.py" id=main depends_on=registry,file_reader_tool,file_writer_tool
 from dotenv import load_dotenv
 from portia import (
     Portia,
@@ -113,12 +111,11 @@ from portia import (
     Config,
     LogLevel,
 )
-from my_custom_tools.registry import custom_tool_registry
 
 load_dotenv()
 
 # Load example and custom tool registries into a single one
-complete_tool_registry = example_tool_registry + custom_tool_registry
+complete_tool_registry = example_tool_registry + my_tool_registry
 # Instantiate Portia with the tools above
 portia = Portia(
     Config.from_default(default_log_level=LogLevel.DEBUG),
@@ -126,7 +123,7 @@ portia = Portia(
 )
 
 # Execute the plan from the user query
-plan_run = portia.run('Get the weather in the town with the longest name in England'
+plan_run = portia.run('Get the weather in the town with the longest name in Welsh'
                                 + ' and write it to demo_runs/weather.txt.')
 
 # Serialise into JSON and print the output
@@ -145,7 +142,7 @@ For more complex scenarios requiring advanced customisation, you can also use th
 
 <Tabs>
   <TabItem value="class_file_reader" label="file_reader_tool.py (class-based)">
-    ```python title="my_custom_tools/file_reader_tool.py"
+    ```python title="custom_tools/file_reader_tool.py"
     from pathlib import Path
     import pandas as pd
     import json
@@ -232,7 +229,7 @@ For more complex scenarios requiring advanced customisation, you can also use th
 
 When using the class-based approach you would be registering the tools the exact same way as the decorator approach:
 
-```python title="registry.py (class-based)"
+```python title="my_custom_tools/registry.py (class-based)"
 """Registry containing my custom tools."""
 
 from portia import InMemoryToolRegistry
