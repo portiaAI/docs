@@ -11,10 +11,11 @@ import TabItem from '@theme/TabItem';
 The Model Context Protocol (MCP) makes it very easy to integrate third-party tools into your Portia AI project.
 To find out more you can visit the <a href="https://modelcontextprotocol.io/" target="_blank">official MCP docs ↗</a>.
 
-Whilst our <a href="/cloud-tool-registry" target="_blank">Cloud tool registry</a> provides a seemless way to connect remote MCP servers to your Portia agent, we also provide developers with the ability to set up their own MCP server connections (local or remote) directly into our SDK.
-When using the cloud tool registry, authentication is handled for you, but if you're connecting directly into the SDK then you'll need to handle authentication yourself.
+:::tip[Remote MCP servers]
+This section covers integration an MCP server with the **SDK**. The easiest way to connect a remote MCP server with managed authentication is through the <a href="https://app.portialabs.ai/dashboard/tool-registry" target="_blank">Cloud tool registry</a> (see documentation <a href="/cloud-tool-registry" target="_blank">here</a>). When using the cloud tool registry, authentication is handled for you, but if you're connecting directly into the SDK then you'll need to handle authentication yourself.
+:::
 
-When integrating an SDK server directly with the SDK, we offer the three methods currently available for interacting with MCP servers:
+We provide developers with the ability to set up their own MCP server connections (local or remote) directly into our SDK. When integrating an SDK server directly with the SDK, we offer the three methods currently available for interacting with MCP servers:
 - **STDIO** (Standard input/output): The server runs as a subprocess of your main python process. Below we interact with that process via an npx command and a docker command provided with the correct arguments.
 - **Streamable HTTP**: Communication is over HTTP, you can run the server locally or deploy a server remotely. Per below, you just need to specify the current server name and URL.
 - **SSE** (Server-Sent Events): A legacy method of communication over HTTP, since replaced by Streamable HTTP.

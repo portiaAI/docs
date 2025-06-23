@@ -56,6 +56,29 @@ load_dotenv()
 portia = Portia(tools=DefaultToolRegistry(default_config()))
 ```
 
+### Customizing tool descriptions
+
+It's often the case that you want to provide custom instructions to Portia agents about how to use a tool, for example, because the author of the MCP tool has missed some context that's important for your usecase, or because you want to personalize the tool in some way. We offer an easy way to edit tool descriptions to do this using the `ToolRegistry.with_tool_description` function.
+
+Consider the below example that personalizes the Linear MCP server with the default team ID:
+
+```python title="customize_tool_descriptions.py"
+from portia import Config, Portia, PortiaToolRegistry
+from portia.cli import CLIExecutionHooks
+
+my_config = Config.from_default()
+
+portia = Portia(
+    config=my_config,
+    tools=PortiaToolRegistry(my_config).with_tool_description(
+        "portia:mcp:custom:mcp.linear.app:create_issue",
+        "If a teamID is not provided, use teamID 123."),
+    execution_hooks=CLIExecutionHooks(),
+)
+```
+
+This customization can be used across any tool registry in Portia.
+
 ## Available tools
 
 When setting up your tool registry, there are four sources of tools you can use: our open-source tools, our Portia cloud tools, your own MCP tool registry and custom code tools.

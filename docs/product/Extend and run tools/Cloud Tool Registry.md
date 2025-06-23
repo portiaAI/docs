@@ -47,6 +47,10 @@ You can extend your Portia cloud tool registry by configuring your own remote MC
 It is worth noting that, when enabling MCP-based applications which use OAuth or API key authentication, you will need to authenticate with the server. This is required because MCP requires authentication in order to view available tools. The authentication credentials provided here are only used for listing tools from the server and are separate to those that the tool is executed with. We store all authentication credentials using <a href="/security">production-grade encryption</a>.
 :::
 
+### Customizing MCP and other cloud based tools
+
+We offer an easy way to customize our cloud based tools, or remote MCP server tool descriptions using the `ToolRegistry.with_tool_description` function. You can read more about this <a href="/integrating-tools" target="_blank">here</a>.
+
 ## Other Portia Cloud Tools
 
 Where there is no official remote MCP server for a provider, we have a collection of tools developed by Portia.
