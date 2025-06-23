@@ -47,6 +47,29 @@ You can extend your Portia cloud tool registry by configuring your own remote MC
 It is worth noting that, when enabling MCP-based applications which use OAuth or API key authentication, you will need to authenticate with the server. This is required because MCP requires authentication in order to view available tools. The authentication credentials provided here are only used for listing tools from the server and are separate to those that the tool is executed with. We store all authentication credentials using <a href="/security">production-grade encryption</a>.
 :::
 
+### Customizing MCP and other cloud based tools
+
+It's often the case that you want to provide custom instructions to Portia agents about how to use a tool, for example, because the author of the MCP tool has missed some context that's important for your usecase, or because you want to personalize the tool in some way. We offer an easy way to edit tool descriptions to do this using the `ToolRegistry.with_tool_description` function.
+
+Consider the below example that personalizes the Linear MCP server with the default team ID:
+
+```python title="customize_tool_descriptions.py"
+from portia import Config, Portia, PortiaToolRegistry
+from portia.cli import CLIExecutionHooks
+
+my_config = Config.from_default()
+
+portia = Portia(
+    config=my_config,
+    tools=PortiaToolRegistry(my_config).with_tool_description(
+        "portia:mcp:custom:mcp.linear.app:create_issue",
+        "If a teamID is not provided, use teamID 123."),
+    execution_hooks=CLIExecutionHooks(),
+)
+```
+
+This customization can be used across any tool registry in Portia.
+
 ## Other Portia Cloud Tools
 
 Where there is no official remote MCP server for a provider, we have a collection of tools developed by Portia.
