@@ -30,7 +30,7 @@ TEST_CONTAINERS = {
 @pytest.mark.parametrize(
     "example",
     list(find_examples("docs/product/Get started/A tour of our SDK.md")) +
-        list(find_examples("docs/product/Extend and run tools/Function as tool.md")),
+        list(find_examples("docs/product/Extend and run tools/Adding custom tools.md")),
     ids=str
 )
 def test_docstrings(example: CodeExample, eval_example: EvalExample):
