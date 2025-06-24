@@ -33,6 +33,32 @@ class StdioMcpClientConfig(BaseModel)
 
 Configuration for an MCP client that connects via stdio.
 
+#### from\_raw
+
+```python
+@classmethod
+def from_raw(cls, config: str | dict[str, Any]) -> StdioMcpClientConfig
+```
+
+Create a StdioMcpClientConfig from a string.
+
+This method is used to create a StdioMcpClientConfig from a string. It supports
+mcpServers and servers keys methods commonly used in MCP client configs.
+
+**Arguments**:
+
+- `config` - The string or dict to parse.
+  
+
+**Returns**:
+
+  A StdioMcpClientConfig.
+  
+
+**Raises**:
+
+- `ValueError` - If the string is not valid JSON or does not contain a valid MCP config.
+
 ## StreamableHttpMcpClientConfig Objects
 
 ```python

@@ -234,6 +234,22 @@ Tool IDs must be unique across the two registries otherwise an error will be thr
 
 - `ToolRegistry` - A new tool registry containing tools from both registries.
 
+#### \_\_iter\_\_
+
+```python
+def __iter__() -> Iterator[Tool]
+```
+
+Iterate over the tools in the registry.
+
+#### \_\_len\_\_
+
+```python
+def __len__() -> int
+```
+
+Return the number of tools in the registry.
+
 ## InMemoryToolRegistry Objects
 
 ```python
@@ -359,6 +375,30 @@ def from_stdio_connection(
 ```
 
 Create a new MCPToolRegistry using a stdio connection (Sync version).
+
+#### from\_stdio\_connection\_raw
+
+```python
+@classmethod
+def from_stdio_connection_raw(
+        cls,
+        config: str | dict[str, Any],
+        tool_list_read_timeout: float | None = None) -> McpToolRegistry
+```
+
+Create a new MCPToolRegistry using a stdio connection from a string.
+
+Parses commonly used mcp client config formats.
+
+**Arguments**:
+
+- `config` - The string or dict to parse.
+- `tool_list_read_timeout` - The timeout for the request.
+  
+
+**Returns**:
+
+  A McpToolRegistry.
 
 #### from\_stdio\_connection\_async
 
