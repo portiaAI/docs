@@ -234,6 +234,22 @@ Tool IDs must be unique across the two registries otherwise an error will be thr
 
 - `ToolRegistry` - A new tool registry containing tools from both registries.
 
+#### \_\_iter\_\_
+
+```python
+def __iter__() -> Iterator[Tool]
+```
+
+Iterate over the tools in the registry.
+
+#### \_\_len\_\_
+
+```python
+def __len__() -> int
+```
+
+Return the number of tools in the registry.
+
 ## InMemoryToolRegistry Objects
 
 ```python
@@ -314,12 +330,14 @@ See https://modelcontextprotocol.io/introduction for more information on MCP.
 
 ```python
 @classmethod
-def from_sse_connection(cls,
-                        server_name: str,
-                        url: str,
-                        headers: dict[str, Any] | None = None,
-                        timeout: float = 5,
-                        sse_read_timeout: float = 60 * 5) -> McpToolRegistry
+def from_sse_connection(
+        cls,
+        server_name: str,
+        url: str,
+        headers: dict[str, Any] | None = None,
+        timeout: float = 5,
+        sse_read_timeout: float = 60 * 5,
+        tool_list_read_timeout: float | None = None) -> McpToolRegistry
 ```
 
 Create a new MCPToolRegistry using an SSE connection (Sync version).
@@ -334,7 +352,8 @@ async def from_sse_connection_async(
         url: str,
         headers: dict[str, Any] | None = None,
         timeout: float = 5,
-        sse_read_timeout: float = 60 * 5) -> McpToolRegistry
+        sse_read_timeout: float = 60 * 5,
+        tool_list_read_timeout: float | None = None) -> McpToolRegistry
 ```
 
 Create a new MCPToolRegistry using an SSE connection (Async version).
@@ -344,31 +363,57 @@ Create a new MCPToolRegistry using an SSE connection (Async version).
 ```python
 @classmethod
 def from_stdio_connection(
-    cls,
-    server_name: str,
-    command: str,
-    args: list[str] | None = None,
-    env: dict[str, str] | None = None,
-    encoding: str = "utf-8",
-    encoding_error_handler: Literal["strict", "ignore", "replace"] = "strict"
-) -> McpToolRegistry
+        cls,
+        server_name: str,
+        command: str,
+        args: list[str] | None = None,
+        env: dict[str, str] | None = None,
+        encoding: str = "utf-8",
+        encoding_error_handler: Literal["strict", "ignore",
+                                        "replace"] = "strict",
+        tool_list_read_timeout: float | None = None) -> McpToolRegistry
 ```
 
 Create a new MCPToolRegistry using a stdio connection (Sync version).
+
+#### from\_stdio\_connection\_raw
+
+```python
+@classmethod
+def from_stdio_connection_raw(
+        cls,
+        config: str | dict[str, Any],
+        tool_list_read_timeout: float | None = None) -> McpToolRegistry
+```
+
+Create a new MCPToolRegistry using a stdio connection from a string.
+
+Parses commonly used mcp client config formats.
+
+**Arguments**:
+
+- `config` - The string or dict to parse.
+- `tool_list_read_timeout` - The timeout for the request.
+  
+
+**Returns**:
+
+  A McpToolRegistry.
 
 #### from\_stdio\_connection\_async
 
 ```python
 @classmethod
 async def from_stdio_connection_async(
-    cls,
-    server_name: str,
-    command: str,
-    args: list[str] | None = None,
-    env: dict[str, str] | None = None,
-    encoding: str = "utf-8",
-    encoding_error_handler: Literal["strict", "ignore", "replace"] = "strict"
-) -> McpToolRegistry
+        cls,
+        server_name: str,
+        command: str,
+        args: list[str] | None = None,
+        env: dict[str, str] | None = None,
+        encoding: str = "utf-8",
+        encoding_error_handler: Literal["strict", "ignore",
+                                        "replace"] = "strict",
+        tool_list_read_timeout: float | None = None) -> McpToolRegistry
 ```
 
 Create a new MCPToolRegistry using a stdio connection (Async version).
@@ -386,7 +431,8 @@ def from_streamable_http_connection(
         sse_read_timeout: float = 60 * 5,
         *,
         terminate_on_close: bool = True,
-        auth: httpx.Auth | None = None) -> McpToolRegistry
+        auth: httpx.Auth | None = None,
+        tool_list_read_timeout: float | None = None) -> McpToolRegistry
 ```
 
 Create a new MCPToolRegistry using a StreamableHTTP connection (Sync version).
@@ -404,7 +450,8 @@ async def from_streamable_http_connection_async(
         sse_read_timeout: float = 60 * 5,
         *,
         terminate_on_close: bool = True,
-        auth: httpx.Auth | None = None) -> McpToolRegistry
+        auth: httpx.Auth | None = None,
+        tool_list_read_timeout: float | None = None) -> McpToolRegistry
 ```
 
 Create a new MCPToolRegistry using a StreamableHTTP connection (Async version).
