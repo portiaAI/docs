@@ -8,7 +8,7 @@ import TabItem from '@theme/TabItem';
 
 # Remote MCP and cloud tools
 
-When your agents are connected to Portia Cloud, they gain access to an extensive tool registry with powerful integrations.
+When your agents are connected to Portia Cloud, your [`DefaultToolRegistry`](/integrating-tools#tool-registries) will be populated with an extensive tool registry with powerful integrations.
 The registry includes by default popular services like Gmail, Google Calendar, Slack, GitHub, Zendesk, and is extensible to many more by integrating remote MCP servers.
 You can check out the full list of default integrations <a href="https://app.portialabs.ai/dashboard/tool-registry" target="_blank"> in the dashboard ↗</a>.
 
