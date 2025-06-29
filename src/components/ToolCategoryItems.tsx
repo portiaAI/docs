@@ -1,9 +1,12 @@
 import React from "react";
-import { Tool, ToolCategory } from "@site/src/lib/tools";
+import { McpServer, Tool, ToolCategory } from "@site/src/lib/tools";
 import { ToolList } from "./ToolList";
 import { CardLayout } from "@site/src/theme/DocCard";
 
 export const ToolCategoryItems: React.FC<{ rootCategories: ToolCategory[] }> = ({ rootCategories }) => {
+  const itemsAreCategoriesOrMcpServers = (items: ToolCategory["items"]) => {
+    return items.every((item) => item.type === "category" || item.customProps?.type === "mcp-server");
+  }
   return (
     <div>
       {rootCategories.map((category, index) => {
@@ -12,7 +15,7 @@ export const ToolCategoryItems: React.FC<{ rootCategories: ToolCategory[] }> = (
             <h2>{category.label}</h2>
             
             {/* Check if items are ToolCategories (sub-categories) or Tools */}
-            {category.items.length > 0 && category.items[0].type === "category" ? (
+            {itemsAreCategoriesOrMcpServers(category.items) ? (
               // Render sub-categories as CardLayout in a grid
               <div
                 style={{
@@ -22,9 +25,9 @@ export const ToolCategoryItems: React.FC<{ rootCategories: ToolCategory[] }> = (
                   width: "100%",
                 }}
               >
-                {(category.items as ToolCategory[]).map((subCategory, subIndex) => {
-                  // Construct href from the link.id or fallback to a default pattern
-                  const href = subCategory.link?.id ? `/${subCategory.link.id}` : `/${subCategory.label.toLowerCase().replace(/\s+/g, '-')}`;
+                {(category.items as Array<ToolCategory | McpServer>).map((subCategory, subIndex) => {
+                  // TODO: Redo this bit to work with MCP
+                  const href = "";  //subCategory.link?.id ? `/${subCategory.link.id}` : `/${subCategory.label.toLowerCase().replace(/\s+/g, '-')}`;
                   
                   return (
                     <CardLayout

@@ -6,6 +6,7 @@ export type Tool = {
   title: string;
   type: "doc";
   customProps: {
+    type: "tool";
     description: string;
     category: string;
     categoryLabel: string;
@@ -13,10 +14,20 @@ export type Tool = {
   };
 };
 
+export type McpServer = {
+  id: string;
+  label: string;
+  title: string;
+  type: "doc";
+  customProps: {
+    type: "mcp-server";
+  };
+};
+
 export type ToolCategory = {
   label: string;
   type: "category";
-  items: Array<Tool | ToolCategory>;
+  items: Array<ToolCategory | Tool | McpServer>;
   link?: {
     type: string;
     id: string;
@@ -33,8 +44,11 @@ const getLeaves = (sidebar) => {
     .map((item) => {
       if (item.type === "category") {
         return getLeaves(item);
+      } else if (item.customProps?.type === "tool") {
+        return item;
+      } else {
+        return [];
       }
-      return item;
     })
     .flat();
 };
