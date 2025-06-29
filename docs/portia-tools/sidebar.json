@@ -7,12 +7,13 @@
   },
   "items": [
     {
-      "label": "Open Source",
       "type": "category",
+      "label": "Open Source",
       "link": {
         "type": "doc",
         "id": "portia-tools/open-source/index"
       },
+      "collapsed": true,
       "items": [
         {
           "type": "doc",
@@ -101,736 +102,784 @@
       ]
     },
     {
-      "label": "GitHub",
       "type": "category",
+      "label": "Portia Cloud",
       "link": {
         "type": "doc",
-        "id": "portia-tools/github/index"
+        "id": "portia-tools/portia-cloud/index"
       },
+      "collapsed": false,
       "items": [
         {
-          "type": "doc",
-          "label": "Issue: List",
-          "id": "portia-tools/github/list-repo-issues",
-          "customProps": {
-            "description": "List issues in a GitHub repository.",
-            "category": "github",
-            "categoryLabel": "GitHub",
-            "vendor": "github",
-            "vendorLabel": "GitHub"
-          }
+          "type": "category",
+          "label": "GitHub",
+          "link": {
+            "type": "doc",
+            "id": "portia-tools/portia-cloud/github/index"
+          },
+          "collapsed": true,
+          "items": [
+            {
+              "type": "doc",
+              "label": "Issue: List",
+              "id": "portia-tools/portia-cloud/github/list-repo-issues",
+              "customProps": {
+                "description": "List issues in a GitHub repository.",
+                "category": "github",
+                "categoryLabel": "GitHub",
+                "vendor": "github",
+                "vendorLabel": "GitHub"
+              }
+            },
+            {
+              "type": "doc",
+              "label": "Repository: List",
+              "id": "portia-tools/portia-cloud/github/list-repos",
+              "customProps": {
+                "description": "Lists all public repositories for a GitHub organization.",
+                "category": "github",
+                "categoryLabel": "GitHub",
+                "vendor": "github",
+                "vendorLabel": "GitHub"
+              }
+            },
+            {
+              "type": "doc",
+              "label": "Repository: Search",
+              "id": "portia-tools/portia-cloud/github/search-repos",
+              "customProps": {
+                "description": "Searches all public repositories for a specific term.",
+                "category": "github",
+                "categoryLabel": "GitHub",
+                "vendor": "github",
+                "vendorLabel": "GitHub"
+              }
+            },
+            {
+              "type": "doc",
+              "label": "Repository: Star",
+              "id": "portia-tools/portia-cloud/github/star-repo",
+              "customProps": {
+                "description": "Stars a GitHub repository.",
+                "category": "github",
+                "categoryLabel": "GitHub",
+                "vendor": "github",
+                "vendorLabel": "GitHub"
+              }
+            }
+          ]
         },
         {
-          "type": "doc",
-          "label": "Repository: List",
-          "id": "portia-tools/github/list-repos",
-          "customProps": {
-            "description": "Lists all public repositories for a GitHub organization.",
-            "category": "github",
-            "categoryLabel": "GitHub",
-            "vendor": "github",
-            "vendorLabel": "GitHub"
-          }
+          "type": "category",
+          "label": "Google Calendar",
+          "link": {
+            "type": "doc",
+            "id": "portia-tools/portia-cloud/google-calendar/index"
+          },
+          "collapsed": true,
+          "items": [
+            {
+              "type": "doc",
+              "label": "Calendar: Check Availability",
+              "id": "portia-tools/portia-cloud/google-calendar/calendar-check-availability",
+              "customProps": {
+                "description": "Checks the availability of this authenticated user for a given time range. DO NOT use this to validate availability of people the user wants to meet with. DO NOT use this unless the user specifically asks for availability checking, e.g by saying 'find when I am free', or 'check my availability'. Either the day, end_time, or start_time must be provided. Pay close attention to the task if it says 'before' or 'after'.",
+                "category": "google-calendar",
+                "categoryLabel": "Google Calendar",
+                "vendor": "google",
+                "vendorLabel": "Google"
+              }
+            },
+            {
+              "type": "doc",
+              "label": "Calendar: Create Event",
+              "id": "portia-tools/portia-cloud/google-calendar/calendar-create-event",
+              "customProps": {
+                "description": "Creates a Google Calendar event. DO NOT call portia:google:gcalendar:check_availability before using this tool, unless the user explicitly asks you to check their availability.",
+                "category": "google-calendar",
+                "categoryLabel": "Google Calendar",
+                "vendor": "google",
+                "vendorLabel": "Google"
+              }
+            },
+            {
+              "type": "doc",
+              "label": "Calendar: Delete Event",
+              "id": "portia-tools/portia-cloud/google-calendar/calendar-delete-event",
+              "customProps": {
+                "description": "Deletes the Google Calendar event associated with the ID.",
+                "category": "google-calendar",
+                "categoryLabel": "Google Calendar",
+                "vendor": "google",
+                "vendorLabel": "Google"
+              }
+            },
+            {
+              "type": "doc",
+              "label": "Calendar: Get Event",
+              "id": "portia-tools/portia-cloud/google-calendar/calendar-get-event-details",
+              "customProps": {
+                "description": "Gets Google Calendar event using an event ID.",
+                "category": "google-calendar",
+                "categoryLabel": "Google Calendar",
+                "vendor": "google",
+                "vendorLabel": "Google"
+              }
+            },
+            {
+              "type": "doc",
+              "label": "Calendar: Get Events By Properties",
+              "id": "portia-tools/portia-cloud/google-calendar/calendar-get-events-by-properties",
+              "customProps": {
+                "description": "Gets Google Calendar events by properties, returning the matching event details. You do not need to provide all the properties, only the ones you have provided with.",
+                "category": "google-calendar",
+                "categoryLabel": "Google Calendar",
+                "vendor": "google",
+                "vendorLabel": "Google"
+              }
+            },
+            {
+              "type": "doc",
+              "label": "Calendar: Modify Event",
+              "id": "portia-tools/portia-cloud/google-calendar/calendar-modify-event",
+              "customProps": {
+                "description": "Modifies an existing Google Calendar event. You must provide the event ID to modify, and can optionally provide new values if desired for the title, start time, end time, description, and attendees.",
+                "category": "google-calendar",
+                "categoryLabel": "Google Calendar",
+                "vendor": "google",
+                "vendorLabel": "Google"
+              }
+            }
+          ]
         },
         {
-          "type": "doc",
-          "label": "Repository: Search",
-          "id": "portia-tools/github/search-repos",
-          "customProps": {
-            "description": "Searches all public repositories for a specific term.",
-            "category": "github",
-            "categoryLabel": "GitHub",
-            "vendor": "github",
-            "vendorLabel": "GitHub"
-          }
+          "type": "category",
+          "label": "Google Docs",
+          "link": {
+            "type": "doc",
+            "id": "portia-tools/portia-cloud/google-docs/index"
+          },
+          "collapsed": true,
+          "items": [
+            {
+              "type": "doc",
+              "label": "Docs: Get Document",
+              "id": "portia-tools/portia-cloud/google-docs/docs-get-document",
+              "customProps": {
+                "description": "Get a document from Google Docs in plain text format by ID. The GoogleDriveSearchTool should be used to search for a document by name if an ID is not known.",
+                "category": "google-docs",
+                "categoryLabel": "Google Docs",
+                "vendor": "google",
+                "vendorLabel": "Google"
+              }
+            },
+            {
+              "type": "doc",
+              "label": "Docs: Get Structured Document",
+              "id": "portia-tools/portia-cloud/google-docs/docs-get-structured-document",
+              "customProps": {
+                "description": "Get a document from Google Docs in a machine readable format. Do not use unless you reallyneed a structured document.",
+                "category": "google-docs",
+                "categoryLabel": "Google Docs",
+                "vendor": "google",
+                "vendorLabel": "Google"
+              }
+            }
+          ]
         },
         {
-          "type": "doc",
-          "label": "Repository: Star",
-          "id": "portia-tools/github/star-repo",
-          "customProps": {
-            "description": "Stars a GitHub repository.",
-            "category": "github",
-            "categoryLabel": "GitHub",
-            "vendor": "github",
-            "vendorLabel": "GitHub"
-          }
-        }
-      ]
-    },
-    {
-      "label": "Slack",
-      "type": "category",
-      "link": {
-        "type": "doc",
-        "id": "portia-tools/slack/index"
-      },
-      "items": [
-        {
-          "type": "doc",
-          "label": "Conversation: Get History",
-          "id": "portia-tools/slack/get-conversation",
-          "customProps": {
-            "description": "Get the conversation history for a given channel by channel id. Requires an ID typically from the list_conversation_ids tool.",
-            "category": "slack",
-            "categoryLabel": "Slack",
-            "vendor": "slack",
-            "vendorLabel": "Slack"
-          }
+          "type": "category",
+          "label": "Google Drive",
+          "link": {
+            "type": "doc",
+            "id": "portia-tools/portia-cloud/google-drive/index"
+          },
+          "collapsed": true,
+          "items": [
+            {
+              "type": "doc",
+              "label": "Drive: Search",
+              "id": "portia-tools/portia-cloud/google-drive/drive-search",
+              "customProps": {
+                "description": "Search for files and folders in Google Drive. Google Drive stores proprietary files like Google Docs, Sheets, and Slides. It also stores regular files like PDFs, images, and videos or even files from other apps like Microsoft docx, xlsx, pptx, etc. Use this tool to search for files using a search query.  This tool should be used to resolve name / file descriptions into concrete file IDs for other Google tools to use when needed.",
+                "category": "google-drive",
+                "categoryLabel": "Google Drive",
+                "vendor": "google",
+                "vendorLabel": "Google"
+              }
+            }
+          ]
         },
         {
-          "type": "doc",
-          "label": "Conversation: List",
-          "id": "portia-tools/slack/list-conversations",
-          "customProps": {
-            "description": "List all conversations meta information only without comments in the slack workspaceThis tool should be used when you need to make api calls to other slack apis that requirea conversation or channel id. DOES NOT RETURN MESSAGES, CONVERSATION HISTORY, OR USER IDS.",
-            "category": "slack",
-            "categoryLabel": "Slack",
-            "vendor": "slack",
-            "vendorLabel": "Slack"
-          }
+          "type": "category",
+          "label": "Google Gmail",
+          "link": {
+            "type": "doc",
+            "id": "portia-tools/portia-cloud/google-gmail/index"
+          },
+          "collapsed": true,
+          "items": [
+            {
+              "type": "doc",
+              "label": "Gmail: Draft",
+              "id": "portia-tools/portia-cloud/google-gmail/gmail-draft-email",
+              "customProps": {
+                "description": "Drafts an email for the recipients indicated. Should not be used with the send email tool. Instead to send a draft email use the portia:google:gmail:send_draft_email. If the user hasn't given you an explicit title or body to the email, choose something appropriate based on the context of the email.",
+                "category": "google-workspace",
+                "categoryLabel": "Google Gmail",
+                "vendor": "google",
+                "vendorLabel": "Google"
+              }
+            },
+            {
+              "type": "doc",
+              "label": "Gmail: Search",
+              "id": "portia-tools/portia-cloud/google-gmail/gmail-search-email",
+              "customProps": {
+                "description": "Searches for emails and drafts in the user's inbox and returns emails content that match the query.",
+                "category": "google-workspace",
+                "categoryLabel": "Google Gmail",
+                "vendor": "google",
+                "vendorLabel": "Google"
+              }
+            },
+            {
+              "type": "doc",
+              "label": "Gmail: Send",
+              "id": "portia-tools/portia-cloud/google-gmail/gmail-send-email",
+              "customProps": {
+                "description": "Sends an email to the recipients indicated. Should not be used with the draft email tool. If the user hasn't given you an explicit title or body to the email, choose something appropriate based on the context of the email.",
+                "category": "google-workspace",
+                "categoryLabel": "Google Gmail",
+                "vendor": "google",
+                "vendorLabel": "Google"
+              }
+            },
+            {
+              "type": "doc",
+              "label": "Gmail: Send Draft",
+              "id": "portia-tools/portia-cloud/google-gmail/gmail-send-draft-email",
+              "customProps": {
+                "description": "Sends a previously drafted email with the email title, body and recipients indicated in the draft. Requires a draft id which is obtained from the DraftEmailTool. Only use this tool if you actually want to send an email, not if the user just wants to draft an email.",
+                "category": "google-workspace",
+                "categoryLabel": "Google Gmail",
+                "vendor": "google",
+                "vendorLabel": "Google"
+              }
+            }
+          ]
         },
         {
-          "type": "doc",
-          "label": "Message: Find",
-          "id": "portia-tools/slack/find-message",
-          "customProps": {
-            "description": "Search for a message in a Slack channel or chat.",
-            "category": "slack",
-            "categoryLabel": "Slack",
-            "vendor": "slack",
-            "vendorLabel": "Slack"
-          }
+          "type": "category",
+          "label": "Google Sheets",
+          "link": {
+            "type": "doc",
+            "id": "portia-tools/portia-cloud/google-sheets/index"
+          },
+          "collapsed": true,
+          "items": [
+            {
+              "type": "doc",
+              "label": "Sheets: Get Spreadsheet",
+              "id": "portia-tools/portia-cloud/google-sheets/sheets-get-spreadsheet",
+              "customProps": {
+                "description": "Gets the content of a spreadsheet from Google Sheets by ID. The GoogleDriveSearchTool should be used to search for a spreadsheet by name if an ID is not known.",
+                "category": "google-sheets",
+                "categoryLabel": "Google Sheets",
+                "vendor": "google",
+                "vendorLabel": "Google"
+              }
+            }
+          ]
         },
         {
-          "type": "doc",
-          "label": "Message: Send",
-          "id": "portia-tools/slack/send-message",
-          "customProps": {
-            "description": "Send a message to a specific Slack channel or user by ID. Requires an ID provided by other tools.",
-            "category": "slack",
-            "categoryLabel": "Slack",
-            "vendor": "slack",
-            "vendorLabel": "Slack"
-          }
+          "type": "category",
+          "label": "Microsoft Outlook",
+          "link": {
+            "type": "doc",
+            "id": "portia-tools/portia-cloud/microsoft-outlook/index"
+          },
+          "collapsed": true,
+          "items": [
+            {
+              "type": "doc",
+              "label": "Outlook: Draft",
+              "id": "portia-tools/portia-cloud/microsoft-outlook/outlook-draft-email",
+              "customProps": {
+                "description": "Drafts an email for the recipients indicated. Should not be used with the send email tool. Instead to send a draft email use the send_draft_email_tool. If the user hasn't given you an explicit title or body to the email, choose something appropriate based on the context of the email.",
+                "category": "microsoft",
+                "categoryLabel": "Microsoft Outlook",
+                "vendor": "microsoft",
+                "vendorLabel": "Micrososft"
+              }
+            },
+            {
+              "type": "doc",
+              "label": "Outlook: Search",
+              "id": "portia-tools/portia-cloud/microsoft-outlook/outlook-search-email",
+              "customProps": {
+                "description": "Searches for emails in the user's Outlook inbox and returns emails content that match the query.",
+                "category": "microsoft",
+                "categoryLabel": "Microsoft Outlook",
+                "vendor": "microsoft",
+                "vendorLabel": "Microsoft"
+              }
+            },
+            {
+              "type": "doc",
+              "label": "Outlook: Send",
+              "id": "portia-tools/portia-cloud/microsoft-outlook/outlook-send-email",
+              "customProps": {
+                "description": "Sends an email to the recipients indicated. Should not be used with the draft email tool. Instead to send a draft email use the send_draft_email_tool. If the user hasn't given you an explicit title or body to the email, choose something appropriate based on the context of the email.",
+                "category": "microsoft",
+                "categoryLabel": "Microsoft Outlook",
+                "vendor": "microsoft",
+                "vendorLabel": "Microsoft"
+              }
+            },
+            {
+              "type": "doc",
+              "label": "Outlook: Send Draft",
+              "id": "portia-tools/portia-cloud/microsoft-outlook/outlook-send-draft-email",
+              "customProps": {
+                "description": "Sends a previously drafted email with the email title, body and recipients indicated in the draft. Requires a draft id which is obtained from the DraftEmailTool. Only use this tool if you actually want to send an email, not if the user just wants to draft an email.",
+                "category": "microsoft",
+                "categoryLabel": "Microsoft Outlook",
+                "vendor": "microsoft",
+                "vendorLabel": "Microsoft"
+              }
+            }
+          ]
         },
         {
-          "type": "doc",
-          "label": "Users: List",
-          "id": "portia-tools/slack/list-users",
-          "customProps": {
-            "description": "List all users in the slack workspace. Returns user meta information: Name, ID, and EmailThis tool should be used when you need to make api calls to other slack apis that requirea user ID.",
-            "category": "slack",
-            "categoryLabel": "Slack",
-            "vendor": "slack",
-            "vendorLabel": "Slack"
-          }
-        }
-      ]
-    },
-    {
-      "label": "Google Workspace",
-      "type": "category",
-      "link": {
-        "type": "doc",
-        "id": "portia-tools/google-workspace/index"
-      },
-      "items": [
-        {
-          "type": "doc",
-          "label": "Calendar: Check Availability",
-          "id": "portia-tools/google-workspace/calendar-check-availability",
-          "customProps": {
-            "description": "Checks the availability of this authenticated user for a given time range. DO NOT use this to validate availability of people the user wants to meet with. DO NOT use this unless the user specifically asks for availability checking, e.g by saying 'find when I am free', or 'check my availability'. Either the day, end_time, or start_time must be provided. Pay close attention to the task if it says 'before' or 'after'.",
-            "category": "google-workspace",
-            "categoryLabel": "Google Workspace",
-            "vendor": "google",
-            "vendorLabel": "Google"
-          }
+          "type": "category",
+          "label": "Slack",
+          "link": {
+            "type": "doc",
+            "id": "portia-tools/portia-cloud/slack/index"
+          },
+          "collapsed": true,
+          "items": [
+            {
+              "type": "doc",
+              "label": "Conversation: Get History",
+              "id": "portia-tools/portia-cloud/slack/get-conversation",
+              "customProps": {
+                "description": "Get the conversation history for a given channel by channel id. Requires an ID typically from the list_conversation_ids tool.",
+                "category": "slack",
+                "categoryLabel": "Slack",
+                "vendor": "slack",
+                "vendorLabel": "Slack"
+              }
+            },
+            {
+              "type": "doc",
+              "label": "Conversation: List",
+              "id": "portia-tools/portia-cloud/slack/list-conversations",
+              "customProps": {
+                "description": "List all conversations meta information only without comments in the slack workspaceThis tool should be used when you need to make api calls to other slack apis that requirea conversation or channel id. DOES NOT RETURN MESSAGES, CONVERSATION HISTORY, OR USER IDS.",
+                "category": "slack",
+                "categoryLabel": "Slack",
+                "vendor": "slack",
+                "vendorLabel": "Slack"
+              }
+            },
+            {
+              "type": "doc",
+              "label": "Message: Find",
+              "id": "portia-tools/portia-cloud/slack/find-message",
+              "customProps": {
+                "description": "Search for a message in a Slack channel or chat.",
+                "category": "slack",
+                "categoryLabel": "Slack",
+                "vendor": "slack",
+                "vendorLabel": "Slack"
+              }
+            },
+            {
+              "type": "doc",
+              "label": "Message: Send",
+              "id": "portia-tools/portia-cloud/slack/send-message",
+              "customProps": {
+                "description": "Send a message to a specific Slack channel or user by ID. Requires an ID provided by other tools.",
+                "category": "slack",
+                "categoryLabel": "Slack",
+                "vendor": "slack",
+                "vendorLabel": "Slack"
+              }
+            },
+            {
+              "type": "doc",
+              "label": "Users: List",
+              "id": "portia-tools/portia-cloud/slack/list-users",
+              "customProps": {
+                "description": "List all users in the slack workspace. Returns user meta information: Name, ID, and EmailThis tool should be used when you need to make api calls to other slack apis that requirea user ID.",
+                "category": "slack",
+                "categoryLabel": "Slack",
+                "vendor": "slack",
+                "vendorLabel": "Slack"
+              }
+            }
+          ]
         },
         {
-          "type": "doc",
-          "label": "Calendar: Create Event",
-          "id": "portia-tools/google-workspace/calendar-create-event",
-          "customProps": {
-            "description": "Creates a Google Calendar event. DO NOT call portia:google:gcalendar:check_availability before using this tool, unless the user explicitly asks you to check their availability.",
-            "category": "google-workspace",
-            "categoryLabel": "Google Workspace",
-            "vendor": "google",
-            "vendorLabel": "Google"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Calendar: Delete Event",
-          "id": "portia-tools/google-workspace/calendar-delete-event",
-          "customProps": {
-            "description": "Deletes the Google Calendar event associated with the ID.",
-            "category": "google-workspace",
-            "categoryLabel": "Google Workspace",
-            "vendor": "google",
-            "vendorLabel": "Google"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Calendar: Get Event",
-          "id": "portia-tools/google-workspace/calendar-get-event-details",
-          "customProps": {
-            "description": "Gets Google Calendar event using an event ID.",
-            "category": "google-workspace",
-            "categoryLabel": "Google Workspace",
-            "vendor": "google",
-            "vendorLabel": "Google"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Calendar: Get Events By Properties",
-          "id": "portia-tools/google-workspace/calendar-get-events-by-properties",
-          "customProps": {
-            "description": "Gets Google Calendar events by properties, returning the matching event details. You do not need to provide all the properties, only the ones you have provided with.",
-            "category": "google-workspace",
-            "categoryLabel": "Google Workspace",
-            "vendor": "google",
-            "vendorLabel": "Google"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Calendar: Modify Event",
-          "id": "portia-tools/google-workspace/calendar-modify-event",
-          "customProps": {
-            "description": "Modifies an existing Google Calendar event. You must provide the event ID to modify, and can optionally provide new values if desired for the title, start time, end time, description, and attendees.",
-            "category": "google-workspace",
-            "categoryLabel": "Google Workspace",
-            "vendor": "google",
-            "vendorLabel": "Google"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Contacts: Search",
-          "id": "portia-tools/google-workspace/people-search-contacts",
-          "customProps": {
-            "description": "Finds the most relevant matching contacts.",
-            "category": "google-workspace",
-            "categoryLabel": "Google Workspace",
-            "vendor": "google",
-            "vendorLabel": "Google"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Docs: Get Document",
-          "id": "portia-tools/google-workspace/docs-get-document",
-          "customProps": {
-            "description": "Get a document from Google Docs in plain text format by ID. The GoogleDriveSearchTool should be used to search for a document by name if an ID is not known.",
-            "category": "google-workspace",
-            "categoryLabel": "Google Workspace",
-            "vendor": "google",
-            "vendorLabel": "Google"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Docs: Get Structured Document",
-          "id": "portia-tools/google-workspace/docs-get-structured-document",
-          "customProps": {
-            "description": "Get a document from Google Docs in a machine readable format. Do not use unless you reallyneed a structured document.",
-            "category": "google-workspace",
-            "categoryLabel": "Google Workspace",
-            "vendor": "google",
-            "vendorLabel": "Google"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Drive: Search",
-          "id": "portia-tools/google-workspace/drive-search",
-          "customProps": {
-            "description": "Search for files and folders in Google Drive. Google Drive stores proprietary files like Google Docs, Sheets, and Slides. It also stores regular files like PDFs, images, and videos or even files from other apps like Microsoft docx, xlsx, pptx, etc. Use this tool to search for files using a search query.  This tool should be used to resolve name / file descriptions into concrete file IDs for other Google tools to use when needed.",
-            "category": "google-workspace",
-            "categoryLabel": "Google Workspace",
-            "vendor": "google",
-            "vendorLabel": "Google"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Email: Draft",
-          "id": "portia-tools/google-workspace/gmail-draft-email",
-          "customProps": {
-            "description": "Drafts an email for the recipients indicated. Should not be used with the send email tool. Instead to send a draft email use the portia:google:gmail:send_draft_email. If the user hasn't given you an explicit title or body to the email, choose something appropriate based on the context of the email.",
-            "category": "google-workspace",
-            "categoryLabel": "Google Workspace",
-            "vendor": "google",
-            "vendorLabel": "Google"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Email: Search",
-          "id": "portia-tools/google-workspace/gmail-search-email",
-          "customProps": {
-            "description": "Searches for emails and drafts in the user's inbox and returns emails content that match the query.",
-            "category": "google-workspace",
-            "categoryLabel": "Google Workspace",
-            "vendor": "google",
-            "vendorLabel": "Google"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Email: Send",
-          "id": "portia-tools/google-workspace/gmail-send-email",
-          "customProps": {
-            "description": "Sends an email to the recipients indicated. Should not be used with the draft email tool. If the user hasn't given you an explicit title or body to the email, choose something appropriate based on the context of the email.",
-            "category": "google-workspace",
-            "categoryLabel": "Google Workspace",
-            "vendor": "google",
-            "vendorLabel": "Google"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Email: Send Draft",
-          "id": "portia-tools/google-workspace/gmail-send-draft-email",
-          "customProps": {
-            "description": "Sends a previously drafted email with the email title, body and recipients indicated in the draft. Requires a draft id which is obtained from the DraftEmailTool. Only use this tool if you actually want to send an email, not if the user just wants to draft an email.",
-            "category": "google-workspace",
-            "categoryLabel": "Google Workspace",
-            "vendor": "google",
-            "vendorLabel": "Google"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Sheets: Get Spreadsheet",
-          "id": "portia-tools/google-workspace/sheets-get-spreadsheet",
-          "customProps": {
-            "description": "Gets the content of a spreadsheet from Google Sheets by ID. The GoogleDriveSearchTool should be used to search for a spreadsheet by name if an ID is not known.",
-            "category": "google-workspace",
-            "categoryLabel": "Google Workspace",
-            "vendor": "google",
-            "vendorLabel": "Google"
-          }
-        }
-      ]
-    },
-    {
-      "label": "Microsoft",
-      "type": "category",
-      "link": {
-        "type": "doc",
-        "id": "portia-tools/microsoft/index"
-      },
-      "items": [
-        {
-          "type": "doc",
-          "label": "Outlook: Draft",
-          "id": "portia-tools/microsoft/outlook-draft-email",
-          "customProps": {
-            "description": "Drafts an email for the recipients indicated. Should not be used with the send email tool. Instead to send a draft email use the send_draft_email_tool. If the user hasn't given you an explicit title or body to the email, choose something appropriate based on the context of the email.",
-            "category": "microsoft",
-            "categoryLabel": "Microsoft",
-            "vendor": "microsoft",
-            "vendorLabel": "Micrososft"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Outlook: Search",
-          "id": "portia-tools/microsoft/outlook-search-email",
-          "customProps": {
-            "description": "Searches for emails in the user's Outlook inbox and returns emails content that match the query.",
-            "category": "microsoft",
-            "categoryLabel": "Microsoft",
-            "vendor": "microsoft",
-            "vendorLabel": "Microsoft"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Outlook: Send",
-          "id": "portia-tools/microsoft/outlook-send-email",
-          "customProps": {
-            "description": "Sends an email to the recipients indicated. Should not be used with the draft email tool. Instead to send a draft email use the send_draft_email_tool. If the user hasn't given you an explicit title or body to the email, choose something appropriate based on the context of the email.",
-            "category": "microsoft",
-            "categoryLabel": "Microsoft",
-            "vendor": "microsoft",
-            "vendorLabel": "Microsoft"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Outlook: Send Draft",
-          "id": "portia-tools/microsoft/outlook-send-draft-email",
-          "customProps": {
-            "description": "Sends a previously drafted email with the email title, body and recipients indicated in the draft. Requires a draft id which is obtained from the DraftEmailTool. Only use this tool if you actually want to send an email, not if the user just wants to draft an email.",
-            "category": "microsoft",
-            "categoryLabel": "Microsoft",
-            "vendor": "microsoft",
-            "vendorLabel": "Microsoft"
-          }
-        }
-      ]
-    },
-    {
-      "label": "Zendesk",
-      "type": "category",
-      "link": {
-        "type": "doc",
-        "id": "portia-tools/zendesk/index"
-      },
-      "items": [
-        {
-          "type": "doc",
-          "label": "Articles: Create Comments",
-          "id": "portia-tools/zendesk/create-article-comments",
-          "customProps": {
-            "description": "Create a comment on a zendesk article.",
-            "category": "zendesk",
-            "categoryLabel": "Zendesk",
-            "vendor": "zendesk",
-            "vendorLabel": "Zendesk"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Articles: List",
-          "id": "portia-tools/zendesk/list-articles",
-          "customProps": {
-            "description": "List up to 100 Zendesk articles. An article is a piece of content that is createdby Zendesk. Use this tool to get articles without a search query.",
-            "category": "zendesk",
-            "categoryLabel": "Zendesk",
-            "vendor": "zendesk",
-            "vendorLabel": "Zendesk"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Articles: List Comments",
-          "id": "portia-tools/zendesk/list-article-comments",
-          "customProps": {
-            "description": "Returns up to 100 comments made by all users on a specific article.",
-            "category": "zendesk",
-            "categoryLabel": "Zendesk",
-            "vendor": "zendesk",
-            "vendorLabel": "Zendesk"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Articles: Search",
-          "id": "portia-tools/zendesk/article-search",
-          "customProps": {
-            "description": "Returns up to 25 articles relevant to the search query, which must be provided.",
-            "category": "zendesk",
-            "categoryLabel": "Zendesk",
-            "vendor": "zendesk",
-            "vendorLabel": "Zendesk"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Articles: Show",
-          "id": "portia-tools/zendesk/show-article",
-          "customProps": {
-            "description": "Shows the properties of a Zendesk article. An article is a piece of content that is created by Zendesk.",
-            "category": "zendesk",
-            "categoryLabel": "Zendesk",
-            "vendor": "zendesk",
-            "vendorLabel": "Zendesk"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Groups: List Users",
-          "id": "portia-tools/zendesk/list-users-for-group",
-          "customProps": {
-            "description": "Returns a list of memberships for a group. Memberships include the user ID and metadata about their membership in the group. Returns a maximum of 100 records.",
-            "category": "zendesk",
-            "categoryLabel": "Zendesk",
-            "vendor": "zendesk",
-            "vendorLabel": "Zendesk"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Groups: List for User",
-          "id": "portia-tools/zendesk/list-groups-for-user",
-          "customProps": {
-            "description": "Returns a list of groups that a user (Agent or Admin) is a member of. Returns a maximum of 100 records.",
-            "category": "zendesk",
-            "categoryLabel": "Zendesk",
-            "vendor": "zendesk",
-            "vendorLabel": "Zendesk"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Groups: Search",
-          "id": "portia-tools/zendesk/search-groups",
-          "customProps": {
-            "description": "Search for groups in Zendesk. It can be a natural language query or use the syntax of the Zendesk API.",
-            "category": "zendesk",
-            "categoryLabel": "Zendesk",
-            "vendor": "zendesk",
-            "vendorLabel": "Zendesk"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Groups: Show",
-          "id": "portia-tools/zendesk/show-group",
-          "customProps": {
-            "description": "Returns a group.",
-            "category": "zendesk",
-            "categoryLabel": "Zendesk",
-            "vendor": "zendesk",
-            "vendorLabel": "Zendesk"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Organizations: Search",
-          "id": "portia-tools/zendesk/search-organizations",
-          "customProps": {
-            "description": "Retrieves a list of organizations in Zendesk matching the query.",
-            "category": "zendesk",
-            "categoryLabel": "Zendesk",
-            "vendor": "zendesk",
-            "vendorLabel": "Zendesk"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Organizations: Show",
-          "id": "portia-tools/zendesk/show-organization",
-          "customProps": {
-            "description": "Gets information about a specific organization in Zendesk.",
-            "category": "zendesk",
-            "categoryLabel": "Zendesk",
-            "vendor": "zendesk",
-            "vendorLabel": "Zendesk"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Posts: List Comments",
-          "id": "portia-tools/zendesk/list-post-comments",
-          "customProps": {
-            "description": "Lists all comments on a specific post.",
-            "category": "zendesk",
-            "categoryLabel": "Zendesk",
-            "vendor": "zendesk",
-            "vendorLabel": "Zendesk"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Posts: Show",
-          "id": "portia-tools/zendesk/show-post",
-          "customProps": {
-            "description": "Gets information about a given post. A post is community content that is created by a user and is not the same as an article.",
-            "category": "zendesk",
-            "categoryLabel": "Zendesk",
-            "vendor": "zendesk",
-            "vendorLabel": "Zendesk"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Request Comments: List",
-          "id": "portia-tools/zendesk/list-request-comments",
-          "customProps": {
-            "description": "Lists comments on a Zendesk request. Returns a maximum of 100 comments. A request in Zendesk is intended to be initiated by or on behalf of end users e.g. a customer. A request may be paired with a ticket (an admin/agent perspective of the same request). ",
-            "category": "zendesk",
-            "categoryLabel": "Zendesk",
-            "vendor": "zendesk",
-            "vendorLabel": "Zendesk"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Request Comments: Show",
-          "id": "portia-tools/zendesk/show-request-comment",
-          "customProps": {
-            "description": "Retrieves information about a specific comment on a request in Zendesk. A request in Zendesk is intended to be initiated by or on behalf of end users e.g. a customer. A request may be paired with a ticket (an admin/agent perspective of the same request). ",
-            "category": "zendesk",
-            "categoryLabel": "Zendesk",
-            "vendor": "zendesk",
-            "vendorLabel": "Zendesk"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Requests: Search",
-          "id": "portia-tools/zendesk/search-requests",
-          "customProps": {
-            "description": "Search for requests in Zendesk. Returns a maximum of 100 requests. A request in Zendesk is intended to be initiated by or on behalf of end users e.g. a customer. A request may be paired with a ticket (an admin/agent perspective of the same request). ",
-            "category": "zendesk",
-            "categoryLabel": "Zendesk",
-            "vendor": "zendesk",
-            "vendorLabel": "Zendesk"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Requests: Show",
-          "id": "portia-tools/zendesk/show-request",
-          "customProps": {
-            "description": "Retrieves information about a specific request in Zendesk. A request in Zendesk is intended to be initiated by or on behalf of end users e.g. a customer. A request may be paired with a ticket (an admin/agent perspective of the same request). ",
-            "category": "zendesk",
-            "categoryLabel": "Zendesk",
-            "vendor": "zendesk",
-            "vendorLabel": "Zendesk"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Sections: List Articles",
-          "id": "portia-tools/zendesk/list-articles-by-section",
-          "customProps": {
-            "description": "Lists all articles in a given section of the Zendesk Help Center. Sections group related articles together.",
-            "category": "zendesk",
-            "categoryLabel": "Zendesk",
-            "vendor": "zendesk",
-            "vendorLabel": "Zendesk"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Sections: Show",
-          "id": "portia-tools/zendesk/show-section",
-          "customProps": {
-            "description": "Returns a section of the Zendesk Help Center articles. Sections group related articles together.",
-            "category": "zendesk",
-            "categoryLabel": "Zendesk",
-            "vendor": "zendesk",
-            "vendorLabel": "Zendesk"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Tickets: Count",
-          "id": "portia-tools/zendesk/count-tickets",
-          "customProps": {
-            "description": "Returns an approximate count of tickets in the account. A ticket in Zendesk is intended to be used by agents or admins. They can be used to track and resolve requests raised by end users (e.g. customer service) or for internal issue tracking. ",
-            "category": "zendesk",
-            "categoryLabel": "Zendesk",
-            "vendor": "zendesk",
-            "vendorLabel": "Zendesk"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Tickets: Count Comments",
-          "id": "portia-tools/zendesk/count-ticket-comments",
-          "customProps": {
-            "description": "Returns an approximate count of the comments added to the ticket. A ticket in Zendesk is intended to be used by agents or admins. They can be used to track and resolve requests raised by end users (e.g. customer service) or for internal issue tracking. ",
-            "category": "zendesk",
-            "categoryLabel": "Zendesk",
-            "vendor": "zendesk",
-            "vendorLabel": "Zendesk"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Tickets: Create",
-          "id": "portia-tools/zendesk/create-ticket",
-          "customProps": {
-            "description": "Create a Zendesk Ticket. This populates the ticket with the provided subject and description. This should be followed up with calls to the ZendeskUpdateTicketTool to add or change details if needed. {SHARED_TICKET_DESCRIPTION}",
-            "category": "zendesk",
-            "categoryLabel": "Zendesk",
-            "vendor": "zendesk",
-            "vendorLabel": "Zendesk"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Tickets: List Comments",
-          "id": "portia-tools/zendesk/list-ticket-comments",
-          "customProps": {
-            "description": "Returns the comments added to the ticket.  Each comment may include a `content_url` for an attachment or a `recording_url` for a voice comment that points to a file that may be hosted externally. A ticket in Zendesk is intended to be used by agents or admins. They can be used to track and resolve requests raised by end users (e.g. customer service) or for internal issue tracking. ",
-            "category": "zendesk",
-            "categoryLabel": "Zendesk",
-            "vendor": "zendesk",
-            "vendorLabel": "Zendesk"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Tickets: Search",
-          "id": "portia-tools/zendesk/search-tickets",
-          "customProps": {
-            "description": "Searches for tickets in Zendesk based on a natural language query or the Zendesk API syntax. Returns up to 1000 tickets that match the query.",
-            "category": "zendesk",
-            "categoryLabel": "Zendesk",
-            "vendor": "zendesk",
-            "vendorLabel": "Zendesk"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Tickets: Show",
-          "id": "portia-tools/zendesk/show-ticket",
-          "customProps": {
-            "description": "Returns a number of ticket properties though not the ticket comments. To get the comments, use the ZendeskListTicketCommentsTool. A ticket in Zendesk is intended to be used by agents or admins. They can be used to track and resolve requests raised by end users (e.g. customer service) or for internal issue tracking. ",
-            "category": "zendesk",
-            "categoryLabel": "Zendesk",
-            "vendor": "zendesk",
-            "vendorLabel": "Zendesk"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Tickets: Show Metrics",
-          "id": "portia-tools/zendesk/show-ticket-metrics",
-          "customProps": {
-            "description": "Returns metrics for a specific ticket, including first response time, full resolution time, number of reopens, and other performance metrics. A ticket in Zendesk is intended to be used by agents or admins. They can be used to track and resolve requests raised by end users (e.g. customer service) or for internal issue tracking. ",
-            "category": "zendesk",
-            "categoryLabel": "Zendesk",
-            "vendor": "zendesk",
-            "vendorLabel": "Zendesk"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Tickets: Update",
-          "id": "portia-tools/zendesk/update-ticket",
-          "customProps": {
-            "description": "Updates an existing ticket in Zendesk with the provided details. For fields requiring group and user ID fields, use the ZendeskSearchGroupsTool and ZendeskSearchUsersTool to get the IDs. This tool can be run once with multiple details updated on the ticket or multiple times with a single detail updated on the ticket. A ticket in Zendesk is intended to be used by agents or admins. They can be used to track and resolve requests raised by end users (e.g. customer service) or for internal issue tracking. ",
-            "category": "zendesk",
-            "categoryLabel": "Zendesk",
-            "vendor": "zendesk",
-            "vendorLabel": "Zendesk"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Users: Search",
-          "id": "portia-tools/zendesk/search-users",
-          "customProps": {
-            "description": "Returns an array of users who meet the search criteria. Returns a maximum of 100 users. This may include (but is not limited to) the user's name, contact information, role, permissions, locale, organization, and other information.",
-            "category": "zendesk",
-            "categoryLabel": "Zendesk",
-            "vendor": "zendesk",
-            "vendorLabel": "Zendesk"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Users: Show",
-          "id": "portia-tools/zendesk/show-user",
-          "customProps": {
-            "description": "Returns information about a specific user in Zendesk.",
-            "category": "zendesk",
-            "categoryLabel": "Zendesk",
-            "vendor": "zendesk",
-            "vendorLabel": "Zendesk"
-          }
+          "type": "category",
+          "label": "Zendesk",
+          "link": {
+            "type": "doc",
+            "id": "portia-tools/portia-cloud/zendesk/index"
+          },
+          "collapsed": true,
+          "items": [
+            {
+              "type": "doc",
+              "label": "Articles: Create Comments",
+              "id": "portia-tools/portia-cloud/zendesk/create-article-comments",
+              "customProps": {
+                "description": "Create a comment on a zendesk article.",
+                "category": "zendesk",
+                "categoryLabel": "Zendesk",
+                "vendor": "zendesk",
+                "vendorLabel": "Zendesk"
+              }
+            },
+            {
+              "type": "doc",
+              "label": "Articles: List",
+              "id": "portia-tools/portia-cloud/zendesk/list-articles",
+              "customProps": {
+                "description": "List up to 100 Zendesk articles. An article is a piece of content that is createdby Zendesk. Use this tool to get articles without a search query.",
+                "category": "zendesk",
+                "categoryLabel": "Zendesk",
+                "vendor": "zendesk",
+                "vendorLabel": "Zendesk"
+              }
+            },
+            {
+              "type": "doc",
+              "label": "Articles: List Comments",
+              "id": "portia-tools/portia-cloud/zendesk/list-article-comments",
+              "customProps": {
+                "description": "Returns up to 100 comments made by all users on a specific article.",
+                "category": "zendesk",
+                "categoryLabel": "Zendesk",
+                "vendor": "zendesk",
+                "vendorLabel": "Zendesk"
+              }
+            },
+            {
+              "type": "doc",
+              "label": "Articles: Search",
+              "id": "portia-tools/portia-cloud/zendesk/article-search",
+              "customProps": {
+                "description": "Returns up to 25 articles relevant to the search query, which must be provided.",
+                "category": "zendesk",
+                "categoryLabel": "Zendesk",
+                "vendor": "zendesk",
+                "vendorLabel": "Zendesk"
+              }
+            },
+            {
+              "type": "doc",
+              "label": "Articles: Show",
+              "id": "portia-tools/portia-cloud/zendesk/show-article",
+              "customProps": {
+                "description": "Shows the properties of a Zendesk article. An article is a piece of content that is created by Zendesk.",
+                "category": "zendesk",
+                "categoryLabel": "Zendesk",
+                "vendor": "zendesk",
+                "vendorLabel": "Zendesk"
+              }
+            },
+            {
+              "type": "doc",
+              "label": "Groups: List Users",
+              "id": "portia-tools/portia-cloud/zendesk/list-users-for-group",
+              "customProps": {
+                "description": "Returns a list of memberships for a group. Memberships include the user ID and metadata about their membership in the group. Returns a maximum of 100 records.",
+                "category": "zendesk",
+                "categoryLabel": "Zendesk",
+                "vendor": "zendesk",
+                "vendorLabel": "Zendesk"
+              }
+            },
+            {
+              "type": "doc",
+              "label": "Groups: List for User",
+              "id": "portia-tools/portia-cloud/zendesk/list-groups-for-user",
+              "customProps": {
+                "description": "Returns a list of groups that a user (Agent or Admin) is a member of. Returns a maximum of 100 records.",
+                "category": "zendesk",
+                "categoryLabel": "Zendesk",
+                "vendor": "zendesk",
+                "vendorLabel": "Zendesk"
+              }
+            },
+            {
+              "type": "doc",
+              "label": "Groups: Search",
+              "id": "portia-tools/portia-cloud/zendesk/search-groups",
+              "customProps": {
+                "description": "Search for groups in Zendesk. It can be a natural language query or use the syntax of the Zendesk API.",
+                "category": "zendesk",
+                "categoryLabel": "Zendesk",
+                "vendor": "zendesk",
+                "vendorLabel": "Zendesk"
+              }
+            },
+            {
+              "type": "doc",
+              "label": "Groups: Show",
+              "id": "portia-tools/portia-cloud/zendesk/show-group",
+              "customProps": {
+                "description": "Returns a group.",
+                "category": "zendesk",
+                "categoryLabel": "Zendesk",
+                "vendor": "zendesk",
+                "vendorLabel": "Zendesk"
+              }
+            },
+            {
+              "type": "doc",
+              "label": "Organizations: Search",
+              "id": "portia-tools/portia-cloud/zendesk/search-organizations",
+              "customProps": {
+                "description": "Retrieves a list of organizations in Zendesk matching the query.",
+                "category": "zendesk",
+                "categoryLabel": "Zendesk",
+                "vendor": "zendesk",
+                "vendorLabel": "Zendesk"
+              }
+            },
+            {
+              "type": "doc",
+              "label": "Organizations: Show",
+              "id": "portia-tools/portia-cloud/zendesk/show-organization",
+              "customProps": {
+                "description": "Gets information about a specific organization in Zendesk.",
+                "category": "zendesk",
+                "categoryLabel": "Zendesk",
+                "vendor": "zendesk",
+                "vendorLabel": "Zendesk"
+              }
+            },
+            {
+              "type": "doc",
+              "label": "Posts: List Comments",
+              "id": "portia-tools/portia-cloud/zendesk/list-post-comments",
+              "customProps": {
+                "description": "Lists all comments on a specific post.",
+                "category": "zendesk",
+                "categoryLabel": "Zendesk",
+                "vendor": "zendesk",
+                "vendorLabel": "Zendesk"
+              }
+            },
+            {
+              "type": "doc",
+              "label": "Posts: Show",
+              "id": "portia-tools/portia-cloud/zendesk/show-post",
+              "customProps": {
+                "description": "Gets information about a given post. A post is community content that is created by a user and is not the same as an article.",
+                "category": "zendesk",
+                "categoryLabel": "Zendesk",
+                "vendor": "zendesk",
+                "vendorLabel": "Zendesk"
+              }
+            },
+            {
+              "type": "doc",
+              "label": "Request Comments: List",
+              "id": "portia-tools/portia-cloud/zendesk/list-request-comments",
+              "customProps": {
+                "description": "Lists comments on a Zendesk request. Returns a maximum of 100 comments. A request in Zendesk is intended to be initiated by or on behalf of end users e.g. a customer. A request may be paired with a ticket (an admin/agent perspective of the same request). ",
+                "category": "zendesk",
+                "categoryLabel": "Zendesk",
+                "vendor": "zendesk",
+                "vendorLabel": "Zendesk"
+              }
+            },
+            {
+              "type": "doc",
+              "label": "Request Comments: Show",
+              "id": "portia-tools/portia-cloud/zendesk/show-request-comment",
+              "customProps": {
+                "description": "Retrieves information about a specific comment on a request in Zendesk. A request in Zendesk is intended to be initiated by or on behalf of end users e.g. a customer. A request may be paired with a ticket (an admin/agent perspective of the same request). ",
+                "category": "zendesk",
+                "categoryLabel": "Zendesk",
+                "vendor": "zendesk",
+                "vendorLabel": "Zendesk"
+              }
+            },
+            {
+              "type": "doc",
+              "label": "Requests: Search",
+              "id": "portia-tools/portia-cloud/zendesk/search-requests",
+              "customProps": {
+                "description": "Search for requests in Zendesk. Returns a maximum of 100 requests. A request in Zendesk is intended to be initiated by or on behalf of end users e.g. a customer. A request may be paired with a ticket (an admin/agent perspective of the same request). ",
+                "category": "zendesk",
+                "categoryLabel": "Zendesk",
+                "vendor": "zendesk",
+                "vendorLabel": "Zendesk"
+              }
+            },
+            {
+              "type": "doc",
+              "label": "Requests: Show",
+              "id": "portia-tools/portia-cloud/zendesk/show-request",
+              "customProps": {
+                "description": "Retrieves information about a specific request in Zendesk. A request in Zendesk is intended to be initiated by or on behalf of end users e.g. a customer. A request may be paired with a ticket (an admin/agent perspective of the same request). ",
+                "category": "zendesk",
+                "categoryLabel": "Zendesk",
+                "vendor": "zendesk",
+                "vendorLabel": "Zendesk"
+              }
+            },
+            {
+              "type": "doc",
+              "label": "Sections: List Articles",
+              "id": "portia-tools/portia-cloud/zendesk/list-articles-by-section",
+              "customProps": {
+                "description": "Lists all articles in a given section of the Zendesk Help Center. Sections group related articles together.",
+                "category": "zendesk",
+                "categoryLabel": "Zendesk",
+                "vendor": "zendesk",
+                "vendorLabel": "Zendesk"
+              }
+            },
+            {
+              "type": "doc",
+              "label": "Sections: Show",
+              "id": "portia-tools/portia-cloud/zendesk/show-section",
+              "customProps": {
+                "description": "Returns a section of the Zendesk Help Center articles. Sections group related articles together.",
+                "category": "zendesk",
+                "categoryLabel": "Zendesk",
+                "vendor": "zendesk",
+                "vendorLabel": "Zendesk"
+              }
+            },
+            {
+              "type": "doc",
+              "label": "Tickets: Count",
+              "id": "portia-tools/portia-cloud/zendesk/count-tickets",
+              "customProps": {
+                "description": "Returns an approximate count of tickets in the account. A ticket in Zendesk is intended to be used by agents or admins. They can be used to track and resolve requests raised by end users (e.g. customer service) or for internal issue tracking. ",
+                "category": "zendesk",
+                "categoryLabel": "Zendesk",
+                "vendor": "zendesk",
+                "vendorLabel": "Zendesk"
+              }
+            },
+            {
+              "type": "doc",
+              "label": "Tickets: Count Comments",
+              "id": "portia-tools/portia-cloud/zendesk/count-ticket-comments",
+              "customProps": {
+                "description": "Returns an approximate count of the comments added to the ticket. A ticket in Zendesk is intended to be used by agents or admins. They can be used to track and resolve requests raised by end users (e.g. customer service) or for internal issue tracking. ",
+                "category": "zendesk",
+                "categoryLabel": "Zendesk",
+                "vendor": "zendesk",
+                "vendorLabel": "Zendesk"
+              }
+            },
+            {
+              "type": "doc",
+              "label": "Tickets: Create",
+              "id": "portia-tools/portia-cloud/zendesk/create-ticket",
+              "customProps": {
+                "description": "Create a Zendesk Ticket. This populates the ticket with the provided subject and description. This should be followed up with calls to the ZendeskUpdateTicketTool to add or change details if needed. {SHARED_TICKET_DESCRIPTION}",
+                "category": "zendesk",
+                "categoryLabel": "Zendesk",
+                "vendor": "zendesk",
+                "vendorLabel": "Zendesk"
+              }
+            },
+            {
+              "type": "doc",
+              "label": "Tickets: List Comments",
+              "id": "portia-tools/portia-cloud/zendesk/list-ticket-comments",
+              "customProps": {
+                "description": "Returns the comments added to the ticket.  Each comment may include a `content_url` for an attachment or a `recording_url` for a voice comment that points to a file that may be hosted externally. A ticket in Zendesk is intended to be used by agents or admins. They can be used to track and resolve requests raised by end users (e.g. customer service) or for internal issue tracking. ",
+                "category": "zendesk",
+                "categoryLabel": "Zendesk",
+                "vendor": "zendesk",
+                "vendorLabel": "Zendesk"
+              }
+            },
+            {
+              "type": "doc",
+              "label": "Tickets: Search",
+              "id": "portia-tools/portia-cloud/zendesk/search-tickets",
+              "customProps": {
+                "description": "Searches for tickets in Zendesk based on a natural language query or the Zendesk API syntax. Returns up to 1000 tickets that match the query.",
+                "category": "zendesk",
+                "categoryLabel": "Zendesk",
+                "vendor": "zendesk",
+                "vendorLabel": "Zendesk"
+              }
+            },
+            {
+              "type": "doc",
+              "label": "Tickets: Show",
+              "id": "portia-tools/portia-cloud/zendesk/show-ticket",
+              "customProps": {
+                "description": "Returns a number of ticket properties though not the ticket comments. To get the comments, use the ZendeskListTicketCommentsTool. A ticket in Zendesk is intended to be used by agents or admins. They can be used to track and resolve requests raised by end users (e.g. customer service) or for internal issue tracking. ",
+                "category": "zendesk",
+                "categoryLabel": "Zendesk",
+                "vendor": "zendesk",
+                "vendorLabel": "Zendesk"
+              }
+            },
+            {
+              "type": "doc",
+              "label": "Tickets: Show Metrics",
+              "id": "portia-tools/portia-cloud/zendesk/show-ticket-metrics",
+              "customProps": {
+                "description": "Returns metrics for a specific ticket, including first response time, full resolution time, number of reopens, and other performance metrics. A ticket in Zendesk is intended to be used by agents or admins. They can be used to track and resolve requests raised by end users (e.g. customer service) or for internal issue tracking. ",
+                "category": "zendesk",
+                "categoryLabel": "Zendesk",
+                "vendor": "zendesk",
+                "vendorLabel": "Zendesk"
+              }
+            },
+            {
+              "type": "doc",
+              "label": "Tickets: Update",
+              "id": "portia-tools/portia-cloud/zendesk/update-ticket",
+              "customProps": {
+                "description": "Updates an existing ticket in Zendesk with the provided details. For fields requiring group and user ID fields, use the ZendeskSearchGroupsTool and ZendeskSearchUsersTool to get the IDs. This tool can be run once with multiple details updated on the ticket or multiple times with a single detail updated on the ticket. A ticket in Zendesk is intended to be used by agents or admins. They can be used to track and resolve requests raised by end users (e.g. customer service) or for internal issue tracking. ",
+                "category": "zendesk",
+                "categoryLabel": "Zendesk",
+                "vendor": "zendesk",
+                "vendorLabel": "Zendesk"
+              }
+            },
+            {
+              "type": "doc",
+              "label": "Users: Search",
+              "id": "portia-tools/portia-cloud/zendesk/search-users",
+              "customProps": {
+                "description": "Returns an array of users who meet the search criteria. Returns a maximum of 100 users. This may include (but is not limited to) the user's name, contact information, role, permissions, locale, organization, and other information.",
+                "category": "zendesk",
+                "categoryLabel": "Zendesk",
+                "vendor": "zendesk",
+                "vendorLabel": "Zendesk"
+              }
+            },
+            {
+              "type": "doc",
+              "label": "Users: Show",
+              "id": "portia-tools/portia-cloud/zendesk/show-user",
+              "customProps": {
+                "description": "Returns information about a specific user in Zendesk.",
+                "category": "zendesk",
+                "categoryLabel": "Zendesk",
+                "vendor": "zendesk",
+                "vendorLabel": "Zendesk"
+              }
+            }
+          ]
         }
       ]
     }

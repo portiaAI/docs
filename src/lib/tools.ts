@@ -4,11 +4,22 @@ export type Tool = {
   id: string;
   label: string;
   title: string;
-  description: string;
+  type: "doc";
   customProps: {
+    description: string;
     category: string;
     categoryLabel: string;
     vendorLabel: string;
+  };
+};
+
+export type ToolCategory = {
+  label: string;
+  type: "category";
+  items: Array<Tool | ToolCategory>;
+  link?: {
+    type: string;
+    id: string;
   };
 };
 
@@ -34,3 +45,6 @@ export const getTools = (category: string): Tool[] =>
   category === "root"
     ? allTools
     : allTools.filter((tool) => tool.customProps.category === category);
+
+
+export const getToolCategories = (): ToolCategory[] => toolSidebar.items as ToolCategory[]

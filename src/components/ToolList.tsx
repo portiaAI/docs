@@ -19,7 +19,7 @@ export const ToolList: React.FC<{ tools: Tool[] }> = ({ tools = [] }) => {
             href={`/${tool.id}`}
             icon={null}
             title={tool.title}
-            description={tool.description}
+            description={tool.customProps.description}
           />
         );
       })}

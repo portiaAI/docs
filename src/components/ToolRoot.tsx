@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useMemo } from "react";
 import Fuse from "fuse.js";
-import { getTools } from "@site/src/lib/tools";
+import { getToolCategories, getTools } from "@site/src/lib/tools";
 import { ToolList } from "./ToolList";
+import { ToolCategoryItems } from "./ToolCategoryItems";
 
 const SearchResults = ({ tools }) => {
   if (tools.length > 0) {
@@ -14,12 +15,9 @@ const SearchResults = ({ tools }) => {
   );
 };
 
-export const ToolSearch: React.FC<{ category: string }> = ({ category }) => {
-  const isRoot = category === "root";
-  const tools = getTools(category).map((tool) => ({
-    ...tool,
-    title: tool.label,
-  }));
+export const ToolRoot = () => {
+  const tools = getTools("root");
+  const categories = getToolCategories();
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredTools, setFilteredTools] = useState(tools);
 
@@ -27,7 +25,7 @@ export const ToolSearch: React.FC<{ category: string }> = ({ category }) => {
   const isSearching = searchTerm.trim().length > 0;
   const fuse = useMemo(() => {
     return new Fuse(tools, {
-      keys: ["title", isRoot ? "customProps.categoryLabel" : undefined].filter(
+      keys: ["title", "customProps.categoryLabel"].filter(
         (x) => x,
       ),
       threshold: 0.3,
@@ -44,9 +42,7 @@ export const ToolSearch: React.FC<{ category: string }> = ({ category }) => {
           const tool = result.item;
           return {
             ...tool,
-            title: isRoot
-              ? `${tool.customProps.vendorLabel}: ${tool.label}`
-              : tool.title,
+            title: `${tool.customProps.vendorLabel}: ${tool.label}`
           };
         }),
       );
@@ -77,7 +73,7 @@ export const ToolSearch: React.FC<{ category: string }> = ({ category }) => {
       {isSearching ? (
         <SearchResults tools={filteredTools} />
       ) : (
-        <ToolList tools={tools} />
+        <ToolCategoryItems rootCategories={categories} />
       )}
     </>
   );
