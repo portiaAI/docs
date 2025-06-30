@@ -957,7 +957,7 @@
       "items": [
         {
           "type": "doc",
-          "label": "Apify",
+          "label": "Apify Actors",
           "id": "portia-tools/remote-mcp/apify",
           "customProps": {
             "type": "mcp-server"
@@ -1037,7 +1037,7 @@
         },
         {
           "type": "doc",
-          "label": "Pinecone",
+          "label": "Pinecone Assistant",
           "id": "portia-tools/remote-mcp/pinecone",
           "customProps": {
             "type": "mcp-server"

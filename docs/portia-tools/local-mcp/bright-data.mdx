@@ -6,13 +6,29 @@ title: "Bright Data"
 
 # Bright Data
 
-[Server homepage ↗](https://github.com/brightdata/brightdata-mcp)
+### Description
+
+Integrates with Bright Data's web scraping infrastructure to provide real-time access to public web data through specialized tools for search engine scraping, webpage extraction, and structured data retrieval from popular websites.
+
+Visit the [server homepage ↗](https://github.com/brightdata/brightdata-mcp) for more information about how to use this MCP server.
+
+### Usage
 
 To use this MCP server in your Portia project, you need to create an `McpToolRegistry` instance and pass it to the `Portia` constructor.
 
 ```python
-
+McpToolRegistry.from_stdio_connection(
+    server_name="Bright Data",
+    command="npx",
+    args=["@brightdata/mcp"],
+    env={"API_TOKEN": "<api_token>"},
+)
+                    
 ```
+
+:::tip[Copy to clipboard]
+Click the "copy" icon in the top right corner of the code block to copy the code to your clipboard.
+:::
 
 See more information about integrating MCP servers [here ↗](/mcp-servers).
 

@@ -6,13 +6,32 @@ title: "Monday.com"
 
 # Monday.com
 
-[Server homepage ↗](https://github.com/mondaycom/mcp/tree/HEAD/packages/monday-api-mcp)
+### Description
+
+Integrates with monday.com API to enable direct access to boards, workflows, and data for automating tasks and managing resources without context switching.
+
+Visit the [server homepage ↗](https://github.com/mondaycom/mcp/tree/HEAD/packages/monday-api-mcp) for more information about how to use this MCP server.
+
+### Usage
 
 To use this MCP server in your Portia project, you need to create an `McpToolRegistry` instance and pass it to the `Portia` constructor.
 
 ```python
-
+McpToolRegistry.from_stdio_connection(
+    server_name="monday.com",
+    command="npx",
+    args=[
+        "@mondaydotcomorg/monday-api-mcp",
+        "-t",
+        "<api_key>",
+    ],
+)
+                    
 ```
+
+:::tip[Copy to clipboard]
+Click the "copy" icon in the top right corner of the code block to copy the code to your clipboard.
+:::
 
 See more information about integrating MCP servers [here ↗](/mcp-servers).
 

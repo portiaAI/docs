@@ -6,13 +6,28 @@ title: "Chroma"
 
 # Chroma
 
-[Server homepage ↗](https://github.com/chroma-core/chroma-mcp)
+### Description
+
+Integrates with Chroma vector database to enable collection management, document operations, and vector search capabilities for knowledge bases and context-aware conversations.
+
+Visit the [server homepage ↗](https://github.com/chroma-core/chroma-mcp) for more information about how to use this MCP server.
+
+### Usage
 
 To use this MCP server in your Portia project, you need to create an `McpToolRegistry` instance and pass it to the `Portia` constructor.
 
 ```python
-
+McpToolRegistry.from_stdio_connection(
+    server_name="chroma-mcp",
+    command="uvx",
+    args=["chroma-mcp", "--client-type", "persistent", "--data-dir", "/path/to/chroma/"],
+)
+                    
 ```
+
+:::tip[Copy to clipboard]
+Click the "copy" icon in the top right corner of the code block to copy the code to your clipboard.
+:::
 
 See more information about integrating MCP servers [here ↗](/mcp-servers).
 

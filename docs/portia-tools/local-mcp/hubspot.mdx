@@ -6,13 +6,29 @@ title: "HubSpot"
 
 # HubSpot
 
-[Server homepage ↗](https://www.npmjs.com/package/@hubspot/mcp-server)
+### Description
+
+Integrates with HubSpot CRM to enable secure access to contact information, company records, deal data, and task management with customizable data access through Private App scopes.
+
+Visit the [server homepage ↗](https://www.npmjs.com/package/@hubspot/mcp-server) for more information about how to use this MCP server.
+
+### Usage
 
 To use this MCP server in your Portia project, you need to create an `McpToolRegistry` instance and pass it to the `Portia` constructor.
 
 ```python
-
+McpToolRegistry.from_stdio_connection(
+    server_name="hubspot",
+    command="npx",
+    args=["-y", "@hubspot/mcp-server"],
+    env={"PRIVATE_APP_ACCESS_TOKEN": "<private_app_access_token>"},
+)
+                    
 ```
+
+:::tip[Copy to clipboard]
+Click the "copy" icon in the top right corner of the code block to copy the code to your clipboard.
+:::
 
 See more information about integrating MCP servers [here ↗](/mcp-servers).
 

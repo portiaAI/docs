@@ -6,13 +6,28 @@ title: "Shopify Dev"
 
 # Shopify Dev
 
-[Server homepage ↗](https://github.com/shopify/dev-mcp)
+### Description
+
+Integrates with Shopify Dev. Supports various tools to interact with different Shopify APIs.
+
+Visit the [server homepage ↗](https://github.com/shopify/dev-mcp) for more information about how to use this MCP server.
+
+### Usage
 
 To use this MCP server in your Portia project, you need to create an `McpToolRegistry` instance and pass it to the `Portia` constructor.
 
 ```python
-
+McpToolRegistry.from_stdio_connection(
+    server_name="shopify-dev",
+    command="npx",
+    args=["@shopify/dev-mcp@latest"],
+)
+                    
 ```
+
+:::tip[Copy to clipboard]
+Click the "copy" icon in the top right corner of the code block to copy the code to your clipboard.
+:::
 
 See more information about integrating MCP servers [here ↗](/mcp-servers).
 

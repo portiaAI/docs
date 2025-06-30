@@ -6,13 +6,28 @@ title: "JetBrains IDE"
 
 # JetBrains IDE
 
-[Server homepage ↗](https://github.com/jetbrains/mcp-jetbrains)
+### Description
+
+Interact with JetBrains IDEs for code analysis and development tasks.
+
+Visit the [server homepage ↗](https://github.com/jetbrains/mcp-jetbrains) for more information about how to use this MCP server.
+
+### Usage
 
 To use this MCP server in your Portia project, you need to create an `McpToolRegistry` instance and pass it to the `Portia` constructor.
 
 ```python
-
+McpToolRegistry.from_stdio_connection(
+    server_name="jetbrains",
+    command="npx",
+    args=["-y", "@jetbrains/mcp-proxy"],
+)
+                    
 ```
+
+:::tip[Copy to clipboard]
+Click the "copy" icon in the top right corner of the code block to copy the code to your clipboard.
+:::
 
 See more information about integrating MCP servers [here ↗](/mcp-servers).
 

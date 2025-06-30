@@ -6,13 +6,37 @@ title: "MiniMax"
 
 # MiniMax
 
-[Server homepage ↗](https://github.com/minimax-ai/minimax-mcp)
+### Description
+
+Enables high-quality text-to-speech, voice cloning, and video generation capabilities through MiniMax's API with robust error handling and file management features.
+
+Visit the [server homepage ↗](https://github.com/minimax-ai/minimax-mcp) for more information about how to use this MCP server.
+
+### Usage
 
 To use this MCP server in your Portia project, you need to create an `McpToolRegistry` instance and pass it to the `Portia` constructor.
 
 ```python
-
+McpToolRegistry.from_stdio_connection(
+    server_name="minmax",
+    command="uvx",
+    args=[
+        "minimax-mcp",
+        "-y",
+    ],
+    env={
+        "MINIMAX_API_KEY": "<api_key>",
+        "MINIMAX_MCP_BASE_PATH": "<path_to_minimax>",
+        "MINIMAX_API_HOST": "https://api.minimax.io",
+        "MINIMAX_API_RESOURCE_MODE": "url",
+    },
+)
+                    
 ```
+
+:::tip[Copy to clipboard]
+Click the "copy" icon in the top right corner of the code block to copy the code to your clipboard.
+:::
 
 See more information about integrating MCP servers [here ↗](/mcp-servers).
 

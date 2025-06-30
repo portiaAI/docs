@@ -6,13 +6,35 @@ title: "Qdrant"
 
 # Qdrant
 
-[Server homepage ↗](https://github.com/qdrant/mcp-server-qdrant)
+### Description
+
+Store and retrieve vector-based memories for AI systems.
+
+Visit the [server homepage ↗](https://github.com/qdrant/mcp-server-qdrant) for more information about how to use this MCP server.
+
+### Usage
 
 To use this MCP server in your Portia project, you need to create an `McpToolRegistry` instance and pass it to the `Portia` constructor.
 
 ```python
-
+McpToolRegistry.from_stdio_connection(
+    server_name="qdrant",
+    command="uvx",
+    args=[
+        "mcp-server-qdrant",
+    ],
+    env={
+        "QDRANT_LOCAL_PATH": "<path_to_qdrant>",
+        "COLLECTION_NAME": "<collection_name>",
+        "EMBEDDING_MODEL": "<model_name>",
+    },
+)
+                    
 ```
+
+:::tip[Copy to clipboard]
+Click the "copy" icon in the top right corner of the code block to copy the code to your clipboard.
+:::
 
 See more information about integrating MCP servers [here ↗](/mcp-servers).
 

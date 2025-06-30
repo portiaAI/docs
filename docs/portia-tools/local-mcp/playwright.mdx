@@ -6,13 +6,28 @@ title: "Playwright"
 
 # Playwright
 
-[Server homepage ↗](https://github.com/microsoft/playwright-mcp)
+### Description
+
+Enables web browser control for navigating websites, capturing page snapshots, interacting with elements, and taking screenshots through Playwright's automation capabilities.
+
+Visit the [server homepage ↗](https://github.com/microsoft/playwright-mcp) for more information about how to use this MCP server.
+
+### Usage
 
 To use this MCP server in your Portia project, you need to create an `McpToolRegistry` instance and pass it to the `Portia` constructor.
 
 ```python
-
+McpToolRegistry.from_stdio_connection(
+    server_name="playwright",
+    command="npx",
+    args=["@playwright/mcp@latest"],
+)
+                    
 ```
+
+:::tip[Copy to clipboard]
+Click the "copy" icon in the top right corner of the code block to copy the code to your clipboard.
+:::
 
 See more information about integrating MCP servers [here ↗](/mcp-servers).
 

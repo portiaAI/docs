@@ -6,13 +6,28 @@ title: "MongoDB"
 
 # MongoDB
 
-[Server homepage ↗](https://github.com/mongodb-js/mongodb-mcp-server)
+### Description
+
+Provides a bridge between MongoDB databases and conversational interfaces, enabling comprehensive database operations, collection management, schema inspection, and Atlas cloud service interactions with authentication and telemetry support.
+
+Visit the [server homepage ↗](https://github.com/mongodb-js/mongodb-mcp-server) for more information about how to use this MCP server.
+
+### Usage
 
 To use this MCP server in your Portia project, you need to create an `McpToolRegistry` instance and pass it to the `Portia` constructor.
 
 ```python
-
+McpToolRegistry.from_stdio_connection(
+    server_name="mongodb",
+    command="npx",
+    args=["-y", "mongodb-mcp-server", "--connectionString", "<connection_string>"],
+)
+                    
 ```
+
+:::tip[Copy to clipboard]
+Click the "copy" icon in the top right corner of the code block to copy the code to your clipboard.
+:::
 
 See more information about integrating MCP servers [here ↗](/mcp-servers).
 

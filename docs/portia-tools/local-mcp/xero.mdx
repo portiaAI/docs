@@ -6,13 +6,32 @@ title: "Xero"
 
 # Xero
 
-[Server homepage ↗](https://github.com/xeroapi/xero-mcp-server)
+### Description
+
+Provides a bridge to the Xero accounting API, enabling financial data interactions and accounting operations through OAuth2 custom connections for automated workflow management.
+
+Visit the [server homepage ↗](https://github.com/xeroapi/xero-mcp-server) for more information about how to use this MCP server.
+
+### Usage
 
 To use this MCP server in your Portia project, you need to create an `McpToolRegistry` instance and pass it to the `Portia` constructor.
 
 ```python
-
+McpToolRegistry.from_stdio_connection(
+    server_name="xero",
+    command="npx",
+    args=["-y", "@xeroapi/xero-mcp-server@latest"],
+    env={
+        "XERO_CLIENT_ID": "your-client-id",
+        "XERO_CLIENT_SECRET": "your-client-secret",
+    },
+)
+                    
 ```
+
+:::tip[Copy to clipboard]
+Click the "copy" icon in the top right corner of the code block to copy the code to your clipboard.
+:::
 
 See more information about integrating MCP servers [here ↗](/mcp-servers).
 

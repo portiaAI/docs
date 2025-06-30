@@ -6,13 +6,28 @@ title: "GCP Cloud Run"
 
 # GCP Cloud Run
 
-[Server homepage ↗](https://github.com/googlecloudplatform/cloud-run-mcp)
+### Description
+
+Deploys applications to Google Cloud Run through automated containerization, project setup, and service management with support for both local files and provided content.
+
+Visit the [server homepage ↗](https://github.com/googlecloudplatform/cloud-run-mcp) for more information about how to use this MCP server.
+
+### Usage
 
 To use this MCP server in your Portia project, you need to create an `McpToolRegistry` instance and pass it to the `Portia` constructor.
 
 ```python
-
+McpToolRegistry.from_stdio_connection(
+    server_name="cloud-run-mcp",
+    command="npx",
+    args=["-y", "https://github.com/GoogleCloudPlatform/cloud-run-mcp"],
+)
+                    
 ```
+
+:::tip[Copy to clipboard]
+Click the "copy" icon in the top right corner of the code block to copy the code to your clipboard.
+:::
 
 See more information about integrating MCP servers [here ↗](/mcp-servers).
 

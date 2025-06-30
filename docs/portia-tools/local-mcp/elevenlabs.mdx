@@ -6,13 +6,26 @@ title: "ElevenLabs"
 
 # ElevenLabs
 
-[Server homepage ↗](https://github.com/elevenlabs/elevenlabs-mcp)
+### Description
+
+Integrates with ElevenLabs to provide high-quality text-to-speech, voice cloning, and conversational capabilities with customizable voice profiles and audio processing features.
+
+Visit the [server homepage ↗](https://github.com/elevenlabs/elevenlabs-mcp) for more information about how to use this MCP server.
+
+### Usage
 
 To use this MCP server in your Portia project, you need to create an `McpToolRegistry` instance and pass it to the `Portia` constructor.
 
 ```python
-
+McpToolRegistry.from_stdio_connection(
+    server_name="elevenlabs", command="uvx", args=["elevenlabs-mcp"], env={"ELEVENLABS_API_KEY": "<api_key>"}
+)
+                    
 ```
+
+:::tip[Copy to clipboard]
+Click the "copy" icon in the top right corner of the code block to copy the code to your clipboard.
+:::
 
 See more information about integrating MCP servers [here ↗](/mcp-servers).
 
