@@ -1,7 +1,24 @@
 import React, { useState, useEffect, useMemo } from "react";
 import Fuse from "fuse.js";
-import { getTools } from "@site/src/lib/tools";
+import { getToolCategories, getTools, ToolCategory } from "@site/src/lib/tools";
 import { ItemList } from "./ItemList";
+
+
+const ToolCategoryItems: React.FC<{ rootCategories: ToolCategory[] }> = ({ rootCategories }) => {
+  return (
+    <div>
+      {rootCategories.map((category, index) => {
+        return (
+          <div key={index} style={{ marginBottom: 60 }}>
+            <h2>{category.label}</h2>
+            <ItemList items={category.items} />
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
 
 const SearchResults = ({ tools }) => {
   if (tools.length > 0) {
@@ -14,8 +31,9 @@ const SearchResults = ({ tools }) => {
   );
 };
 
-export const ToolSearch: React.FC<{ category: string }> = ({ category }) => {
-  const tools = getTools(category);
+export const ToolRoot = () => {
+  const tools = getTools("root");
+  const categories = getToolCategories();
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredTools, setFilteredTools] = useState(tools);
 
@@ -23,7 +41,9 @@ export const ToolSearch: React.FC<{ category: string }> = ({ category }) => {
   const isSearching = searchTerm.trim().length > 0;
   const fuse = useMemo(() => {
     return new Fuse(tools, {
-      keys: ["label", "customProps.vendorLabel"],
+      keys: ["title", "customProps.categoryLabel"].filter(
+        (x) => x,
+      ),
       threshold: 0.3,
     });
   }, [tools]);
@@ -34,7 +54,13 @@ export const ToolSearch: React.FC<{ category: string }> = ({ category }) => {
     } else {
       const results = fuse.search(searchTerm);
       setFilteredTools(
-        results.map((result) => result.item),
+        results.map((result) => {
+          const tool = result.item;
+          return {
+            ...tool,
+            title: `${tool.customProps.vendorLabel}: ${tool.label}`
+          };
+        }),
       );
     }
   }, [searchTerm]);
@@ -63,7 +89,7 @@ export const ToolSearch: React.FC<{ category: string }> = ({ category }) => {
       {isSearching ? (
         <SearchResults tools={filteredTools} />
       ) : (
-        <ItemList items={tools} />
+        <ToolCategoryItems rootCategories={categories} />
       )}
     </>
   );

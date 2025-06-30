@@ -1,8 +1,8 @@
 import React from "react";
 import { CardLayout } from "@site/src/theme/DocCard";
-import { Tool } from "@site/src/lib/tools";
+import { Item } from "@site/src/lib/tools";
 
-export const ToolList: React.FC<{ tools: Tool[] }> = ({ tools = [] }) => {
+export const ItemList: React.FC<{ items: Item[] }> = ({ items = [] }) => {
   return (
     <div
       style={{
@@ -12,14 +12,14 @@ export const ToolList: React.FC<{ tools: Tool[] }> = ({ tools = [] }) => {
         width: "100%",
       }}
     >
-      {tools.map((tool, index) => {
+      {items.map((item, index) => {
         return (
           <CardLayout
             key={index}
-            href={`/${tool.id}`}
+            href={item.type === "doc" ? `/${item.id}` : `/${item.link?.id.replace(/\/index$/, "") || ""}`}
             icon={null}
-            title={tool.title}
-            description={tool.description}
+            title={item.label}
+            description={item.customProps.description || ""}
           />
         );
       })}
