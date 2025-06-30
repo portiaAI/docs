@@ -12,11 +12,19 @@ Integrates with Netlify's platform for complete site management including projec
 
 Visit the [server homepage ↗](https://github.com/netlify/netlify-mcp) for more information about how to use this MCP server.
 
+### Authorization
+
+
+To use this MCP server, you need to need API credentials in your environment. Please refer to the [server homepage ↗](https://github.com/netlify/netlify-mcp) for more information.
+
+
 ### Usage
 
 To use this MCP server in your Portia project, you need to create an `McpToolRegistry` instance and pass it to the `Portia` constructor.
 
 ```python
+from portia import McpToolRegistry
+
 McpToolRegistry.from_stdio_connection(
     server_name="netlify",
     command="npx",
@@ -27,6 +35,28 @@ McpToolRegistry.from_stdio_connection(
 )
                     
 ```
+
+<details>
+<summary>Complete example</summary>
+
+```python
+from portia import McpToolRegistry, Portia, Config
+
+tool_registry = McpToolRegistry.from_stdio_connection(
+    server_name="netlify",
+    command="npx",
+    args=["-y", "@netlify/mcp"],
+    env={
+        "NETLIFY_PERSONAL_ACCESS_TOKEN": "<api_key>",
+    },
+)
+                    
+
+config = Config.from_default()
+portia = Portia(config=config, tools=tool_registry)
+```
+
+</details>
 
 :::tip[Copy to clipboard]
 Click the "copy" icon in the top right corner of the code block to copy the code to your clipboard.

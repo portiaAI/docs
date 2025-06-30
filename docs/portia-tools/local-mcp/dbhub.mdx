@@ -12,11 +12,17 @@ Provides a universal database gateway for connecting to PostgreSQL, MySQL, SQLit
 
 Visit the [server homepage ↗](https://github.com/bytebase/dbhub) for more information about how to use this MCP server.
 
+### Authorization
+
+This server does not require any authentication other than what is in the MCP server URL.
+
 ### Usage
 
 To use this MCP server in your Portia project, you need to create an `McpToolRegistry` instance and pass it to the `Portia` constructor.
 
 ```python
+from portia import McpToolRegistry
+
 McpToolRegistry.from_stdio_connection(
     server_name="dbhub-postgres-docker",
     command="npx",
@@ -31,6 +37,32 @@ McpToolRegistry.from_stdio_connection(
 )
                     
 ```
+
+<details>
+<summary>Complete example</summary>
+
+```python
+from portia import McpToolRegistry, Portia, Config
+
+tool_registry = McpToolRegistry.from_stdio_connection(
+    server_name="dbhub-postgres-docker",
+    command="npx",
+    args=[
+        "-y",
+        "@bytebase/dbhub",
+        "--transport",
+        "stdio",
+        "--dsn",
+        "<connection_string>",
+    ],
+)
+                    
+
+config = Config.from_default()
+portia = Portia(config=config, tools=tool_registry)
+```
+
+</details>
 
 :::tip[Copy to clipboard]
 Click the "copy" icon in the top right corner of the code block to copy the code to your clipboard.

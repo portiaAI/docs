@@ -5,3 +5,22 @@ title: "Asana"
 
 
 # Asana
+
+### Description
+
+Opens the Asana Work Graph to AI assistants, enabling task and project operations through an authenticated MCP interface..
+
+### Authorization
+
+This server uses OAuth2 for authentication. When an end-user uses a tool from this server, they will be redirected to the server's login page.
+
+### Usage
+
+To use this MCP server, you need a [Portia API key](/setup-account). After you log in, you can enable the server in your Portia tool registry. To find out how, please refer to the [cloud tool registry documentation ↗](/cloud-tool-registry).
+
+Once enabled, you can view the list of tools via the dashboard, or using the `portia-cli`:
+
+```bash
+$ PORTIA_API_KEY=<your-api-key> portia-cli list-tools
+```
+
