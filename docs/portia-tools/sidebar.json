@@ -960,7 +960,8 @@
           "label": "Apify Actors",
           "id": "portia-tools/remote-mcp/apify",
           "customProps": {
-            "type": "mcp-server"
+            "type": "mcp-server",
+            "description": "Use 4,000+ pre-built cloud tools, known as Actors, to extract data from websites, e-commerce, social media, search engines, maps, and more."
           }
         },
         {
@@ -968,7 +969,8 @@
           "label": "Asana",
           "id": "portia-tools/remote-mcp/asana",
           "customProps": {
-            "type": "mcp-server"
+            "type": "mcp-server",
+            "description": "Opens the Asana Work Graph to AI assistants, enabling task and project operations through an authenticated MCP interface.."
           }
         },
         {
@@ -976,7 +978,8 @@
           "label": "Cloudflare",
           "id": "portia-tools/remote-mcp/cloudflare",
           "customProps": {
-            "type": "mcp-server"
+            "type": "mcp-server",
+            "description": "Manage your Cloudflare DNS records, Cloudflare Workers, audit logs, and more."
           }
         },
         {
@@ -984,7 +987,8 @@
           "label": "DeepWiki",
           "id": "portia-tools/remote-mcp/deepwiki",
           "customProps": {
-            "type": "mcp-server"
+            "type": "mcp-server",
+            "description": "Provides AI assistants with access to GitHub repository documentation and search capabilities for code understanding, architecture exploration, and technical question answering."
           }
         },
         {
@@ -992,7 +996,8 @@
           "label": "Firecrawl",
           "id": "portia-tools/remote-mcp/firecrawl",
           "customProps": {
-            "type": "mcp-server"
+            "type": "mcp-server",
+            "description": "Integration with FireCrawl to provide advanced web scraping capabilities for extracting structured data from complex websites."
           }
         },
         {
@@ -1000,7 +1005,8 @@
           "label": "Hugging Face",
           "id": "portia-tools/remote-mcp/hugging-face",
           "customProps": {
-            "type": "mcp-server"
+            "type": "mcp-server",
+            "description": "Integrates with Hugging Face's ecosystem to search models, datasets, and papers while dynamically connecting to Gradio-based tools hosted on Spaces for extended ML capabilities."
           }
         },
         {
@@ -1008,7 +1014,8 @@
           "label": "Intercom",
           "id": "portia-tools/remote-mcp/intercom",
           "customProps": {
-            "type": "mcp-server"
+            "type": "mcp-server",
+            "description": "Enables AI systems to securely access Intercom's customer conversation data, user profiles, and tickets in real-time for identifying patterns, troubleshooting issues, and driving business decisions."
           }
         },
         {
@@ -1016,7 +1023,8 @@
           "label": "Invideo",
           "id": "portia-tools/remote-mcp/invideo",
           "customProps": {
-            "type": "mcp-server"
+            "type": "mcp-server",
+            "description": "Lets agents script end-to-end video creation: writing scripts, fetching stock media, generating clips and subtitling."
           }
         },
         {
@@ -1024,7 +1032,8 @@
           "label": "Linear",
           "id": "portia-tools/remote-mcp/linear",
           "customProps": {
-            "type": "mcp-server"
+            "type": "mcp-server",
+            "description": "Access your Linear data to manage your projects and issues in a simple and secure way."
           }
         },
         {
@@ -1032,7 +1041,8 @@
           "label": "Make",
           "id": "portia-tools/remote-mcp/make",
           "customProps": {
-            "type": "mcp-server"
+            "type": "mcp-server",
+            "description": "Connects AI systems to Make automation workflows, enabling assistants to trigger scenarios with parameters and receive structured JSON output from your existing Make account."
           }
         },
         {
@@ -1040,7 +1050,8 @@
           "label": "Pinecone Assistant",
           "id": "portia-tools/remote-mcp/pinecone",
           "customProps": {
-            "type": "mcp-server"
+            "type": "mcp-server",
+            "description": "Provide AI agents with contextual knowledge using Pinecone Assistant."
           }
         },
         {
@@ -1048,7 +1059,8 @@
           "label": "Posthog",
           "id": "portia-tools/remote-mcp/posthog",
           "customProps": {
-            "type": "mcp-server"
+            "type": "mcp-server",
+            "description": "Integrates with PostHog to enable querying analytics, errors, running SQL insights, and managing feature flags through natural language interactions."
           }
         },
         {
@@ -1056,7 +1068,8 @@
           "label": "Semgrep",
           "id": "portia-tools/remote-mcp/semgrep",
           "customProps": {
-            "type": "mcp-server"
+            "type": "mcp-server",
+            "description": "Integrates with Semgrep's static analysis engine to scan code for security vulnerabilities and coding issues, enabling developers to identify and fix potential problems directly within their coding workflow."
           }
         },
         {
@@ -1064,7 +1077,8 @@
           "label": "Sentry",
           "id": "portia-tools/remote-mcp/sentry",
           "customProps": {
-            "type": "mcp-server"
+            "type": "mcp-server",
+            "description": "Exposes 16+ tools to query issues, search errors and even invoke Seer for automated fixes."
           }
         },
         {
@@ -1072,7 +1086,8 @@
           "label": "Shopify",
           "id": "portia-tools/remote-mcp/shopify",
           "customProps": {
-            "type": "mcp-server"
+            "type": "mcp-server",
+            "description": "Integrates with individual Shopify stores to enable product catalog search, cart management, and policy inquiries for complete shopping experiences from discovery to checkout."
           }
         },
         {
@@ -1080,7 +1095,8 @@
           "label": "Square",
           "id": "portia-tools/remote-mcp/square",
           "customProps": {
-            "type": "mcp-server"
+            "type": "mcp-server",
+            "description": "Provides a bridge between Square's complete API ecosystem and conversational interfaces, enabling comprehensive e-commerce and payment processing capabilities including payments, orders, inventory, and customer management."
           }
         },
         {
@@ -1088,7 +1104,8 @@
           "label": "Stripe",
           "id": "portia-tools/remote-mcp/stripe",
           "customProps": {
-            "type": "mcp-server"
+            "type": "mcp-server",
+            "description": "Integrates with Stripe's API to enable payment processing, customer management, and financial operations for e-commerce and billing workflows."
           }
         },
         {
@@ -1096,7 +1113,8 @@
           "label": "Super memory",
           "id": "portia-tools/remote-mcp/super-memory",
           "customProps": {
-            "type": "mcp-server"
+            "type": "mcp-server",
+            "description": "Personal knowledge platform that helps collect, organize, and recall information from various sources with end-to-end encryption and optional self-hosting."
           }
         },
         {
@@ -1104,7 +1122,8 @@
           "label": "Webflow",
           "id": "portia-tools/remote-mcp/webflow",
           "customProps": {
-            "type": "mcp-server"
+            "type": "mcp-server",
+            "description": "Integration with the Webflow Data API."
           }
         },
         {
@@ -1112,7 +1131,8 @@
           "label": "Wix",
           "id": "portia-tools/remote-mcp/wix",
           "customProps": {
-            "type": "mcp-server"
+            "type": "mcp-server",
+            "description": "Enables website creation and management with Wix business solutions including eCommerce, booking systems, payment processing, and CRM functionality through natural language commands."
           }
         },
         {
@@ -1120,7 +1140,8 @@
           "label": "YepCode",
           "id": "portia-tools/remote-mcp/yepcode",
           "customProps": {
-            "type": "mcp-server"
+            "type": "mcp-server",
+            "description": "Enables secure execution of LLM-generated scripts and processes in isolated environments with environment variable management for teams needing to run code directly from AI assistants."
           }
         }
       ]
@@ -1139,7 +1160,8 @@
           "label": "AWS Cost Analysis",
           "id": "portia-tools/local-mcp/aws-cost-analysis",
           "customProps": {
-            "type": "mcp-server"
+            "type": "mcp-server",
+            "description": "Analyze AWS service costs and generate cost reports."
           }
         },
         {
@@ -1147,7 +1169,8 @@
           "label": "AWS Documentation",
           "id": "portia-tools/local-mcp/aws-documentation",
           "customProps": {
-            "type": "mcp-server"
+            "type": "mcp-server",
+            "description": "Provides tools to access AWS documentation, search for content, and get recommendations."
           }
         },
         {
@@ -1155,7 +1178,8 @@
           "label": "Basic Memory",
           "id": "portia-tools/local-mcp/basic-memory",
           "customProps": {
-            "type": "mcp-server"
+            "type": "mcp-server",
+            "description": "Knowledge management system that builds a persistent semantic graph in markdown, locally."
           }
         },
         {
@@ -1163,7 +1187,8 @@
           "label": "BioMCP",
           "id": "portia-tools/local-mcp/biomcp",
           "customProps": {
-            "type": "mcp-server"
+            "type": "mcp-server",
+            "description": "Integrates with biomedical databases including ClinicalTrials.gov, PubMed, and MyVariant.info to provide structured access to clinical trials, research articles, and genetic variants with intelligent data rendering and source attribution."
           }
         },
         {
@@ -1171,7 +1196,8 @@
           "label": "Bright Data",
           "id": "portia-tools/local-mcp/bright-data",
           "customProps": {
-            "type": "mcp-server"
+            "type": "mcp-server",
+            "description": "Integrates with Bright Data's web scraping infrastructure to provide real-time access to public web data through specialized tools for search engine scraping, webpage extraction, and structured data retrieval from popular websites."
           }
         },
         {
@@ -1179,7 +1205,8 @@
           "label": "Browserbase",
           "id": "portia-tools/local-mcp/browserbase",
           "customProps": {
-            "type": "mcp-server"
+            "type": "mcp-server",
+            "description": "Automate web browsers remotely on a cloud environment."
           }
         },
         {
@@ -1187,7 +1214,8 @@
           "label": "Chargebee",
           "id": "portia-tools/local-mcp/chargebee",
           "customProps": {
-            "type": "mcp-server"
+            "type": "mcp-server",
+            "description": "Integration with Chargebee products and API services to facilitate billing for subscription businesses."
           }
         },
         {
@@ -1195,7 +1223,8 @@
           "label": "Chroma",
           "id": "portia-tools/local-mcp/chroma",
           "customProps": {
-            "type": "mcp-server"
+            "type": "mcp-server",
+            "description": "Integrates with Chroma vector database to enable collection management, document operations, and vector search capabilities for knowledge bases and context-aware conversations."
           }
         },
         {
@@ -1203,7 +1232,8 @@
           "label": "DBHub",
           "id": "portia-tools/local-mcp/dbhub",
           "customProps": {
-            "type": "mcp-server"
+            "type": "mcp-server",
+            "description": "Provides a universal database gateway for connecting to PostgreSQL, MySQL, SQLite, and DuckDB, enabling table browsing, schema inspection, and read-only SQL queries with built-in safety checks"
           }
         },
         {
@@ -1211,7 +1241,8 @@
           "label": "ElevenLabs",
           "id": "portia-tools/local-mcp/elevenlabs",
           "customProps": {
-            "type": "mcp-server"
+            "type": "mcp-server",
+            "description": "Integrates with ElevenLabs to provide high-quality text-to-speech, voice cloning, and conversational capabilities with customizable voice profiles and audio processing features."
           }
         },
         {
@@ -1219,7 +1250,8 @@
           "label": "GCP Cloud Run",
           "id": "portia-tools/local-mcp/gcp-cloud-run",
           "customProps": {
-            "type": "mcp-server"
+            "type": "mcp-server",
+            "description": "Deploys applications to Google Cloud Run through automated containerization, project setup, and service management with support for both local files and provided content."
           }
         },
         {
@@ -1227,7 +1259,8 @@
           "label": "GitHub",
           "id": "portia-tools/local-mcp/github",
           "customProps": {
-            "type": "mcp-server"
+            "type": "mcp-server",
+            "description": "Integration with GitHub Issues, Pull Requests, and more."
           }
         },
         {
@@ -1235,7 +1268,8 @@
           "label": "Grafana",
           "id": "portia-tools/local-mcp/grafana",
           "customProps": {
-            "type": "mcp-server"
+            "type": "mcp-server",
+            "description": "Integrates with Grafana to enable searching dashboards, fetching datasource information, querying Prometheus metrics, and managing incidents through both stdio and SSE transport modes."
           }
         },
         {
@@ -1243,7 +1277,8 @@
           "label": "HubSpot",
           "id": "portia-tools/local-mcp/hubspot",
           "customProps": {
-            "type": "mcp-server"
+            "type": "mcp-server",
+            "description": "Integrates with HubSpot CRM to enable secure access to contact information, company records, deal data, and task management with customizable data access through Private App scopes."
           }
         },
         {
@@ -1251,7 +1286,8 @@
           "label": "Hyperbrowser",
           "id": "portia-tools/local-mcp/hyperbrowser",
           "customProps": {
-            "type": "mcp-server"
+            "type": "mcp-server",
+            "description": "Enables web browsing capabilities through tools for content extraction, link following, and browser automation with customizable parameters for scraping, data collection, and web crawling tasks."
           }
         },
         {
@@ -1259,7 +1295,8 @@
           "label": "JetBrains IDE",
           "id": "portia-tools/local-mcp/jetbrains-ide",
           "customProps": {
-            "type": "mcp-server"
+            "type": "mcp-server",
+            "description": "Interact with JetBrains IDEs for code analysis and development tasks."
           }
         },
         {
@@ -1267,7 +1304,8 @@
           "label": "MiniMax",
           "id": "portia-tools/local-mcp/minimax",
           "customProps": {
-            "type": "mcp-server"
+            "type": "mcp-server",
+            "description": "Enables high-quality text-to-speech, voice cloning, and video generation capabilities through MiniMax's API with robust error handling and file management features."
           }
         },
         {
@@ -1275,7 +1313,8 @@
           "label": "Monday.com",
           "id": "portia-tools/local-mcp/monday.com",
           "customProps": {
-            "type": "mcp-server"
+            "type": "mcp-server",
+            "description": "Integrates with monday.com API to enable direct access to boards, workflows, and data for automating tasks and managing resources without context switching."
           }
         },
         {
@@ -1283,7 +1322,8 @@
           "label": "MongoDB",
           "id": "portia-tools/local-mcp/mongodb",
           "customProps": {
-            "type": "mcp-server"
+            "type": "mcp-server",
+            "description": "Provides a bridge between MongoDB databases and conversational interfaces, enabling comprehensive database operations, collection management, schema inspection, and Atlas cloud service interactions with authentication and telemetry support."
           }
         },
         {
@@ -1291,7 +1331,8 @@
           "label": "Netlify",
           "id": "portia-tools/local-mcp/netlify",
           "customProps": {
-            "type": "mcp-server"
+            "type": "mcp-server",
+            "description": "Integrates with Netlify's platform for complete site management including project operations, deployments with zip uploads, team administration, extension configuration, and documentation access across hosting, build, and collaboration workflows."
           }
         },
         {
@@ -1299,7 +1340,8 @@
           "label": "Notion",
           "id": "portia-tools/local-mcp/notion",
           "customProps": {
-            "type": "mcp-server"
+            "type": "mcp-server",
+            "description": "Bridges to the Notion API for searching content, querying databases, and managing pages and comments without requiring complex API interaction code"
           }
         },
         {
@@ -1307,7 +1349,8 @@
           "label": "Perplexity",
           "id": "portia-tools/local-mcp/perplexity",
           "customProps": {
-            "type": "mcp-server"
+            "type": "mcp-server",
+            "description": "Connector for the Perplexity API, to enable web search without leaving the MCP ecosystem."
           }
         },
         {
@@ -1315,7 +1358,8 @@
           "label": "Playwright",
           "id": "portia-tools/local-mcp/playwright",
           "customProps": {
-            "type": "mcp-server"
+            "type": "mcp-server",
+            "description": "Enables web browser control for navigating websites, capturing page snapshots, interacting with elements, and taking screenshots through Playwright's automation capabilities."
           }
         },
         {
@@ -1323,7 +1367,8 @@
           "label": "Qdrant",
           "id": "portia-tools/local-mcp/qdrant",
           "customProps": {
-            "type": "mcp-server"
+            "type": "mcp-server",
+            "description": "Store and retrieve vector-based memories for AI systems."
           }
         },
         {
@@ -1331,7 +1376,8 @@
           "label": "Shopify Dev",
           "id": "portia-tools/local-mcp/shopify-dev",
           "customProps": {
-            "type": "mcp-server"
+            "type": "mcp-server",
+            "description": "Integrates with Shopify Dev. Supports various tools to interact with different Shopify APIs."
           }
         },
         {
@@ -1339,7 +1385,8 @@
           "label": "Supabase",
           "id": "portia-tools/local-mcp/supabase",
           "customProps": {
-            "type": "mcp-server"
+            "type": "mcp-server",
+            "description": "Connects directly to Supabase projects for managing databases, executing SQL queries, applying migrations, and handling configurations through natural language commands."
           }
         },
         {
@@ -1347,7 +1394,8 @@
           "label": "Twilio",
           "id": "portia-tools/local-mcp/twilio",
           "customProps": {
-            "type": "mcp-server"
+            "type": "mcp-server",
+            "description": "Integrates with Twilio's API ecosystem to enable messaging, voice, conversations, and serverless functions through authenticated access with automatic AccountSid population and context filtering capabilities."
           }
         },
         {
@@ -1355,7 +1403,8 @@
           "label": "Xero",
           "id": "portia-tools/local-mcp/xero",
           "customProps": {
-            "type": "mcp-server"
+            "type": "mcp-server",
+            "description": "Provides a bridge to the Xero accounting API, enabling financial data interactions and accounting operations through OAuth2 custom connections for automated workflow management."
           }
         }
       ]
