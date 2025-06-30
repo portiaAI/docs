@@ -21,8 +21,6 @@ This server does not require any authentication, other than the MCP server URL.
 To use this MCP server in your Portia project, you need to create an `McpToolRegistry` instance and pass it to the `Portia` constructor.
 
 ```python
-from portia import McpToolRegistry
-
 McpToolRegistry.from_stdio_connection(
     server_name="playwright",
     command="npx",
@@ -34,17 +32,19 @@ McpToolRegistry.from_stdio_connection(
 <details>
 <summary>Complete example</summary>
 
-```python
-from portia import McpToolRegistry, Portia, Config
+Extending the tool set in the `DefaultToolRegistry` with the local MCP server:
 
-tool_registry = McpToolRegistry.from_stdio_connection(
+```python
+from portia import DefaultToolRegistry, McpToolRegistry, Portia, Config
+
+config = Config.from_default()
+tool_registry = DefaultToolRegistry(config) +  McpToolRegistry.from_stdio_connection(
     server_name="playwright",
     command="npx",
     args=["@playwright/mcp@latest"],
 )
                     
 
-config = Config.from_default()
 portia = Portia(config=config, tools=tool_registry)
 ```
 
