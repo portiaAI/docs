@@ -22,6 +22,7 @@ export type McpServer = {
   customProps: {
     type: "mcp-server";
     description: string;
+    categoryLabel: string;
   };
 };
 
@@ -51,7 +52,7 @@ const getLeaves = (sidebar) => {
     .map((item) => {
       if (item.type === "category") {
         return getLeaves(item);
-      } else if (item.customProps?.type === "tool") {
+      } else if (item.customProps.type === "tool" || item.customProps.type === "mcp-server") {
         return item;
       } else {
         return [];
@@ -75,12 +76,7 @@ export const getItems = (category: string) => {
   return categorySidebar.length > 0 ? categorySidebar[0].items as Array<Item> : [];
 };
 
-const allTools = getLeaves(toolSidebar) as Tool[];
-
-export const getTools = (category: string): Tool[] =>
-  category === "root"
-    ? allTools
-    : allTools.filter((tool) => tool.customProps.category === category);
+export const allToolsAndMcpServers = getLeaves(toolSidebar) as Array<Tool | McpServer>;
 
 
 export const getToolCategories = (): ToolCategory[] => toolSidebar.items as ToolCategory[]
