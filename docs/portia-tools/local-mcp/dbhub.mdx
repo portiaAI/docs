@@ -14,7 +14,7 @@ Visit the [server homepage (↗)](https://github.com/bytebase/dbhub) for more in
 
 ### Authorization
 
-This server does not require any authentication, other than the MCP server URL.
+This server does not require any extra authentication to use.
 
 ### Usage
 
@@ -39,7 +39,7 @@ McpToolRegistry.from_stdio_connection(
 <details>
 <summary>Complete example</summary>
 
-Extending the tool set in the `DefaultToolRegistry` with the local MCP server:
+Equip your `Portia` instance with the tools from the MCP server, in addition to the default tools from the `DefaultToolRegistry`:
 
 ```python
 from portia import DefaultToolRegistry, McpToolRegistry, Portia, Config
