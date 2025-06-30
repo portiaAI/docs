@@ -14,6 +14,10 @@
         "id": "portia-tools/open-source/index"
       },
       "collapsed": true,
+      "customProps": {
+        "type": "category",
+        "description": null
+      },
       "items": [
         {
           "type": "doc",
@@ -116,6 +120,10 @@
         "id": "portia-tools/portia-cloud/index"
       },
       "collapsed": false,
+      "customProps": {
+        "type": "category",
+        "description": null
+      },
       "items": [
         {
           "type": "category",
@@ -125,6 +133,10 @@
             "id": "portia-tools/portia-cloud/github/index"
           },
           "collapsed": true,
+          "customProps": {
+            "type": "category",
+            "description": "Find and interact with GitHub repositories."
+          },
           "items": [
             {
               "type": "doc",
@@ -188,6 +200,10 @@
             "id": "portia-tools/portia-cloud/google-calendar/index"
           },
           "collapsed": true,
+          "customProps": {
+            "type": "category",
+            "description": "Create and modify events in Google Calendar."
+          },
           "items": [
             {
               "type": "doc",
@@ -277,6 +293,10 @@
             "id": "portia-tools/portia-cloud/google-docs/index"
           },
           "collapsed": true,
+          "customProps": {
+            "type": "category",
+            "description": "Fetch documents from Google Docs."
+          },
           "items": [
             {
               "type": "doc",
@@ -314,6 +334,10 @@
             "id": "portia-tools/portia-cloud/google-drive/index"
           },
           "collapsed": true,
+          "customProps": {
+            "type": "category",
+            "description": "Search for files in Google Drive."
+          },
           "items": [
             {
               "type": "doc",
@@ -338,6 +362,10 @@
             "id": "portia-tools/portia-cloud/google-gmail/index"
           },
           "collapsed": true,
+          "customProps": {
+            "type": "category",
+            "description": "Send and find emails via Google Gmail."
+          },
           "items": [
             {
               "type": "doc",
@@ -401,6 +429,10 @@
             "id": "portia-tools/portia-cloud/google-sheets/index"
           },
           "collapsed": true,
+          "customProps": {
+            "type": "category",
+            "description": "Fetch spreadsheets from Google Sheets."
+          },
           "items": [
             {
               "type": "doc",
@@ -425,6 +457,10 @@
             "id": "portia-tools/portia-cloud/microsoft-outlook/index"
           },
           "collapsed": true,
+          "customProps": {
+            "type": "category",
+            "description": "Send and find emails via Microsoft Outlook."
+          },
           "items": [
             {
               "type": "doc",
@@ -488,6 +524,10 @@
             "id": "portia-tools/portia-cloud/slack/index"
           },
           "collapsed": true,
+          "customProps": {
+            "type": "category",
+            "description": "Send messages and search channels and chats in a Slack workspace."
+          },
           "items": [
             {
               "type": "doc",
@@ -564,6 +604,10 @@
             "id": "portia-tools/portia-cloud/zendesk/index"
           },
           "collapsed": true,
+          "customProps": {
+            "type": "category",
+            "description": "Interact with Zendesk support tickets, articles, and more."
+          },
           "items": [
             {
               "type": "doc",
@@ -954,6 +998,10 @@
         "id": "portia-tools/remote-mcp/index"
       },
       "collapsed": false,
+      "customProps": {
+        "type": "category",
+        "description": null
+      },
       "items": [
         {
           "type": "doc",
@@ -1154,6 +1202,10 @@
         "id": "portia-tools/local-mcp/index"
       },
       "collapsed": false,
+      "customProps": {
+        "type": "category",
+        "description": null
+      },
       "items": [
         {
           "type": "doc",

@@ -19,7 +19,7 @@ export const ItemList: React.FC<{ items: Item[] }> = ({ items = [] }) => {
             href={item.type === "doc" ? `/${item.id}` : `/${item.link?.id.replace(/\/index$/, "") || ""}`}
             icon={null}
             title={item.label}
-            description={item.type === "doc" && item.customProps.description || ""}
+            description={item.customProps.description || ""}
           />
         );
       })}

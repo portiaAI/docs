@@ -35,6 +35,10 @@ export type ToolCategory = {
     type: string;
     id: string;
   };
+  customProps: {
+    type: "category";
+    description: string;
+  };
 };
 
 const toolSidebar = sidebars.toolsSidebar[0];
