@@ -16,11 +16,22 @@ This server does not require any authentication, other than the MCP server URL.
 
 ### Usage
 
-To use this MCP server, you need a [Portia API key](/setup-account). After you log in, you can enable the server in your Portia tool registry. To find out how, please refer to the [cloud tool registry documentation ↗](/cloud-tool-registry).
+Remote MCP servers are available in the Portia cloud dashboard.
 
-Once enabled, you can view the list of tools via the dashboard, or using the `portia-cli`:
+After you have [created your Portia account (↗)](/setup-account), you can enable the server via the [Portia cloud tool registry (↗)](/cloud-tool-registry).
 
+Once enabled, set your Portia API key in your environment and the tools will be available to use in the `DefaultToolRegistry`.
+
+Listing the tools with the CLI:
 ```bash
 $ PORTIA_API_KEY=<your-api-key> portia-cli list-tools
+```
+
+Using the `DefaultToolRegistry` in your code:
+```python
+from portia import DefaultToolRegistry, Portia, Config
+
+config = Config.from_default()
+portia = Portia(config=config, tools=DefaultToolRegistry(config))
 ```
 
