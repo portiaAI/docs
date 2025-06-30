@@ -1,12 +1,28 @@
 import React, { useState, useEffect, useMemo } from "react";
 import Fuse from "fuse.js";
-import { getToolCategories, getTools } from "@site/src/lib/tools";
-import { ToolList } from "./ToolList";
-import { ToolCategoryItems } from "./ToolCategoryItems";
+import { getToolCategories, getTools, ToolCategory } from "@site/src/lib/tools";
+import { ItemList } from "./ItemList";
+
+
+const ToolCategoryItems: React.FC<{ rootCategories: ToolCategory[] }> = ({ rootCategories }) => {
+  return (
+    <div>
+      {rootCategories.map((category, index) => {
+        return (
+          <div key={index} style={{ marginBottom: 60 }}>
+            <h2>{category.label}</h2>
+            <ItemList items={category.items} />
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
 
 const SearchResults = ({ tools }) => {
   if (tools.length > 0) {
-    return <ToolList tools={tools} />;
+    return <ItemList items={tools} />;
   }
   return (
     <div style={{ textAlign: "center", padding: "20px" }}>

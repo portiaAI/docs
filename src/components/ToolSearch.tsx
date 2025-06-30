@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useMemo } from "react";
 import Fuse from "fuse.js";
 import { getTools } from "@site/src/lib/tools";
-import { ToolList } from "./ToolList";
+import { ItemList } from "./ItemList";
 
 const SearchResults = ({ tools }) => {
   if (tools.length > 0) {
-    return <ToolList tools={tools} />;
+    return <ItemList items={tools} />;
   }
   return (
     <div style={{ textAlign: "center", padding: "20px" }}>
@@ -15,11 +15,7 @@ const SearchResults = ({ tools }) => {
 };
 
 export const ToolSearch: React.FC<{ category: string }> = ({ category }) => {
-  const isRoot = category === "root";
-  const tools = getTools(category).map((tool) => ({
-    ...tool,
-    title: tool.label,
-  }));
+  const tools = getTools(category);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredTools, setFilteredTools] = useState(tools);
 
@@ -27,9 +23,7 @@ export const ToolSearch: React.FC<{ category: string }> = ({ category }) => {
   const isSearching = searchTerm.trim().length > 0;
   const fuse = useMemo(() => {
     return new Fuse(tools, {
-      keys: ["title", isRoot ? "customProps.categoryLabel" : undefined].filter(
-        (x) => x,
-      ),
+      keys: ["label", "customProps.vendorLabel"],
       threshold: 0.3,
     });
   }, [tools]);
@@ -40,15 +34,7 @@ export const ToolSearch: React.FC<{ category: string }> = ({ category }) => {
     } else {
       const results = fuse.search(searchTerm);
       setFilteredTools(
-        results.map((result) => {
-          const tool = result.item;
-          return {
-            ...tool,
-            title: isRoot
-              ? `${tool.customProps.vendorLabel}: ${tool.label}`
-              : tool.title,
-          };
-        }),
+        results.map((result) => result.item),
       );
     }
   }, [searchTerm]);
@@ -77,7 +63,7 @@ export const ToolSearch: React.FC<{ category: string }> = ({ category }) => {
       {isSearching ? (
         <SearchResults tools={filteredTools} />
       ) : (
-        <ToolList tools={tools} />
+        <ItemList items={tools} />
       )}
     </>
   );

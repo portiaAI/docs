@@ -110,420 +110,6 @@
     },
     {
       "type": "category",
-      "label": "Remote MCP",
-      "link": {
-        "type": "doc",
-        "id": "portia-tools/remote-mcp/index"
-      },
-      "collapsed": false,
-      "items": [
-        {
-          "type": "doc",
-          "label": "Apify",
-          "id": "portia-tools/remote-mcp/apify",
-          "customProps": {
-            "type": "mcp-server"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Asana",
-          "id": "portia-tools/remote-mcp/asana",
-          "customProps": {
-            "type": "mcp-server"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Cloudflare",
-          "id": "portia-tools/remote-mcp/cloudflare",
-          "customProps": {
-            "type": "mcp-server"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "DeepWiki",
-          "id": "portia-tools/remote-mcp/deepwiki",
-          "customProps": {
-            "type": "mcp-server"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Firecrawl",
-          "id": "portia-tools/remote-mcp/firecrawl",
-          "customProps": {
-            "type": "mcp-server"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Hugging Face",
-          "id": "portia-tools/remote-mcp/hugging-face",
-          "customProps": {
-            "type": "mcp-server"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Intercom",
-          "id": "portia-tools/remote-mcp/intercom",
-          "customProps": {
-            "type": "mcp-server"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Invideo",
-          "id": "portia-tools/remote-mcp/invideo",
-          "customProps": {
-            "type": "mcp-server"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Linear",
-          "id": "portia-tools/remote-mcp/linear",
-          "customProps": {
-            "type": "mcp-server"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Make",
-          "id": "portia-tools/remote-mcp/make",
-          "customProps": {
-            "type": "mcp-server"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Pinecone",
-          "id": "portia-tools/remote-mcp/pinecone",
-          "customProps": {
-            "type": "mcp-server"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Posthog",
-          "id": "portia-tools/remote-mcp/posthog",
-          "customProps": {
-            "type": "mcp-server"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Semgrep",
-          "id": "portia-tools/remote-mcp/semgrep",
-          "customProps": {
-            "type": "mcp-server"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Sentry",
-          "id": "portia-tools/remote-mcp/sentry",
-          "customProps": {
-            "type": "mcp-server"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Shopify",
-          "id": "portia-tools/remote-mcp/shopify",
-          "customProps": {
-            "type": "mcp-server"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Square",
-          "id": "portia-tools/remote-mcp/square",
-          "customProps": {
-            "type": "mcp-server"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Stripe",
-          "id": "portia-tools/remote-mcp/stripe",
-          "customProps": {
-            "type": "mcp-server"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Super memory",
-          "id": "portia-tools/remote-mcp/super-memory",
-          "customProps": {
-            "type": "mcp-server"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Webflow",
-          "id": "portia-tools/remote-mcp/webflow",
-          "customProps": {
-            "type": "mcp-server"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Wix",
-          "id": "portia-tools/remote-mcp/wix",
-          "customProps": {
-            "type": "mcp-server"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "YepCode",
-          "id": "portia-tools/remote-mcp/yepcode",
-          "customProps": {
-            "type": "mcp-server"
-          }
-        }
-      ]
-    },
-    {
-      "type": "category",
-      "label": "Local MCP",
-      "link": {
-        "type": "doc",
-        "id": "portia-tools/local-mcp/index"
-      },
-      "collapsed": false,
-      "items": [
-        {
-          "type": "doc",
-          "label": "AWS Cost Analysis",
-          "id": "portia-tools/local-mcp/aws-cost-analysis",
-          "customProps": {
-            "type": "mcp-server"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "AWS Documentation",
-          "id": "portia-tools/local-mcp/aws-documentation",
-          "customProps": {
-            "type": "mcp-server"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Basic Memory",
-          "id": "portia-tools/local-mcp/basic-memory",
-          "customProps": {
-            "type": "mcp-server"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "BioMCP",
-          "id": "portia-tools/local-mcp/biomcp",
-          "customProps": {
-            "type": "mcp-server"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Bright Data",
-          "id": "portia-tools/local-mcp/bright-data",
-          "customProps": {
-            "type": "mcp-server"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Browserbase",
-          "id": "portia-tools/local-mcp/browserbase",
-          "customProps": {
-            "type": "mcp-server"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Chargebee",
-          "id": "portia-tools/local-mcp/chargebee",
-          "customProps": {
-            "type": "mcp-server"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Chroma",
-          "id": "portia-tools/local-mcp/chroma",
-          "customProps": {
-            "type": "mcp-server"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "DBHub",
-          "id": "portia-tools/local-mcp/dbhub",
-          "customProps": {
-            "type": "mcp-server"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "ElevenLabs",
-          "id": "portia-tools/local-mcp/elevenlabs",
-          "customProps": {
-            "type": "mcp-server"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "GCP Cloud Run",
-          "id": "portia-tools/local-mcp/gcp-cloud-run",
-          "customProps": {
-            "type": "mcp-server"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "GitHub",
-          "id": "portia-tools/local-mcp/github",
-          "customProps": {
-            "type": "mcp-server"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Grafana",
-          "id": "portia-tools/local-mcp/grafana",
-          "customProps": {
-            "type": "mcp-server"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "HubSpot",
-          "id": "portia-tools/local-mcp/hubspot",
-          "customProps": {
-            "type": "mcp-server"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Hyperbrowser",
-          "id": "portia-tools/local-mcp/hyperbrowser",
-          "customProps": {
-            "type": "mcp-server"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "JetBrains IDE",
-          "id": "portia-tools/local-mcp/jetbrains-ide",
-          "customProps": {
-            "type": "mcp-server"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "MiniMax",
-          "id": "portia-tools/local-mcp/minimax",
-          "customProps": {
-            "type": "mcp-server"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Monday.com",
-          "id": "portia-tools/local-mcp/monday.com",
-          "customProps": {
-            "type": "mcp-server"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "MongoDB",
-          "id": "portia-tools/local-mcp/mongodb",
-          "customProps": {
-            "type": "mcp-server"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Netlify",
-          "id": "portia-tools/local-mcp/netlify",
-          "customProps": {
-            "type": "mcp-server"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Notion",
-          "id": "portia-tools/local-mcp/notion",
-          "customProps": {
-            "type": "mcp-server"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Perplexity",
-          "id": "portia-tools/local-mcp/perplexity",
-          "customProps": {
-            "type": "mcp-server"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Playwright",
-          "id": "portia-tools/local-mcp/playwright",
-          "customProps": {
-            "type": "mcp-server"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Qdrant",
-          "id": "portia-tools/local-mcp/qdrant",
-          "customProps": {
-            "type": "mcp-server"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Shopify Dev",
-          "id": "portia-tools/local-mcp/shopify-dev",
-          "customProps": {
-            "type": "mcp-server"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Supabase",
-          "id": "portia-tools/local-mcp/supabase",
-          "customProps": {
-            "type": "mcp-server"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Twilio",
-          "id": "portia-tools/local-mcp/twilio",
-          "customProps": {
-            "type": "mcp-server"
-          }
-        },
-        {
-          "type": "doc",
-          "label": "Xero",
-          "id": "portia-tools/local-mcp/xero",
-          "customProps": {
-            "type": "mcp-server"
-          }
-        }
-      ]
-    },
-    {
-      "type": "category",
       "label": "Portia Cloud",
       "link": {
         "type": "doc",
@@ -1357,6 +943,420 @@
               }
             }
           ]
+        }
+      ]
+    },
+    {
+      "type": "category",
+      "label": "Remote MCP",
+      "link": {
+        "type": "doc",
+        "id": "portia-tools/remote-mcp/index"
+      },
+      "collapsed": false,
+      "items": [
+        {
+          "type": "doc",
+          "label": "Apify",
+          "id": "portia-tools/remote-mcp/apify",
+          "customProps": {
+            "type": "mcp-server"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "Asana",
+          "id": "portia-tools/remote-mcp/asana",
+          "customProps": {
+            "type": "mcp-server"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "Cloudflare",
+          "id": "portia-tools/remote-mcp/cloudflare",
+          "customProps": {
+            "type": "mcp-server"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "DeepWiki",
+          "id": "portia-tools/remote-mcp/deepwiki",
+          "customProps": {
+            "type": "mcp-server"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "Firecrawl",
+          "id": "portia-tools/remote-mcp/firecrawl",
+          "customProps": {
+            "type": "mcp-server"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "Hugging Face",
+          "id": "portia-tools/remote-mcp/hugging-face",
+          "customProps": {
+            "type": "mcp-server"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "Intercom",
+          "id": "portia-tools/remote-mcp/intercom",
+          "customProps": {
+            "type": "mcp-server"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "Invideo",
+          "id": "portia-tools/remote-mcp/invideo",
+          "customProps": {
+            "type": "mcp-server"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "Linear",
+          "id": "portia-tools/remote-mcp/linear",
+          "customProps": {
+            "type": "mcp-server"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "Make",
+          "id": "portia-tools/remote-mcp/make",
+          "customProps": {
+            "type": "mcp-server"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "Pinecone",
+          "id": "portia-tools/remote-mcp/pinecone",
+          "customProps": {
+            "type": "mcp-server"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "Posthog",
+          "id": "portia-tools/remote-mcp/posthog",
+          "customProps": {
+            "type": "mcp-server"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "Semgrep",
+          "id": "portia-tools/remote-mcp/semgrep",
+          "customProps": {
+            "type": "mcp-server"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "Sentry",
+          "id": "portia-tools/remote-mcp/sentry",
+          "customProps": {
+            "type": "mcp-server"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "Shopify",
+          "id": "portia-tools/remote-mcp/shopify",
+          "customProps": {
+            "type": "mcp-server"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "Square",
+          "id": "portia-tools/remote-mcp/square",
+          "customProps": {
+            "type": "mcp-server"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "Stripe",
+          "id": "portia-tools/remote-mcp/stripe",
+          "customProps": {
+            "type": "mcp-server"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "Super memory",
+          "id": "portia-tools/remote-mcp/super-memory",
+          "customProps": {
+            "type": "mcp-server"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "Webflow",
+          "id": "portia-tools/remote-mcp/webflow",
+          "customProps": {
+            "type": "mcp-server"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "Wix",
+          "id": "portia-tools/remote-mcp/wix",
+          "customProps": {
+            "type": "mcp-server"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "YepCode",
+          "id": "portia-tools/remote-mcp/yepcode",
+          "customProps": {
+            "type": "mcp-server"
+          }
+        }
+      ]
+    },
+    {
+      "type": "category",
+      "label": "Local MCP",
+      "link": {
+        "type": "doc",
+        "id": "portia-tools/local-mcp/index"
+      },
+      "collapsed": false,
+      "items": [
+        {
+          "type": "doc",
+          "label": "AWS Cost Analysis",
+          "id": "portia-tools/local-mcp/aws-cost-analysis",
+          "customProps": {
+            "type": "mcp-server"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "AWS Documentation",
+          "id": "portia-tools/local-mcp/aws-documentation",
+          "customProps": {
+            "type": "mcp-server"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "Basic Memory",
+          "id": "portia-tools/local-mcp/basic-memory",
+          "customProps": {
+            "type": "mcp-server"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "BioMCP",
+          "id": "portia-tools/local-mcp/biomcp",
+          "customProps": {
+            "type": "mcp-server"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "Bright Data",
+          "id": "portia-tools/local-mcp/bright-data",
+          "customProps": {
+            "type": "mcp-server"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "Browserbase",
+          "id": "portia-tools/local-mcp/browserbase",
+          "customProps": {
+            "type": "mcp-server"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "Chargebee",
+          "id": "portia-tools/local-mcp/chargebee",
+          "customProps": {
+            "type": "mcp-server"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "Chroma",
+          "id": "portia-tools/local-mcp/chroma",
+          "customProps": {
+            "type": "mcp-server"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "DBHub",
+          "id": "portia-tools/local-mcp/dbhub",
+          "customProps": {
+            "type": "mcp-server"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "ElevenLabs",
+          "id": "portia-tools/local-mcp/elevenlabs",
+          "customProps": {
+            "type": "mcp-server"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "GCP Cloud Run",
+          "id": "portia-tools/local-mcp/gcp-cloud-run",
+          "customProps": {
+            "type": "mcp-server"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "GitHub",
+          "id": "portia-tools/local-mcp/github",
+          "customProps": {
+            "type": "mcp-server"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "Grafana",
+          "id": "portia-tools/local-mcp/grafana",
+          "customProps": {
+            "type": "mcp-server"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "HubSpot",
+          "id": "portia-tools/local-mcp/hubspot",
+          "customProps": {
+            "type": "mcp-server"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "Hyperbrowser",
+          "id": "portia-tools/local-mcp/hyperbrowser",
+          "customProps": {
+            "type": "mcp-server"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "JetBrains IDE",
+          "id": "portia-tools/local-mcp/jetbrains-ide",
+          "customProps": {
+            "type": "mcp-server"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "MiniMax",
+          "id": "portia-tools/local-mcp/minimax",
+          "customProps": {
+            "type": "mcp-server"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "Monday.com",
+          "id": "portia-tools/local-mcp/monday.com",
+          "customProps": {
+            "type": "mcp-server"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "MongoDB",
+          "id": "portia-tools/local-mcp/mongodb",
+          "customProps": {
+            "type": "mcp-server"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "Netlify",
+          "id": "portia-tools/local-mcp/netlify",
+          "customProps": {
+            "type": "mcp-server"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "Notion",
+          "id": "portia-tools/local-mcp/notion",
+          "customProps": {
+            "type": "mcp-server"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "Perplexity",
+          "id": "portia-tools/local-mcp/perplexity",
+          "customProps": {
+            "type": "mcp-server"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "Playwright",
+          "id": "portia-tools/local-mcp/playwright",
+          "customProps": {
+            "type": "mcp-server"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "Qdrant",
+          "id": "portia-tools/local-mcp/qdrant",
+          "customProps": {
+            "type": "mcp-server"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "Shopify Dev",
+          "id": "portia-tools/local-mcp/shopify-dev",
+          "customProps": {
+            "type": "mcp-server"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "Supabase",
+          "id": "portia-tools/local-mcp/supabase",
+          "customProps": {
+            "type": "mcp-server"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "Twilio",
+          "id": "portia-tools/local-mcp/twilio",
+          "customProps": {
+            "type": "mcp-server"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "Xero",
+          "id": "portia-tools/local-mcp/xero",
+          "customProps": {
+            "type": "mcp-server"
+          }
         }
       ]
     }

@@ -21,13 +21,16 @@ export type McpServer = {
   type: "doc";
   customProps: {
     type: "mcp-server";
+    description: string;
   };
 };
+
+export type Item = ToolCategory | Tool | McpServer;
 
 export type ToolCategory = {
   label: string;
   type: "category";
-  items: Array<ToolCategory | Tool | McpServer>;
+  items: Array<Item>;
   link?: {
     type: string;
     id: string;
@@ -51,6 +54,21 @@ const getLeaves = (sidebar) => {
       }
     })
     .flat();
+};
+
+export const getItems = (category: string) => {
+  const findCategory = (sidebar) => {
+    if (sidebar.label === category) {
+      return [sidebar];
+    } else if (sidebar.items) {
+      return sidebar.items.map(findCategory).flat();
+    } else {
+      return [];
+    }
+  };
+
+  const categorySidebar = findCategory(toolSidebar);
+  return categorySidebar.length > 0 ? categorySidebar[0].items as Array<Item> : [];
 };
 
 const allTools = getLeaves(toolSidebar) as Tool[];
