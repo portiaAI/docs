@@ -53,7 +53,7 @@ const config = {
         docs: {
           routeBasePath: "/",
           sidebarPath: require.resolve("./sidebars.js"),
-          sidebarCollapsed: false,
+          // sidebarCollapsed: false,
           exclude: [
             // todo richard, command to prove this is ok
             "**/_*.{js,jsx,ts,tsx,md,mdx}",
