@@ -1105,16 +1105,6 @@
         },
         {
           "type": "doc",
-          "label": "Pinecone Assistant",
-          "id": "portia-tools/remote-mcp/pinecone",
-          "customProps": {
-            "type": "mcp-server",
-            "description": "Provide AI agents with contextual knowledge using Pinecone Assistant.",
-            "categoryLabel": "Remote MCP"
-          }
-        },
-        {
-          "type": "doc",
           "label": "Posthog",
           "id": "portia-tools/remote-mcp/posthog",
           "customProps": {
