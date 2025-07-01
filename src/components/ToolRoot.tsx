@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import Fuse from "fuse.js";
-import { getToolCategories, getTools, ToolCategory } from "@site/src/lib/tools";
+import { allToolsAndMcpServers, getToolCategories, getTools, McpServer, Tool, ToolCategory } from "@site/src/lib/tools";
 import { ItemList } from "./ItemList";
 
 
@@ -32,33 +32,39 @@ const SearchResults = ({ tools }) => {
 };
 
 export const ToolRoot = () => {
-  const tools = getTools("root");
   const categories = getToolCategories();
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredTools, setFilteredTools] = useState(tools);
+  const [filteredTools, setFilteredTools] = useState(allToolsAndMcpServers);
 
-  const showSearch = tools.length > 4;
+  const showSearch = allToolsAndMcpServers.length > 4;
   const isSearching = searchTerm.trim().length > 0;
   const fuse = useMemo(() => {
-    return new Fuse(tools, {
-      keys: ["title", "customProps.categoryLabel"].filter(
-        (x) => x,
-      ),
+    return new Fuse(allToolsAndMcpServers, {
+      keys: ["label", "customProps.categoryLabel"],
       threshold: 0.3,
     });
-  }, [tools]);
+  }, [allToolsAndMcpServers]);
+
+  const filteredLabel = (toolOrMcp: Tool | McpServer) => {
+    switch (toolOrMcp.customProps.type) {
+      case "tool":
+        return `${toolOrMcp.customProps.vendorLabel} ${toolOrMcp.label}`;
+      case "mcp-server":
+        return `${toolOrMcp.customProps.categoryLabel}: ${toolOrMcp.label}`;
+    }
+  }
 
   useEffect(() => {
     if (!isSearching) {
-      setFilteredTools(tools);
+      setFilteredTools(allToolsAndMcpServers);
     } else {
       const results = fuse.search(searchTerm);
       setFilteredTools(
         results.map((result) => {
-          const tool = result.item;
+          const toolOrMcp = result.item;
           return {
-            ...tool,
-            title: `${tool.customProps.vendorLabel}: ${tool.label}`
+            ...toolOrMcp,
+            label: filteredLabel(toolOrMcp)
           };
         }),
       );
