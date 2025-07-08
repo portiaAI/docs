@@ -82,7 +82,8 @@
     "SDK/portia/tool_call",
     "SDK/portia/tool_decorator",
     "SDK/portia/tool_registry",
-    "SDK/portia/tool_wrapper"
+    "SDK/portia/tool_wrapper",
+    "SDK/portia/version"
   ],
   "label": "portia",
   "type": "category"
