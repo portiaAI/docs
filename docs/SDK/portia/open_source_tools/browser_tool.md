@@ -17,6 +17,15 @@ required, the tool will return an ActionClarification with the user guidance and
 If authentication is not required, the tool will return the task output. It uses
 (BrowserUse)[https://browser-use.com/] for the task navigation.
 
+#### convert\_model\_to\_browser\_use\_model
+
+```python
+def convert_model_to_browser_use_model(
+        model: GenerativeModel) -> BaseChatModel
+```
+
+Convert a Portia model to a BrowserUse model.
+
 ## BrowserToolForUrlSchema Objects
 
 ```python
