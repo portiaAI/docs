@@ -86,6 +86,19 @@
         },
         {
           "type": "doc",
+          "label": "PDF Reader",
+          "id": "portia-tools/open-source/pdf-reader",
+          "customProps": {
+            "type": "tool",
+            "description": "Read a PDF file and extract its text content using Mistral OCR",
+            "category": "opensource",
+            "categoryLabel": "Open Source",
+            "vendor": "opensource",
+            "vendorLabel": "Open Source"
+          }
+        },
+        {
+          "type": "doc",
           "label": "Search",
           "id": "portia-tools/open-source/search",
           "customProps": {
