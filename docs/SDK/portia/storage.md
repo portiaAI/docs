@@ -87,6 +87,19 @@ Retrieve a plan by its ID.
 
 - `NotImplementedError` - If the method is not implemented.
 
+#### get\_plan\_by\_query
+
+```python
+@abstractmethod
+def get_plan_by_query(query: str) -> Plan
+```
+
+Get a plan by query.
+
+**Arguments**:
+
+- `query` _str_ - The query to get a plan for.
+
 #### plan\_exists
 
 ```python
@@ -430,6 +443,18 @@ Get plan from dict.
 
 - `PlanNotFoundError` - If the plan is not found.
 
+#### get\_plan\_by\_query
+
+```python
+def get_plan_by_query(query: str) -> Plan
+```
+
+Get a plan by query.
+
+**Arguments**:
+
+- `query` _str_ - The query to get a plan for.
+
 #### plan\_exists
 
 ```python
@@ -626,6 +651,21 @@ Retrieve a Plan object by its ID.
 **Raises**:
 
 - `PlanNotFoundError` - If the Plan is not found or validation fails.
+
+#### get\_plan\_by\_query
+
+```python
+def get_plan_by_query(query: str) -> Plan
+```
+
+Get a plan by query.
+
+This method will return the first plan that matches the query. This is not always the most
+recent plan.
+
+**Arguments**:
+
+- `query` _str_ - The query to get a plan for.
 
 #### plan\_exists
 
@@ -848,6 +888,18 @@ Retrieve a plan from Portia Cloud.
 **Raises**:
 
 - `StorageError` - If the request to Portia Cloud fails or the plan does not exist.
+
+#### get\_plan\_by\_query
+
+```python
+def get_plan_by_query(query: str) -> Plan
+```
+
+Get a plan by query.
+
+**Arguments**:
+
+- `query` _str_ - The query to get a plan for.
 
 #### plan\_exists
 
