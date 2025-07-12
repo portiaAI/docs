@@ -28,7 +28,10 @@ TEST_CONTAINERS = {
 
 
 @pytest.mark.parametrize(
-    "example", find_examples("docs/product/Get started/A tour of our SDK.md"), ids=str
+    "example",
+    list(find_examples("docs/product/Get started/A tour of our SDK.md")) +
+        list(find_examples("docs/product/Extend and run tools/Adding custom tools.md")),
+    ids=str
 )
 def test_docstrings(example: CodeExample, eval_example: EvalExample):
     # If the example has depends_on=example1, then we'll look for an example with id=example1
