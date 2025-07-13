@@ -18,19 +18,14 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Install Poetry
-      run: |
-        curl -sSL https://install.python-poetry.org | python3 -
-        echo "$HOME/.local/bin" >> $GITHUB_PATH
-
     - name: Install uv # Required for uvx MCP server used in testing
       uses: astral-sh/setup-uv@v5
 
     - name: Install dependencies
-      run: poetry install --no-interaction --all-extras
+      run: uv sync --all-extras --all-groups
 
     - name: Run tests
-      run: poetry run pytest -n 10 -s
+      run: uv run pytest -n 10 -s
       env:
         PORTIA_API_KEY: ${{ secrets.PORTIA_STAGING_API_KEY }}
         PORTIA_API_ENDPOINT: ${{ secrets.PORTIA_STAGING_API_ENDPOINT }}
@@ -69,23 +64,14 @@ jobs:
       with:
         ref: production
 
-    - name: Install Poetry
-      run: |
-        curl -sSL https://install.python-poetry.org | python3 -
-        echo "$HOME/.local/bin" >> $GITHUB_PATH
-
     - name: Install uv # Required for uvx MCP server used in testing
       uses: astral-sh/setup-uv@v5
 
     - name: Install dependencies
-      run: |
-        # In production, we use the production branch of the sdk
-        poetry add "portia-sdk-python[all]@git+https://github.com/portiaAI/portia-sdk-python.git@latest-prod-release"
-        poetry install --no-interaction --all-extras
-        poetry run pip install pytest-xdist
+      run: uv sync --all-extras --all-groups
 
     - name: Run tests
-      run: poetry run pytest -n 10 -s
+      run: uv run pytest -n 10 -s
       env:
         PORTIA_API_KEY: ${{ secrets.PORTIA_API_KEY }}
         OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}

@@ -1,21 +1,25 @@
-[tool.poetry]
+[project]
 name = "docs-test"
 version = "0.1.0"
 description = ""
 authors = []
-package-mode = false
+requires-python = ">=3.11,<3.14"
+dependencies = [
+    "pytest-examples>=0.0.15,<0.0.16",
+    "portia-sdk-python[all]",
+    "pytest-xdist>=3.7.0,<4",
+    "testcontainers>=4.10.0,<5",
+]
 
-[tool.poetry.dependencies]
-python = ">=3.11,<3.14"
-pytest-examples = "^0.0.15"
-portia-sdk-python = { git = "https://github.com/portiaAI/portia-sdk-python.git", branch = "main", extras = ["all"] }
-pytest-xdist = "^3.7.0"
-testcontainers = "^4.10.0"
+[dependency-groups]
+dev = ["pytest>=7.4.0,<8"]
 
+[tool.uv]
+package = false
 
-[tool.poetry.group.dev.dependencies]
-pytest = "^7.4.0"
+[tool.uv.sources]
+portia-sdk-python = { git = "https://github.com/portiaAI/portia-sdk-python.git", branch = "main" }
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
