@@ -98,6 +98,26 @@ jobs:
             fi
             
             if [ "$OVERALL_STATUS" = "success" ] && [ "$PENDING_COUNT" -eq 0 ]; then
+            # Get detailed status checks
+            STATUS_RESPONSE=$(curl -s -H "Authorization: token ${{ secrets.DEPLOY_PAT_TOKEN }}" \
+              "https://api.github.com/repos/${{ github.repository }}/commits/$PR_HEAD_SHA/status")
+            
+            OVERALL_STATUS=$(echo "$STATUS_RESPONSE" | jq -r '.state')
+            TOTAL_COUNT=$(echo "$STATUS_RESPONSE" | jq -r '.statuses | length')
+            SUCCESS_COUNT=$(echo "$STATUS_RESPONSE" | jq -r '.statuses | map(select(.state == "success")) | length')
+            PENDING_COUNT=$(echo "$STATUS_RESPONSE" | jq -r '.statuses | map(select(.state == "pending")) | length')
+            FAILURE_COUNT=$(echo "$STATUS_RESPONSE" | jq -r '.statuses | map(select(.state == "failure" or .state == "error")) | length')
+            
+            echo "Check status: $OVERALL_STATUS (attempt $i/60)"
+            echo "  Total checks: $TOTAL_COUNT, Success: $SUCCESS_COUNT, Pending: $PENDING_COUNT, Failed: $FAILURE_COUNT"
+            
+            # Show pending checks for debugging
+            if [ "$PENDING_COUNT" -gt 0 ]; then
+              echo "  Pending checks:"
+              echo "$STATUS_RESPONSE" | jq -r '.statuses[] | select(.state == "pending") | "    - " + .context + " (" + .state + ")"'
+            fi
+            
+            if [ "$OVERALL_STATUS" = "success" ] && [ "$PENDING_COUNT" -eq 0 ]; then
               echo "All checks passed!"
               echo "status=success" >> $GITHUB_OUTPUT
               break
