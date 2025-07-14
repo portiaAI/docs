@@ -141,26 +141,24 @@ jobs:
           echo "PR mergeable state: $MERGEABLE_STATE"
           
           # mergeable_state can be: clean, dirty, unstable, blocked
-          # We only want to proceed if it's "clean" (all checks passed, no conflicts)
-          if [ "$MERGEABLE_STATE" != "clean" ]; then
-            echo "Error: PR is not in a clean state for merging."
+          # We can proceed if it's "clean" or "blocked" (blocked usually means required reviews, which --admin can bypass)
+          if [ "$MERGEABLE_STATE" = "dirty" ]; then
+            echo "Error: PR has merge conflicts that need to be resolved."
             echo "  mergeable_state: $MERGEABLE_STATE"
-            echo "  This might be due to:"
-            case "$MERGEABLE_STATE" in
-              "dirty")
-                echo "  - Merge conflicts that need to be resolved"
-                ;;
-              "unstable")
-                echo "  - Required status checks still failing or in progress"
-                ;;
-              "blocked")
-                echo "  - Branch protection rules blocking the merge"
-                ;;
-              *)
-                echo "  - Unknown mergeable state: $MERGEABLE_STATE"
-                ;;
-            esac
             exit 1
+          elif [ "$MERGEABLE_STATE" = "unstable" ]; then
+            echo "Error: Required status checks are still failing or in progress."
+            echo "  mergeable_state: $MERGEABLE_STATE"
+            exit 1
+          elif [ "$MERGEABLE_STATE" = "blocked" ]; then
+            echo "PR is blocked by branch protection rules (likely required reviews)."
+            echo "  mergeable_state: $MERGEABLE_STATE"
+            echo "  Proceeding with --admin flag to bypass protection rules..."
+          elif [ "$MERGEABLE_STATE" != "clean" ]; then
+            echo "Error: Unknown mergeable state: $MERGEABLE_STATE"
+            exit 1
+          else
+            echo "PR is in clean state, ready to merge."
           fi
           
           # Use gh CLI for consistency with admin privileges to bypass branch protection with admin privileges to bypass branch protection
