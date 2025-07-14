@@ -113,10 +113,11 @@ jobs:
           
           echo "Auto-merging PR #$PR_NUMBER..."
           
-          # Use gh CLI for consistency
+          # Use gh CLI for consistency with admin privileges to bypass branch protection
           gh pr merge $PR_NUMBER \
             --squash \
             --delete-branch \
+            --admin \
             --subject "🤖 Merge: Bump SDK version to ${{ steps.get-latest-commit.outputs.latest_commit }}" \
             --body "Automated merge of SDK version bump"
           
