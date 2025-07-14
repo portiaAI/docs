@@ -40,16 +40,45 @@ def update_pyproject_toml(commit_hash, pyproject_path="pyproject.toml"):
         with open(pyproject_file, 'r') as f:
             content = f.read()
         
-        # Pattern to match the portia-sdk-python line with any commit hash
-        pattern = r'(portia-sdk-python = \{ git = "https://github\.com/portiaAI/portia-sdk-python\.git", rev = ")[a-f0-9]*(" \})'
         
-        # Check if the pattern exists
-        if not re.search(pattern, content):
-            print("Error: Could not find portia-sdk-python dependency in pyproject.toml")
+        # Find the line containing portia-sdk-python in [tool.uv.sources]
+        lines = content.split('\n')
+        updated_lines = []
+        found = False
+        
+        for line in lines:
+            if 'portia-sdk-python' in line and 'rev = "' in line:
+                # Extract the current commit hash
+                current_match = re.search(r'rev = "([a-f0-9]+)"', line)
+                if current_match:
+                    current_hash = current_match.group(1)
+                    # Replace just the commit hash
+                    updated_line = line.replace(f'rev = "{current_hash}"', f'rev = "{commit_hash}"')
+                    updated_lines.append(updated_line)
+                    found = True
+                    print(f"🔍 Found and updated line: {line.strip()}")
+                    print(f"📝 Updated to: {updated_line.strip()}")
+                else:
+                    updated_lines.append(line)
+            else:
+                updated_lines.append(line)
+        
+        if not found:
+            print("Error: Could not find portia-sdk-python dependency with rev in pyproject.toml")
+            print("Looking for lines containing 'portia-sdk-python':")
+            for i, line in enumerate(lines):
+                if 'portia-sdk-python' in line:
+                    print(f"Line {i+1}: {line}")
             sys.exit(1)
         
-        # Replace the commit hash
-        updated_content = re.sub(pattern, r'\1' + commit_hash + r'\2', content)
+        updated_content = '\n'.join(updated_lines)
+        
+        # Verify the replacement worked
+        if updated_content == content:
+            print("Error: No changes were made to pyproject.toml")
+            print("Current content:")
+            print(content)
+            sys.exit(1)
         
         # Write the updated content back
         with open(pyproject_file, 'w') as f:
@@ -63,6 +92,10 @@ def update_pyproject_toml(commit_hash, pyproject_path="pyproject.toml"):
             if 'portia-sdk-python' in line:
                 print(f"Updated line {i+1}: {line.strip()}")
                 break
+        
+        # Show the full updated content for debugging
+        print("\n📄 Updated pyproject.toml content:")
+        print(updated_content)
                 
     except Exception as e:
         print(f"Error updating pyproject.toml: {e}")
