@@ -40,8 +40,6 @@ def update_pyproject_toml(commit_hash, pyproject_path="pyproject.toml"):
         with open(pyproject_file, 'r') as f:
             content = f.read()
         
-        print(f"📄 Original pyproject.toml content:")
-        print(content)
         
         # Find the line containing portia-sdk-python in [tool.uv.sources]
         lines = content.split('\n')
