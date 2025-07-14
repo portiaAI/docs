@@ -78,17 +78,30 @@ jobs:
               "https://api.github.com/repos/${{ github.repository }}/pulls/$PR_NUMBER" | \
               jq -r '.head.sha')
             
-            STATUS=$(curl -s -H "Authorization: token ${{ secrets.DEPLOY_PAT_TOKEN }}" \
-              "https://api.github.com/repos/${{ github.repository }}/commits/$PR_HEAD_SHA/status" | \
-              jq -r '.state')
+            # Get detailed status checks
+            STATUS_RESPONSE=$(curl -s -H "Authorization: token ${{ secrets.DEPLOY_PAT_TOKEN }}" \
+              "https://api.github.com/repos/${{ github.repository }}/commits/$PR_HEAD_SHA/status")
             
-            echo "Check status: $STATUS (attempt $i/60)"
+            OVERALL_STATUS=$(echo "$STATUS_RESPONSE" | jq -r '.state')
+            TOTAL_COUNT=$(echo "$STATUS_RESPONSE" | jq -r '.statuses | length')
+            SUCCESS_COUNT=$(echo "$STATUS_RESPONSE" | jq -r '.statuses | map(select(.state == "success")) | length')
+            PENDING_COUNT=$(echo "$STATUS_RESPONSE" | jq -r '.statuses | map(select(.state == "pending")) | length')
+            FAILURE_COUNT=$(echo "$STATUS_RESPONSE" | jq -r '.statuses | map(select(.state == "failure" or .state == "error")) | length')
             
-            if [ "$STATUS" = "success" ]; then
+            echo "Check status: $OVERALL_STATUS (attempt $i/60)"
+            echo "  Total checks: $TOTAL_COUNT, Success: $SUCCESS_COUNT, Pending: $PENDING_COUNT, Failed: $FAILURE_COUNT"
+            
+            # Show pending checks for debugging
+            if [ "$PENDING_COUNT" -gt 0 ]; then
+              echo "  Pending checks:"
+              echo "$STATUS_RESPONSE" | jq -r '.statuses[] | select(.state == "pending") | "    - " + .context + " (" + .state + ")"'
+            fi
+            
+            if [ "$OVERALL_STATUS" = "success" ] && [ "$PENDING_COUNT" -eq 0 ]; then
               echo "All checks passed!"
               echo "status=success" >> $GITHUB_OUTPUT
               break
-            elif [ "$STATUS" = "failure" ] || [ "$STATUS" = "error" ]; then
+            elif [ "$OVERALL_STATUS" = "failure" ] || [ "$FAILURE_COUNT" -gt 0 ]; then
               echo "Checks failed!"
               echo "status=failure" >> $GITHUB_OUTPUT
               break
@@ -112,6 +125,43 @@ jobs:
           fi
           
           echo "Auto-merging PR #$PR_NUMBER..."
+          
+          # Wait a minute for GitHub's systems to fully update the mergeable state
+          echo "Waiting 60 seconds for GitHub to update mergeable state..."
+          sleep 60
+          
+          # Check if PR is mergeable before attempting to merge
+          PR_INFO=$(curl -s -H "Authorization: token ${{ secrets.DEPLOY_PAT_TOKEN }}" \
+            "https://api.github.com/repos/${{ github.repository }}/pulls/$PR_NUMBER")
+          
+          MERGEABLE_STATUS=$(echo "$PR_INFO" | jq -r '.mergeable')
+          MERGEABLE_STATE=$(echo "$PR_INFO" | jq -r '.mergeable_state')
+          
+          echo "PR mergeable status: $MERGEABLE_STATUS"
+          echo "PR mergeable state: $MERGEABLE_STATE"
+          
+          # mergeable_state can be: clean, dirty, unstable, blocked
+          # We only want to proceed if it's "clean" (all checks passed, no conflicts)
+          if [ "$MERGEABLE_STATE" != "clean" ]; then
+            echo "Error: PR is not in a clean state for merging."
+            echo "  mergeable_state: $MERGEABLE_STATE"
+            echo "  This might be due to:"
+            case "$MERGEABLE_STATE" in
+              "dirty")
+                echo "  - Merge conflicts that need to be resolved"
+                ;;
+              "unstable")
+                echo "  - Required status checks still failing or in progress"
+                ;;
+              "blocked")
+                echo "  - Branch protection rules blocking the merge"
+                ;;
+              *)
+                echo "  - Unknown mergeable state: $MERGEABLE_STATE"
+                ;;
+            esac
+            exit 1
+          fi
           
           # Use gh CLI for consistency with admin privileges to bypass branch protection
           gh pr merge $PR_NUMBER \
