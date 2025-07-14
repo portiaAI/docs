@@ -24,7 +24,7 @@ If you do not have Node.js and yarn installed on your system, install them first
 ## Code Examples
 Code examples in the docs are tested automatically using [pytest-examples](https://github.com/pydantic/pytest-examples).
 
-To run the tests, use `poetry run pytest`. For this to work, you'll need to ensure you create a .env file in the root of the project with the
+To run the tests, use `uv run pytest`. For this to work, you'll need to ensure you create a .env file in the root of the project with the
 variables listed in .env.example.
 
 We ensure that all snippets of code in the repo are testing. In order to do this, we have a few tricks:
