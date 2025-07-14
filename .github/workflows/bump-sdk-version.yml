@@ -163,7 +163,7 @@ jobs:
             exit 1
           fi
           
-          # Use gh CLI for consistency with admin privileges to bypass branch protection
+          # Use gh CLI for consistency with admin privileges to bypass branch protection with admin privileges to bypass branch protection
           gh pr merge $PR_NUMBER \
             --squash \
             --delete-branch \
