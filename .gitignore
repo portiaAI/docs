@@ -20,7 +20,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Poetry
+# uv
 dist/
 *.pyc
 __pycache__/
@@ -28,7 +28,7 @@ __pycache__/
 .coverage
 htmlcov/
 .python-version
-poetry.lock
+uv.lock
 
 demo_runs/
 
