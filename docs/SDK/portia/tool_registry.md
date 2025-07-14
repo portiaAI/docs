@@ -45,6 +45,13 @@ and provide additional functionality.
 - `filter_tools(predicate` - Callable[[Tool], bool]) -&gt; ToolRegistry:
   Create a new tool registry with only the tools that match the predicate. Useful to
   implement tool exclusions.
+  with_tool_description(
+- `tool_id` - str,
+- `updated_description` - str,
+  *,
+- `overwrite` - bool = False,
+  ) -&gt; ToolRegistry:
+  Extend or override the description of a tool in the registry.
 
 #### \_\_init\_\_
 
