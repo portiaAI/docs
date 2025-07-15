@@ -1,6 +1,6 @@
 ---
-sidebar_label: model
-title: portia.model
+Sidebar_Label: model
+Title: portia.model
 ---
 
 LLM provider model classes for Portia Agents.
