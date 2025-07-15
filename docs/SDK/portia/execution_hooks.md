@@ -1,6 +1,6 @@
 ---
-sidebar_label: execution_hooks
-title: portia.execution_hooks
+Sidebar_Label: execution_hooks
+Title: portia.execution_hooks
 ---
 
 Execution hooks for customizing the behavior of portia during execution.
