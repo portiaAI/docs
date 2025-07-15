@@ -1,6 +1,6 @@
 ---
-sidebar_label: end_user
-title: portia.end_user
+Sidebar_Label: end_user
+Title: portia.end_user
 ---
 
 Models for end user management.
