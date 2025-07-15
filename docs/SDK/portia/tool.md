@@ -1,6 +1,6 @@
 ---
-sidebar_label: tool
-title: portia.tool
+Sidebar_Label: tool
+Title: portia.tool
 ---
 
 Tools module.
@@ -69,7 +69,7 @@ This class serves as the blueprint for all tools. Child classes must implement t
   that fetches the latest news) whereas other tools it&#x27;s not (for example: a tool
   that fetches raw price data).
 
-#### ready
+#### Ready
 
 ```python
 def ready(ctx: ToolRunContext) -> ReadyResponse
@@ -92,7 +92,7 @@ If left unimplemented will always return true.
 - `ReadyResponse` - Whether the tool is ready to run and any clarifications that need to be
   resolved
 
-#### run
+#### Run
 
 ```python
 @abstractmethod
@@ -233,7 +233,7 @@ This function serializes the arguments schema by returning the class name of the
 
 - `str` - The class name of the argument schema.
 
-#### pretty
+#### Pretty
 
 ```python
 def pretty() -> str
@@ -277,7 +277,7 @@ as well as clarifications of different types.
 - `ToolSoftError` - If a soft error is encountered in the response.
 - `ToolHardError` - If a hard error is encountered in the response.
 
-#### ready
+#### Ready
 
 ```python
 def ready(ctx: ToolRunContext) -> ReadyResponse
@@ -295,7 +295,7 @@ Check if the remote tool is ready by calling the /ready endpoint.
 - `ReadyResponse` - Whether the tool is ready to run and any clarifications that
   need to be resolved
 
-#### run
+#### Run
 
 ```python
 def run(ctx: ToolRunContext, *args: Any,
@@ -355,7 +355,7 @@ class PortiaMcpTool(Tool[str])
 
 A Portia Tool wrapper for an MCP server-based tool.
 
-#### run
+#### Run
 
 ```python
 def run(_: ToolRunContext, **kwargs: Any) -> str
