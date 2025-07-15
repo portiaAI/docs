@@ -1,6 +1,6 @@
 ---
-sidebar_label: mcp_session
-title: portia.mcp_session
+Sidebar_Label: mcp_session
+Title: portia.mcp_session
 ---
 
 Configuration and client code for interactions with Model Context Protocol (MCP) servers.
