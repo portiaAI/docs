@@ -24,7 +24,7 @@ jobs:
         id: promote
         run: |
           # Run the production deployment script
-          uv run .github/scripts/production_deploy.py \
+          uv run .github/scripts/overwrite_branch.py \
             --repo-name "${{ github.repository }}" \
             --push \
             --target-branch "production" \
