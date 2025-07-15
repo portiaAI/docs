@@ -1,6 +1,6 @@
 ---
-sidebar_label: views
-title: portia.telemetry.views
+Sidebar_Label: views
+Title: portia.telemetry.views
 ---
 
 Portia telemetry views.
@@ -17,7 +17,7 @@ Base class for all telemetry events.
 This abstract class defines the interface that all telemetry events must implement.
 It provides a common structure for event name and properties.
 
-#### name
+#### Name
 
 ```python
 @property
@@ -31,7 +31,7 @@ Get the name of the telemetry event.
 
 - `str` - The name of the telemetry event.
 
-#### properties
+#### Properties
 
 ```python
 @property
@@ -59,7 +59,7 @@ Telemetry event for tracking Portia function calls.
 - `function_name` - The name of the function being called.
 - `function_call_details` - Additional details about the function call.
 
-#### name
+#### Name
 
 type: ignore reportIncompatibleMethodOverride
 
@@ -76,7 +76,7 @@ Telemetry event for tracking tool calls.
 
 - `tool_id` - The identifier of the tool being called, if any.
 
-#### name
+#### Name
 
 type: ignore reportIncompatibleMethodOverride
 
