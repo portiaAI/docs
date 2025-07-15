@@ -34,6 +34,32 @@
         },
         {
           "type": "doc",
+          "label": "Crawl",
+          "id": "portia-tools/open-source/crawl",
+          "customProps": {
+            "type": "tool",
+            "description": "Crawls websites using graph-based website traversal tool that can explore hundreds of paths in parallel with built-in extraction and intelligent discovery. Provide a starting URL and optional instructions for what to find, and the tool will navigate and extract relevant content from multiple pages. Supports depth control, domain filtering, and path selection for comprehensive site exploration.",
+            "category": "opensource",
+            "categoryLabel": "Open Source",
+            "vendor": "opensource",
+            "vendorLabel": "Open Source"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "Extract",
+          "id": "portia-tools/open-source/extract",
+          "customProps": {
+            "type": "tool",
+            "description": "Extracts web page content from one or more specified URLs using Tavily Extract and returns the raw content, images, and metadata from those pages. The extract tool can access publicly available web pages but cannot extract content from pages that block automated access",
+            "category": "opensource",
+            "categoryLabel": "Open Source",
+            "vendor": "opensource",
+            "vendorLabel": "Open Source"
+          }
+        },
+        {
+          "type": "doc",
           "label": "File Reader",
           "id": "portia-tools/open-source/file-reader",
           "customProps": {
@@ -77,7 +103,20 @@
           "id": "portia-tools/open-source/llm",
           "customProps": {
             "type": "tool",
-            "description": "Jack of all trades tool to respond to a prompt by relying solely on LLM capabilities. YOU NEVER CALL OTHER TOOLS. You use your native capabilities as an LLM only. This includes using your general knowledge, your in-built reasoning and your code interpreter capabilities. This tool can be used to summarize the outputs of other tools, make general language model queries or to answer questions. This should be used only as a last resort when no other tool satisfies a step in a task, however if there are no other tools that can be used to complete a step or for steps that don't require a tool call, this SHOULD be used",
+            "description": "Jack of all trades tool to respond to a prompt by relying solely on LLM capabilities. YOU NEVER CALL OTHER TOOLS. You use your native capabilities as an LLM only. This includes using your general knowledge, your in-built reasoning and your code interpreter capabilities. This tool can be used to summarize the outputs of other tools, make general language model queries or to answer questions. This should be used only as a last resort when no other tool satisfies a step in a task, however if there are no other tools that can be used to complete a step or for steps that don't require a tool call, this SHOULD be used. MAKE SURE the task_data includes ALL INPUT VARIABLES IN THE CONTEXT.",
+            "category": "opensource",
+            "categoryLabel": "Open Source",
+            "vendor": "opensource",
+            "vendorLabel": "Open Source"
+          }
+        },
+        {
+          "type": "doc",
+          "label": "Map Website",
+          "id": "portia-tools/open-source/map-website",
+          "customProps": {
+            "type": "tool",
+            "description": "Maps websites using graph-based traversal that can explore hundreds of paths in parallel with intelligent discovery to generate comprehensive site maps. Provide a URL and the tool will discover and return all accessible pages on that website. Supports depth control, domain filtering, path selection, and various mapping options for comprehensive site reconnaissance and URL discovery.",
             "category": "opensource",
             "categoryLabel": "Open Source",
             "vendor": "opensource",
