@@ -1,6 +1,6 @@
 ---
-sidebar_label: base_planning_agent
-title: portia.planning_agents.base_planning_agent
+Sidebar_Label: base_planning_agent
+Title: portia.planning_agents.base_planning_agent
 ---
 
 PlanningAgents module creates plans from queries.
