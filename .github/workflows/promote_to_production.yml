@@ -1,0 +1,54 @@
+name: Promote to Production
+
+on:
+  workflow_dispatch:  # Manual trigger
+  repository_dispatch:  # Remote trigger
+    types: [promote-to-production]
+
+jobs:
+  promote-to-production:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.DEPLOY_PAT_TOKEN }}
+          fetch-depth: 0
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Install dependencies
+        run: uv sync --all-extras --all-groups
+
+      - name: Promote main to production
+        id: promote
+        run: |
+          # Run the production deployment script
+          uv run .github/scripts/production_deploy.py \
+            --repo-name "${{ github.repository }}" \
+            --push \
+            --target-branch "production" \
+            --source-branch "main"
+        env:
+          DEPLOY_PAT_TOKEN: ${{ secrets.DEPLOY_PAT_TOKEN }}
+
+      - name: Notify Slack on failure
+        if: failure()
+        uses: slackapi/slack-github-action@v1.27.0
+        with:
+          channel-id: '${{ vars.SLACK_RUN_CHANNEL }}'
+          slack-message: |
+            🚨 *Docs Production Promotion Failed*
+            
+            The promotion of main branch to production has failed.
+            
+            *Repository:* ${{ github.repository }}
+            *Source Branch:* main
+            *Target Branch:* production
+            *Workflow:* <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Run>
+            
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
