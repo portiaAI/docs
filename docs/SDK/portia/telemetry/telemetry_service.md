@@ -1,6 +1,6 @@
 ---
-sidebar_label: telemetry_service
-title: portia.telemetry.telemetry_service
+Sidebar_Label: telemetry_service
+Title: portia.telemetry.telemetry_service
 ---
 
 Telemetry service for capturing anonymized usage data.
@@ -41,7 +41,7 @@ Base interface for capturing anonymized telemetry data.
 This class handles the collection and transmission of anonymized usage data to PostHog.
 Telemetry can be disabled by setting the environment variable `ANONYMIZED_TELEMETRY=False`.
 
-#### capture
+#### Capture
 
 ```python
 @abstractmethod
@@ -83,7 +83,7 @@ Initialize the telemetry service.
 
 Sets up the PostHog client if telemetry is enabled and configures logging.
 
-#### capture
+#### Capture
 
 ```python
 def capture(event: BaseTelemetryEvent) -> None
