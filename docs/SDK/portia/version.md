@@ -1,6 +1,6 @@
 ---
-sidebar_label: version
-title: portia.version
+Sidebar_Label: version
+Title: portia.version
 ---
 
 Version utilities for Portia SDK.
