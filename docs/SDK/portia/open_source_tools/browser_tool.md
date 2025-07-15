@@ -1,6 +1,6 @@
 ---
-sidebar_label: browser_tool
-title: portia.open_source_tools.browser_tool
+Sidebar_Label: browser_tool
+Title: portia.open_source_tools.browser_tool
 ---
 
 Browser tools.
@@ -171,7 +171,7 @@ Process task_data into a string, handling different input types.
 
   A string representation of the data, with list items joined by newlines.
 
-#### run
+#### Run
 
 ```python
 def run(
@@ -238,7 +238,7 @@ def __init__(
 
 Initialize the BrowserToolForUrl.
 
-#### run
+#### Run
 
 ```python
 def run(
