@@ -1,6 +1,6 @@
 ---
-sidebar_label: config
-title: portia.config
+Sidebar_Label: config
+Title: portia.config
 ---
 
 Configuration module for the SDK.
@@ -98,7 +98,7 @@ def api_name() -> str
 
 Override the default value to return the model name.
 
-#### provider
+#### Provider
 
 ```python
 def provider() -> LLMProvider
