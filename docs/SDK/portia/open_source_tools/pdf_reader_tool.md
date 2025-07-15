@@ -1,6 +1,6 @@
 ---
-sidebar_label: pdf_reader_tool
-title: portia.open_source_tools.pdf_reader_tool
+Sidebar_Label: pdf_reader_tool
+Title: portia.open_source_tools.pdf_reader_tool
 ---
 
 Tool for reading PDF files and extracting text content using Mistral OCR.
@@ -21,7 +21,7 @@ class PDFReaderTool(Tool[str])
 
 Read a PDF file and extract its text content using Mistral OCR.
 
-#### run
+#### Run
 
 ```python
 def run(_: ToolRunContext, file_path: str) -> str
