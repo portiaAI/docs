@@ -1,6 +1,6 @@
 ---
-sidebar_label: portia
-title: portia.portia
+Sidebar_Label: portia
+Title: portia.portia
 ---
 
 Portia classes that plan and execute runs for queries.
@@ -63,7 +63,7 @@ def initialize_end_user(end_user: str | EndUser | None = None) -> EndUser
 
 Handle initializing the end_user based on the provided type.
 
-#### run
+#### Run
 
 ```python
 def run(query: str,
@@ -103,7 +103,7 @@ This is the simplest way to plan and execute a query using the SDK.
 
 - `PlanRun` - The run resulting from executing the query.
 
-#### plan
+#### Plan
 
 ```python
 def plan(query: str,
@@ -180,7 +180,7 @@ Run a plan.
 
 - `PlanRun` - The resulting PlanRun object.
 
-#### resume
+#### Resume
 
 ```python
 def resume(plan_run: PlanRun | None = None,
