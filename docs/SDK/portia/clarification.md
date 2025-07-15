@@ -1,6 +1,6 @@
 ---
-sidebar_label: clarification
-title: portia.clarification
+Sidebar_Label: clarification
+Title: portia.clarification
 ---
 
 Clarification Primitives.
