@@ -34,10 +34,13 @@
       "items": [
         "SDK/portia/open_source_tools/browser_tool",
         "SDK/portia/open_source_tools/calculator_tool",
+        "SDK/portia/open_source_tools/crawl_tool",
+        "SDK/portia/open_source_tools/extract_tool",
         "SDK/portia/open_source_tools/image_understanding_tool",
         "SDK/portia/open_source_tools/llm_tool",
         "SDK/portia/open_source_tools/local_file_reader_tool",
         "SDK/portia/open_source_tools/local_file_writer_tool",
+        "SDK/portia/open_source_tools/map_tool",
         "SDK/portia/open_source_tools/pdf_reader_tool",
         "SDK/portia/open_source_tools/search_tool",
         "SDK/portia/open_source_tools/weather"

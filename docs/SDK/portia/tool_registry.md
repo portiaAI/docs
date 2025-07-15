@@ -473,7 +473,7 @@ A registry providing a default set of tools.
 
 This includes the following tools:
 - All open source tools that don&#x27;t require API keys
-- Search tool if you have a Tavily API key
+- Search, map, extract, and crawl tools if you have a Tavily API key
 - Weather tool if you have an OpenWeatherMap API key
 - Portia cloud tools if you have a Portia cloud API key
 
