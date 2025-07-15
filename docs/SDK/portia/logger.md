@@ -151,14 +151,6 @@ def error(msg: str, *args: Any, **kwargs: Any) -> None
 
 Wrap the child logger&#x27;s error method to catch exceptions.
 
-#### exception
-
-```python
-def exception(msg: str, *args: Any, **kwargs: Any) -> None
-```
-
-Wrap the child logger&#x27;s exception method to catch exceptions.
-
 #### critical
 
 ```python
