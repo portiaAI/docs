@@ -1,6 +1,6 @@
 ---
-sidebar_label: calculator_tool
-title: portia.open_source_tools.calculator_tool
+Sidebar_Label: calculator_tool
+Title: portia.open_source_tools.calculator_tool
 ---
 
 Simple Calculator Implementation.
@@ -39,11 +39,11 @@ Takes a basic maths question in natural language and returns the result.
 
 Works best for maths expressions containing only numbers and the operators +, -, *, x, /.
 
-#### description
+#### Description
 
 Works best for maths expressions containing only numbers and the operators +, -, *, x, /.
 
-#### run
+#### Run
 
 ```python
 def run(_: ToolRunContext, math_question: str) -> float
