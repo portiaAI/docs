@@ -72,7 +72,8 @@ def run(query: str,
         end_user: str | EndUser | None = None,
         plan_run_inputs: list[PlanInput] | list[dict[str, str]]
         | dict[str, str] | None = None,
-        structured_output_schema: type[BaseModel] | None = None) -> PlanRun
+        structured_output_schema: type[BaseModel] | None = None,
+        use_cached_plan: bool = False) -> PlanRun
 ```
 
 End-to-end function to generate a plan and then execute it.
@@ -95,6 +96,7 @@ This is the simplest way to plan and execute a query using the SDK.
   for the query. This is passed on to plan runs created from this plan but will not be
   stored with the plan itself if using cloud storage and must be re-attached to the
   plan run if using cloud storage.
+- `use_cached_plan` _bool_ - Whether to use a cached plan if it exists.
   
 
 **Returns**:
@@ -110,7 +112,8 @@ def plan(query: str,
          end_user: str | EndUser | None = None,
          plan_inputs: list[PlanInput] | list[dict[str, str]] | list[str]
          | None = None,
-         structured_output_schema: type[BaseModel] | None = None) -> Plan
+         structured_output_schema: type[BaseModel] | None = None,
+         use_cached_plan: bool = False) -> Plan
 ```
 
 Plans how to do the query given the set of tools and any examples.
@@ -133,6 +136,7 @@ Plans how to do the query given the set of tools and any examples.
   for the query. This is passed on to plan runs created from this plan but will be
   not be stored with the plan itself if using cloud storage and must be re-attached
   to the plan run if using cloud storage.
+- `use_cached_plan` _bool_ - Whether to use a cached plan if it exists.
   
 
 **Returns**:

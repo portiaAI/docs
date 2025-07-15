@@ -367,6 +367,14 @@ Initialize with Anthropic client.
 - `api_key` - API key for Anthropic
 - `**kwargs` - Additional keyword arguments to pass to ChatAnthropic
 
+#### get\_response
+
+```python
+def get_response(messages: list[Message]) -> Message
+```
+
+Get response from Anthropic model, handling list content.
+
 #### get\_structured\_response
 
 ```python
