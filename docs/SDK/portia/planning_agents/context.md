@@ -1,6 +1,6 @@
 ---
-sidebar_label: context
-title: portia.planning_agents.context
+Sidebar_Label: context
+Title: portia.planning_agents.context
 ---
 
 Context helpers for PlanningAgents.
