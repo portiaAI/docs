@@ -173,23 +173,6 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.DEPLOY_PAT_TOKEN }}
 
-      - name: Notify Slack on success
-        if: steps.wait-for-checks.outputs.status == 'success'
-        uses: slackapi/slack-github-action@v1.24.0
-        with:
-          channel-id: '${{ vars.SLACK_RUN_CHANNEL }}'
-          slack-message: |
-            ✅ *Docs SDK Version Bump Successful*
-            
-            The automated docs SDK version bump PR has been successfully merged.
-            
-            *PR:* <https://github.com/${{ github.repository }}/pull/${{ steps.create-pr.outputs.pull-request-number }}|#${{ steps.create-pr.outputs.pull-request-number }}>
-            *Latest Commit:* `${{ steps.get-latest-commit.outputs.latest_commit }}`
-            *Workflow:* <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Run>
-            
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-
       - name: Close PR and notify Slack on failure
         if: steps.wait-for-checks.outputs.status == 'failure' || steps.wait-for-checks.outputs.status == 'timeout'
         run: |
