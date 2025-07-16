@@ -39,10 +39,6 @@ Takes a basic maths question in natural language and returns the result.
 
 Works best for maths expressions containing only numbers and the operators +, -, *, x, /.
 
-#### description
-
-Works best for maths expressions containing only numbers and the operators +, -, *, x, /.
-
 #### run
 
 ```python

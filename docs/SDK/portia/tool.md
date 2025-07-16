@@ -137,6 +137,15 @@ ensures that the tool description does not exceed this limit.
 
 - `InvalidToolDescriptionError` - If the description exceeds the maximum length.
 
+#### check\_run\_method\_signature
+
+```python
+@model_validator(mode="after")
+def check_run_method_signature() -> Self
+```
+
+Ensure the run method signature matches the args_schema.
+
 #### to\_langchain
 
 ```python
