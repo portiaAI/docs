@@ -101,6 +101,44 @@ jobs:
         if: steps.wait-for-checks.outputs.status == 'success'
         run: |
           PR_NUMBER="${{ steps.create-pr.outputs.pull-request-number }}"
+          
+          if [ -z "$PR_NUMBER" ]; then
+            echo "Error: PR number is empty. Cannot merge PR."
+            exit 1
+          fi
+          
+          echo "Auto-merging PR #$PR_NUMBER..."
+          
+          # Check if PR is mergeable before attempting to merge
+          PR_INFO=$(gh pr view $PR_NUMBER --json mergeable,mergeableState)
+          MERGEABLE=$(echo "$PR_INFO" | jq -r '.mergeable')
+          MERGEABLE_STATE=$(echo "$PR_INFO" | jq -r '.mergeableState')
+          
+          echo "PR mergeable status: $MERGEABLE"
+          echo "PR mergeable state: $MERGEABLE_STATE"
+          
+          # mergeable_state can be: clean, dirty, unstable, blocked
+          # We can proceed if it's "clean" or "blocked" (blocked usually means required reviews, which --admin can bypass)
+          if [ "$MERGEABLE_STATE" = "dirty" ]; then
+            echo "Error: PR has merge conflicts that need to be resolved."
+            echo "  mergeable_state: $MERGEABLE_STATE"
+            exit 1
+          elif [ "$MERGEABLE_STATE" = "unstable" ]; then
+            echo "Error: Required status checks are still failing or in progress."
+            echo "  mergeable_state: $MERGEABLE_STATE"
+            echo "  This should not happen since we waited for all checks to complete."
+            exit 1
+          elif [ "$MERGEABLE_STATE" = "blocked" ]; then
+            echo "PR is blocked by branch protection rules (likely required reviews)."
+            echo "  mergeable_state: $MERGEABLE_STATE"
+            echo "  Proceeding with --admin flag to bypass protection rules..."
+          elif [ "$MERGEABLE_STATE" != "clean" ]; then
+            echo "Error: Unknown mergeable state: $MERGEABLE_STATE"
+            exit 1
+          else
+            echo "PR is in clean state, ready to merge."
+          fi
+          
           # Use gh CLI with retry mechanism in case of timing issues
           MAX_RETRIES=5
           for retry in {1..$MAX_RETRIES}; do
