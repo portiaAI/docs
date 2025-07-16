@@ -5,6 +5,11 @@ on:
   repository_dispatch:  # Remote trigger
     types: [bump-sdk-version]
 
+# Prevent multiple runs from executing simultaneously
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   bump-sdk-version:
     runs-on: ubuntu-latest
@@ -25,6 +30,20 @@ jobs:
           LATEST_COMMIT=$(curl -s https://api.github.com/repos/portiaAI/portia-sdk-python/commits/main | jq -r '.sha')
           echo "latest_commit=$LATEST_COMMIT" >> $GITHUB_OUTPUT
           echo "Latest commit hash: $LATEST_COMMIT"
+
+      - name: Check and cleanup existing SDK bump PRs
+        id: check-existing-pr
+        run: |
+          # Always clean up existing PRs and branches when a new run starts
+          # This ensures the new run can proceed with a clean slate
+          uv run .github/scripts/cleanup_branch.py \
+            --repo-name ${{ github.repository }} \
+            --title-pattern "🤖 Automated: Bump SDK version" \
+            --branch-pattern "automated/bump-sdk-version" \
+            --delete
+          
+          echo "existing_pr=false" >> $GITHUB_OUTPUT
+          echo "Any existing SDK bump PRs have been cleaned up"
 
       - name: Update pyproject.toml with latest commit hash
         run: |
@@ -59,117 +78,29 @@ jobs:
       - name: Wait for PR checks to complete
         id: wait-for-checks
         run: |
-          PR_NUMBER="${{ steps.create-pr.outputs.pull-request-number }}"
-          
-          if [ -z "$PR_NUMBER" ]; then
-            echo "Error: PR number is empty. Cannot wait for checks."
-            exit 1
+          # Run the script and capture the result
+          if uv run .github/scripts/wait_for_checks.py \
+            --repo-name ${{ github.repository }} \
+            --pr-number ${{ steps.create-pr.outputs.pull-request-number }} \
+            --timeout-minutes 10 \
+            --wait-seconds 30; then
+            echo "status=success" >> $GITHUB_OUTPUT
+          else
+            EXIT_CODE=$?
+            if [ $EXIT_CODE -eq 1 ]; then
+              echo "status=failure" >> $GITHUB_OUTPUT
+            elif [ $EXIT_CODE -eq 2 ]; then
+              echo "status=timeout" >> $GITHUB_OUTPUT
+            else
+              echo "status=failure" >> $GITHUB_OUTPUT
+            fi
           fi
           
-          echo "Waiting for PR #$PR_NUMBER checks to complete..."
-          
-          # Wait for checks to start
-          sleep 30
-          
-          # Check status every 30 seconds for up to 30 minutes
-          for i in {1..60}; do
-            # Get the PR's head SHA to check its status
-            PR_HEAD_SHA=$(curl -s -H "Authorization: token ${{ secrets.DEPLOY_PAT_TOKEN }}" \
-              "https://api.github.com/repos/${{ github.repository }}/pulls/$PR_NUMBER" | \
-              jq -r '.head.sha')
-            
-            # Get detailed status checks
-            STATUS_RESPONSE=$(curl -s -H "Authorization: token ${{ secrets.DEPLOY_PAT_TOKEN }}" \
-              "https://api.github.com/repos/${{ github.repository }}/commits/$PR_HEAD_SHA/status")
-            
-            OVERALL_STATUS=$(echo "$STATUS_RESPONSE" | jq -r '.state')
-            TOTAL_COUNT=$(echo "$STATUS_RESPONSE" | jq -r '.statuses | length')
-            SUCCESS_COUNT=$(echo "$STATUS_RESPONSE" | jq -r '.statuses | map(select(.state == "success")) | length')
-            PENDING_COUNT=$(echo "$STATUS_RESPONSE" | jq -r '.statuses | map(select(.state == "pending")) | length')
-            FAILURE_COUNT=$(echo "$STATUS_RESPONSE" | jq -r '.statuses | map(select(.state == "failure" or .state == "error")) | length')
-            
-            echo "Check status: $OVERALL_STATUS (attempt $i/60)"
-            echo "  Total checks: $TOTAL_COUNT, Success: $SUCCESS_COUNT, Pending: $PENDING_COUNT, Failed: $FAILURE_COUNT"
-            
-            # Show pending checks for debugging
-            if [ "$PENDING_COUNT" -gt 0 ]; then
-              echo "  Pending checks:"
-              echo "$STATUS_RESPONSE" | jq -r '.statuses[] | select(.state == "pending") | "    - " + .context + " (" + .state + ")"'
-            fi
-            
-            # Also check the PR's mergeable state to see if there are any required checks still pending
-            PR_INFO=$(curl -s -H "Authorization: token ${{ secrets.DEPLOY_PAT_TOKEN }}" \
-              "https://api.github.com/repos/${{ github.repository }}/pulls/$PR_NUMBER")
-            
-            MERGEABLE_STATE=$(echo "$PR_INFO" | jq -r '.mergeable_state')
-            echo "  PR mergeable state: $MERGEABLE_STATE"
-            
-            # Check if all required status checks are complete
-            if [ "$OVERALL_STATUS" = "success" ] && [ "$PENDING_COUNT" -eq 0 ] && [ "$MERGEABLE_STATE" != "unstable" ]; then
-              echo "All checks passed and PR is ready to merge!"
-              echo "status=success" >> $GITHUB_OUTPUT
-              break
-            elif [ "$OVERALL_STATUS" = "failure" ] || [ "$FAILURE_COUNT" -gt 0 ]; then
-              echo "Checks failed!"
-              echo "status=failure" >> $GITHUB_OUTPUT
-              break
-            elif [ "$i" -eq 60 ]; then
-              echo "Timeout waiting for checks to complete"
-              echo "status=timeout" >> $GITHUB_OUTPUT
-              break
-            fi
-            
-            sleep 30
-          done
 
       - name: Auto-merge PR if checks pass
         if: steps.wait-for-checks.outputs.status == 'success'
         run: |
           PR_NUMBER="${{ steps.create-pr.outputs.pull-request-number }}"
-          
-          if [ -z "$PR_NUMBER" ]; then
-            echo "Error: PR number is empty. Cannot merge PR."
-            exit 1
-          fi
-          
-          echo "Auto-merging PR #$PR_NUMBER..."
-          
-          # Wait a minute for GitHub's systems to fully update the mergeable state
-          echo "Waiting 60 seconds for GitHub to update mergeable state..."
-          sleep 60
-          
-          # Check if PR is mergeable before attempting to merge
-          PR_INFO=$(curl -s -H "Authorization: token ${{ secrets.DEPLOY_PAT_TOKEN }}" \
-            "https://api.github.com/repos/${{ github.repository }}/pulls/$PR_NUMBER")
-          
-          MERGEABLE_STATUS=$(echo "$PR_INFO" | jq -r '.mergeable')
-          MERGEABLE_STATE=$(echo "$PR_INFO" | jq -r '.mergeable_state')
-          
-          echo "PR mergeable status: $MERGEABLE_STATUS"
-          echo "PR mergeable state: $MERGEABLE_STATE"
-          
-          # mergeable_state can be: clean, dirty, unstable, blocked
-          # We can proceed if it's "clean" or "blocked" (blocked usually means required reviews, which --admin can bypass)
-          if [ "$MERGEABLE_STATE" = "dirty" ]; then
-            echo "Error: PR has merge conflicts that need to be resolved."
-            echo "  mergeable_state: $MERGEABLE_STATE"
-            exit 1
-          elif [ "$MERGEABLE_STATE" = "unstable" ]; then
-            echo "Error: Required status checks are still failing or in progress."
-            echo "  mergeable_state: $MERGEABLE_STATE"
-            echo "  This should not happen since we waited for all checks to complete."
-            exit 1
-          elif [ "$MERGEABLE_STATE" = "blocked" ]; then
-            echo "PR is blocked by branch protection rules (likely required reviews)."
-            echo "  mergeable_state: $MERGEABLE_STATE"
-            echo "  Proceeding with --admin flag to bypass protection rules..."
-          elif [ "$MERGEABLE_STATE" != "clean" ]; then
-            echo "Error: Unknown mergeable state: $MERGEABLE_STATE"
-            exit 1
-          else
-            echo "PR is in clean state, ready to merge."
-          fi
-          
           # Use gh CLI with retry mechanism in case of timing issues
           MAX_RETRIES=5
           for retry in {1..$MAX_RETRIES}; do
