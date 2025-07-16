@@ -1,6 +1,6 @@
 ---
-sidebar_label: clarification_handler
-title: portia.clarification_handler
+Sidebar_Label: clarification_handler
+Title: portia.clarification_handler
 ---
 
 Clarification Handler.
@@ -16,7 +16,7 @@ class ClarificationHandler(ABC)
 
 Handles clarifications that arise during the execution of a plan run.
 
-#### handle
+#### Handle
 
 ```python
 def handle(clarification: Clarification,

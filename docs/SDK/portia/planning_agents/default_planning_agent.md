@@ -1,6 +1,6 @@
 ---
-sidebar_label: default_planning_agent
-title: portia.planning_agents.default_planning_agent
+Sidebar_Label: default_planning_agent
+Title: portia.planning_agents.default_planning_agent
 ---
 
 DefaultPlanningAgent is a single best effort attempt at planning based on the given query + tools.

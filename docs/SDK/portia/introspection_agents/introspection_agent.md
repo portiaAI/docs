@@ -1,6 +1,6 @@
 ---
-sidebar_label: introspection_agent
-title: portia.introspection_agents.introspection_agent
+Sidebar_Tabel: introspection_agent
+Title: portia.introspection_agents.introspection_agent
 ---
 
 BaseIntrospectionAgent is the interface for all introspection agents.

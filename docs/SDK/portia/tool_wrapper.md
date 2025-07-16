@@ -1,6 +1,6 @@
 ---
-sidebar_label: tool_wrapper
-title: portia.tool_wrapper
+Sidebar_Label: tool_wrapper
+Title: portia.tool_wrapper
 ---
 
 Tool Wrapper that intercepts run calls and records them.
@@ -46,7 +46,7 @@ Initialize parent fields using child_tool&#x27;s attributes.
 - `storage` _AdditionalStorage_ - The storage to save execution records.
 - `plan_run` _PlanRun_ - The PlanRun to execute.
 
-#### ready
+#### Ready
 
 ```python
 def ready(ctx: ToolRunContext) -> ReadyResponse
@@ -54,7 +54,7 @@ def ready(ctx: ToolRunContext) -> ReadyResponse
 
 Check if the child tool is ready and return ReadyResponse.
 
-#### run
+#### Run
 
 ```python
 def run(ctx: ToolRunContext, *args: Any, **kwargs: Any) -> Any | Clarification

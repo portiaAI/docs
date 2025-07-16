@@ -1,6 +1,6 @@
 ---
-sidebar_label: plan_run
-title: portia.plan_run
+Sidebar_Label: plan_run
+Title: portia.plan_run
 ---
 
 Plan runs are executing instances of a Plan.

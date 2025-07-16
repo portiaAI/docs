@@ -1,6 +1,6 @@
 ---
-sidebar_label: tool_registry
-title: portia.tool_registry
+Sidebar_Label: tool_registry
+Title: portia.tool_registry
 ---
 
 A ToolRegistry represents a source of tools.
@@ -505,7 +505,7 @@ def __init_subclass__(cls) -> None
 
 Ensure omissible fields are isolated between models.
 
-#### serialize
+#### Serialize
 
 ```python
 @model_serializer(mode="wrap")

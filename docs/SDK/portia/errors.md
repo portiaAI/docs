@@ -1,6 +1,6 @@
 ---
-sidebar_label: errors
-title: portia.errors
+Sidebar_Label: errors
+Title: portia.errors
 ---
 
 Central definition of error classes.

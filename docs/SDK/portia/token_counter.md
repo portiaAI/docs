@@ -1,6 +1,6 @@
 ---
-sidebar_label: token_counter
-title: portia.token_counter
+Sidebar_Label: token_counter
+Title: portia.token_counter
 ---
 
 Token counting utilities with fallback for offline environments.

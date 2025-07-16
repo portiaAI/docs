@@ -1,6 +1,6 @@
 ---
-sidebar_label: gemini_langsmith_wrapper
-title: portia.gemini_langsmith_wrapper
+Sidebar_Label: gemini_langsmith_wrapper
+Title: portia.gemini_langsmith_wrapper
 ---
 
 Custom LangSmith wrapper for Google Generative AI (Gemini).

@@ -1,11 +1,11 @@
 ---
-sidebar_label: tool_decorator
-title: portia.tool_decorator
+Sidebar_Label: tool_decorator
+Title: portia.tool_decorator
 ---
 
 Tool decorator for creating tools from functions.
 
-#### tool
+#### Tool
 
 ```python
 def tool(fn: Callable[..., T]) -> type[Tool[T]]

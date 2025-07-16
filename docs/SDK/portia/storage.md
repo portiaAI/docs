@@ -1,6 +1,6 @@
 ---
-sidebar_label: storage
-title: portia.storage
+Sidebar_Label: storage
+Title: portia.storage
 ---
 
 Storage classes for managing the saving and retrieval of plans, runs, and tool calls.

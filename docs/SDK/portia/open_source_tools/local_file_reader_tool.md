@@ -1,6 +1,6 @@
 ---
-sidebar_label: local_file_reader_tool
-title: portia.open_source_tools.local_file_reader_tool
+Sidebar_Label: local_file_reader_tool
+Title: portia.open_source_tools.local_file_reader_tool
 ---
 
 Tool for reading files from disk.
@@ -21,7 +21,7 @@ class FileReaderTool(Tool[str])
 
 Finds and reads content from a local file on Disk.
 
-#### run
+#### Run
 
 ```python
 def run(ctx: ToolRunContext, filename: str) -> str | Clarification

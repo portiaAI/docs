@@ -1,6 +1,6 @@
 ---
-sidebar_label: tool_call
-title: portia.tool_call
+Sidebar_Label: tool_call
+Title: portia.tool_call
 ---
 
 Tool Call module contains classes that record the outcome of a single tool call.

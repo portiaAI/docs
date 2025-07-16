@@ -1,6 +1,6 @@
 ---
-sidebar_label: local_file_writer_tool
-title: portia.open_source_tools.local_file_writer_tool
+Sidebar_Label: local_file_writer_tool
+Title: portia.open_source_tools.local_file_writer_tool
 ---
 
 Local file writer tool.
@@ -21,7 +21,7 @@ class FileWriterTool(Tool[str])
 
 Writes content to a file.
 
-#### run
+#### Run
 
 ```python
 def run(_: ToolRunContext, filename: str, content: str) -> str

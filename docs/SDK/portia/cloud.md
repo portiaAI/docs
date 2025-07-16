@@ -1,6 +1,6 @@
 ---
-sidebar_label: cloud
-title: portia.cloud
+Sidebar_Label: cloud
+Title: portia.cloud
 ---
 
 Core client for interacting with portia cloud.

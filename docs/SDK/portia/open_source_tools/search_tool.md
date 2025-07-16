@@ -1,6 +1,6 @@
 ---
-sidebar_label: search_tool
-title: portia.open_source_tools.search_tool
+Sidebar_Label: search_tool
+Title: portia.open_source_tools.search_tool
 ---
 
 Simple Search Tool.
@@ -21,7 +21,7 @@ class SearchTool(Tool[str])
 
 Searches the internet to find answers to the search query provided..
 
-#### run
+#### Run
 
 ```python
 def run(_: ToolRunContext, search_query: str) -> str

@@ -1,6 +1,6 @@
 ---
-sidebar_label: plan
-title: portia.plan
+Sidebar_Label: plan
+Title: portia.plan
 ---
 
 Plan primitives used to define and execute runs.
@@ -51,7 +51,7 @@ Initialize the builder with the plan query.
 - `structured_output_schema` _type[BaseModel] | None_ - The optional structured output schema
   for the query.
 
-#### step
+#### Step
 
 ```python
 def step(
@@ -83,7 +83,7 @@ Add a step to the plan.
 
 - `PlanBuilder` - The builder instance with the new step added.
 
-#### input
+#### Input
 
 ```python
 def input(name: str,
@@ -125,7 +125,7 @@ Add an input variable to the plan.
 
 - `PlanBuilder` - The builder instance with the new plan input added.
 
-#### condition
+#### Condition
 
 ```python
 def condition(condition: str, step_index: int | None = None) -> PlanBuilder
@@ -144,7 +144,7 @@ Add a condition to the chosen step in the plan (default is the last step).
 
 - `PlanBuilder` - The builder instance with the new condition added.
 
-#### build
+#### Build
 
 ```python
 def build() -> Plan

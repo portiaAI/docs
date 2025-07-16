@@ -1,6 +1,6 @@
 ---
-sidebar_label: logger
-title: portia.logger
+Sidebar_Label: logger
+Title: portia.logger
 ---
 
 Logging functions for managing and configuring loggers.
@@ -68,7 +68,7 @@ Initialize the logger with default settings.
 
 - `max_lines` _int_ - The maximum number of lines the logger can handle, default is 30.
 
-#### format
+#### Format
 
 ```python
 def format(record: Any) -> str
@@ -119,7 +119,7 @@ def __init__(child_logger: LoggerInterface) -> None
 
 Initialize the SafeLogger.
 
-#### debug
+#### Debug
 
 ```python
 def debug(msg: str, *args: Any, **kwargs: Any) -> None
@@ -127,7 +127,7 @@ def debug(msg: str, *args: Any, **kwargs: Any) -> None
 
 Wrap the child logger&#x27;s debug method to catch exceptions.
 
-#### info
+#### Info
 
 ```python
 def info(msg: str, *args: Any, **kwargs: Any) -> None
@@ -135,7 +135,7 @@ def info(msg: str, *args: Any, **kwargs: Any) -> None
 
 Wrap the child logger&#x27;s info method to catch exceptions.
 
-#### warning
+#### Warning
 
 ```python
 def warning(msg: str, *args: Any, **kwargs: Any) -> None
@@ -143,7 +143,7 @@ def warning(msg: str, *args: Any, **kwargs: Any) -> None
 
 Wrap the child logger&#x27;s warning method to catch exceptions.
 
-#### error
+#### Error
 
 ```python
 def error(msg: str, *args: Any, **kwargs: Any) -> None
@@ -151,7 +151,7 @@ def error(msg: str, *args: Any, **kwargs: Any) -> None
 
 Wrap the child logger&#x27;s error method to catch exceptions.
 
-#### critical
+#### Critical
 
 ```python
 def critical(msg: str, *args: Any, **kwargs: Any) -> None
@@ -201,7 +201,7 @@ Initialize the LoggerManager.
 
 - `custom_logger` _LoggerInterface | None_ - A custom logger to use. Defaults to None.
 
-#### logger
+#### Logger
 
 ```python
 @property
@@ -241,7 +241,7 @@ settings. If a custom logger is in use, it will skip the configuration and log a
 
 - `config` _Config_ - The configuration object containing the logging settings.
 
-#### logger
+#### Logger
 
 ```python
 def logger() -> LoggerInterface
