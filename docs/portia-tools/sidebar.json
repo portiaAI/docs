@@ -29,7 +29,8 @@
             "category": "opensource",
             "categoryLabel": "Open Source",
             "vendor": "opensource",
-            "vendorLabel": "Open Source"
+            "vendorLabel": "Open Source",
+            "searchKeywords": []
           }
         },
         {
@@ -42,7 +43,12 @@
             "category": "opensource",
             "categoryLabel": "Open Source",
             "vendor": "opensource",
-            "vendorLabel": "Open Source"
+            "vendorLabel": "Open Source",
+            "searchKeywords": [
+              "tavily",
+              "website",
+              "scrape"
+            ]
           }
         },
         {
@@ -55,7 +61,12 @@
             "category": "opensource",
             "categoryLabel": "Open Source",
             "vendor": "opensource",
-            "vendorLabel": "Open Source"
+            "vendorLabel": "Open Source",
+            "searchKeywords": [
+              "tavily",
+              "website",
+              "scrape"
+            ]
           }
         },
         {
@@ -68,7 +79,8 @@
             "category": "opensource",
             "categoryLabel": "Open Source",
             "vendor": "opensource",
-            "vendorLabel": "Open Source"
+            "vendorLabel": "Open Source",
+            "searchKeywords": []
           }
         },
         {
@@ -81,7 +93,8 @@
             "category": "opensource",
             "categoryLabel": "Open Source",
             "vendor": "opensource",
-            "vendorLabel": "Open Source"
+            "vendorLabel": "Open Source",
+            "searchKeywords": []
           }
         },
         {
@@ -94,7 +107,8 @@
             "category": "opensource",
             "categoryLabel": "Open Source",
             "vendor": "opensource",
-            "vendorLabel": "Open Source"
+            "vendorLabel": "Open Source",
+            "searchKeywords": []
           }
         },
         {
@@ -107,7 +121,8 @@
             "category": "opensource",
             "categoryLabel": "Open Source",
             "vendor": "opensource",
-            "vendorLabel": "Open Source"
+            "vendorLabel": "Open Source",
+            "searchKeywords": []
           }
         },
         {
@@ -120,7 +135,11 @@
             "category": "opensource",
             "categoryLabel": "Open Source",
             "vendor": "opensource",
-            "vendorLabel": "Open Source"
+            "vendorLabel": "Open Source",
+            "searchKeywords": [
+              "tavily",
+              "website"
+            ]
           }
         },
         {
@@ -133,7 +152,12 @@
             "category": "opensource",
             "categoryLabel": "Open Source",
             "vendor": "opensource",
-            "vendorLabel": "Open Source"
+            "vendorLabel": "Open Source",
+            "searchKeywords": [
+              "mistral",
+              "ocr",
+              "document"
+            ]
           }
         },
         {
@@ -146,7 +170,12 @@
             "category": "opensource",
             "categoryLabel": "Open Source",
             "vendor": "opensource",
-            "vendorLabel": "Open Source"
+            "vendorLabel": "Open Source",
+            "searchKeywords": [
+              "tavily",
+              "website",
+              "research"
+            ]
           }
         },
         {
@@ -159,7 +188,10 @@
             "category": "opensource",
             "categoryLabel": "Open Source",
             "vendor": "opensource",
-            "vendorLabel": "Open Source"
+            "vendorLabel": "Open Source",
+            "searchKeywords": [
+              "temperature"
+            ]
           }
         }
       ]
@@ -200,7 +232,8 @@
                 "category": "github",
                 "categoryLabel": "GitHub",
                 "vendor": "github",
-                "vendorLabel": "GitHub"
+                "vendorLabel": "GitHub",
+                "searchKeywords": []
               }
             },
             {
@@ -213,7 +246,8 @@
                 "category": "github",
                 "categoryLabel": "GitHub",
                 "vendor": "github",
-                "vendorLabel": "GitHub"
+                "vendorLabel": "GitHub",
+                "searchKeywords": []
               }
             },
             {
@@ -226,7 +260,8 @@
                 "category": "github",
                 "categoryLabel": "GitHub",
                 "vendor": "github",
-                "vendorLabel": "GitHub"
+                "vendorLabel": "GitHub",
+                "searchKeywords": []
               }
             },
             {
@@ -239,7 +274,8 @@
                 "category": "github",
                 "categoryLabel": "GitHub",
                 "vendor": "github",
-                "vendorLabel": "GitHub"
+                "vendorLabel": "GitHub",
+                "searchKeywords": []
               }
             }
           ]
@@ -267,7 +303,8 @@
                 "category": "google-calendar",
                 "categoryLabel": "Google Calendar",
                 "vendor": "google",
-                "vendorLabel": "Google"
+                "vendorLabel": "Google",
+                "searchKeywords": []
               }
             },
             {
@@ -280,7 +317,8 @@
                 "category": "google-calendar",
                 "categoryLabel": "Google Calendar",
                 "vendor": "google",
-                "vendorLabel": "Google"
+                "vendorLabel": "Google",
+                "searchKeywords": []
               }
             },
             {
@@ -293,7 +331,8 @@
                 "category": "google-calendar",
                 "categoryLabel": "Google Calendar",
                 "vendor": "google",
-                "vendorLabel": "Google"
+                "vendorLabel": "Google",
+                "searchKeywords": []
               }
             },
             {
@@ -306,7 +345,8 @@
                 "category": "google-calendar",
                 "categoryLabel": "Google Calendar",
                 "vendor": "google",
-                "vendorLabel": "Google"
+                "vendorLabel": "Google",
+                "searchKeywords": []
               }
             },
             {
@@ -319,7 +359,8 @@
                 "category": "google-calendar",
                 "categoryLabel": "Google Calendar",
                 "vendor": "google",
-                "vendorLabel": "Google"
+                "vendorLabel": "Google",
+                "searchKeywords": []
               }
             },
             {
@@ -332,7 +373,8 @@
                 "category": "google-calendar",
                 "categoryLabel": "Google Calendar",
                 "vendor": "google",
-                "vendorLabel": "Google"
+                "vendorLabel": "Google",
+                "searchKeywords": []
               }
             }
           ]
@@ -360,7 +402,8 @@
                 "category": "google-docs",
                 "categoryLabel": "Google Docs",
                 "vendor": "google",
-                "vendorLabel": "Google"
+                "vendorLabel": "Google",
+                "searchKeywords": []
               }
             },
             {
@@ -373,7 +416,8 @@
                 "category": "google-docs",
                 "categoryLabel": "Google Docs",
                 "vendor": "google",
-                "vendorLabel": "Google"
+                "vendorLabel": "Google",
+                "searchKeywords": []
               }
             }
           ]
@@ -401,7 +445,8 @@
                 "category": "google-drive",
                 "categoryLabel": "Google Drive",
                 "vendor": "google",
-                "vendorLabel": "Google"
+                "vendorLabel": "Google",
+                "searchKeywords": []
               }
             }
           ]
@@ -429,7 +474,8 @@
                 "category": "google-workspace",
                 "categoryLabel": "Google Gmail",
                 "vendor": "google",
-                "vendorLabel": "Google"
+                "vendorLabel": "Google",
+                "searchKeywords": []
               }
             },
             {
@@ -442,7 +488,8 @@
                 "category": "google-workspace",
                 "categoryLabel": "Google Gmail",
                 "vendor": "google",
-                "vendorLabel": "Google"
+                "vendorLabel": "Google",
+                "searchKeywords": []
               }
             },
             {
@@ -455,7 +502,8 @@
                 "category": "google-workspace",
                 "categoryLabel": "Google Gmail",
                 "vendor": "google",
-                "vendorLabel": "Google"
+                "vendorLabel": "Google",
+                "searchKeywords": []
               }
             },
             {
@@ -468,7 +516,8 @@
                 "category": "google-workspace",
                 "categoryLabel": "Google Gmail",
                 "vendor": "google",
-                "vendorLabel": "Google"
+                "vendorLabel": "Google",
+                "searchKeywords": []
               }
             }
           ]
@@ -496,7 +545,8 @@
                 "category": "google-sheets",
                 "categoryLabel": "Google Sheets",
                 "vendor": "google",
-                "vendorLabel": "Google"
+                "vendorLabel": "Google",
+                "searchKeywords": []
               }
             }
           ]
@@ -524,7 +574,8 @@
                 "category": "microsoft",
                 "categoryLabel": "Microsoft Outlook",
                 "vendor": "microsoft",
-                "vendorLabel": "Micrososft"
+                "vendorLabel": "Micrososft",
+                "searchKeywords": []
               }
             },
             {
@@ -537,7 +588,8 @@
                 "category": "microsoft",
                 "categoryLabel": "Microsoft Outlook",
                 "vendor": "microsoft",
-                "vendorLabel": "Microsoft"
+                "vendorLabel": "Microsoft",
+                "searchKeywords": []
               }
             },
             {
@@ -550,7 +602,8 @@
                 "category": "microsoft",
                 "categoryLabel": "Microsoft Outlook",
                 "vendor": "microsoft",
-                "vendorLabel": "Microsoft"
+                "vendorLabel": "Microsoft",
+                "searchKeywords": []
               }
             },
             {
@@ -563,7 +616,8 @@
                 "category": "microsoft",
                 "categoryLabel": "Microsoft Outlook",
                 "vendor": "microsoft",
-                "vendorLabel": "Microsoft"
+                "vendorLabel": "Microsoft",
+                "searchKeywords": []
               }
             }
           ]
@@ -591,7 +645,8 @@
                 "category": "slack",
                 "categoryLabel": "Slack",
                 "vendor": "slack",
-                "vendorLabel": "Slack"
+                "vendorLabel": "Slack",
+                "searchKeywords": []
               }
             },
             {
@@ -604,7 +659,8 @@
                 "category": "slack",
                 "categoryLabel": "Slack",
                 "vendor": "slack",
-                "vendorLabel": "Slack"
+                "vendorLabel": "Slack",
+                "searchKeywords": []
               }
             },
             {
@@ -617,7 +673,8 @@
                 "category": "slack",
                 "categoryLabel": "Slack",
                 "vendor": "slack",
-                "vendorLabel": "Slack"
+                "vendorLabel": "Slack",
+                "searchKeywords": []
               }
             },
             {
@@ -630,7 +687,8 @@
                 "category": "slack",
                 "categoryLabel": "Slack",
                 "vendor": "slack",
-                "vendorLabel": "Slack"
+                "vendorLabel": "Slack",
+                "searchKeywords": []
               }
             },
             {
@@ -643,7 +701,8 @@
                 "category": "slack",
                 "categoryLabel": "Slack",
                 "vendor": "slack",
-                "vendorLabel": "Slack"
+                "vendorLabel": "Slack",
+                "searchKeywords": []
               }
             }
           ]
@@ -671,7 +730,8 @@
                 "category": "zendesk",
                 "categoryLabel": "Zendesk",
                 "vendor": "zendesk",
-                "vendorLabel": "Zendesk"
+                "vendorLabel": "Zendesk",
+                "searchKeywords": []
               }
             },
             {
@@ -684,7 +744,8 @@
                 "category": "zendesk",
                 "categoryLabel": "Zendesk",
                 "vendor": "zendesk",
-                "vendorLabel": "Zendesk"
+                "vendorLabel": "Zendesk",
+                "searchKeywords": []
               }
             },
             {
@@ -697,7 +758,8 @@
                 "category": "zendesk",
                 "categoryLabel": "Zendesk",
                 "vendor": "zendesk",
-                "vendorLabel": "Zendesk"
+                "vendorLabel": "Zendesk",
+                "searchKeywords": []
               }
             },
             {
@@ -710,7 +772,8 @@
                 "category": "zendesk",
                 "categoryLabel": "Zendesk",
                 "vendor": "zendesk",
-                "vendorLabel": "Zendesk"
+                "vendorLabel": "Zendesk",
+                "searchKeywords": []
               }
             },
             {
@@ -723,7 +786,8 @@
                 "category": "zendesk",
                 "categoryLabel": "Zendesk",
                 "vendor": "zendesk",
-                "vendorLabel": "Zendesk"
+                "vendorLabel": "Zendesk",
+                "searchKeywords": []
               }
             },
             {
@@ -736,7 +800,8 @@
                 "category": "zendesk",
                 "categoryLabel": "Zendesk",
                 "vendor": "zendesk",
-                "vendorLabel": "Zendesk"
+                "vendorLabel": "Zendesk",
+                "searchKeywords": []
               }
             },
             {
@@ -749,7 +814,8 @@
                 "category": "zendesk",
                 "categoryLabel": "Zendesk",
                 "vendor": "zendesk",
-                "vendorLabel": "Zendesk"
+                "vendorLabel": "Zendesk",
+                "searchKeywords": []
               }
             },
             {
@@ -762,7 +828,8 @@
                 "category": "zendesk",
                 "categoryLabel": "Zendesk",
                 "vendor": "zendesk",
-                "vendorLabel": "Zendesk"
+                "vendorLabel": "Zendesk",
+                "searchKeywords": []
               }
             },
             {
@@ -775,7 +842,8 @@
                 "category": "zendesk",
                 "categoryLabel": "Zendesk",
                 "vendor": "zendesk",
-                "vendorLabel": "Zendesk"
+                "vendorLabel": "Zendesk",
+                "searchKeywords": []
               }
             },
             {
@@ -788,7 +856,8 @@
                 "category": "zendesk",
                 "categoryLabel": "Zendesk",
                 "vendor": "zendesk",
-                "vendorLabel": "Zendesk"
+                "vendorLabel": "Zendesk",
+                "searchKeywords": []
               }
             },
             {
@@ -801,7 +870,8 @@
                 "category": "zendesk",
                 "categoryLabel": "Zendesk",
                 "vendor": "zendesk",
-                "vendorLabel": "Zendesk"
+                "vendorLabel": "Zendesk",
+                "searchKeywords": []
               }
             },
             {
@@ -814,7 +884,8 @@
                 "category": "zendesk",
                 "categoryLabel": "Zendesk",
                 "vendor": "zendesk",
-                "vendorLabel": "Zendesk"
+                "vendorLabel": "Zendesk",
+                "searchKeywords": []
               }
             },
             {
@@ -827,7 +898,8 @@
                 "category": "zendesk",
                 "categoryLabel": "Zendesk",
                 "vendor": "zendesk",
-                "vendorLabel": "Zendesk"
+                "vendorLabel": "Zendesk",
+                "searchKeywords": []
               }
             },
             {
@@ -840,7 +912,8 @@
                 "category": "zendesk",
                 "categoryLabel": "Zendesk",
                 "vendor": "zendesk",
-                "vendorLabel": "Zendesk"
+                "vendorLabel": "Zendesk",
+                "searchKeywords": []
               }
             },
             {
@@ -853,7 +926,8 @@
                 "category": "zendesk",
                 "categoryLabel": "Zendesk",
                 "vendor": "zendesk",
-                "vendorLabel": "Zendesk"
+                "vendorLabel": "Zendesk",
+                "searchKeywords": []
               }
             },
             {
@@ -866,7 +940,8 @@
                 "category": "zendesk",
                 "categoryLabel": "Zendesk",
                 "vendor": "zendesk",
-                "vendorLabel": "Zendesk"
+                "vendorLabel": "Zendesk",
+                "searchKeywords": []
               }
             },
             {
@@ -879,7 +954,8 @@
                 "category": "zendesk",
                 "categoryLabel": "Zendesk",
                 "vendor": "zendesk",
-                "vendorLabel": "Zendesk"
+                "vendorLabel": "Zendesk",
+                "searchKeywords": []
               }
             },
             {
@@ -892,7 +968,8 @@
                 "category": "zendesk",
                 "categoryLabel": "Zendesk",
                 "vendor": "zendesk",
-                "vendorLabel": "Zendesk"
+                "vendorLabel": "Zendesk",
+                "searchKeywords": []
               }
             },
             {
@@ -905,7 +982,8 @@
                 "category": "zendesk",
                 "categoryLabel": "Zendesk",
                 "vendor": "zendesk",
-                "vendorLabel": "Zendesk"
+                "vendorLabel": "Zendesk",
+                "searchKeywords": []
               }
             },
             {
@@ -918,7 +996,8 @@
                 "category": "zendesk",
                 "categoryLabel": "Zendesk",
                 "vendor": "zendesk",
-                "vendorLabel": "Zendesk"
+                "vendorLabel": "Zendesk",
+                "searchKeywords": []
               }
             },
             {
@@ -931,7 +1010,8 @@
                 "category": "zendesk",
                 "categoryLabel": "Zendesk",
                 "vendor": "zendesk",
-                "vendorLabel": "Zendesk"
+                "vendorLabel": "Zendesk",
+                "searchKeywords": []
               }
             },
             {
@@ -944,7 +1024,8 @@
                 "category": "zendesk",
                 "categoryLabel": "Zendesk",
                 "vendor": "zendesk",
-                "vendorLabel": "Zendesk"
+                "vendorLabel": "Zendesk",
+                "searchKeywords": []
               }
             },
             {
@@ -957,7 +1038,8 @@
                 "category": "zendesk",
                 "categoryLabel": "Zendesk",
                 "vendor": "zendesk",
-                "vendorLabel": "Zendesk"
+                "vendorLabel": "Zendesk",
+                "searchKeywords": []
               }
             },
             {
@@ -970,7 +1052,8 @@
                 "category": "zendesk",
                 "categoryLabel": "Zendesk",
                 "vendor": "zendesk",
-                "vendorLabel": "Zendesk"
+                "vendorLabel": "Zendesk",
+                "searchKeywords": []
               }
             },
             {
@@ -983,7 +1066,8 @@
                 "category": "zendesk",
                 "categoryLabel": "Zendesk",
                 "vendor": "zendesk",
-                "vendorLabel": "Zendesk"
+                "vendorLabel": "Zendesk",
+                "searchKeywords": []
               }
             },
             {
@@ -996,7 +1080,8 @@
                 "category": "zendesk",
                 "categoryLabel": "Zendesk",
                 "vendor": "zendesk",
-                "vendorLabel": "Zendesk"
+                "vendorLabel": "Zendesk",
+                "searchKeywords": []
               }
             },
             {
@@ -1009,7 +1094,8 @@
                 "category": "zendesk",
                 "categoryLabel": "Zendesk",
                 "vendor": "zendesk",
-                "vendorLabel": "Zendesk"
+                "vendorLabel": "Zendesk",
+                "searchKeywords": []
               }
             },
             {
@@ -1022,7 +1108,8 @@
                 "category": "zendesk",
                 "categoryLabel": "Zendesk",
                 "vendor": "zendesk",
-                "vendorLabel": "Zendesk"
+                "vendorLabel": "Zendesk",
+                "searchKeywords": []
               }
             },
             {
@@ -1035,7 +1122,8 @@
                 "category": "zendesk",
                 "categoryLabel": "Zendesk",
                 "vendor": "zendesk",
-                "vendorLabel": "Zendesk"
+                "vendorLabel": "Zendesk",
+                "searchKeywords": []
               }
             }
           ]
