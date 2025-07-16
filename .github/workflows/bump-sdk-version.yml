@@ -97,8 +97,16 @@ jobs:
               echo "$STATUS_RESPONSE" | jq -r '.statuses[] | select(.state == "pending") | "    - " + .context + " (" + .state + ")"'
             fi
             
-            if [ "$OVERALL_STATUS" = "success" ] && [ "$PENDING_COUNT" -eq 0 ]; then
-              echo "All checks passed!"
+            # Also check the PR's mergeable state to see if there are any required checks still pending
+            PR_INFO=$(curl -s -H "Authorization: token ${{ secrets.DEPLOY_PAT_TOKEN }}" \
+              "https://api.github.com/repos/${{ github.repository }}/pulls/$PR_NUMBER")
+            
+            MERGEABLE_STATE=$(echo "$PR_INFO" | jq -r '.mergeable_state')
+            echo "  PR mergeable state: $MERGEABLE_STATE"
+            
+            # Check if all required status checks are complete
+            if [ "$OVERALL_STATUS" = "success" ] && [ "$PENDING_COUNT" -eq 0 ] && [ "$MERGEABLE_STATE" != "unstable" ]; then
+              echo "All checks passed and PR is ready to merge!"
               echo "status=success" >> $GITHUB_OUTPUT
               break
             elif [ "$OVERALL_STATUS" = "failure" ] || [ "$FAILURE_COUNT" -gt 0 ]; then
@@ -149,6 +157,7 @@ jobs:
           elif [ "$MERGEABLE_STATE" = "unstable" ]; then
             echo "Error: Required status checks are still failing or in progress."
             echo "  mergeable_state: $MERGEABLE_STATE"
+            echo "  This should not happen since we waited for all checks to complete."
             exit 1
           elif [ "$MERGEABLE_STATE" = "blocked" ]; then
             echo "PR is blocked by branch protection rules (likely required reviews)."
@@ -161,15 +170,32 @@ jobs:
             echo "PR is in clean state, ready to merge."
           fi
           
-          # Use gh CLI for consistency with admin privileges to bypass branch protection with admin privileges to bypass branch protection
-          gh pr merge $PR_NUMBER \
-            --squash \
-            --delete-branch \
-            --admin \
-            --subject "🤖 Merge: Bump SDK version to ${{ steps.get-latest-commit.outputs.latest_commit }}" \
-            --body "Automated merge of SDK version bump"
-          
-          echo "PR #$PR_NUMBER merged successfully!"
+          # Use gh CLI with retry mechanism in case of timing issues
+          MAX_RETRIES=5
+          for retry in {1..$MAX_RETRIES}; do
+            echo "Attempting to merge PR (attempt $retry/$MAX_RETRIES)..."
+            
+            if gh pr merge $PR_NUMBER \
+              --squash \
+              --delete-branch \
+              --admin \
+              --subject "🤖 Merge: Bump SDK version to ${{ steps.get-latest-commit.outputs.latest_commit }}" \
+              --body "Automated merge of SDK version bump"; then
+              echo "PR #$PR_NUMBER merged successfully!"
+              break
+            else
+              MERGE_EXIT_CODE=$?
+              echo "Merge attempt $retry failed with exit code $MERGE_EXIT_CODE"
+              
+              if [ "$retry" -eq "$MAX_RETRIES" ]; then
+                echo "All merge attempts failed. Exiting."
+                exit 1
+              fi
+              
+              echo "Waiting 30 seconds before retry..."
+              sleep 30
+            fi
+          done
         env:
           GH_TOKEN: ${{ secrets.DEPLOY_PAT_TOKEN }}
 
