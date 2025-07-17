@@ -421,7 +421,6 @@ we recommend that you run using the local browser tool.
 portia = Portia(
    config=my_config,
    tools=[browser_tool],
-   execution_hooks=CLIExecutionHooks(),
 )
 
 plan_run = portia.run(task)
