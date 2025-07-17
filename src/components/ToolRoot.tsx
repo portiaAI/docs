@@ -40,7 +40,7 @@ export const ToolRoot = () => {
   const isSearching = searchTerm.trim().length > 0;
   const fuse = useMemo(() => {
     return new Fuse(allToolsAndMcpServers, {
-      keys: ["label", "customProps.categoryLabel"],
+      keys: ["label", "customProps.categoryLabel", "customProps.searchKeywords"],
       threshold: 0.3,
     });
   }, [allToolsAndMcpServers]);
