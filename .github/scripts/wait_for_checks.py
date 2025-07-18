@@ -19,7 +19,8 @@ def wait_for_checks(
     pr_number: int, 
     timeout_minutes: int = 30,
     wait_seconds: int = 30,
-    ignore_checks: Optional[List[str]] = None
+    ignore_checks: Optional[List[str]] = None,
+    token: str = None
 ) -> str:
     """Wait for PR checks to complete
     
@@ -40,11 +41,7 @@ def wait_for_checks(
     if ignore_checks is None:
         ignore_checks = []
     
-    github_token = os.getenv("DEPLOY_PAT_TOKEN")
-    if not github_token:
-        raise ValueError("DEPLOY_PAT_TOKEN environment variable is required")
-    
-    github = Github(github_token)
+    github = Github(token)
     repo = github.get_repo(repo_name)
     pr = repo.get_pull(pr_number)
     
@@ -143,6 +140,7 @@ def main():
     parser.add_argument("--timeout-minutes", type=int, default=30, help="Maximum time to wait in minutes (default: 30)")
     parser.add_argument("--wait-seconds", type=int, default=30, help="Time to wait between checks in seconds (default: 30)")
     parser.add_argument("--ignore-checks", type=str, nargs="*", default=[], help="List of check names to ignore")
+    parser.add_argument("--token", type=str, help="GitHub token")
     args = parser.parse_args()
 
     try:
@@ -151,7 +149,8 @@ def main():
             pr_number=args.pr_number,
             timeout_minutes=args.timeout_minutes,
             wait_seconds=args.wait_seconds,
-            ignore_checks=args.ignore_checks
+            ignore_checks=args.ignore_checks,
+            token=args.token or os.getenv("DEPLOY_PAT_TOKEN")
         )
         print(f"\nFinal result: {result}")
         # Return different exit codes for different states

@@ -40,7 +40,8 @@ jobs:
             --repo-name ${{ github.repository }} \
             --title-pattern "🤖 Automated: Bump SDK version" \
             --branch-pattern "automated/bump-sdk-version" \
-            --delete
+            --delete \
+            --token ${{ secrets.DEPLOY_PAT_TOKEN }}
           
           echo "existing_pr=false" >> $GITHUB_OUTPUT
           echo "Any existing SDK bump PRs have been cleaned up"
@@ -83,7 +84,8 @@ jobs:
             --repo-name ${{ github.repository }} \
             --pr-number ${{ steps.create-pr.outputs.pull-request-number }} \
             --timeout-minutes 10 \
-            --wait-seconds 30; then
+            --wait-seconds 30 \
+            --token ${{ secrets.DEPLOY_PAT_TOKEN }}; then
             echo "status=success" >> $GITHUB_OUTPUT
           else
             EXIT_CODE=$?
@@ -95,7 +97,6 @@ jobs:
               echo "status=failure" >> $GITHUB_OUTPUT
             fi
           fi
-          
 
       - name: Auto-merge PR if checks pass
         if: steps.wait-for-checks.outputs.status == 'success'
