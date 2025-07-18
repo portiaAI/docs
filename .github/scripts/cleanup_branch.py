@@ -12,7 +12,7 @@ from dotenv import load_dotenv
 
 load_dotenv(override=True)
 
-def check_and_cleanup_existing(repo_name: str, title_pattern: str, branch_pattern: str, delete: bool = False) -> bool:
+def check_and_cleanup_existing(repo_name: str, title_pattern: str, branch_pattern: str, delete: bool = False, token: str = None) -> bool:
     """Check if there's already an open PR with the given title pattern and optionally clean up
     
     Args:
@@ -24,11 +24,8 @@ def check_and_cleanup_existing(repo_name: str, title_pattern: str, branch_patter
     Returns:
         bool: True if an open PR with matching title exists, False otherwise
     """
-    github_token = os.getenv("DEPLOY_PAT_TOKEN")
-    if not github_token:
-        raise ValueError("DEPLOY_PAT_TOKEN environment variable is required")
     
-    github = Github(github_token)
+    github = Github(token)
     repo = github.get_repo(repo_name)
     
     found_existing = False
@@ -80,6 +77,7 @@ def main():
     parser.add_argument("--title-pattern", type=str, required=True, help="Pattern to match in PR titles")
     parser.add_argument("--branch-pattern", type=str, required=True, help="Pattern to match in branch names")
     parser.add_argument("--delete", action="store_true", default=False, help="Close existing PRs and delete branches")
+    parser.add_argument("--token", type=str, help="GitHub token")
     args = parser.parse_args()
 
     try:
@@ -87,7 +85,8 @@ def main():
             repo_name=args.repo_name,
             title_pattern=args.title_pattern,
             branch_pattern=args.branch_pattern,
-            delete=args.delete
+            delete=args.delete,
+            token=args.token or os.getenv("DEPLOY_PAT_TOKEN")
         )
         exit(0 if not exists else 1)  # Exit 0 if no existing PR, 1 if exists
     except Exception as e:
