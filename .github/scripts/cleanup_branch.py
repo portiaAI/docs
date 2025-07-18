@@ -24,8 +24,6 @@ def check_and_cleanup_existing(repo_name: str, title_pattern: str, branch_patter
     Returns:
         bool: True if an open PR with matching title exists, False otherwise
     """
-    if not token:
-        raise ValueError("Token is required")
     
     github = Github(token)
     repo = github.get_repo(repo_name)
