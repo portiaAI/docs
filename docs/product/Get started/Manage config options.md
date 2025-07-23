@@ -147,6 +147,31 @@ Options for setting the LLM provider are:
         config = Config.from_default()  # config.llm_provider => LLMProvider.AZURE_OPENAI
         ```
     </TabItem>
+        <TabItem value="amazon" label="Amazon Bedrock">
+        Using the `LLMProvider` enum:
+        ```python
+        from portia import LLMProvider, Config
+
+        config = Config.from_default(llm_provider=LLMProvider.AMAZON)
+        ```
+
+        Passing the Provider name as a string value:
+        ```python
+        from portia import LLMProvider, Config
+
+        config = Config.from_default(llm_provider="amazon")
+        ```
+
+        AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+        AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+        AWS_DEFAULT_REGION = os.getenv('AWS_DEFAULT_REGION')
+        Inferred from environment variables (if `AWS_ACCESS_KEY_ID`, 'AWS_SECRET_ACCESS_KEY' and 'AWS_DEFAULT_REGION' or 'AWS_CREDENTIALS_PROFILE_NAME'):
+        ```python
+        from portia import LLMProvider, Config
+
+        config = Config.from_default()  # config.llm_provider => LLMProvider.AMAZON
+        ```
+    </TabItem>
 </Tabs>
 
 ### API keys
@@ -155,13 +180,13 @@ The API keys for the LLM Providers can be set via `Config` class properties or e
 
 | Option | Values |
 | - | - |
-| Config property | `openai_api_key`<br/>`anthropic_api_key`<br/>`mistralai_api_key`<br/>`google_api_key`<br/>`azure_openai_api_key` |
-| Environment variable | `OPENAI_API_KEY`<br/>`ANTHROPIC_API_KEY`<br/>`MISTRAL_API_KEY`<br/>`GOOGLE_API_KEY`<br/>`AZURE_OPENAI_API_KEY` |
+| Config property | `openai_api_key`<br/>`anthropic_api_key`<br/>`mistralai_api_key`<br/>`google_api_key`<br/>`azure_openai_api_key` <br/>`aws_access_key_id`<br/>`aws_secret_key_id`<br/>`aws_default_region`<br/>`aws_credentials_profile_name`|
+| Environment variable | `OPENAI_API_KEY`<br/>`ANTHROPIC_API_KEY`<br/>`MISTRAL_API_KEY`<br/>`GOOGLE_API_KEY`<br/>`AZURE_OPENAI_API_KEY`<br/>`AWS_ACCESS_KEY_ID`<br/>`AWS_SECRET_KEY_ID`<br/>`AWS_DEFAULT_REGION`<br/>`AWS_CREDENTIALS_PROFILE_NAME` |
 
 
 #### Examples:
 <Tabs groupId="llm-provider">
-    <TabItem value="openai" label="Open AI" default>
+    <TabItem value="openai" label="OpenAI" default>
         Passing the API key to the `Config` class:
         ```python
         from portia import Config
@@ -201,6 +226,15 @@ The API keys for the LLM Providers can be set via `Config` class properties or e
         config = Config.from_default(azure_openai_api_key="sk-...", azure_openai_endpoint="https://...")
         ```
     </TabItem>
+    <TabItem value="amazon" label="Amazon Bedrock">
+        Passing the API key to the `Config` class:
+        ```python
+        from portia import Config
+
+        # NB You must provide (aws_access_key_id, aws_secret_access_key and aws_default_region) OR aws_credentials_profile_name.
+        config = Config.from_default(aws_access_key_id='..', aws_secret_access_key='...', ..)
+        ```
+    </TabItem>
 </Tabs>
 
 ### Model overrides
@@ -236,6 +270,7 @@ Examples:
 - `mistralai/mistral-large-latest`
 - `google/gemini-1.5-flash`
 - `azure-openai/gpt-4o`
+- `amazon/eu.anthropic.claude-3-7-sonnet-20250219-v1:0`
 :::
 
 #### Examples:
@@ -281,6 +316,14 @@ Examples:
         config = Config.from_default(default_model="azure-openai/gpt-4o")
         ```
     </TabItem>
+    <TabItem value="amazon" label="Amazon Bedrock">
+        Setting the default model by its name:
+        ```python
+        from portia import Config
+
+        config = Config.from_default(default_model="amazon/eu.anthropic.claude-3-7-sonnet-20250219-v1:0")
+        ```
+    </TabItem>
 </Tabs>
 
 Mixing and matching models from different providers. Make sure that the relevant API keys are set in the environment variables, or passed along with the model name:
@@ -305,7 +348,6 @@ You can replace the tool in the `DefaultToolRegistry` with your own instance of 
         ```python
         import dotenv
         from portia import Config, DefaultToolRegistry, LLMTool, Portia
-        from portia.model import OpenAIGenerativeModel
 
         dotenv.load_dotenv()
 
@@ -322,7 +364,6 @@ You can replace the tool in the `DefaultToolRegistry` with your own instance of 
         ```python
         import dotenv
         from portia import Config, DefaultToolRegistry, LLMTool, Portia
-        from portia.model import OpenAIGenerativeModel
 
         dotenv.load_dotenv()
 
@@ -339,7 +380,6 @@ You can replace the tool in the `DefaultToolRegistry` with your own instance of 
         ```python
         import dotenv
         from portia import Config, DefaultToolRegistry, LLMTool, Portia
-        from portia.model import OpenAIGenerativeModel
 
         dotenv.load_dotenv()
 
@@ -356,7 +396,6 @@ You can replace the tool in the `DefaultToolRegistry` with your own instance of 
         ```python
         import dotenv
         from portia import Config, DefaultToolRegistry, LLMTool, Portia
-        from portia.model import OpenAIGenerativeModel
 
         dotenv.load_dotenv()
 
@@ -373,7 +412,6 @@ You can replace the tool in the `DefaultToolRegistry` with your own instance of 
         ```python
         import dotenv
         from portia import Config, DefaultToolRegistry, LLMTool, Portia
-        from portia.model import OpenAIGenerativeModel
 
         dotenv.load_dotenv()
 
@@ -381,6 +419,22 @@ You can replace the tool in the `DefaultToolRegistry` with your own instance of 
 
         tool_registry = DefaultToolRegistry(config).replace_tool(
             LLMTool(model="azure-openai/gpt-4o")
+        )
+
+        portia = Portia(config=config, tools=tool_registry)
+        ```
+    </TabItem>
+    <TabItem value="amazon" label="Amazon Bedrock">
+        ```python
+        import dotenv
+        from portia import Config, DefaultToolRegistry, LLMTool, Portia
+
+        dotenv.load_dotenv()
+
+        config = Config.from_default()
+
+        tool_registry = DefaultToolRegistry(config).replace_tool(
+            LLMTool(model="amazon/eu.anthropic.claude-sonnet-4-20250514-v1:0")
         )
 
         portia = Portia(config=config, tools=tool_registry)
