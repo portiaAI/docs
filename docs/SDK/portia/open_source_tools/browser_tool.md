@@ -17,15 +17,6 @@ required, the tool will return an ActionClarification with the user guidance and
 If authentication is not required, the tool will return the task output. It uses
 (BrowserUse)[https://browser-use.com/] for the task navigation.
 
-#### convert\_model\_to\_browser\_use\_model
-
-```python
-def convert_model_to_browser_use_model(
-        model: GenerativeModel) -> BaseChatModel
-```
-
-Convert a Portia model to a BrowserUse model.
-
 ## BrowserToolForUrlSchema Objects
 
 ```python
@@ -262,27 +253,19 @@ Abstract base class for browser infrastructure providers.
 
 ```python
 @abstractmethod
-async def setup_browser(ctx: ToolRunContext) -> Browser
+def setup_browser(ctx: ToolRunContext) -> Browser
 ```
 
 Get a Browser instance.
 
 This is called at the start of every step using this tool.
 
-#### post\_agent\_run
-
-```python
-async def post_agent_run(ctx: ToolRunContext, browser: Browser) -> None
-```
-
-Called after the agent has been setup.
-
 #### construct\_auth\_clarification\_url
 
 ```python
 @abstractmethod
-async def construct_auth_clarification_url(ctx: ToolRunContext,
-                                           sign_in_url: str) -> HttpUrl
+def construct_auth_clarification_url(ctx: ToolRunContext,
+                                     sign_in_url: str) -> HttpUrl
 ```
 
 Construct the URL for the auth clarification.
@@ -291,7 +274,7 @@ Construct the URL for the auth clarification.
 
 ```python
 @abstractmethod
-async def step_complete(ctx: ToolRunContext) -> None
+def step_complete(ctx: ToolRunContext) -> None
 ```
 
 Call when the step is complete to e.g. release the session if needed.
@@ -316,7 +299,7 @@ Initialize the BrowserInfrastructureProviderLocal.
 #### setup\_browser
 
 ```python
-async def setup_browser(ctx: ToolRunContext) -> Browser
+def setup_browser(ctx: ToolRunContext) -> Browser
 ```
 
 Get a Browser instance.
@@ -333,19 +316,11 @@ Note: This provider does not support end_user_id.
 
 - `Browser` - A configured Browser instance for local browser automation.
 
-#### post\_agent\_run
-
-```python
-async def post_agent_run(ctx: ToolRunContext, browser: Browser) -> None
-```
-
-Called after the agent has been setup.
-
 #### construct\_auth\_clarification\_url
 
 ```python
-async def construct_auth_clarification_url(ctx: ToolRunContext,
-                                           sign_in_url: str) -> HttpUrl
+def construct_auth_clarification_url(ctx: ToolRunContext,
+                                     sign_in_url: str) -> HttpUrl
 ```
 
 Construct the URL for the auth clarification.
@@ -385,7 +360,7 @@ Get the path to the Chrome instance based on the operating system or env variabl
 #### step\_complete
 
 ```python
-async def step_complete(ctx: ToolRunContext) -> None
+def step_complete(ctx: ToolRunContext) -> None
 ```
 
 Call when the step is complete to e.g release the session.
