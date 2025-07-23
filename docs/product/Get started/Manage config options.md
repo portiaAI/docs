@@ -29,9 +29,9 @@ Options for setting the LLM provider are:
 
 | Option | Values |
 | - | - |
-| `LLMProvider` enum | `LLMProvider.OPENAI`<br/>`LLMProvider.ANTHROPIC`<br/>`LLMProvider.MISTRALAI`<br/>`LLMProvider.GOOGLE`<br/>`LLMProvider.AZURE_OPENAI`<br/>`LLMProvider.OLLAMA` |
-| Provider name (`str`) | `"openai"`<br/>`"anthropic"`<br/>`"mistralai"`<br/>`"google"`<br/>`"azure-openai"`<br/>`"ollama"` |
-| Inferred from environment variable | `OPENAI_API_KEY`<br/>`ANTHROPIC_API_KEY`<br/>`MISTRAL_API_KEY`<br/>`GOOGLE_API_KEY`<br/>`AZURE_OPENAI_API_KEY` |
+| `LLMProvider` enum | `LLMProvider.OPENAI`<br/>`LLMProvider.ANTHROPIC`<br/>`LLMProvider.MISTRALAI`<br/>`LLMProvider.GOOGLE`<br/>`LLMProvider.AZURE_OPENAI`<br/>`LLMProvider.OLLAMA` <br/>`LLMProvider.AMAZON`|
+| Provider name (`str`) | `"openai"`<br/>`"anthropic"`<br/>`"mistralai"`<br/>`"google"`<br/>`"azure-openai"`<br/>`"ollama"`br/>`"amazon"` |
+| Inferred from environment variable | `OPENAI_API_KEY`<br/>`ANTHROPIC_API_KEY`<br/>`MISTRAL_API_KEY`<br/>`GOOGLE_API_KEY`<br/>`AZURE_OPENAI_API_KEY`<br/>`AWS_ACCESS_KEY_ID`<br/>`AWS_SECRET_KEY_ID`<br/>`AWS_DEFAULT_REGION`<br/>`AWS_CREDENTIALS_PROFILE_NAME` |
 
 
 #### Examples:
@@ -162,10 +162,7 @@ Options for setting the LLM provider are:
         config = Config.from_default(llm_provider="amazon")
         ```
 
-        AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
-        AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
-        AWS_DEFAULT_REGION = os.getenv('AWS_DEFAULT_REGION')
-        Inferred from environment variables (if `AWS_ACCESS_KEY_ID`, 'AWS_SECRET_ACCESS_KEY' and 'AWS_DEFAULT_REGION' or 'AWS_CREDENTIALS_PROFILE_NAME'):
+        Inferred from environment variables (if `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` and `AWS_DEFAULT_REGION` OR `AWS_CREDENTIALS_PROFILE_NAME`):
         ```python
         from portia import LLMProvider, Config
 
