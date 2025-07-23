@@ -30,7 +30,7 @@ Options for setting the LLM provider are:
 | Option | Values |
 | - | - |
 | `LLMProvider` enum | `LLMProvider.OPENAI`<br/>`LLMProvider.ANTHROPIC`<br/>`LLMProvider.MISTRALAI`<br/>`LLMProvider.GOOGLE`<br/>`LLMProvider.AZURE_OPENAI`<br/>`LLMProvider.OLLAMA` <br/>`LLMProvider.AMAZON`|
-| Provider name (`str`) | `"openai"`<br/>`"anthropic"`<br/>`"mistralai"`<br/>`"google"`<br/>`"azure-openai"`<br/>`"ollama"`br/>`"amazon"` |
+| Provider name (`str`) | `"openai"`<br/>`"anthropic"`<br/>`"mistralai"`<br/>`"google"`<br/>`"azure-openai"`<br/>`"ollama"`<br/>`"amazon"` |
 | Inferred from environment variable | `OPENAI_API_KEY`<br/>`ANTHROPIC_API_KEY`<br/>`MISTRAL_API_KEY`<br/>`GOOGLE_API_KEY`<br/>`AZURE_OPENAI_API_KEY`<br/>`AWS_ACCESS_KEY_ID`<br/>`AWS_SECRET_KEY_ID`<br/>`AWS_DEFAULT_REGION`<br/>`AWS_CREDENTIALS_PROFILE_NAME` |
 
 
