@@ -68,7 +68,7 @@ Handle initializing the end_user based on the provided type.
 ```python
 def run(query: str,
         tools: list[Tool] | list[str] | None = None,
-        example_plans: list[Plan | PlanUUID | str] | None = None,
+        example_plans: Sequence[Plan | PlanUUID | str] | None = None,
         end_user: str | EndUser | None = None,
         plan_run_inputs: list[PlanInput] | list[dict[str, str]]
         | dict[str, str] | None = None,
@@ -85,7 +85,7 @@ This is the simplest way to plan and execute a query using the SDK.
 - `query` _str_ - The query to be executed.
 - `tools` _list[Tool] | list[str] | None_ - List of tools to use for the query.
   If not provided all tools in the registry will be used.
-- `example_plans` _list[Plan | PlanUUID | str] | None_ - Optional list of example
+- `example_plans` _Sequence[Plan | PlanUUID | str] | None_ - Optional list of example
   plans or plan IDs. This can include Plan objects, PlanUUID objects,
   or plan ID strings (starting with &quot;plan-&quot;). Plan IDs will be loaded from
   storage. If not provided, a default set of example plans will be used.
@@ -110,7 +110,7 @@ This is the simplest way to plan and execute a query using the SDK.
 ```python
 def plan(query: str,
          tools: list[Tool] | list[str] | None = None,
-         example_plans: list[Plan | PlanUUID | str] | None = None,
+         example_plans: Sequence[Plan | PlanUUID | str] | None = None,
          end_user: str | EndUser | None = None,
          plan_inputs: list[PlanInput] | list[dict[str, str]] | list[str]
          | None = None,
@@ -125,7 +125,7 @@ Plans how to do the query given the set of tools and any examples.
 - `query` _str_ - The query to generate the plan for.
 - `tools` _list[Tool] | list[str] | None_ - List of tools to use for the query.
   If not provided all tools in the registry will be used.
-- `example_plans` _list[Plan | PlanUUID | str] | None_ - Optional list of example
+- `example_plans` _Sequence[Plan | PlanUUID | str] | None_ - Optional list of example
   plans or plan IDs.
   This can include Plan objects, PlanUUID objects, or plan ID strings
   (starting with &quot;plan-&quot;). Plan IDs will be loaded from storage.
