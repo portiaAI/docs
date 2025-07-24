@@ -16,7 +16,9 @@ DefaultPlanningAgent class.
 #### \_\_init\_\_
 
 ```python
-def __init__(config: Config) -> None
+def __init__(config: Config,
+             planning_prompt: str | None = None,
+             retries: int = 3) -> None
 ```
 
 Init with the config.
@@ -25,6 +27,19 @@ Init with the config.
 
 ```python
 def generate_steps_or_error(
+        query: str,
+        tool_list: list[Tool],
+        end_user: EndUser,
+        examples: list[Plan] | None = None,
+        plan_inputs: list[PlanInput] | None = None) -> StepsOrError
+```
+
+Generate a plan or error using an LLM from a query and a list of tools.
+
+#### agenerate\_steps\_or\_error
+
+```python
+async def agenerate_steps_or_error(
         query: str,
         tool_list: list[Tool],
         end_user: EndUser,

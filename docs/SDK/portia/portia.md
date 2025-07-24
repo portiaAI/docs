@@ -153,6 +153,51 @@ Plans how to do the query given the set of tools and any examples.
 
 - `PlanError` - If there is an error while generating the plan.
 
+#### aplan
+
+```python
+async def aplan(query: str,
+                tools: list[Tool] | list[str] | None = None,
+                example_plans: list[Plan | PlanUUID | str] | None = None,
+                end_user: str | EndUser | None = None,
+                plan_inputs: list[PlanInput] | list[dict[str, str]] | list[str]
+                | None = None,
+                structured_output_schema: type[BaseModel] | None = None,
+                use_cached_plan: bool = False) -> Plan
+```
+
+Plans how to do the query given the set of tools and any examples asynchronously.
+
+**Arguments**:
+
+- `query` _str_ - The query to generate the plan for.
+- `tools` _list[Tool] | list[str] | None_ - List of tools to use for the query.
+  If not provided all tools in the registry will be used.
+- `example_plans` _list[Plan] | None_ - Optional list of example plans. If not
+  provide a default set of example plans will be used.
+- `end_user` _str | EndUser | None = None_ - The optional end user for this plan.
+- `plan_inputs` _list[PlanInput] | list[dict[str, str]] | list[str] | None_ - Optional list
+  of inputs required for the plan.
+  This can be a list of Planinput objects, a list of dicts with keys &quot;name&quot; and
+  &quot;description&quot; (optional), or a list of plan run input names. If a value is provided
+  with a PlanInput object or in a dictionary, it will be ignored as values are only
+  used when running the plan.
+- `structured_output_schema` _type[BaseModel] | None_ - The optional structured output schema
+  for the query. This is passed on to plan runs created from this plan but will be
+  not be stored with the plan itself if using cloud storage and must be re-attached
+  to the plan run if using cloud storage.
+- `use_cached_plan` _bool_ - Whether to use a cached plan if it exists.
+  
+
+**Returns**:
+
+- `Plan` - The plan for executing the query.
+  
+
+**Raises**:
+
+- `PlanError` - If there is an error while generating the plan.
+
 #### run\_plan
 
 ```python
