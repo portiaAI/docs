@@ -73,8 +73,8 @@ def wait_for_checks(
         check_runs = repo.get_commit(pr_head_sha).get_check_runs()
         
         # Filter out ignored checks
-        status_checks = [check for check in status_checks if check.context not in ignore_checks]
-        check_runs = [run for run in check_runs if run.name not in ignore_checks]
+        status_checks = [check for check in status_checks if check.context.lower() not in ignore_checks]
+        check_runs = [run for run in check_runs if run.name.lower() not in ignore_checks]
         
         # Count status checks by state
         status_total = len(status_checks)
