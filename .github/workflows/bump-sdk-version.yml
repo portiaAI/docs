@@ -194,12 +194,9 @@ jobs:
         if: steps.wait-for-checks.outputs.status == 'failure' || steps.wait-for-checks.outputs.status == 'timeout'
         uses: slackapi/slack-github-action@v1.24.0
         with:
-          channel-id: '${{ vars.SLACK_RUN_CHANNEL }}'
+          channel-id: '${{ vars.SLACK_GITHUB_ALERTS_CHANNEL }}'
           slack-message: |
             🚨 *Docs SDK Version Bump Failed*
-            
-            The automated docs SDK version bump PR has failed its checks.
-            
             *PR:* <https://github.com/${{ github.repository }}/pull/${{ steps.create-pr.outputs.pull-request-number }}|#${{ steps.create-pr.outputs.pull-request-number }}>
             *Workflow:* <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Run>
             
