@@ -147,7 +147,7 @@ jobs:
           channel-id: '${{ vars.SLACK_GITHUB_ALERTS_CHANNEL }}'
           slack-message: |
             🚨 *Docs SDK Version Bump Failed*
-            *Failing Checks:* <https://github.com/${{ github.repository }}/pull/${{ steps.create-pr.outputs.pull-request-number }}|#${{ steps.create-pr.outputs.pull-request-number }}/checks>
+            *Failing Checks:* <https://github.com/${{ github.repository }}/pull/${{ steps.create-pr.outputs.pull-request-number }}/checks|#${{ steps.create-pr.outputs.pull-request-number }}>
             *Triggering Workflow:* <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Run>
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
