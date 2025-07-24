@@ -114,7 +114,7 @@ jobs:
             --delete-branch \
             --admin \
             --subject "🤖 Merge: Bump SDK version to ${{ steps.get-latest-commit.outputs.latest_commit }}" \
-            --body "Automated merge of SDK version bump"; then
+            --body "Automated merge of SDK version bump"
             echo "PR #$PR_NUMBER merged successfully!"
         env:
           GH_TOKEN: ${{ secrets.DEPLOY_PAT_TOKEN }}
