@@ -12,7 +12,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-def overwrite_branch(repo_name: str, push: bool, target_branch: str, source_branch: str) -> None:
+def overwrite_branch(repo_name: str, push: bool, target_branch: str, source_branch: str, token: str) -> None:
     """Overwrites target branch with source branch head
     
     This is used to overwrite target branch with source branch head. This will force push
@@ -27,8 +27,7 @@ def overwrite_branch(repo_name: str, push: bool, target_branch: str, source_bran
     Returns:
         None
     """
-    github_token = os.getenv("DEPLOY_PAT_TOKEN")
-    github = Github(github_token)
+    github = Github(token)
     repo = github.get_repo(repo_name)
     source_ref = repo.get_branch(source_branch)
     
@@ -46,6 +45,7 @@ def main():
     parser.add_argument("--push", action="store_true", default=False)
     parser.add_argument("--target-branch", type=str, required=True)
     parser.add_argument("--source-branch", type=str, required=True)
+    parser.add_argument("--token", type=str, help="GitHub token")
     args = parser.parse_args()
 
     overwrite_branch(
@@ -53,6 +53,7 @@ def main():
         push=args.push,
         target_branch=args.target_branch,
         source_branch=args.source_branch,
+        token=args.token or os.getenv("DEPLOY_PAT_TOKEN")
     )
     
 if __name__ == "__main__":

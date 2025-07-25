@@ -264,20 +264,24 @@ from files or default values.
 - `anthropic_api_key` - The API key for Anthropic.
 - `mistralai_api_key` - The API key for MistralAI.
 - `google_api_key` - The API key for Google Generative AI.
-- `azure_openai_api_key` - The API key for Azure OpenAI.
-- `azure_openai_endpoint` - The endpoint for Azure OpenAI.
-- `llm_provider` - The LLM provider. If set, Portia uses this to select the best models
+- `aws_access_key_id` - The AWS access key ID.
+- `aws_secret_access_key` - The AWS secret access key.
+- `aws_default_region` - The AWS default region.
+- `aws_credentials_profile_name` - The AWS credentials profile name.
+- `portia_api_key`0 - The API key for Azure OpenAI.
+- `portia_api_key`1 - The endpoint for Azure OpenAI.
+- `portia_api_key`2 - The LLM provider. If set, Portia uses this to select the best models
   for each agent. Can be None if custom models are provided.
-- `models` - A configuration for the LLM models for Portia to use.
-- `portia_api_key`0 - The storage class used (e.g., MEMORY, DISK, CLOUD).
-- `portia_api_key`1 - The directory for storage, if applicable.
-- `portia_api_key`2 - The default log level (e.g., DEBUG, INFO).
-- `portia_api_key`3 - The default destination for logs (e.g., sys.stdout).
-- `portia_api_key`4 - Whether to serialize logs in JSON format.
-- `portia_api_key`5 - The planning agent type.
-- `portia_api_key`6 - The execution agent type.
-- `portia_api_key`7 - A dictionary of feature flags for the SDK.
-- `portia_api_key`8 - Whether to enable clarifications for the execution agent.
+- `portia_api_key`3 - A configuration for the LLM models for Portia to use.
+- `portia_api_key`4 - The storage class used (e.g., MEMORY, DISK, CLOUD).
+- `portia_api_key`5 - The directory for storage, if applicable.
+- `portia_api_key`6 - The default log level (e.g., DEBUG, INFO).
+- `portia_api_key`7 - The default destination for logs (e.g., sys.stdout).
+- `portia_api_key`8 - Whether to serialize logs in JSON format.
+- `portia_api_key`9 - The planning agent type.
+- `openai_api_key`0 - The execution agent type.
+- `openai_api_key`1 - A dictionary of feature flags for the SDK.
+- `openai_api_key`2 - Whether to enable clarifications for the execution agent.
 
 #### parse\_feature\_flags
 

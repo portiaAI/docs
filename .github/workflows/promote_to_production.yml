@@ -28,9 +28,8 @@ jobs:
             --repo-name "${{ github.repository }}" \
             --push \
             --target-branch "production" \
-            --source-branch "main"
-        env:
-          DEPLOY_PAT_TOKEN: ${{ secrets.DEPLOY_PAT_TOKEN }}
+            --source-branch "main" \
+            --token ${{ secrets.DEPLOY_PAT_TOKEN }}
 
       - name: Notify Slack on failure
         if: failure()

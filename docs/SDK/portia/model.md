@@ -121,6 +121,34 @@ Get a structured response from the model, given a Pydantic model.
 
 - `BaseModelT` - The structured response from the model.
 
+#### aget\_response
+
+```python
+@abstractmethod
+async def aget_response(messages: list[Message]) -> Message
+```
+
+Given a list of messages, call the model and return its response as a new message async.
+
+**Arguments**:
+
+- `messages` _list[Message]_ - The list of messages to send to the model.
+
+#### aget\_structured\_response
+
+```python
+@abstractmethod
+async def aget_structured_response(messages: list[Message],
+                                   schema: type[BaseModelT]) -> BaseModelT
+```
+
+Get a structured response from the model, given a Pydantic model asynchronously.
+
+**Arguments**:
+
+- `messages` _list[Message]_ - The list of messages to send to the model.
+- `schema` _type[BaseModelT]_ - The Pydantic model to use for the response.
+
 #### \_\_str\_\_
 
 ```python
@@ -203,6 +231,34 @@ Get structured response using LangChain model.
 
 - `BaseModelT` - The structured response from the model.
 
+#### aget\_response
+
+```python
+async def aget_response(messages: list[Message]) -> Message
+```
+
+Get response using LangChain model asynchronously.
+
+**Arguments**:
+
+- `messages` _list[Message]_ - The list of messages to send to the model.
+
+#### aget\_structured\_response
+
+```python
+async def aget_structured_response(messages: list[Message],
+                                   schema: type[BaseModelT],
+                                   **kwargs: Any) -> BaseModelT
+```
+
+Get structured response using LangChain model asynchronously.
+
+**Arguments**:
+
+- `messages` _list[Message]_ - The list of messages to send to the model.
+- `schema` _type[BaseModelT]_ - The Pydantic model to use for the response.
+- `**kwargs` - Additional keyword arguments to pass to the with_structured_output method.
+
 #### set\_cache
 
 ```python
@@ -272,6 +328,36 @@ def get_structured_response_instructor(messages: list[Message],
 
 Get structured response using instructor.
 
+#### aget\_structured\_response
+
+```python
+async def aget_structured_response(messages: list[Message],
+                                   schema: type[BaseModelT],
+                                   **kwargs: Any) -> BaseModelT
+```
+
+Call the model in structured output mode targeting the given Pydantic model.
+
+**Arguments**:
+
+- `messages` _list[Message]_ - The list of messages to send to the model.
+- `schema` _type[BaseModelT]_ - The Pydantic model to use for the response.
+- `**kwargs` - Additional keyword arguments to pass to the model.
+  
+
+**Returns**:
+
+- `BaseModelT` - The structured response from the model.
+
+#### aget\_structured\_response\_instructor
+
+```python
+async def aget_structured_response_instructor(
+        messages: list[Message], schema: type[BaseModelT]) -> BaseModelT
+```
+
+Get structured response using instructor asynchronously.
+
 ## AzureOpenAIGenerativeModel Objects
 
 ```python
@@ -335,6 +421,27 @@ def get_structured_response_instructor(messages: list[Message],
 ```
 
 Get structured response using instructor.
+
+#### aget\_structured\_response
+
+```python
+async def aget_structured_response(messages: list[Message],
+                                   schema: type[BaseModelT],
+                                   **kwargs: Any) -> BaseModelT
+```
+
+Call the model in structured output mode targeting the given Pydantic model.
+
+**Arguments**:
+
+- `messages` _list[Message]_ - The list of messages to send to the model.
+- `schema` _type[BaseModelT]_ - The Pydantic model to use for the response.
+- `**kwargs` - Additional keyword arguments to pass to the model.
+  
+
+**Returns**:
+
+- `BaseModelT` - The structured response from the model.
 
 ## AnthropicGenerativeModel Objects
 
@@ -403,6 +510,44 @@ def get_structured_response_instructor(messages: list[Message],
 ```
 
 Get structured response using instructor.
+
+#### aget\_response
+
+```python
+async def aget_response(messages: list[Message]) -> Message
+```
+
+Get response from Anthropic model asynchronously, handling list content.
+
+#### aget\_structured\_response
+
+```python
+async def aget_structured_response(messages: list[Message],
+                                   schema: type[BaseModelT],
+                                   **kwargs: Any) -> BaseModelT
+```
+
+Call the model in structured output mode targeting the given Pydantic model async.
+
+**Arguments**:
+
+- `messages` _list[Message]_ - The list of messages to send to the model.
+- `schema` _type[BaseModelT]_ - The Pydantic model to use for the response.
+- `**kwargs` - Additional keyword arguments to pass to the model.
+  
+
+**Returns**:
+
+- `BaseModelT` - The structured response from the model.
+
+#### aget\_structured\_response\_instructor
+
+```python
+async def aget_structured_response_instructor(
+        messages: list[Message], schema: type[BaseModelT]) -> BaseModelT
+```
+
+Get structured response using instructor asynchronously.
 
 #### map\_message\_to\_instructor
 
