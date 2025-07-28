@@ -116,6 +116,27 @@ This method must be implemented by subclasses to define the tool&#x27;s specific
 - `Any` - The result of the tool&#x27;s execution which can be any serializable type
   or a clarification.
 
+#### arun
+
+```python
+async def arun(ctx: ToolRunContext, *args: Any,
+               **kwargs: Any) -> SERIALIZABLE_TYPE_VAR | Clarification
+```
+
+Async run the tool.
+
+**Arguments**:
+
+- `ctx` _ToolRunContext_ - The context for the tool.
+- `*args` _Any_ - Additional positional arguments for the tool function.
+- `**kwargs` _Any_ - Additional keyword arguments for the tool function.
+  
+
+**Returns**:
+
+  SERIALIZABLE_TYPE_VAR | Clarification: The result of the tool&#x27;s execution which can be
+  any serializable type or a clarification.
+
 #### check\_description\_length
 
 ```python
@@ -149,7 +170,7 @@ Ensure the run method signature matches the args_schema.
 #### to\_langchain
 
 ```python
-def to_langchain(ctx: ToolRunContext) -> StructuredTool
+def to_langchain(ctx: ToolRunContext, sync: bool = True) -> StructuredTool
 ```
 
 Return a LangChain representation of this tool.
@@ -161,6 +182,7 @@ StructuredTool via a partial run function.
 **Arguments**:
 
 - `ctx` _ToolRunContext_ - The context for the tool.
+- `sync` _bool_ - Whether to use the sync or async version of the tool.
   
 
 **Returns**:
@@ -172,7 +194,8 @@ StructuredTool via a partial run function.
 #### to\_langchain\_with\_artifact
 
 ```python
-def to_langchain_with_artifact(ctx: ToolRunContext) -> StructuredTool
+def to_langchain_with_artifact(ctx: ToolRunContext,
+                               sync: bool = True) -> StructuredTool
 ```
 
 Return a LangChain representation of this tool with content and artifact.
@@ -184,6 +207,7 @@ StructuredTool via a partial run function for capturing output directly.
 **Arguments**:
 
 - `ctx` _ToolRunContext_ - The context for the tool.
+- `sync` _bool_ - Whether to use the sync or async version of the tool.
   
 
 **Returns**:
