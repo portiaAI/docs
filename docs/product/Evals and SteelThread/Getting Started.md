@@ -112,8 +112,6 @@ SteelThread().run_online(
 )
 ```
 
-> ✅ You can customize metrics, stub tools, or create new evaluators — see the docs for [writing custom metrics](./custom-metrics.md).
-
 ---
 
 ## ✅ You’re Set!

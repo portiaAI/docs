@@ -9,7 +9,7 @@ Steel Thread provides two built-in evaluators to help you get started quickly:
 - 🧠 `LLMJudgeOnlineEvaluator` for online evaluation using LLM-as-Judge
 - 🧪 `DefaultOfflineEvaluator` for assertion-based offline testing
 
-These evaluators provide baseline capabilities for scoring the quality of your agents’ plans and executions — and serve as a foundation you can extend with [custom evaluators](./custom-evaluators.md).
+These evaluators provide baseline capabilities for scoring the quality of your agents’ plans and executions — and serve as a foundation you can extend with custom evaluators.
 
 ---
 
