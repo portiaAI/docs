@@ -105,3 +105,11 @@ It raises errors if the tool encounters issues and returns the appropriate outpu
 - `ToolFailedError` - If there was a hard error with the tool.
 - `InvalidAgentOutputError` - If the output from the agent is invalid.
 
+#### is\_soft\_tool\_error
+
+```python
+def is_soft_tool_error(message: BaseMessage) -> bool
+```
+
+Check if the message is a soft tool error.
+
