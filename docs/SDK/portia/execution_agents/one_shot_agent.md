@@ -81,6 +81,26 @@ and past errors, then generates a response by invoking the model.
 
   dict[str, Any]: A dictionary containing the model&#x27;s generated response.
 
+#### ainvoke
+
+```python
+async def ainvoke(state: ExecutionState) -> dict[str, Any]
+```
+
+Async implementation of invoke.
+
+This method formats the input for the language model using the query, context,
+and past errors, then generates a response by invoking the model.
+
+**Arguments**:
+
+- `state` _ExecutionState_ - The state containing the messages and other necessary data.
+  
+
+**Returns**:
+
+  dict[str, Any]: A dictionary containing the model&#x27;s generated response.
+
 ## OneShotAgent Objects
 
 ```python
@@ -126,6 +146,20 @@ Initialize the OneShotAgent.
 
 ```python
 def execute_sync() -> Output
+```
+
+Run the core execution logic of the task.
+
+This method will invoke the tool with arguments
+
+**Returns**:
+
+- `Output` - The result of the agent&#x27;s execution, containing the tool call result.
+
+#### execute\_async
+
+```python
+async def execute_async() -> Output
 ```
 
 Run the core execution logic of the task.

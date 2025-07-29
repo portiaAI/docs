@@ -79,6 +79,22 @@ making it simple to write new ones.
 
 - `Output` - The output of the task execution.
 
+#### execute\_async
+
+```python
+async def execute_async() -> Output
+```
+
+Run the core execution logic of the task asynchronously.
+
+Implementation of this function is deferred to individual agent implementations,
+making it simple to write new ones. If not implemented, the agent will return a threaded
+version of the execute_sync method.
+
+**Returns**:
+
+- `Output` - The output of the task execution.
+
 #### get\_system\_context
 
 ```python
