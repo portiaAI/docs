@@ -44,3 +44,12 @@ def pre_step_introspection(plan: Plan,
 
 Ask the LLM whether to continue, skip or fail the plan_run.
 
+#### apre\_step\_introspection
+
+```python
+async def apre_step_introspection(plan: Plan,
+                                  plan_run: PlanRun) -> PreStepIntrospection
+```
+
+pre_step_introspection is introspection run before a plan happens..
+

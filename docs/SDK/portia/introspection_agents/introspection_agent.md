@@ -60,3 +60,12 @@ def pre_step_introspection(plan: Plan,
 
 pre_step_introspection is introspection run before a plan happens..
 
+#### apre\_step\_introspection
+
+```python
+async def apre_step_introspection(plan: Plan,
+                                  plan_run: PlanRun) -> PreStepIntrospection
+```
+
+pre_step_introspection is introspection run before a plan happens..
+
