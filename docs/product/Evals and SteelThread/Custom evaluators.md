@@ -32,6 +32,7 @@ Offline evaluators implement a single method:
 def eval_test_case(
     self,
     test_case: OfflineTestCase,
+    final_plan: Plan,
     final_plan_run: PlanRun,
     additional_data: PlanRunMetadata,
 ) -> list[Metric] | Metric | None:
@@ -47,7 +48,7 @@ from steelthread.offline_evaluators.evaluator import OfflineEvaluator, PlanRunMe
 from steelthread.metrics.metric import Metric
 
 class EmojiEvaluator(OfflineEvaluator):
-    def eval_test_case(self, test_case, final_plan_run, additional_data):
+    def eval_test_case(self, test_case, final_plan, final_plan_run, additional_data):
         output = final_plan_run.outputs.final_output.get_value()
         emoji_count = len(re.findall(r"[😀-🙏🚀-🛸🇦-🇿]", output))
 
@@ -92,7 +93,7 @@ class LLMJudge(OnlineEvaluator):
     def __init__(self, config):
         self.scorer = LLMMetricScorer(config)
 
-    def eval_plan_run(self, plan_run):
+    def eval_plan_run(self, plan, plan_run):
         return self.scorer.score(
             task_data=[plan_run.model_dump_json()],
             metrics_to_score=[

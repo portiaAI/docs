@@ -52,7 +52,7 @@ from steelthread.online_evaluators.llm_as_judge import LLMJudgeOnlineEvaluator
 
 evaluator = LLMJudgeOnlineEvaluator(config)
 plan_metrics = evaluator.eval_plan(plan)
-run_metrics = evaluator.eval_plan_run(plan_run)
+run_metrics = evaluator.eval_plan_run(plan, plan_run)
 ````
 
 ---
@@ -95,7 +95,7 @@ Use this when:
 from steelthread.offline_evaluators.default_evaluator import DefaultOfflineEvaluator
 
 evaluator = DefaultOfflineEvaluator(config)
-metrics = evaluator.eval_test_case(test_case, plan_run, metadata)
+metrics = evaluator.eval_test_case(test_case, plan, plan_run, metadata)
 ```
 
 ---

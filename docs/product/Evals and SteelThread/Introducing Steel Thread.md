@@ -123,7 +123,7 @@ from steelthread.offline_evaluators.evaluator import OfflineEvaluator
 from steelthread.metrics.metric import Metric
 
 class MyEvaluator(OfflineEvaluator):
-    def eval_test_case(self, test_case, plan_run, metadata):
+    def eval_test_case(self, test_case, plan, plan_run, metadata):
         return Metric(name="custom", score=1.0, description="Always passes!")
 ```
 
