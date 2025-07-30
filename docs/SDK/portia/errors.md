@@ -35,6 +35,28 @@ class PortiaBaseError(Exception)
 
 Base class for all our errors.
 
+## SkipExecutionError Objects
+
+```python
+class SkipExecutionError(PortiaBaseError)
+```
+
+Raised when a Portia execution should be stopped or a step should be skipped.
+
+#### \_\_init\_\_
+
+```python
+def __init__(reason: str, should_return: bool = False) -> None
+```
+
+Set custom error message.
+
+**Arguments**:
+
+- `reason` _str_ - The reason for skipping the step.
+- `should_return` _bool_ - Whether to return the plan run and stop execution entirely,
+  or just skip the step.
+
 ## ConfigNotFoundError Objects
 
 ```python
