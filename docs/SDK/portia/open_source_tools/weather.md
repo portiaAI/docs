@@ -29,3 +29,11 @@ def run(_: ToolRunContext, city: str) -> str
 
 Run the WeatherTool.
 
+#### arun
+
+```python
+async def arun(_: ToolRunContext, city: str) -> str
+```
+
+Run the WeatherTool asynchronously.
+

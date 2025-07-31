@@ -49,3 +49,13 @@ def run(ctx: ToolRunContext,
 
 Run the LLMTool.
 
+#### arun
+
+```python
+async def arun(ctx: ToolRunContext,
+               task: str,
+               task_data: list[Any] | str | None = None) -> str | BaseModel
+```
+
+Run the LLMTool asynchronously.
+

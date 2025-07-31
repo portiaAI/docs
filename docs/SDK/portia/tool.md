@@ -406,6 +406,14 @@ Invoke the tool by dispatching to the MCP server.
 
 - `str` - The result of the tool call
 
+#### arun
+
+```python
+async def arun(_: ToolRunContext, **kwargs: Any) -> str
+```
+
+Invoke the tool by dispatching to the MCP server asynchronously.
+
 #### call\_remote\_mcp\_tool
 
 ```python

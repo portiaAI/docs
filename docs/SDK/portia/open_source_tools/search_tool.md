@@ -29,3 +29,11 @@ def run(_: ToolRunContext, search_query: str) -> str
 
 Run the Search Tool.
 
+#### arun
+
+```python
+async def arun(_: ToolRunContext, search_query: str) -> str
+```
+
+Run the Search Tool asynchronously.
+
