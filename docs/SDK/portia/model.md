@@ -149,6 +149,16 @@ Get a structured response from the model, given a Pydantic model asynchronously.
 - `messages` _list[Message]_ - The list of messages to send to the model.
 - `schema` _type[BaseModelT]_ - The Pydantic model to use for the response.
 
+#### get\_context\_window\_size
+
+```python
+def get_context_window_size() -> int
+```
+
+Get the context window size of the model.
+
+Falls back to 100k tokens if the model is not found.
+
 #### \_\_str\_\_
 
 ```python
