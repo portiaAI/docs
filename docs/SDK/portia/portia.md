@@ -105,6 +105,48 @@ This is the simplest way to plan and execute a query using the SDK.
 
 - `PlanRun` - The run resulting from executing the query.
 
+#### arun
+
+```python
+async def arun(query: str,
+               tools: list[Tool] | list[str] | None = None,
+               example_plans: Sequence[Plan | PlanUUID | str] | None = None,
+               end_user: str | EndUser | None = None,
+               plan_run_inputs: list[PlanInput] | list[dict[str, str]]
+               | dict[str, str] | None = None,
+               structured_output_schema: type[BaseModel] | None = None,
+               use_cached_plan: bool = False) -> PlanRun
+```
+
+End-to-end function to generate a plan and then execute it.
+
+This is the simplest way to plan and execute a query using the SDK.
+
+**Arguments**:
+
+- `query` _str_ - The query to be executed.
+- `tools` _list[Tool] | list[str] | None_ - List of tools to use for the query.
+  If not provided all tools in the registry will be used.
+- `example_plans` _Sequence[Plan | PlanUUID | str] | None_ - Optional list of example
+  plans or plan IDs. This can include Plan objects, PlanUUID objects,
+  or plan ID strings (starting with &quot;plan-&quot;). Plan IDs will be loaded from
+  storage. If not provided, a default set of example plans will be used.
+- `end_user` _str | EndUser | None = None_ - The end user for this plan run.
+  plan_run_inputs (list[PlanInput] | list[dict[str, str]] | dict[str, str] | None):
+  Provides input values for the run. This can be a list of PlanInput objects, a list
+  of dicts with keys &quot;name&quot;, &quot;description&quot; (optional) and &quot;value&quot;, or a dict of
+  plan run input name to value.
+- `structured_output_schema` _type[BaseModel] | None_ - The optional structured output schema
+  for the query. This is passed on to plan runs created from this plan but will not be
+  stored with the plan itself if using cloud storage and must be re-attached to the
+  plan run if using cloud storage.
+- `use_cached_plan` _bool_ - Whether to use a cached plan if it exists.
+  
+
+**Returns**:
+
+- `PlanRun` - The run resulting from executing the query.
+
 #### plan
 
 ```python
@@ -158,7 +200,7 @@ Plans how to do the query given the set of tools and any examples.
 ```python
 async def aplan(query: str,
                 tools: list[Tool] | list[str] | None = None,
-                example_plans: list[Plan | PlanUUID | str] | None = None,
+                example_plans: Sequence[Plan | PlanUUID | str] | None = None,
                 end_user: str | EndUser | None = None,
                 plan_inputs: list[PlanInput] | list[dict[str, str]] | list[str]
                 | None = None,
@@ -230,6 +272,38 @@ Run a plan.
 
 - `PlanRun` - The resulting PlanRun object.
 
+#### arun\_plan
+
+```python
+async def arun_plan(
+        plan: Plan | PlanUUID | UUID,
+        end_user: str | EndUser | None = None,
+        plan_run_inputs: list[PlanInput]
+    | list[dict[str, Serializable]]
+    | dict[str, Serializable]
+    | None = None,
+        structured_output_schema: type[BaseModel] | None = None) -> PlanRun
+```
+
+Run a plan asynchronously.
+
+**Arguments**:
+
+- `plan` _Plan | PlanUUID | UUID_ - The plan to run, or the ID of the plan to load from
+  storage.
+- `end_user` _str | EndUser | None = None_ - The end user to use.
+  plan_run_inputs (list[PlanInput] | list[dict[str, Serializable]] | dict[str, Serializable] | None):
+  Provides input values for the run. This can be a list of PlanInput objects, a list
+  of dicts with keys &quot;name&quot;, &quot;description&quot; (optional) and &quot;value&quot;, or a dict of
+  plan run input name to value.
+- `structured_output_schema` _type[BaseModel] | None_ - The optional structured output schema
+  for the plan run. This is passed on to plan runs created from this plan but will be
+  
+
+**Returns**:
+
+- `PlanRun` - The resulting PlanRun object.
+
 #### resume
 
 ```python
@@ -262,11 +336,52 @@ by the caller before the plan run is resumed.
 - `ValueError` - If neither plan_run nor plan_run_id is provided.
 - `InvalidPlanRunStateError` - If the plan run is not in a valid state to be resumed.
 
+#### aresume
+
+```python
+async def aresume(plan_run: PlanRun | None = None,
+                  plan_run_id: PlanRunUUID | str | None = None) -> PlanRun
+```
+
+Resume a PlanRun.
+
+If a clarification handler was provided as part of the execution hooks, it will be used
+to handle any clarifications that are raised during the execution of the plan run.
+If no clarification handler was provided and a clarification is raised, the run will be
+returned in the `NEED_CLARIFICATION` state. The clarification will then need to be handled
+by the caller before the plan run is resumed.
+
+**Arguments**:
+
+- `plan_run` _PlanRun | None_ - The PlanRun to resume. Defaults to None.
+- `plan_run_id` _RunUUID | str | None_ - The ID of the PlanRun to resume. Defaults to
+  None.
+  
+
+**Returns**:
+
+- `PlanRun` - The resulting PlanRun after execution.
+  
+
+**Raises**:
+
+- `ValueError` - If neither plan_run nor plan_run_id is provided.
+- `InvalidPlanRunStateError` - If the plan run is not in a valid state to be resumed.
+
 #### execute\_plan\_run\_and\_handle\_clarifications
 
 ```python
 def execute_plan_run_and_handle_clarifications(plan: Plan,
                                                plan_run: PlanRun) -> PlanRun
+```
+
+Execute a plan run and handle any clarifications that are raised.
+
+#### aexecute\_plan\_run\_and\_handle\_clarifications
+
+```python
+async def aexecute_plan_run_and_handle_clarifications(
+        plan: Plan, plan_run: PlanRun) -> PlanRun
 ```
 
 Execute a plan run and handle any clarifications that are raised.
