@@ -144,9 +144,9 @@ Async run the tool.
 def check_description_length() -> Self
 ```
 
-Check that the description is less than 1024 characters.
+Check that the description is less than 16384 characters.
 
-OpenAI has a maximum function description length of 1024 characters. This validator
+OpenAI has a maximum function description length of 16384 characters. This validator
 ensures that the tool description does not exceed this limit.
 
 **Returns**:
