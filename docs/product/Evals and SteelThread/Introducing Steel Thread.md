@@ -1,5 +1,5 @@
 ---
-sidebar_position: 3
+sidebar_position: 2
 slug: /steel-thread-intro
 ---
 
@@ -7,7 +7,10 @@ slug: /steel-thread-intro
 
 Steel Thread is a lightweight, extensible framework for evaluating LLM agents — designed to help teams measure quality, catch regressions, and improve performance with minimal friction.
 
-It supports **offline** and **online evals**, integrates deeply with Portia Cloud, and is built from the ground up for **real-world agentic workflows**.
+Steel Thread is built around two core abstractions:
+
+- **Evals** are static data sets designed to be run multiple times to allow you to analyze the impact of changes to your agents before deploying them.
+- **Streams** on the other are dynamic datasets that sample real plans and plan runs in production allowing you to monitor performance on real problems. 
 
 ---
 
@@ -46,14 +49,14 @@ Steel Thread helps you answer the question:
 
 It does this by providing:
 
-### ✅ Offline Evals
+### 📈 Evals
 Run against curated static datasets. Useful for:
 - Iterating on prompts
 - Testing new toolchains
 - Benchmarking models
 - Catching regressions before deployment
 
-### 📈 Online Evals
+### 🏞️ Streams
 Run against your live or recent production runs. Useful for:
 - Monitoring quality in real usage
 - Tracking performance across time or model changes
@@ -95,7 +98,7 @@ Steel Thread is designed to be modular:
 - ✅ Drop in custom metrics
 - 🛠️ Stub or override tool behavior
 - 🔄 Run in CI or ad hoc from the CLI
-- 🔍 Mix and match online and offline strategies
+- 🔍 Mix and match eval and stream strategies
 - 📊 Save metrics wherever you like — log, database, dashboard
 
 It plays well with teams at any stage of maturity — whether you’re just getting started with agents or deploying them in production.
@@ -107,23 +110,35 @@ It plays well with teams at any stage of maturity — whether you’re just gett
 Once installed, you can start running evals in just a few lines:
 
 ```python
-from steelthread.steelthread import SteelThread, OnlineEvalConfig
+from steelthread.steelthread import SteelThread, EvalConfig
 from portia import Config
 
 config = Config.from_default()
-SteelThread().run_online(
-    OnlineEvalConfig(data_set_name="prod-evals", config=config)
+st = SteelThread()
+
+portia = Portia(config)
+st.run_evals(
+    portia,
+    EvalConfig(
+        eval_dataset_name="evals_v1",
+        config=config,
+        iterations=4,
+    ),
 )
+
 ````
 
-Or, define a custom offline dataset with your own metrics and stubs:
+Or, define a custom eval dataset with your own metrics and stubs:
 
 ```python
-from steelthread.offline_evaluators.evaluator import OfflineEvaluator
-from steelthread.metrics.metric import Metric
-
-class MyEvaluator(OfflineEvaluator):
-    def eval_test_case(self, test_case, plan, plan_run, metadata):
+class Evaluator(Evaluator):
+    def eval_test_case(
+        self,
+        test_case: EvalTestCase,
+        final_plan: Plan,
+        final_plan_run: PlanRun,
+        additional_data: PlanRunMetadata, 
+    ) -> list[EvalMetric] | EvalMetric | None:
         return Metric(name="custom", score=1.0, description="Always passes!")
 ```
 

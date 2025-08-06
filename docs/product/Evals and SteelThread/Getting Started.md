@@ -1,5 +1,5 @@
 ---
-sidebar_position: 4
+sidebar_position: 3
 slug: /steelthread-getting-started
 ---
 
@@ -27,24 +27,24 @@ To use Steel Thread, you need data from your agent runs. This means integrating 
 
 ## 2️⃣ Create a Dataset to Evaluate
 
-There are two types of datasets that can be created via the UI.
+There are two types of monitoring that can be created via the UI.
 
-### 📦 Offline Dataset
+### 📦 Eval Dataset
 
 Use this to create a static, repeatable set of evals.
 
-- In the Portia UI, create a new [Offline Eval Set](https://app.portialabs.ai/dashboard/evals/new) with a distinct name e.g.`offline_evals_v1`.
+- In the Portia UI, create a new [Eval Set](https://app.portialabs.ai/dashboard/evals) with a distinct name e.g.`evals_v1`.
 - Add new test cases to the newly created dataset using the `Add to Dataset` wizard.
 
 ---
 
-### 🌐 Online Dataset
+### 🌐 Stream
 
 Use this to continuously evaluate production runs.
 
-- In the Portia UI, create a new [Online Eval Set](https://app.portialabs.ai/dashboard/evals/new) with a distinct name e.g.`online_evals_v1`.
+- In the Portia UI, create a new [Stream](https://app.portialabs.ai/dashboard/streams) with a distinct name e.g.`stream_v1`.
 - Test cases will be automatically sampled based on the config you provide.
-- [n.b.] Online Datasets only sample data after creation, so you will need to generate new data after creating the dataset.
+- [n.b.] Streams only sample data after creation, so you will need to generate new data after creating the dataset.
 
 ---
 
@@ -78,38 +78,34 @@ export AZURE_OPENAI_ENDPOINT=""
 
 Then, run your evals:
 
-### 🧪 Offline Example
+### 🧪 Eval Example
 
 ```python
-from portia import Config, Portia
-from steelthread.steelthread import SteelThread, OfflineEvalConfig
-
 config = Config.from_default()
+st = SteelThread()
 
-SteelThread().run_offline(
-    Portia(config),
-    OfflineEvalConfig(
-        data_set_name="offline_evals_v1",
+portia = Portia(config)
+st.run_evals(
+    portia,
+    EvalConfig(
+        eval_dataset_name="evals_v1",
         config=config,
-        iterations=3,
+        iterations=4,
     ),
 )
 ```
 
-### 📈 Online Example
+### 📈 Stream Example
 
 ```python
-from portia import Config
-from steelthread.steelthread import SteelThread, OnlineEvalConfig
-
 config = Config.from_default()
+st = SteelThread()
 
-SteelThread().run_online(
-    OnlineEvalConfig(
-        data_set_name="prod_online_evals",
-        config=config,
-    )
+# Process stream
+st.process_stream(
+    StreamConfig(stream_name="stream_v1", config=config)
 )
+
 ```
 
 ---
@@ -118,7 +114,7 @@ SteelThread().run_online(
 
 Once you're running evals, you can:
 
-* View metrics in your terminal or save them to dashboards
+* View metrics in your terminal and view them in the UI
 * Catch regressions before they ship
 * Monitor live agent quality in production
 * Iterate faster with confidence
