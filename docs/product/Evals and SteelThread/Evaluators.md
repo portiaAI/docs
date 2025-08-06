@@ -57,16 +57,16 @@ run_metrics = evaluator.eval_plan_run(plan, plan_run)
 
 ---
 
-## 🧪 Offline: DefaultOfflineEvaluator
+## 🧪 Evals: DefaultEvaluator
 
-Offline evaluation is **assertion-based**. You define what should happen in each test case, and the `DefaultOfflineEvaluator` checks whether that actually occurred.
+Evals are **assertion-based**. You define what should happen in each test case, and the `DefaultEvaluator` checks whether that actually occurred.
 
 ### ✅ When to Use It
 
 Use this when:
 
 * You want **precise, rule-based tests** (like latency thresholds or tool usage).
-* You’re running **Offline Evals** against fixed datasets.
+* You’re running **Evals** against fixed datasets.
 
 ### 📐 Supported Assertion Types
 
@@ -92,9 +92,7 @@ Use this when:
 ### 🧪 Example
 
 ```python
-from steelthread.offline_evaluators.default_evaluator import DefaultOfflineEvaluator
-
-evaluator = DefaultOfflineEvaluator(config)
+evaluator = DefaultEvaluator(config)
 metrics = evaluator.eval_test_case(test_case, plan, plan_run, metadata)
 ```
 
@@ -136,7 +134,7 @@ Evaluators implement a single method:
 ```python
 def eval_test_case(
     self,
-    test_case: OfflineTestCase,
+    test_case: TestCase,
     final_plan: Plan,
     final_plan_run: PlanRun,
     additional_data: PlanRunMetadata,
@@ -148,12 +146,15 @@ Return one or more `Metric` objects with a `score`, `name`, and optional `descri
 ### ✅ Example: Emoji Scorer
 
 ```python
-import re
-from steelthread.offline_evaluators.evaluator import OfflineEvaluator, PlanRunMetadata
-from steelthread.metrics.metric import Metric
 
 class EmojiEvaluator(Evaluator):
-    def eval_test_case(self, test_case, final_plan, final_plan_run, additional_data):
+    def eval_test_case(
+        self,
+        test_case: EvalTestCase,
+        final_plan: Plan,  
+        final_plan_run: PlanRun,
+        additional_data: PlanRunMetadata,  
+    ) -> list[EvalMetric] | EvalMetric | None:
         output = final_plan_run.outputs.final_output.get_value()
         emoji_count = len(re.findall(r"[😀-🙏🚀-🛸🇦-🇿]", output))
 
@@ -214,7 +215,7 @@ To use your evaluator, pass it to the runner:
 SteelThread().run_evals(
     portia,
     EvalConfig(
-        eval_dataset_name="offline_v1",
+        eval_dataset_name="evals_v1",
         config=config,
         evaluators=[MyCustomEvaluator(config)],
     ),

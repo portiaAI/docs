@@ -63,7 +63,7 @@ This makes your tests:
 
 Use tool stubs when:
 
-- You're writing **offline evaluations**
+- You're writing **evals**
 - The tool response **affects the plan or output**
 - You want **consistent scoring** across iterations
 
@@ -142,7 +142,7 @@ portia = Portia(
 )
 ```
 
-With the stubbed tool in place, your offline evals will be clean, fast, and reproducible.
+With the stubbed tool in place, your evals will be clean, fast, and reproducible.
 
 ---
 
