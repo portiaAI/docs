@@ -133,7 +133,7 @@ portia = Portia(tools=tool_registry)
 
 ### Custom tools
 
-As outlined in the <a href="/mcp-servers" target="_blank">Introduction to tools ↗</a>, it is easy to define your own tools in python code with Portia. In (<a href="/adding-custom-tools" target="_blank">**Adding custom tools ↗**</a>), we'll walk through how to do this in more detail by creating our own tool registries with custom tools.
+As outlined in the <a href="/mcp-servers" target="_blank">Introduction to tools ↗</a>, it is easy to define your own tools in python code with Portia. In (<a href="/add-custom-tools" target="_blank">**Adding custom tools ↗**</a>), we'll walk through how to do this in more detail by creating our own tool registries with custom tools.
 
 ## Filtering tool registries
 
