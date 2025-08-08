@@ -110,7 +110,8 @@ It plays well with teams at any stage of maturity — whether you’re just gett
 Once installed, you can start running evals in just a few lines:
 
 ```python
-from steelthread.steelthread import SteelThread, EvalConfig
+from steelthread.steelthread import SteelThread,
+from steelthread.evals import EvalConfig
 from portia import Config
 
 config = Config.from_default()
@@ -126,20 +127,29 @@ st.run_evals(
     ),
 )
 
-````
+```
 
 Or, define a custom eval dataset with your own metrics and stubs:
 
 ```python
-class Evaluator(Evaluator):
+from portia import Plan, PlanRun
+
+from steelthread.evals import EvalMetric, EvalTestCase, Evaluator, PlanRunMetadata
+
+class MyEvaluator(Evaluator):
     def eval_test_case(
         self,
         test_case: EvalTestCase,
         final_plan: Plan,
         final_plan_run: PlanRun,
-        additional_data: PlanRunMetadata, 
+        additional_data: PlanRunMetadata,
     ) -> list[EvalMetric] | EvalMetric | None:
-        return Metric(name="custom", score=1.0, description="Always passes!")
+        return EvalMetric.from_test_case(
+            test_case=test_case,
+            name="custom",
+            score=1.0,
+            description="Always passes!",
+        )
 ```
 
 ---

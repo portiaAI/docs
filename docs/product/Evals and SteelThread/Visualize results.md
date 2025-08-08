@@ -5,7 +5,7 @@ slug: /st-results
 
 # 📈 Visualize Eval Results
 
-Results from both Streams and Evals are pushed to the Portia UI for visualization.
+Results from both Streams and Evals are pushed to the Portia UI for visualization. This allows you to quickly see trends over time and to drill into why metrics may have changed. 
 
 ## Evals
 
@@ -29,13 +29,17 @@ Finally clicking on a specific test case will show you the details of each metri
 
 Stream metrics are likewise pushed to the UI. 
 
-Clicking on any stream will show the latest metrics for it grouped by day to show you the performance of the stream over time.
+Clicking on any stream will show the latest metrics for it grouped by the time of run to show you the performance of the stream over time.
 
-![Stream Metrics](/img/stream.png)
+![Stream Metrics](/img/stream_metrics_1.png)
 
-You can also drill down into the analysis by looking at tags.
+You can also drill down into the analysis by clicking on any row in the table to see a detailed breakdown of the individual plan or plan runs that were processed.
 
-![Stream Grouped Metrics](/img/stream_grouped.png)
+![Stream Grouped Metrics](/img/stream_metrics_2.png)
+
+Finally clicking on an individual plan or plan run will show all the specific metrics for that plan run allowing you to see the explanation for scores.
+
+![Stream Grouped Metrics](/img/stream_metrics_3.png)
 
 
 ## Custom Backends
@@ -61,5 +65,5 @@ class MyMetricsBackend(StreamMetricsBackend):
     def save_metrics(self, metrics: list[StreamMetric]) -> None:
         return    
 
-conf = StreamConfig(stream_name="stream_v1", config=config, metrics_backends=[MyMetricsBackend])
+conf = StreamConfig(stream_name="stream_v1", config=config, metrics_backends=[MyMetricsBackend()])
 ```

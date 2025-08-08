@@ -81,6 +81,10 @@ Then, run your evals:
 ### 🧪 Eval Example
 
 ```python
+from portia import Config, Portia
+from steelthread import SteelThread
+from steelthread.evals import EvalConfig
+
 config = Config.from_default()
 st = SteelThread()
 
@@ -98,6 +102,11 @@ st.run_evals(
 ### 📈 Stream Example
 
 ```python
+from portia import Config, Portia
+from steelthread import SteelThread
+from steelthread.streams import StreamConfig
+
+
 config = Config.from_default()
 st = SteelThread()
 

@@ -50,6 +50,13 @@ These metrics are scored by passing your plan/run JSON to an LLM and asking it t
 ### 🧪 Example
 
 ```python
+from portia import Config
+from steelthread.streams import LLMJudgeEvaluator
+
+config = Config.from_default(
+    default_log_level=LogLevel.CRITICAL,
+)
+
 evaluator = LLMJudgeEvaluator(config)
 plan_metrics = evaluator.eval_plan(plan)
 run_metrics = evaluator.eval_plan_run(plan, plan_run)
@@ -92,6 +99,13 @@ Use this when:
 ### 🧪 Example
 
 ```python
+from portia import Config
+from steelthread.evals import DefaultEvaluator
+
+config = Config.from_default(
+    default_log_level=LogLevel.CRITICAL,
+)
+
 evaluator = DefaultEvaluator(config)
 metrics = evaluator.eval_test_case(test_case, plan, plan_run, metadata)
 ```
@@ -132,20 +146,26 @@ You can plug in your evaluator to any **EvalConfig** or **StreamConfig** — jus
 Evaluators implement a single method:
 
 ```python
+from portia import Plan, PlanRun
+from steelthread.evals import EvalTestCase, EvalMetric, PlanRunMetadata
+
 def eval_test_case(
     self,
-    test_case: TestCase,
+    test_case: EvalTestCase,
     final_plan: Plan,
     final_plan_run: PlanRun,
     additional_data: PlanRunMetadata,
-) -> list[Metric] | Metric | None:
+) -> list[EvalMetric] | EvalMetric | None:
 ```
 
-Return one or more `Metric` objects with a `score`, `name`, and optional `description`.
+Return one or more `EvalMetric` objects with a `score`, `name`, and optional `description`.
 
 ### ✅ Example: Emoji Scorer
 
 ```python
+import re
+from portia import Plan, PlanRun
+from steelthread.evals import Evaluator, EvalTestCase, PlanRunMetadata, EvalMetric
 
 class EmojiEvaluator(Evaluator):
     def eval_test_case(
@@ -155,13 +175,28 @@ class EmojiEvaluator(Evaluator):
         final_plan_run: PlanRun,
         additional_data: PlanRunMetadata,  
     ) -> list[EvalMetric] | EvalMetric | None:
-        output = final_plan_run.outputs.final_output.get_value()
-        emoji_count = len(re.findall(r"[😀-🙏🚀-🛸🇦-🇿]", output))
+        string_to_score = (
+            f"{final_plan_run.outputs.final_output.get_value()}"
+            if final_plan_run.outputs.final_output
+            else ""
+        )
+        emoji_pattern = re.compile(
+            "[\U0001f600-\U0001f64f"  # emoticons
+            "\U0001f300-\U0001f5ff"  # symbols & pictographs
+            "\U0001f680-\U0001f6ff"  # transport & map symbols
+            "\U0001f1e0-\U0001f1ff"  # flags
+            "]+",
+            flags=re.UNICODE,
+        )
+
+        emojis = emoji_pattern.findall(string_to_score)
+        emoji_count = len(emojis)
 
         expected = int(test_case.get_custom_assertion("expected_emojis") or 2)
         score = min(emoji_count / expected, 1.0)
 
-        return Metric(
+        return EvalMetric.from_test_case(
+            test_case=test_case,
             name="emoji_score",
             score=score,
             description=f"Target: {expected}, Found: {emoji_count}",
@@ -177,11 +212,13 @@ class EmojiEvaluator(Evaluator):
 Stream evaluators implement two methods:
 
 ```python
-def eval_plan(self, plan: Plan) -> list[Metric] | Metric:
-    ...
+from steelthread.streams import PlanStreamItem, PlanRunStreamItem, StreamMetric,
+class MyStreamEvaluator(StreamEvaluator):
+    def process_plan(self, stream_item: PlanStreamItem) -> list[StreamMetric] | StreamMetric:
+        ...
 
-def eval_plan_run(self, plan_run: PlanRun) -> list[Metric] | Metric | None:
-    ...
+    def process_plan_run(self, stream_item: PlanRunStreamItem) -> list[StreamMetric] | StreamMetric | None:
+        ...
 ```
 
 Use these to evaluate live data, such as new plans generated in production.
@@ -191,17 +228,21 @@ Use these to evaluate live data, such as new plans generated in production.
 You can use an LLM to score plan runs automatically:
 
 ```python
+from steelthread.streams import StreamEvaluator
+from steelthread.utils.llm import LLMScorer, MetricOnly
+
+
 class LLMJudge(StreamEvaluator):
     def __init__(self, config):
-        self.scorer = LLMMetricScorer(config)
+        self.scorer = LLMScorer(config)
 
     def eval_plan_run(self, plan, plan_run):
         return self.scorer.score(
             task_data=[plan_run.model_dump_json()],
             metrics_to_score=[
-                Metric(name="success", description="Goal met", score=0),
-                Metric(name="efficiency", description="Minimal steps", score=0),
-            ]
+                MetricOnly(name="success", description="Goal met"),
+                MetricOnly(name="efficiency", description="Minimal steps"),
+            ],
         )
 ```
 
@@ -212,6 +253,9 @@ class LLMJudge(StreamEvaluator):
 To use your evaluator, pass it to the runner:
 
 ```python
+from steelthread import SteelThread
+from steelthread.evals import EvalConfig
+
 SteelThread().run_evals(
     portia,
     EvalConfig(
@@ -225,6 +269,9 @@ SteelThread().run_evals(
 Or for streams:
 
 ```python
+from steelthread import SteelThread
+from steelthread.streams import StreamConfig
+
 SteelThread().process_stream(
     StreamConfig(
         stream_name="prod_runs",
@@ -233,22 +280,6 @@ SteelThread().process_stream(
     ),
 )
 ```
-
----
-
-## 📏 Reminder: What is a Metric?
-
-A `Metric` is just a structured score:
-
-```python
-Metric(
-    name="final_output_match",
-    score=0.85,
-    description="Matches expected summary with minor differences",
-)
-```
-
-Scores should be normalized between **0.0 (bad)** and **1.0 (perfect)**.
 
 ---
 

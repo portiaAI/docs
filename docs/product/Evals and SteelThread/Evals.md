@@ -17,18 +17,22 @@ The overall flow is:
 # 🆙 Basic Example
 
 ```python
-from portia import Config, LogLevel
+from portia import Config, LogLevel, Portia
 from steelthread.steelthread import SteelThread
+from steelthread.evals import EvalConfig
+
 
 config = Config.from_default(default_log_level=LogLevel.CRITICAL)
 st = SteelThread()
 
+portia = Portia(config)
+
 st.run_evals(
     portia,
     EvalConfig(
-        eval_dataset_name="evals_v1",  # The dataset of EvalTestCases
+        eval_dataset_name="evals_v1",  
         config=config,
-        iterations=4,  # How many times to run each test case
+        iterations=4,
     ),
 )
 ```
@@ -80,6 +84,8 @@ You can wrap your existing tools and selectively override individual tools by ID
 ### 🔁 Example: Stubbing the Weather Tool
 
 ```python
+from steelthread.portia.tools import ToolStubContext
+
 # Define stub behavior
 def weather_stub_response(
     ctx: ToolStubContext,
@@ -94,8 +100,6 @@ def weather_stub_response(
     return f"Unknown city: {city}"
 ```
 
-> ✅ The rest of your tools still work as normal — only the stubbed one is overridden.
-
 ---
 
 ## 🔬 Tool Stub Function Signature
@@ -103,6 +107,8 @@ def weather_stub_response(
 Tool stubs are simple Python functions:
 
 ```python
+from steelthread.portia.tools import ToolStubContext
+
 def my_stub(
     ctx: ToolStubContext,
 ) -> Any:
@@ -130,6 +136,14 @@ Return any value your real tool would return — a string, object, dict, etc.
 ## 🧪 Using Tool Stubs in Eval Runs
 
 ```python
+
+from portia import Portia, Config, DefaultToolRegistry
+from steelthread.portia.tools import ToolStubRegistry
+
+config = Config.from_default(
+    default_log_level=LogLevel.CRITICAL,
+)
+
 # Run evals with stubs 
 portia = Portia(
     config,
@@ -142,7 +156,7 @@ portia = Portia(
 )
 ```
 
-With the stubbed tool in place, your evals will be clean, fast, and reproducible.
+With the stubbed tool in place, your evals will be clean, fast, and reproducible. The rest of your tools still work as normal with only the stubbed one being overridden.
 
 ---
 

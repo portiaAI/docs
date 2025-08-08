@@ -39,8 +39,17 @@ We can add a custom assertion to each test case specifying what tone we expect:
 And then write a custom evaluator to use this tag and calculate the metrics:
 
 ```python
+from portia import Plan, PlanRun
+
+from steelthread.evals import EvalMetric, EvalTestCase, Evaluator, PlanRunMetadata
+
+
 class ToneEvaluator(Evaluator):
     """Evaluator that scores on tone."""
+
+    def evaluate_tone(self, expected_tone: str, string_to_score:str)-> float:
+        # implement this using whatever mechanism you'd like
+        return 1
 
     def eval_test_case(
         self,
@@ -50,11 +59,11 @@ class ToneEvaluator(Evaluator):
         additional_data: PlanRunMetadata,  # noqa: ARG002
     ) -> list[EvalMetric] | EvalMetric | None:
         """Score plan run outputs based on whether the tone matches."""
-        expected_tone=test_case.get_custom_assertion("expected_tone")
+        expected_tone = test_case.get_custom_assertion("expected_tone")
 
         # exit early if test case doesn't have annotation.
         if not expected_tone:
-            return
+            return None
 
         string_to_score = (
             f"{final_plan_run.outputs.final_output.get_value()}"
@@ -62,18 +71,13 @@ class ToneEvaluator(Evaluator):
             else ""
         )
 
+        score = self.evaluate_tone(expected_tone, string_to_score)
 
-        score = tone_judge.judge_tone(expected_tone, string_to_score)
-
-        return EvalMetric(
+        return EvalMetric.from_test_case(
+            test_case=test_case,
             score=score,
             name="expected_tone",
-            description=f"Scores highly when tone is as expected",
-            dataset=test_case.dataset,
-            testcase=test_case.testcase,
-            run=test_case.run,
+            description="Scores highly when tone is as expected",
             expectation=expected_tone,
         )
-
-
 ```
