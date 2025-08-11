@@ -90,7 +90,7 @@ Format a log record into a string with specific formatting.
 #### \_sanitize\_message\_
 
 ```python
-def _sanitize_message_(msg: str) -> str
+def _sanitize_message_(msg: str, truncate: bool = True) -> str
 ```
 
 Sanitize a message to be used in a log record.
