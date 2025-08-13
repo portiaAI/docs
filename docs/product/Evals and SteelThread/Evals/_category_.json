@@ -1,0 +1,9 @@
+{
+  "label": "📈 Evals",
+  "position": 3,
+  "link": {
+    "type": "generated-index",
+    "slug": "evals",
+    "description": "Evaluate agent performance against ground truth during agent development and in production."
+  }
+}
