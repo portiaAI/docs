@@ -11,5 +11,5 @@ Core client for interacting with portia cloud.
 class PortiaCloudClient()
 ```
 
-Base HTTP client for interacting with portia cloud.
+Base HTTP client builder for interacting with portia cloud.
 
