@@ -22,12 +22,14 @@ Run the following command to install our SDK and its dependencies. The command b
 ```bash
 pip install portia-sdk-python
 ```
-Out of the box the SDK comes with dependencies for OpenAI (and Azure OpenAI) + Anthropic. We additionally support Mistral and Google GenAI (Gemini). These dependencies can be added with:
+Out of the box the SDK comes with dependencies for OpenAI (and Azure OpenAI) + Anthropic. We additionally support Amazon Bedrock, Mistral and Google GenAI (Gemini). These dependencies can be added with:
 ```bash
 pip install "portia-sdk-python[all]"
-# Or only Google GenAI
+# Or only with Amazon Bedrock extra dependencies
+pip install "portia-sdk-python[amazon]"
+# Or only with Google GenAI extra dependencies
 pip install "portia-sdk-python[google]"
-# Or only Mistral
+# Or only with Mistral extra dependencies
 pip install "portia-sdk-python[mistral]"
 ```
 
@@ -50,7 +52,7 @@ Set environment variables to connect to one of our currently supported LLMs. We 
     <TabItem value="mistral" label="Mistral">
     `mistral-large-latest` is set as the default model. You can sign up to their platform **[here](https://auth.mistral.ai/ui/registration)**
 
-    Ensure Mistral dependencies are installed with `uv add "portia-sdk-python[mistral]"` or `"portia-sdk-python[all]"`
+    Ensure Mistral dependencies are installed with `pip install "portia-sdk-python[mistral]"` or `"portia-sdk-python[all]"`
 
     ```bash
     export MISTRAL_API_KEY='your-api-key-here'
@@ -59,7 +61,7 @@ Set environment variables to connect to one of our currently supported LLMs. We 
     <TabItem value="google" label="Google GenAI">
     `gemini-2.0-flash` is set as the default model. You can sign up to their platform **[here](https://ai.google.dev/)**
 
-    Ensure Mistral dependencies are installed with `uv add "portia-sdk-python[google]"` or `"portia-sdk-python[all]"`
+    Ensure Google GenAI dependencies are installed with `pip install "portia-sdk-python[google]"` or `"portia-sdk-python[all]"`
 
     ```bash
     export GOOGLE_API_KEY='your-api-key-here'
@@ -76,7 +78,7 @@ Set environment variables to connect to one of our currently supported LLMs. We 
     <TabItem value="amazon" label="Amazon Bedrock">
     `eu.anthropic.claude-3-7-sonnet-20250219-v1:0` is set as the default model. You can sign up to their platform **[here](https://aws.amazon.com/bedrock/)**
 
-    Ensure Amazon dependencies are installed with `uv add "portia-sdk-python[amazon]"` or `"portia-sdk-python[all]"`
+    Ensure Amazon dependencies are installed with `pip install "portia-sdk-python[amazon]"` or `"portia-sdk-python[all]"`
 
     ```bash
     export AWS_ACCESS_KEY_ID = 'your-access-key-id'
