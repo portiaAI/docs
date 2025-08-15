@@ -344,7 +344,8 @@ def from_sse_connection(
         headers: dict[str, Any] | None = None,
         timeout: float = 5,
         sse_read_timeout: float = 60 * 5,
-        tool_list_read_timeout: float | None = None) -> McpToolRegistry
+        tool_list_read_timeout: float | None = None,
+        tool_call_timeout_seconds: float | None = None) -> McpToolRegistry
 ```
 
 Create a new MCPToolRegistry using an SSE connection (Sync version).
@@ -360,7 +361,8 @@ async def from_sse_connection_async(
         headers: dict[str, Any] | None = None,
         timeout: float = 5,
         sse_read_timeout: float = 60 * 5,
-        tool_list_read_timeout: float | None = None) -> McpToolRegistry
+        tool_list_read_timeout: float | None = None,
+        tool_call_timeout_seconds: float | None = None) -> McpToolRegistry
 ```
 
 Create a new MCPToolRegistry using an SSE connection (Async version).
@@ -378,7 +380,8 @@ def from_stdio_connection(
         encoding: str = "utf-8",
         encoding_error_handler: Literal["strict", "ignore",
                                         "replace"] = "strict",
-        tool_list_read_timeout: float | None = None) -> McpToolRegistry
+        tool_list_read_timeout: float | None = None,
+        tool_call_timeout_seconds: float | None = None) -> McpToolRegistry
 ```
 
 Create a new MCPToolRegistry using a stdio connection (Sync version).
@@ -390,7 +393,8 @@ Create a new MCPToolRegistry using a stdio connection (Sync version).
 def from_stdio_connection_raw(
         cls,
         config: str | dict[str, Any],
-        tool_list_read_timeout: float | None = None) -> McpToolRegistry
+        tool_list_read_timeout: float | None = None,
+        tool_call_timeout_seconds: float | None = None) -> McpToolRegistry
 ```
 
 Create a new MCPToolRegistry using a stdio connection from a string.
@@ -401,6 +405,7 @@ Parses commonly used mcp client config formats.
 
 - `config` - The string or dict to parse.
 - `tool_list_read_timeout` - The timeout for the request.
+- `tool_call_timeout_seconds` - The timeout for the tool call.
   
 
 **Returns**:
@@ -420,7 +425,8 @@ async def from_stdio_connection_async(
         encoding: str = "utf-8",
         encoding_error_handler: Literal["strict", "ignore",
                                         "replace"] = "strict",
-        tool_list_read_timeout: float | None = None) -> McpToolRegistry
+        tool_list_read_timeout: float | None = None,
+        tool_call_timeout_seconds: float | None = None) -> McpToolRegistry
 ```
 
 Create a new MCPToolRegistry using a stdio connection (Async version).
@@ -439,7 +445,8 @@ def from_streamable_http_connection(
         *,
         terminate_on_close: bool = True,
         auth: httpx.Auth | None = None,
-        tool_list_read_timeout: float | None = None) -> McpToolRegistry
+        tool_list_read_timeout: float | None = None,
+        tool_call_timeout_seconds: float | None = None) -> McpToolRegistry
 ```
 
 Create a new MCPToolRegistry using a StreamableHTTP connection (Sync version).
@@ -458,7 +465,8 @@ async def from_streamable_http_connection_async(
         *,
         terminate_on_close: bool = True,
         auth: httpx.Auth | None = None,
-        tool_list_read_timeout: float | None = None) -> McpToolRegistry
+        tool_list_read_timeout: float | None = None,
+        tool_call_timeout_seconds: float | None = None) -> McpToolRegistry
 ```
 
 Create a new MCPToolRegistry using a StreamableHTTP connection (Async version).
