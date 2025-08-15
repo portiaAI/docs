@@ -76,7 +76,7 @@ st.process_stream(
 
 ## End-to-end example with Evals
 
-Let's push the envelope with some more advanced usage for Evals. Create an Eval dataset in the dashboard from the plan run we made in the **Create a dataset** section. Navigate to the "Evaluations" tab of the dashboard, create a new eval set from existing data and select the relevant plan run. Record the name you bestowed upon your Eval dataset as you will to pass it to the evaluators in the code below, which you are now ready to run. This code:
+Let's push the envelope with some more advanced usage for Evals. Create an Eval dataset in the dashboard from the plan run we made in the **Create a dataset** section. Navigate to the "Evaluations" tab of the dashboard, create a new eval set from existing data and select the relevant plan run. Record the name you bestowed upon your Eval dataset as you will need to pass it to the evaluators in the code below, which you are now ready to run. This code:
 * Uses a custom evaluator to count ⚠️ emojis in the output. We will do this by subclassing the `Evaluator` class.
 * Stubs the `file_reader_tool` with static text. We will point our `Portia` client to a `ToolStubRegistry` to do this.
 * Run the evals for the dataset you create to compute the emoji count metric over it.
