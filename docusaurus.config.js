@@ -53,6 +53,8 @@ const config = {
         docs: {
           routeBasePath: "/",
           sidebarPath: require.resolve("./sidebars.js"),
+          showLastUpdateAuthor: true,
+          showLastUpdateTime: true,
           // sidebarCollapsed: false,
           exclude: [
             // todo richard, command to prove this is ok
