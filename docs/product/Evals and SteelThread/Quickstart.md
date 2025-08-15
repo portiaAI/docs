@@ -81,7 +81,7 @@ Let's push the envelope with some more advanced usage for Evals. Create an Eval 
 * Stubs the `file_reader_tool` with static text. We will point our `Portia` client to a `ToolStubRegistry` to do this.
 * Run the evals for the dataset you create to compute the emoji count metric over it.
 
-Feel to mess around with the output from the tool stub and re-run these Evals a few times to see the progression in scoring.
+Feel free to mess around with the output from the tool stub and re-run these Evals a few times to see the progression in scoring.
 
 ```python
 from portia import Portia, Config, DefaultToolRegistry
