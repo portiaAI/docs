@@ -17,26 +17,24 @@ python3 --version
 :::
 
 ### Install the Portia Python SDK
-Run the following command to install our SDK and its dependencies.
+Run the following command to install our SDK and its dependencies. The command below assumes you're using **pip** as your installer. For poetry the install command would be `poetry add ...` and for uv it's `uv add ...`. The args otherwise remain the same.
+
 ```bash
 pip install portia-sdk-python
 ```
-Out of the box the SDK comes with dependencies for OpenAI (and Azure OpenAI) + Anthropic. We additionally support Mistral and Google GenAI (Gemini). These dependencies can be added with:
+Out of the box the SDK comes with dependencies for OpenAI (and Azure OpenAI) + Anthropic. We additionally support Amazon Bedrock, Mistral and Google GenAI (Gemini). These dependencies can be added with:
 ```bash
 pip install "portia-sdk-python[all]"
-# Or only Google GenAI
+# Or only with Amazon Bedrock extra dependencies
+pip install "portia-sdk-python[amazon]"
+# Or only with Google GenAI extra dependencies
 pip install "portia-sdk-python[google]"
-# Or only Mistral
+# Or only with Mistral extra dependencies
 pip install "portia-sdk-python[mistral]"
 ```
 
-
 ### Configure access to your preferred LLM
-Set environment variables to connect to one of our currently supported LLMs. We are currently expanding this list. 
-
-:::tip[Configuring Portia]
-See <a href="/manage-config#configure-llm-options" target="_blank">**Configure LLM options ↗**</a> for more information on how to configure Portia for different LLM providers and models.
-:::
+Set environment variables to connect to one of our currently supported LLMs. We are currently expanding this list. See <a href="/manage-config#configure-llm-options" target="_blank">**Configure LLM options ↗**</a> for more information on how to configure Portia for different LLM providers and models.
 
 <Tabs groupId="llm-provider">
     <TabItem value="openai" label="Open AI" default>
@@ -61,9 +59,9 @@ See <a href="/manage-config#configure-llm-options" target="_blank">**Configure L
     ```
     </TabItem>
     <TabItem value="google" label="Google GenAI">
-    `gemini-2.0-flash` is set as the default model. You can sign up to their platform **[here](https://ai.google.dev/)**
+    `gemini-2.5-pro` and `gemini-2.5-flash` are both used by default. You can sign up to their platform **[here](https://ai.google.dev/)**
 
-    Ensure Mistral dependencies are installed with `pip install "portia-sdk-python[google]"` or `"portia-sdk-python[all]"`
+    Ensure Google GenAI dependencies are installed with `pip install "portia-sdk-python[google]"` or `"portia-sdk-python[all]"`
 
     ```bash
     export GOOGLE_API_KEY='your-api-key-here'
@@ -95,6 +93,7 @@ See <a href="/manage-config#configure-llm-options" target="_blank">**Configure L
 
 ### Test your installation from the command line
 Let's submit a basic prompt to your LLM using our framework to make sure it's all working fine. We will submit a simple maths question, which should invoke one of the open source tools in our SDK:
+
 <Tabs groupId="llm-provider">
     <TabItem value="openai" label="Open AI" default>
     Open AI is the default LLM provider. Just run:
@@ -133,6 +132,14 @@ Let's submit a basic prompt to your LLM using our framework to make sure it's al
     ```
     </TabItem>
 </Tabs>
+
+:::warning[Are you stuck? Try this 😅]
+Remember to use the **command specific to your installer**. The instructions above are for **pip** specifically. For other installers use one of the commands below (args don't change):
+* For poetry, the run command is `poetry run portia-cli ...`.
+* For uv, the run command is `uv run portia-cli ...`.
+
+Make sure you're in the **right directory or venv** as well (where your lock file is)!
+:::
 
 Portia will return the final state of the plan run created in response to the submitted prompt. We will delve into plan run states more deeply in a later section but for now you want to be sure you can see `"state": "COMPLETE"` and the answer to your maths question e.g. `"final_output": {"value": 3.0}` as part of that returned state. Here's an example output:
 ```bash
