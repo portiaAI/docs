@@ -24,8 +24,8 @@ If you do not have Node.js and yarn installed on your system, install them first
 ## Code Examples
 Code examples in the docs are tested automatically using [pytest-examples](https://github.com/pydantic/pytest-examples).
 
-To run the tests, use `uv run pytest`. For this to work, you'll need to ensure you create a .env file in the root of the project with the
-variables listed in .env.example.
+To run the tests, use `uv run pytest`. For this to work, you'll need to ensure you create a **.env** file in the root of the project with the
+variables listed in **.env.example**.
 
 We ensure that all snippets of code in the repo are testing. In order to do this, we have a few tricks:
 * If you start your code block with ```python depends_on=example1```, then we will look for a code snippet in the repo that has ```python id=example1` and load that code in first, allowing you to depend on that code.
