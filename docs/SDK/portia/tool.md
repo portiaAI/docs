@@ -423,3 +423,19 @@ async def call_remote_mcp_tool(name: str,
 
 Call a tool using the MCP session.
 
+There are issues with the implementation of the mcp client which mean that the
+`read_timeout_seconds` still waits for a response from the server before raising
+a timeout, which is entirely defeating the purpose of the timeout on our side.
+
+This method implements a custom timeout using `asyncio.wait`, allowing us to
+raise the correct exception when the deadline is reached.
+
+#### flatten\_exceptions
+
+```python
+def flatten_exceptions(exc_group: BaseExceptionGroup[Any],
+                       exc_type: type[ExceptionT]) -> list[ExceptionT]
+```
+
+Flatten an ExceptionGroup into a list of exceptions of a given type.
+
