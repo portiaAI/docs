@@ -94,8 +94,8 @@ Let's submit a basic prompt to your LLM using our framework to make sure it's al
 
 :::warning[Are you stuck? Try this 😅]
 Remember to use the **command specific to your installer**. The instructions below are for **pip** specifically. Otherwise:
-* For poetry, the run command is `poetry run`.
-* For uv, the run command is `uv run`.
+* For poetry, the run command is `poetry run portia-cli ...`.
+* For uv, the run command is `uv run portia-cli ...`.
 
 Make sure you're in the **right directory or venv** as well (where your lock file is)!
 :::
