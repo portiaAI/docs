@@ -17,7 +17,8 @@ python3 --version
 :::
 
 ### Install the Portia Python SDK
-Run the following command to install our SDK and its dependencies.
+Run the following command to install our SDK and its dependencies. The command below assumes you're using **pip** as your installer. For poetry the install command would be `poetry add ...` and for uv it's `uv add ...`. The args otherwise remain the same.
+
 ```bash
 pip install portia-sdk-python
 ```
@@ -30,13 +31,8 @@ pip install "portia-sdk-python[google]"
 pip install "portia-sdk-python[mistral]"
 ```
 
-
 ### Configure access to your preferred LLM
-Set environment variables to connect to one of our currently supported LLMs. We are currently expanding this list. 
-
-:::tip[Configuring Portia]
-See <a href="/manage-config#configure-llm-options" target="_blank">**Configure LLM options ↗**</a> for more information on how to configure Portia for different LLM providers and models.
-:::
+Set environment variables to connect to one of our currently supported LLMs. We are currently expanding this list. See <a href="/manage-config#configure-llm-options" target="_blank">**Configure LLM options ↗**</a> for more information on how to configure Portia for different LLM providers and models.
 
 <Tabs groupId="llm-provider">
     <TabItem value="openai" label="Open AI" default>
@@ -54,7 +50,7 @@ See <a href="/manage-config#configure-llm-options" target="_blank">**Configure L
     <TabItem value="mistral" label="Mistral">
     `mistral-large-latest` is set as the default model. You can sign up to their platform **[here](https://auth.mistral.ai/ui/registration)**
 
-    Ensure Mistral dependencies are installed with `pip install "portia-sdk-python[mistral]"` or `"portia-sdk-python[all]"`
+    Ensure Mistral dependencies are installed with `uv add "portia-sdk-python[mistral]"` or `"portia-sdk-python[all]"`
 
     ```bash
     export MISTRAL_API_KEY='your-api-key-here'
@@ -63,7 +59,7 @@ See <a href="/manage-config#configure-llm-options" target="_blank">**Configure L
     <TabItem value="google" label="Google GenAI">
     `gemini-2.0-flash` is set as the default model. You can sign up to their platform **[here](https://ai.google.dev/)**
 
-    Ensure Mistral dependencies are installed with `pip install "portia-sdk-python[google]"` or `"portia-sdk-python[all]"`
+    Ensure Mistral dependencies are installed with `uv add "portia-sdk-python[google]"` or `"portia-sdk-python[all]"`
 
     ```bash
     export GOOGLE_API_KEY='your-api-key-here'
@@ -80,7 +76,7 @@ See <a href="/manage-config#configure-llm-options" target="_blank">**Configure L
     <TabItem value="amazon" label="Amazon Bedrock">
     `eu.anthropic.claude-3-7-sonnet-20250219-v1:0` is set as the default model. You can sign up to their platform **[here](https://aws.amazon.com/bedrock/)**
 
-    Ensure Amazon dependencies are installed with `pip install "portia-sdk-python[amazon]"` or `"portia-sdk-python[all]"`
+    Ensure Amazon dependencies are installed with `uv add "portia-sdk-python[amazon]"` or `"portia-sdk-python[all]"`
 
     ```bash
     export AWS_ACCESS_KEY_ID = 'your-access-key-id'
@@ -95,6 +91,15 @@ See <a href="/manage-config#configure-llm-options" target="_blank">**Configure L
 
 ### Test your installation from the command line
 Let's submit a basic prompt to your LLM using our framework to make sure it's all working fine. We will submit a simple maths question, which should invoke one of the open source tools in our SDK:
+
+:::warning[Are you stuck? Try this 😅]
+Remember to use the **command specific to your installer**. The instructions below are for **pip** specifically. Otherwise:
+* For poetry, the run command is `poetry run`.
+* For uv, the run command is `uv run`.
+
+Make sure you're in the **right directory or venv** as well (where your lock file is)!
+:::
+
 <Tabs groupId="llm-provider">
     <TabItem value="openai" label="Open AI" default>
     Open AI is the default LLM provider. Just run:
