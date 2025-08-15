@@ -268,8 +268,8 @@ As a final verification step for your installation, set up the required environm
         ```
     </TabItem>
         <TabItem value="amazon" label="Amazon Bedrock">
-        In your local `.env` file, set up your API key as an environment variable using `AWS_ACCESS_KEY_ID`, 'AWS_SECRET_ACCESS_KEY' and 'AWS_DEFAULT_REGION'. 
-        You can also use the local aws credentials file e.g. `~/.aws/credentials' by just specifying the `aws_credentials_profile_name` parameter.  <br/>
+        In your local `.env` file, set up your API key as an environment variable using `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` and `AWS_DEFAULT_REGION`. 
+        You can also use the local aws credentials file e.g. `~/.aws/credentials` by just specifying the `aws_credentials_profile_name` parameter.  <br/>
 
         Then create a file e.g. `main.py` in your project directory and paste the following code in.
         ```python title="main.py"
