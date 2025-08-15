@@ -92,14 +92,6 @@ Set environment variables to connect to one of our currently supported LLMs. We 
 ### Test your installation from the command line
 Let's submit a basic prompt to your LLM using our framework to make sure it's all working fine. We will submit a simple maths question, which should invoke one of the open source tools in our SDK:
 
-:::warning[Are you stuck? Try this 😅]
-Remember to use the **command specific to your installer**. The instructions below are for **pip** specifically. Otherwise:
-* For poetry, the run command is `poetry run portia-cli ...`.
-* For uv, the run command is `uv run portia-cli ...`.
-
-Make sure you're in the **right directory or venv** as well (where your lock file is)!
-:::
-
 <Tabs groupId="llm-provider">
     <TabItem value="openai" label="Open AI" default>
     Open AI is the default LLM provider. Just run:
@@ -138,6 +130,14 @@ Make sure you're in the **right directory or venv** as well (where your lock fil
     ```
     </TabItem>
 </Tabs>
+
+:::warning[Are you stuck? Try this 😅]
+Remember to use the **command specific to your installer**. The instructions above are for **pip** specifically. For other installers use one of the commands below (args don't change):
+* For poetry, the run command is `poetry run portia-cli ...`.
+* For uv, the run command is `uv run portia-cli ...`.
+
+Make sure you're in the **right directory or venv** as well (where your lock file is)!
+:::
 
 Portia will return the final state of the plan run created in response to the submitted prompt. We will delve into plan run states more deeply in a later section but for now you want to be sure you can see `"state": "COMPLETE"` and the answer to your maths question e.g. `"final_output": {"value": 3.0}` as part of that returned state. Here's an example output:
 ```bash
