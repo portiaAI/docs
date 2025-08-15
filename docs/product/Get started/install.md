@@ -59,7 +59,7 @@ Set environment variables to connect to one of our currently supported LLMs. We 
     ```
     </TabItem>
     <TabItem value="google" label="Google GenAI">
-    `gemini-2.0-flash` is set as the default model. You can sign up to their platform **[here](https://ai.google.dev/)**
+    `gemini-2.5-pro` and `gemini-2.5-flash` are both used by default. You can sign up to their platform **[here](https://ai.google.dev/)**
 
     Ensure Google GenAI dependencies are installed with `pip install "portia-sdk-python[google]"` or `"portia-sdk-python[all]"`
 
