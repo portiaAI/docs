@@ -149,6 +149,85 @@ Get similar plans to the query.
 
 - `NotImplementedError` - If the method is not implemented.
 
+#### asave\_plan
+
+```python
+async def asave_plan(plan: Plan) -> None
+```
+
+Save a plan asynchronously using threaded execution.
+
+**Arguments**:
+
+- `plan` _Plan_ - The Plan object to save.
+
+#### aget\_plan
+
+```python
+async def aget_plan(plan_id: PlanUUID) -> Plan
+```
+
+Retrieve a plan by its ID asynchronously using threaded execution.
+
+**Arguments**:
+
+- `plan_id` _PlanUUID_ - The UUID of the plan to retrieve.
+  
+
+**Returns**:
+
+- `Plan` - The Plan object associated with the provided plan_id.
+
+#### aget\_plan\_by\_query
+
+```python
+async def aget_plan_by_query(query: str) -> Plan
+```
+
+Get a plan by query asynchronously using threaded execution.
+
+**Arguments**:
+
+- `query` _str_ - The query to get a plan for.
+
+#### aplan\_exists
+
+```python
+async def aplan_exists(plan_id: PlanUUID) -> bool
+```
+
+Check if a plan exists without raising an error asynchronously using threaded execution.
+
+**Arguments**:
+
+- `plan_id` _PlanUUID_ - The UUID of the plan to check.
+  
+
+**Returns**:
+
+- `bool` - True if the plan exists, False otherwise.
+
+#### aget\_similar\_plans
+
+```python
+async def aget_similar_plans(query: str,
+                             threshold: float = 0.5,
+                             limit: int = 10) -> list[Plan]
+```
+
+Get similar plans to the query asynchronously using threaded execution.
+
+**Arguments**:
+
+- `query` _str_ - The query to get similar plans for.
+- `threshold` _float_ - The threshold for similarity.
+- `limit` _int_ - The maximum number of plans to return.
+  
+
+**Returns**:
+
+- `list[Plan]` - The list of similar plans.
+
 ## PlanRunListResponse Objects
 
 ```python
@@ -243,6 +322,54 @@ List runs by their state.
 
 - `NotImplementedError` - If the method is not implemented.
 
+#### asave\_plan\_run
+
+```python
+async def asave_plan_run(plan_run: PlanRun) -> None
+```
+
+Save a PlanRun asynchronously using threaded execution.
+
+**Arguments**:
+
+- `plan_run` _PlanRun_ - The Run object to save.
+
+#### aget\_plan\_run
+
+```python
+async def aget_plan_run(plan_run_id: PlanRunUUID) -> PlanRun
+```
+
+Retrieve PlanRun by its ID asynchronously using threaded execution.
+
+**Arguments**:
+
+- `plan_run_id` _RunUUID_ - The UUID of the run to retrieve.
+  
+
+**Returns**:
+
+- `Run` - The Run object associated with the provided plan_run_id.
+
+#### aget\_plan\_runs
+
+```python
+async def aget_plan_runs(run_state: PlanRunState | None = None,
+                         page: int | None = None) -> PlanRunListResponse
+```
+
+List runs by their state asynchronously using threaded execution.
+
+**Arguments**:
+
+- `run_state` _RunState | None_ - Optionally filter runs by their state.
+- `page` _int | None_ - Optional pagination data
+  
+
+**Returns**:
+
+- `list[Run]` - A list of Run objects that match the given state.
+
 ## AdditionalStorage Objects
 
 ```python
@@ -312,6 +439,42 @@ Get an end user.
 
 - `NotImplementedError` - If the method is not implemented.
 
+#### asave\_tool\_call
+
+```python
+async def asave_tool_call(tool_call: ToolCallRecord) -> None
+```
+
+Save a tool_call asynchronously using threaded execution.
+
+**Arguments**:
+
+- `tool_call` _ToolCallRecord_ - The ToolCallRecord object to save.
+
+#### asave\_end\_user
+
+```python
+async def asave_end_user(end_user: EndUser) -> EndUser
+```
+
+Save an end user asynchronously using threaded execution.
+
+**Arguments**:
+
+- `end_user` _EndUser_ - The EndUser object to save.
+
+#### aget\_end\_user
+
+```python
+async def aget_end_user(external_id: str) -> EndUser | None
+```
+
+Get an end user asynchronously using threaded execution.
+
+**Arguments**:
+
+- `external_id` _str_ - The id of the end user to get.
+
 ## Storage Objects
 
 ```python
@@ -323,7 +486,7 @@ Combined base class for Plan Run + Additional storages.
 ## AgentMemory Objects
 
 ```python
-class AgentMemory(Protocol)
+class AgentMemory(ABC)
 ```
 
 Abstract base class for storing items in agent memory.
@@ -378,6 +541,45 @@ Retrieve an Output from agent memory.
 **Raises**:
 
 - `NotImplementedError` - If the method is not implemented.
+
+#### asave\_plan\_run\_output
+
+```python
+async def asave_plan_run_output(output_name: str, output: Output,
+                                plan_run_id: PlanRunUUID) -> Output
+```
+
+Save an output from a plan run to agent memory asynchronously using threaded execution.
+
+**Arguments**:
+
+- `output_name` _str_ - The name of the output within the plan
+- `output` _Output_ - The Output object to save
+- `plan_run_id` _PlanRunUUID_ - The ID of the current plan run
+  
+
+**Returns**:
+
+- `Output` - The Output object with value marked as stored in agent memory.
+
+#### aget\_plan\_run\_output
+
+```python
+async def aget_plan_run_output(output_name: str,
+                               plan_run_id: PlanRunUUID) -> LocalDataValue
+```
+
+Retrieve an Output from agent memory asynchronously using threaded execution.
+
+**Arguments**:
+
+- `output_name` _str_ - The name of the output to retrieve
+- `plan_run_id` _PlanRunUUID_ - The ID of the plan run
+  
+
+**Returns**:
+
+- `Output` - The retrieved Output object with value filled in from agent memory.
 
 #### log\_tool\_call
 
@@ -867,10 +1069,49 @@ Save a plan to Portia Cloud.
 
 - `StorageError` - If the request to Portia Cloud fails.
 
+#### asave\_plan
+
+```python
+async def asave_plan(plan: Plan) -> None
+```
+
+Save a plan to Portia Cloud.
+
+**Arguments**:
+
+- `plan` _Plan_ - The Plan object to save to the cloud.
+  
+
+**Raises**:
+
+- `StorageError` - If the request to Portia Cloud fails.
+
 #### get\_plan
 
 ```python
 def get_plan(plan_id: PlanUUID) -> Plan
+```
+
+Retrieve a plan from Portia Cloud.
+
+**Arguments**:
+
+- `plan_id` _PlanUUID_ - The ID of the plan to retrieve.
+  
+
+**Returns**:
+
+- `Plan` - The Plan object retrieved from Portia Cloud.
+  
+
+**Raises**:
+
+- `StorageError` - If the request to Portia Cloud fails or the plan does not exist.
+
+#### aget\_plan
+
+```python
+async def aget_plan(plan_id: PlanUUID) -> Plan
 ```
 
 Retrieve a plan from Portia Cloud.
@@ -901,10 +1142,39 @@ Get a plan by query.
 
 - `query` _str_ - The query to get a plan for.
 
+#### aget\_plan\_by\_query
+
+```python
+async def aget_plan_by_query(query: str) -> Plan
+```
+
+Get a plan by query asynchronously using threaded execution.
+
+**Arguments**:
+
+- `query` _str_ - The query to get a plan for.
+
 #### plan\_exists
 
 ```python
 def plan_exists(plan_id: PlanUUID) -> bool
+```
+
+Check if a plan exists in Portia Cloud.
+
+**Arguments**:
+
+- `plan_id` _PlanUUID_ - The UUID of the plan to check.
+  
+
+**Returns**:
+
+- `bool` - True if the plan exists, False otherwise.
+
+#### aplan\_exists
+
+```python
+async def aplan_exists(plan_id: PlanUUID) -> bool
 ```
 
 Check if a plan exists in Portia Cloud.
@@ -935,10 +1205,49 @@ Save PlanRun to Portia Cloud.
 
 - `StorageError` - If the request to Portia Cloud fails.
 
+#### asave\_plan\_run
+
+```python
+async def asave_plan_run(plan_run: PlanRun) -> None
+```
+
+Save PlanRun to Portia Cloud.
+
+**Arguments**:
+
+- `plan_run` _PlanRun_ - The Run object to save to the cloud.
+  
+
+**Raises**:
+
+- `StorageError` - If the request to Portia Cloud fails.
+
 #### get\_plan\_run
 
 ```python
 def get_plan_run(plan_run_id: PlanRunUUID) -> PlanRun
+```
+
+Retrieve PlanRun from Portia Cloud.
+
+**Arguments**:
+
+- `plan_run_id` _RunUUID_ - The ID of the run to retrieve.
+  
+
+**Returns**:
+
+- `Run` - The Run object retrieved from Portia Cloud.
+  
+
+**Raises**:
+
+- `StorageError` - If the request to Portia Cloud fails or the run does not exist.
+
+#### aget\_plan\_run
+
+```python
+async def aget_plan_run(plan_run_id: PlanRunUUID) -> PlanRun
 ```
 
 Retrieve PlanRun from Portia Cloud.
@@ -981,10 +1290,49 @@ Find all runs in storage that match state.
 
 - `StorageError` - If the request to Portia Cloud fails.
 
+#### aget\_plan\_runs
+
+```python
+async def aget_plan_runs(run_state: PlanRunState | None = None,
+                         page: int | None = None) -> PlanRunListResponse
+```
+
+Find all runs in storage that match state.
+
+**Arguments**:
+
+- `run_state` _RunState | None_ - Optionally filter runs by their state.
+- `page` _int | None_ - Optional pagination data which is not used for in memory storage.
+  
+
+**Returns**:
+
+- `list[Run]` - A list of Run objects retrieved from Portia Cloud.
+  
+
+**Raises**:
+
+- `StorageError` - If the request to Portia Cloud fails.
+
 #### save\_tool\_call
 
 ```python
 def save_tool_call(tool_call: ToolCallRecord) -> None
+```
+
+Save a tool call to Portia Cloud.
+
+This method attempts to save the tool call to Portia Cloud but will not raise exceptions
+if the request fails. Instead, it logs the error and continues execution.
+
+**Arguments**:
+
+- `tool_call` _ToolCallRecord_ - The ToolCallRecord object to save to the cloud.
+
+#### asave\_tool\_call
+
+```python
+async def asave_tool_call(tool_call: ToolCallRecord) -> None
 ```
 
 Save a tool call to Portia Cloud.
@@ -1016,11 +1364,55 @@ Save Output from a plan run to Portia Cloud.
 
 - `StorageError` - If the request to Portia Cloud fails.
 
+#### asave\_plan\_run\_output
+
+```python
+async def asave_plan_run_output(output_name: str, output: Output,
+                                plan_run_id: PlanRunUUID) -> Output
+```
+
+Save Output from a plan run to Portia Cloud.
+
+**Arguments**:
+
+- `output_name` _str_ - The name of the output within the plan
+- `output` _Output_ - The Output object to save
+- `plan_run_id` _PlanRun_ - The if of the current plan run
+  
+
+**Raises**:
+
+- `StorageError` - If the request to Portia Cloud fails.
+
 #### get\_plan\_run\_output
 
 ```python
 def get_plan_run_output(output_name: str,
                         plan_run_id: PlanRunUUID) -> LocalDataValue
+```
+
+Retrieve an Output from Portia Cloud.
+
+**Arguments**:
+
+- `output_name` - The name of the output to get from memory
+- `plan_run_id` _RunUUID_ - The ID of the run to retrieve.
+  
+
+**Returns**:
+
+- `Run` - The Run object retrieved from Portia Cloud.
+  
+
+**Raises**:
+
+- `StorageError` - If the request to Portia Cloud fails or the run does not exist.
+
+#### aget\_plan\_run\_output
+
+```python
+async def aget_plan_run_output(output_name: str,
+                               plan_run_id: PlanRunUUID) -> LocalDataValue
 ```
 
 Retrieve an Output from Portia Cloud.
@@ -1061,6 +1453,27 @@ Get similar plans to the query.
 
 - `list[Plan]` - The list of similar plans.
 
+#### aget\_similar\_plans
+
+```python
+async def aget_similar_plans(query: str,
+                             threshold: float = 0.5,
+                             limit: int = 5) -> list[Plan]
+```
+
+Get similar plans to the query.
+
+**Arguments**:
+
+- `query` _str_ - The query to get similar plans for.
+- `threshold` _float_ - The threshold for similarity.
+- `limit` _int_ - The maximum number of plans to return.
+  
+
+**Returns**:
+
+- `list[Plan]` - The list of similar plans.
+
 #### save\_end\_user
 
 ```python
@@ -1078,10 +1491,49 @@ Save an end_user to Portia Cloud.
 
 - `StorageError` - If the request to Portia Cloud fails.
 
+#### asave\_end\_user
+
+```python
+async def asave_end_user(end_user: EndUser) -> EndUser
+```
+
+Save an end_user to Portia Cloud.
+
+**Arguments**:
+
+- `end_user` _EndUser_ - The EndUser object to save to the cloud.
+  
+
+**Raises**:
+
+- `StorageError` - If the request to Portia Cloud fails.
+
 #### get\_end\_user
 
 ```python
 def get_end_user(external_id: str) -> EndUser
+```
+
+Retrieve an end user from Portia Cloud.
+
+**Arguments**:
+
+- `external_id` _str_ - The ID of the end user to retrieve.
+  
+
+**Returns**:
+
+- `EndUser` - The EndUser object retrieved from Portia Cloud.
+  
+
+**Raises**:
+
+- `StorageError` - If the request to Portia Cloud fails or the plan does not exist.
+
+#### aget\_end\_user
+
+```python
+async def aget_end_user(external_id: str) -> EndUser | None
 ```
 
 Retrieve an end user from Portia Cloud.

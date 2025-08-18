@@ -63,6 +63,15 @@ def initialize_end_user(end_user: str | EndUser | None = None) -> EndUser
 
 Handle initializing the end_user based on the provided type.
 
+#### ainitialize\_end\_user
+
+```python
+async def ainitialize_end_user(
+        end_user: str | EndUser | None = None) -> EndUser
+```
+
+Handle initializing the end_user based on the provided type.
+
 #### run
 
 ```python
@@ -455,6 +464,29 @@ This is generally because there are outstanding clarifications that need to be r
 def create_plan_run(plan: Plan,
                     end_user: str | EndUser | None = None,
                     plan_run_inputs: list[PlanInput] | None = None) -> PlanRun
+```
+
+Create a PlanRun from a Plan.
+
+**Arguments**:
+
+- `plan` _Plan_ - The plan to create a plan run from.
+- `end_user` _str | EndUser | None = None_ - The end user this plan run is for.
+- `plan_run_inputs` _list[PlanInput] | None = None_ - The plan inputs for the
+  plan run with their values.
+  
+
+**Returns**:
+
+- `PlanRun` - The created PlanRun object.
+
+#### acreate\_plan\_run
+
+```python
+async def acreate_plan_run(
+        plan: Plan,
+        end_user: str | EndUser | None = None,
+        plan_run_inputs: list[PlanInput] | None = None) -> PlanRun
 ```
 
 Create a PlanRun from a Plan.
