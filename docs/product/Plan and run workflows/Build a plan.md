@@ -6,63 +6,60 @@ slug: /build-plan
 # Build a plan manually
 
 :::tip[Alpha]
-PlanBuilderV2 is currently in Alpha so please expect changes in this area and we'd love your feedback on our discord!
+PlanBuilderV2 is currently in Alpha so please expect changes in this area and we'd love your feedback on our <a href="https://discord.gg/DvAJz9ffaR" target="_blank">**Discord channel (↗)**</a>!
 :::
 
-If you prefer to explicitly define a plan step by step rather than rely on our planning agent, e.g. for established processes in your business, you can use the `PlanBuilderV2` interface. This requires outlining all the steps, inputs, outputs and tools.
+If you prefer to explicitly define a plan step by step rather than rely on our planning agent, e.g. for established processes in your business, you can use the `PlanBuilderV2` interface. This requires outlining all the steps, inputs, outputs and tools for your agent manually.
 
 The `PlanBuilderV2` offers methods to create each part of the plan iteratively:
-
-## Steps
 - `.llm_step()` adds a step that sends a query to the underlying LLM
 - `.tool_call()` adds a step that directly invokes a tool. Requires mapping of step outputs to tool arguments.
 - `.single_tool_agent()` is similar to `.tool_call()` but an LLM call is made to map the inputs to the step to what the tool requires creating flexibility.
-- `.function_call()` is identical to `.tool_call()` but uses a `Callable` rather than a tool with an ID.
-
-## Inputs and outputs
-- `.input()` method adds inputs to the plan that can then be used in 
-- `.final_output()` method sets the final output configuration (output schema and summarisation settings).
-
-## Building the plan
-- `.build()` finally builds the `PlanV2` object
+- `.function_call()` is identical to `.tool_call()` but calls a Python function rather than a tool with an ID.
 
 ## Example
 
 ```python title='plan_builder.py'
-from portia.builder import PlanBuilder
-from portia.builder.step import StepOutput, Input
+from portia.builder import PlanBuilderV2, StepOutput, Input
 
-# Example: Build a plan to research a city
-plan = PlanBuilderV2(
-    label="Research information about Paris including its capital status and population"
-).input(
-    name="country_name",
-    description="The name of the country to research"
-).llm_step(
-    task="Find the capital of the country provided",
-    inputs=[Input("country_name")],
-    name="capital_name"
-).tool_run(
-    tool="portia:tavily::search",
-    args={"search_query": f"population of {StepOutput('capital_name')}"},
-    name="find_population"
-).input(
-    name="email_address",
-    description="The email address to send the search result to",
-    value="doesntexist@portialabs.ai"
-).single_tool_agent(
-    tool="portia:google:gmail:send_email",
-    task="Send me an email summarizing the search result",
-    inputs=[StepOutput("find_population"), StepOutput("capital_name"), Input("email_address")],
-    name="send_email"
-).final_output(
-    output_schema=None,
-    summarize=True
-).build()
+plan = (
+    PlanBuilderV2("Write a poem about the price of gold")
+    .input(name="purchase_quantity", description="The quantity of gold to purchase in ounces")
+    .input(name="currency", description="The currency to purchase the gold in", default_value="GBP")
+    .tool_run(
+        step_name="Search gold price",
+        tool="search_tool",
+        args={
+            "search_query": f"What is the price of gold per ounce in {Input('currency')}?",
+        },
+        output_schema=CommodityPriceWithCurrency,
+    )
+    .function_call(
+        function=lambda price_with_currency, purchase_quantity: (
+            price_with_currency.price * purchase_quantity
+        ),
+        args={
+            "price_with_currency": StepOutput("Search gold price"),
+            "purchase_quantity": Input("purchase_quantity"),
+        },
+    )
+    .llm_step(
+        task="Write a poem about the current price of gold",
+        inputs=[StepOutput(0), Input("currency")],
+    )
+    .single_tool_agent(
+        task="Send the poem to Robbie in an email at donotemail@portialabs.ai",
+        tool="portia:google:gmail:send_email",
+        inputs=[StepOutput(2)],
+    )
+    .final_output(
+        output_schema=FinalOutput,
+    )
+    .build()
+)
 
 portia.run_plan(plan, plan_run_inputs={"country_name": "France"})
 ```
-'''
 
 ## Available Step Types
 
@@ -92,7 +89,7 @@ builder.tool_run(
 ```
 
 ### Function Call
-Use `.function_call()` to add a step that calls a function. This is useful for streaming updates on the plan as it is run or adding in guardrails.
+Use `.function_call()` to add a step that calls a function. This is useful for manipulating data from other steps using code, streaming updates on the plan as it is run or adding in guardrails.
 
 ```python
 def process_data(data):
@@ -148,7 +145,7 @@ portia.run_plan(plan, plan_run_inputs={"user_query": "What is the capital of Fra
 You can reference outputs from previous steps using `StepOutput`:
 
 ```python
-from portia.builder.step import StepOutput
+from portia import StepOutput
 
 builder.tool_call(
     tool="calculator",
@@ -158,11 +155,11 @@ builder.tool_call(
 
 You can also reference previous step outputs using their index:
 ```python
-from portia.builder.step import StepOutput
+from portia import StepOutput
 
 builder.tool_call(
     tool="calculator",
-    args={"expression": f"{StepOutput(1, "result")}"}
+    args={"expression": f"{StepOutput(1)}"}
 )
 ```
 
