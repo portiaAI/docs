@@ -20,7 +20,7 @@ A plan is the set of steps an LLM thinks it should take in order to respond to a
 - **Structured**: We use optimised system prompts to guide the LLM along a simple design language when generating a plan. This makes the plan format predictable and easy to process for the purposes of automation.
 - **Human-readable**: Our planning language is in a simple, serialisable format. It is easy to render and present to users in a human readable front-end experience. This helps your users easily stay on top of your LLM's reasoning.
 
-While Portia generates a plan in response to a user prompt and then runs it, you also have the option to create plans yourself manually. This is especially suitable for your users' more repeatable routines.
+While Portia generates a plan in response to a user prompt and then runs it, you also have the option to <a href="/build-plan">**create plans yourself manually↗**</a>. This is especially suitable for your users' more repeatable routines or if you are latency sensitive.
 
 ## Introducing a Plan
 
@@ -144,44 +144,6 @@ The `plan` method can take the following additional parameters:
 
 - `tools` in order to confine the plan generation to a narrower set of tools if required (for simplicity or for user-access considerations). In our example above we provided the `example_tool_registry`, which is a collection of three open source tools in our SDK.
 - `example_plans` expects a list of `Plan` objects. This allows you to use existing plans as inspiration or templates, which improves repeatability for more routine plan runs.
-
-## Build a plan manually
-
-If you prefer to explicitly define a plan step by step rather than rely our planning agent, e.g. for established processes in your business, you can use the PlanBuilder interface. This obviously implies outlining all the steps, inputs, outputs and tools.
-
-The `PlanBuilder` offers methods to create each part of the plan iteratively
-
-- `.step` method adds a step to the end of the plan. It takes a `task`, `tool_id` and `output` name as arguments.
-- `.input` and `.condition` methods add to the last step added, but can be overwritten with a `step_index` variable, and map outputs from one step to inputs of chosen (default last step), or considerations
-- `.build` finally builds the `Plan` objective
-
-```python title='plan_builder.py'
-from portia.plan import PlanBuilder
-
-query = "What is the capital of france and what is the population of the city? If the city has a population of over 1 million, then find the mayor of the city."
-
-plan = PlanBuilder(
-  query # optional to provide, as the steps are built below, but provides context for storage and plan purpose
-).step(
-    task="Find the capital of france", # step task
-    tool_id="google_search", # tool id maps to a tool in the tool registry
-    output="$capital_of_france", # output variable name maps step output to variable
-).step(
-    task="Find the population of the capital of france",
-    tool_id="google_search",
-    output="$population_of_capital",
-).input( # add an input to step 2
-    name="$capital_of_france", # input variable name maps to a variable in the plan run outputs from step 1
-    description="Capital of france" # optional description for the variable
-).step(
-    task="Find the mayor of the city",
-    tool_id="google_search",
-    output="$mayor_of_city",
-).condition(
-    condition="$population_of_capital > 1000000", # adding a condition to the step
-).build() # build the plan once finalized
-
-```
 
 ## User led learning
 
