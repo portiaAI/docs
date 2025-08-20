@@ -149,7 +149,7 @@ from portia import StepOutput
 
 builder.tool_call(
     tool="calculator",
-    args={"expression": f"{StepOutput("previous_step")}"}
+    args={"expression": f"This is some string {StepOutput("previous_step")} interpolation"}
 )
 ```
 
@@ -159,7 +159,7 @@ from portia import StepOutput
 
 builder.tool_call(
     tool="calculator",
-    args={"expression": f"{StepOutput(1)}"}
+    args={"expression": StepOutput(1)"}
 )
 ```
 
