@@ -3,6 +3,9 @@ sidebar_position: 2
 slug: /build-plan
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Build a plan manually
 
 :::tip[Alpha]
@@ -58,8 +61,20 @@ plan = (
     )
     .build()
 )
+```
 
+<Tabs>
+  <TabItem value="sync" label="Sync" default>
+```python
 portia.run_plan(plan, plan_run_inputs={"country_name": "France"})
+```
+  </TabItem>
+  <TabItem value="async" label="Async">
+```python
+await portia.arun_plan(plan, plan_run_inputs={"country_name": "France"})
+```
+  </TabItem>
+</Tabs>
 ```
 
 ## Available Step Types
@@ -277,8 +292,20 @@ plan = builder.final_output(
     output_schema=FinalResult,
     summarize=True
 ).build()
+```
 
+<Tabs>
+  <TabItem value="sync" label="Sync" default>
+```python
 plan_run = portia.run(plan)
+```
+  </TabItem>
+  <TabItem value="async" label="Async">
+```python
+plan_run = await portia.arun(plan)
+```
+  </TabItem>
+</Tabs>
 # Will match `FinalResult` schema
 final_output_value = plan_run.outputs.final_output.value
 

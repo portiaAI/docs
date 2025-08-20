@@ -3,6 +3,9 @@ sidebar_position: 1
 slug: /generate-plan
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Generate a plan
 
 Learn how to create structured, multi-agent plans using your LLM of choice and familiarise yourself with the structure of plans created using Portia.
@@ -77,6 +80,8 @@ When responding to a user's prompt with Portia, you can either chain the plan ge
 
 Let's look at how we generate a plan from a user prompt. Paste the code below into your project and run it:
 
+<Tabs>
+  <TabItem value="sync" label="Sync" default>
 ```python title="main.py"
 from dotenv import load_dotenv
 from portia import (
@@ -96,6 +101,34 @@ plan = portia.plan('Which stock price grew faster in 2024, Amazon or Google?')
 # Serialise into JSON and print the output
 print(plan.model_dump_json(indent=2))
 ```
+  </TabItem>
+  <TabItem value="async" label="Async">
+```python title="main.py"
+import asyncio
+from dotenv import load_dotenv
+from portia import (
+    Portia,
+    default_config,
+    example_tool_registry,
+)
+
+load_dotenv()
+
+# Instantiate a Portia instance. Load it with the default config and with the example tools.
+portia = Portia(tools=example_tool_registry)
+
+async def main():
+    # Generate the plan from the user query
+    plan = await portia.aplan('Which stock price grew faster in 2024, Amazon or Google?')
+
+    # Serialise into JSON and print the output
+    print(plan.model_dump_json(indent=2))
+
+# Run the async function
+asyncio.run(main())
+```
+  </TabItem>
+</Tabs>
 
 As mentioned earlier in the documentation, the `Portia` instance class is your main entrypoint to interact with Portia's libraries (<a href="/SDK/portia/" target="_blank">**SDK reference ↗**</a>). The `plan` method is available from the `Portia` instance class and allows you to generate a plan from the query. Running the `plan` method per the code above returns a `Plan` object (<a href="/SDK/portia/plan" target="_blank">**SDK reference ↗**</a>) which looks as follows:
 
@@ -161,6 +194,8 @@ Now that you know how to generate plans in response to a user query, let's take 
 
 For some plans you might want to have a structured output at the end of a plan, for this we allow the ability to attach a structured output schema to the plan that the summarizer agent will attempt to coerce the results to. This is optional. To use, attach to the Plan object, and any Plan Runs that are created from this will attempt to use structured output for the final result, this can pull information from any point of the plan steps and is not just the final step. To attach a schema, you can do it through the PlanBuilder or the Plan interfaces, as below.
 
+<Tabs>
+  <TabItem value="sync" label="Sync" default>
 ```python title='plan_structured_output.py'
 from portia.plan import PlanBuilder
 from pydantic import BaseModel
@@ -188,5 +223,34 @@ plan = PlanBuilder(
 # Example via plan interface
 plan2 = portia.plan("Add 1 + 1", structured_output_schema=FinalPlanOutput)
 ```
+  </TabItem>
+  <TabItem value="async" label="Async">
+```python title='plan_structured_output.py'
+import asyncio
+from portia.plan import PlanBuilder
+from pydantic import BaseModel
+from dotenv import load_dotenv
+from portia import (
+    Portia,
+    default_config,
+    example_tool_registry,
+)
+
+load_dotenv()
+portia = Portia(tools=example_tool_registry)
+
+# Final Output schema type to coerce to
+class FinalPlanOutput(BaseModel):
+    result: float # result here is an integer output from calculator tool, but will be converted to a float via structured output
+
+async def main():
+    # Example via plan interface
+    plan2 = await portia.aplan("Add 1 + 1", structured_output_schema=FinalPlanOutput)
+
+# Run the async function
+asyncio.run(main())
+```
+  </TabItem>
+</Tabs>
 
 Run the plan as normal and the final output will be an instance of the attached schema.

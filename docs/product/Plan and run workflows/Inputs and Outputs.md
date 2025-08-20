@@ -3,6 +3,9 @@ sidebar_position: 5
 slug: /inputs-outputs
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Inputs and Outputs
 Inputs and outputs are the core of any agentic workflow, and Portia provides a flexible way to define and use them. Inputs are managed via the plan input interface, while structured outputs are managed via the plan structured output interface in conjunction with Pydantic BaseModels.
 
@@ -14,6 +17,8 @@ In the planning stage, you would define the list of plan inputs, providing a nam
 
 For example, consider a simple agent that tells you the weather in a particular city, with the city provided as a plan input.
 To set this up, we define the plan input for the planner as follows:
+<Tabs>
+  <TabItem value="sync" label="Sync" default>
 ```python id=plan_with_inputs
 from portia import Portia
 
@@ -33,11 +38,39 @@ This value will then be used for the `$city` input in the plan and we will find 
 plan_run_inputs = {"name": "$city", "value": "London"}
 plan_run = portia.run("Get the temperature for the provided city", plan_run_inputs=[plan_run_inputs])
 ```
+  </TabItem>
+  <TabItem value="async" label="Async">
+```python id=plan_with_inputs
+import asyncio
+from portia import Portia
+
+portia = Portia()
+
+async def main():
+    # Specify the inputs you will use in the plan
+    plan_input = {"name":"$city", "description": "The city to get the temperature for"}
+    plan = await portia.aplan("Get the temperature for the provided city", plan_inputs=[plan_input])
+
+    # This will create a single step plan that uses the weather tool with $city as an input to that tool.
+    # Then, when running the plan, we pass in a value for the input. In this case, we select "London".
+    # This value will then be used for the `$city` input in the plan and we will find the temperature in London.
+
+    # Specify the values for those inputs when you run the plan
+    plan_run_inputs = {"name": "$city", "value": "London"}
+    plan_run = await portia.arun("Get the temperature for the provided city", plan_run_inputs=[plan_run_inputs])
+
+# Run the async function
+asyncio.run(main())
+```
+  </TabItem>
+</Tabs>
 
 ## Plan Structured Outputs
 
 For some plans you might want to have a structured output at the end of a plan, for this we allow the ability to attach a structured output schema to the plan that the summarizer agent will attempt to coerce the results to. This is optional and is based on <a href="https://docs.pydantic.dev/latest/#pydantic-examples" target="_blank">**Pydantic BaseModels ↗**</a>. To use, attach to the Plan object, and any Plan Runs that are created from this will attempt to use structured output for the final result, this can pull information from any point of the plan steps and is not just the final step. To attach a schema, you can do it through the PlanBuilder or the Plan interfaces, as below.
 
+<Tabs>
+  <TabItem value="sync" label="Sync" default>
 ```python title='plan_structured_output.py'
 from portia.plan import PlanBuilder
 from pydantic import BaseModel
@@ -67,6 +100,44 @@ plan = PlanBuilder(
 # Example via plan interface
 plan2 = portia.plan("Add 1 + 1", structured_output_schema=FinalPlanOutput) 
 ```
+  </TabItem>
+  <TabItem value="async" label="Async">
+```python title='plan_structured_output.py'
+import asyncio
+from portia.plan import PlanBuilder
+from pydantic import BaseModel
+from dotenv import load_dotenv
+from portia import (
+    Portia,
+    default_config,
+    example_tool_registry,
+)
+
+load_dotenv()
+portia = Portia(tools=example_tool_registry)
+
+# Final output schema type to coerce to
+class FinalPlanOutput(BaseModel):
+    result: float # result here is an integer output from calculator tool, but will be converted 
+    # to a float via structured output you can also add other fields here, and they will be 
+    # included in the output, as per any other Pydantic BaseModel
+
+async def main():
+    # Example via plan builder, attach to the plan at top level
+    plan = PlanBuilder(
+      "Add 1 + 1", structured_output_schema=FinalPlanOutput
+    ).step(
+      "Add 1 + 1", tool_id='calculator_tool'
+    ).build()
+
+    # Example via plan interface
+    plan2 = await portia.aplan("Add 1 + 1", structured_output_schema=FinalPlanOutput)
+
+# Run the async function
+asyncio.run(main())
+```
+  </TabItem>
+</Tabs>
 Run the plan as normal and the final output will be an instance of the attached schema. It will be coerced to the type of the BaseModel provided and follows all the same rules as a pydantic model, including validation and description for fields.
 
 ## LLM Tool Outputs

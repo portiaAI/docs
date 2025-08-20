@@ -245,3 +245,107 @@ custom_tool_registry = InMemoryToolRegistry.from_local_tools(
 ```
 
 The `@tool` decorator approach is recommended for most use cases due to its simplicity and ease of use, while the class-based approach provides more flexibility for advanced scenarios.
+
+## Async
+
+Portia tools support both synchronous and asynchronous execution. The `run` method is required for all tools, while `arun` is optional and provides a default implementation that calls an `asyncio.to_thread` version of the `run` method.
+
+The `arun` method is used in context with other async functions like `portia.arun`, `portia.aresume`, etc. This allows your tools to work seamlessly in both sync and async workflows.
+
+### Async with class-based approach
+
+For class-based tools, you can implement the `arun` method to provide custom async behavior:
+
+<Tabs>
+  <TabItem value="async_class" label="Async class-based tool">
+    ```python title="custom_tools/async_file_reader_tool.py"
+    from pathlib import Path
+    import pandas as pd
+    import json
+    import asyncio
+    from pydantic import BaseModel, Field
+    from portia.tool import Tool, ToolRunContext
+
+    class AsyncFileReaderToolSchema(BaseModel):
+        """Schema defining the inputs for the AsyncFileReaderTool."""
+
+        filename: str = Field(...,
+            description="The location where the file should be read from",
+        )
+
+    class AsyncFileReaderTool(Tool[str]):
+        """Finds and reads content from a local file on Disk asynchronously."""
+
+        id: str = "async_file_reader_tool"
+        name: str = "Async file reader tool"
+        description: str = "Finds and reads content from a local file on Disk asynchronously"
+        args_schema: type[BaseModel] = AsyncFileReaderToolSchema
+        output_schema: tuple[str, str] = ("str", "A string dump or JSON of the file content")
+
+        def run(self, _: ToolRunContext, filename: str) -> str | dict[str,any]:
+            """Run the AsyncFileReaderTool synchronously."""
+            file_path = Path(filename)
+            suffix = file_path.suffix.lower()
+
+            if file_path.is_file():
+                if suffix == '.csv':
+                    return pd.read_csv(file_path).to_string()
+                elif suffix == '.json':
+                    with file_path.open('r', encoding='utf-8') as json_file:
+                        data = json.load(json_file)
+                        return data
+                elif suffix in ['.xls', '.xlsx']:
+                    return pd.read_excel(file_path).to_string()
+                elif suffix in ['.txt', '.log']:
+                    return file_path.read_text(encoding="utf-8")
+
+        async def arun(self, ctx: ToolRunContext, filename: str) -> str | dict[str,any]:
+            """Run the AsyncFileReaderTool asynchronously."""
+            # Custom async implementation - in this case, we'll use asyncio.to_thread
+            # to run the sync version in a thread pool
+            return await asyncio.to_thread(self.run, ctx, filename)
+    ```
+  </TabItem>
+  <TabItem value="async_class_usage" label="Using async class-based tools">
+    ```python title="custom_tools/async_class_main.py"
+    import asyncio
+    from dotenv import load_dotenv
+    from portia import (
+        Portia,
+        example_tool_registry,
+        Config,
+        LogLevel,
+    )
+
+    load_dotenv()
+
+    async def main():
+        # Load example and custom tool registries into a single one
+        complete_tool_registry = example_tool_registry + custom_tool_registry
+        # Instantiate Portia with the tools above
+        portia = Portia(
+            Config.from_default(default_log_level=LogLevel.DEBUG),
+            tools=complete_tool_registry,
+        )
+
+        # Execute the plan from the user query using async methods
+        plan_run = await portia.arun('Get the weather in London and write it to demo_runs/weather.txt.')
+
+        # Serialise into JSON and print the output
+        print(plan_run.model_dump_json(indent=2))
+
+    # Run the async function
+    asyncio.run(main())
+    ```
+  </TabItem>
+</Tabs>
+
+### When to use async tools
+
+Use async tools when:
+- Your tool performs I/O operations (file operations, network requests, database queries)
+- You want to integrate with other async functions in your workflow
+- You're using `portia.arun`, `portia.aresume`, or other async Portia methods
+- You need to handle multiple concurrent operations efficiently
+
+The default `arun` implementation using `asyncio.to_thread` is sufficient for most use cases, but you can override it to provide custom async behavior when needed.
