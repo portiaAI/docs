@@ -22,15 +22,6 @@ async def run(run_data: RunContext) -> Any
 
 Execute the step.
 
-#### describe
-
-```python
-@abstractmethod
-def describe() -> str
-```
-
-Return a description of this step for logging purposes.
-
 #### to\_legacy\_step
 
 ```python
@@ -52,11 +43,10 @@ class LLMStep(StepV2)
 
 A step that runs a given task through an LLM (without any tools).
 
-#### describe
+#### \_\_str\_\_
 
 ```python
-@override
-def describe() -> str
+def __str__() -> str
 ```
 
 Return a description of this step for logging purposes.
@@ -88,11 +78,10 @@ class InvokeToolStep(StepV2)
 
 A step that calls a tool with the given args (no LLM involved, just a direct tool call).
 
-#### describe
+#### \_\_str\_\_
 
 ```python
-@override
-def describe() -> str
+def __str__() -> str
 ```
 
 Return a description of this step for logging purposes.
@@ -124,11 +113,10 @@ class FunctionStep(StepV2)
 
 Calls a function with the given args (no LLM involved, just a direct function call).
 
-#### describe
+#### \_\_str\_\_
 
 ```python
-@override
-def describe() -> str
+def __str__() -> str
 ```
 
 Return a description of this step for logging purposes.
@@ -160,11 +148,10 @@ class SingleToolAgentStep(StepV2)
 
 A step where an LLM agent uses a single tool (calling it only once) to complete a task.
 
-#### describe
+#### \_\_str\_\_
 
 ```python
-@override
-def describe() -> str
+def __str__() -> str
 ```
 
 Return a description of this step for logging purposes.
@@ -218,11 +205,10 @@ def block() -> ConditionalBlock
 
 Get the conditional block for this step.
 
-#### describe
+#### \_\_str\_\_
 
 ```python
-@override
-def describe() -> str
+def __str__() -> str
 ```
 
 Return a description of this step for logging purposes.
