@@ -302,7 +302,8 @@ plan_run = portia.run(plan)
   </TabItem>
   <TabItem value="async" label="Async">
 ```python
-plan_run = await portia.arun(plan)
+import asyncio
+plan_run = asyncio.run(portia.arun(plan))
 ```
   </TabItem>
 </Tabs>

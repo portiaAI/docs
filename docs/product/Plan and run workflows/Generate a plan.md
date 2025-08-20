@@ -246,6 +246,7 @@ class FinalPlanOutput(BaseModel):
 async def main():
     # Example via plan interface
     plan2 = await portia.aplan("Add 1 + 1", structured_output_schema=FinalPlanOutput)
+    # other async code
 
 # Run the async function
 asyncio.run(main())
