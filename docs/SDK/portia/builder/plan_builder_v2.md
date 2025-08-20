@@ -1,0 +1,194 @@
+---
+sidebar_label: plan_builder_v2
+title: portia.builder.plan_builder_v2
+---
+
+Builder for Portia plans.
+
+## PlanBuilderError Objects
+
+```python
+class PlanBuilderError(ValueError)
+```
+
+Error in Plan definition.
+
+## PlanBuilderV2 Objects
+
+```python
+class PlanBuilderV2()
+```
+
+Builder for Portia plans.
+
+#### \_\_init\_\_
+
+```python
+def __init__(label: str = "Run the plan built with the Plan Builder") -> None
+```
+
+Initialize the builder.
+
+**Arguments**:
+
+- `label` - The label of the plan. This is used to identify the plan in the Portia dashboard.
+
+#### input
+
+```python
+def input(*,
+          name: str,
+          description: str | None = None,
+          default_value: Any | None = None) -> PlanBuilderV2
+```
+
+Add an input to the plan.
+
+**Arguments**:
+
+- `name` - The name of the input.
+- `description` - The description of the input.
+- `default_value` - The default value of the input.
+
+#### if\_
+
+```python
+def if_(condition: Callable[..., bool] | str,
+        args: dict[str, Any] | None = None) -> PlanBuilderV2
+```
+
+Add a step that checks a condition.
+
+#### else\_if\_
+
+```python
+def else_if_(condition: Callable[..., bool],
+             args: dict[str, Any] | None = None) -> PlanBuilderV2
+```
+
+Add a step that checks a condition.
+
+#### else\_
+
+```python
+def else_() -> PlanBuilderV2
+```
+
+Add a step that checks a condition.
+
+#### endif
+
+```python
+def endif() -> PlanBuilderV2
+```
+
+Exit a conditional block.
+
+#### llm\_step
+
+```python
+def llm_step(*,
+             task: str,
+             inputs: list[Any] | None = None,
+             output_schema: type[BaseModel] | None = None,
+             step_name: str | None = None) -> PlanBuilderV2
+```
+
+Add a step that sends a query to the underlying LLM.
+
+**Arguments**:
+
+- `task` - The task to perform.
+- `inputs` - The inputs to the task. The inputs can be references to previous step outputs /
+  plan inputs (using StepOutput / Input) or just plain values. They are passed in as
+  additional context to the LLM when it is completing the task.
+- `output_schema` - The schema of the output.
+- `step_name` - Optional name for the step. If not provided, will be auto-generated.
+
+#### invoke\_tool\_step
+
+```python
+def invoke_tool_step(*,
+                     tool: str | Tool,
+                     args: dict[str, Any] | None = None,
+                     output_schema: type[BaseModel] | None = None,
+                     step_name: str | None = None) -> PlanBuilderV2
+```
+
+Add a step that directly invokes a tool.
+
+**Arguments**:
+
+- `tool` - The tool to invoke. Should either be the id of the tool to call, the Tool instance
+  to call, or a python function that should be called.
+- `args` - The arguments to the tool. If any of these values are instances of StepOutput or
+  Input, the corresponding values will be substituted in when the plan is run.
+- `output_schema` - The schema of the output.
+- `step_name` - Optional name for the step. If not provided, will be auto-generated.
+
+#### function\_step
+
+```python
+def function_step(*,
+                  function: Callable[..., Any],
+                  args: dict[str, Any] | None = None,
+                  output_schema: type[BaseModel] | None = None,
+                  step_name: str | None = None) -> PlanBuilderV2
+```
+
+Add a step that directly invokes a function.
+
+**Arguments**:
+
+- `function` - The function to invoke.
+- `args` - The arguments to the function. If any of these values are instances of StepOutput
+  or Input, the corresponding values will be substituted in when the plan is run.
+- `output_schema` - The schema of the output.
+- `step_name` - Optional name for the step. If not provided, will be auto-generated.
+
+#### single\_tool\_agent\_step
+
+```python
+def single_tool_agent_step(*,
+                           tool: str,
+                           task: str,
+                           inputs: list[Any] | None = None,
+                           output_schema: type[BaseModel] | None = None,
+                           step_name: str | None = None) -> PlanBuilderV2
+```
+
+Add a step that uses the execution agent with a tool.
+
+**Arguments**:
+
+- `tool` - The tool to use.
+- `task` - The task to perform.
+- `inputs` - The inputs to the task. If any of these values are instances of StepOutput or
+  Input, the corresponding values will be substituted in when the plan is run.
+- `output_schema` - The schema of the output.
+- `step_name` - Optional name for the step. If not provided, will be auto-generated.
+
+#### final\_output
+
+```python
+def final_output(output_schema: type[BaseModel] | None = None,
+                 summarize: bool = False) -> PlanBuilderV2
+```
+
+Set the final output of the plan.
+
+**Arguments**:
+
+- `output_schema` - The schema for the final output. If provided, an LLM will be used to
+  coerce the output to this schema.
+- `summarize` - Whether to summarize the final output. If True, a summary of the final output
+  will be provided along with the value.
+
+#### build
+
+```python
+def build() -> PlanV2
+```
+
+Return the plan, ready to run.
+

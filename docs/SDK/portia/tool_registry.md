@@ -257,6 +257,14 @@ def __len__() -> int
 
 Return the number of tools in the registry.
 
+#### \_\_contains\_\_
+
+```python
+def __contains__(tool_id: str) -> bool
+```
+
+Check if a tool is in the registry.
+
 ## InMemoryToolRegistry Objects
 
 ```python

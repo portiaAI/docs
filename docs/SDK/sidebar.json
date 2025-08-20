@@ -2,6 +2,17 @@
   "items": [
     {
       "items": [
+        "SDK/portia/builder/conditionals",
+        "SDK/portia/builder/plan_builder_v2",
+        "SDK/portia/builder/plan_v2",
+        "SDK/portia/builder/reference",
+        "SDK/portia/builder/step_v2"
+      ],
+      "label": "portia.builder",
+      "type": "category"
+    },
+    {
+      "items": [
         {
           "items": [
             "SDK/portia/execution_agents/utils/final_output_summarizer",

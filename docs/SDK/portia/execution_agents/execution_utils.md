@@ -77,6 +77,7 @@ Template any required inputs into the tool calls.
 
 ```python
 def process_output(
+        step: Step,
         messages: list[BaseMessage],
         tool: Tool | None = None,
         clarifications: list[Clarification] | None = None) -> Output
@@ -89,6 +90,7 @@ It raises errors if the tool encounters issues and returns the appropriate outpu
 
 **Arguments**:
 
+- `step` _Step_ - The step that produced the output.
 - `messages` _list[BaseMessage]_ - The set of messages received from the agent&#x27;s plan_run.
 - `tool` _Tool | None_ - The tool associated with the agent, if any.
 - `clarifications` _list[Clarification] | None_ - A list of clarifications, if any.

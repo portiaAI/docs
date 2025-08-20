@@ -22,6 +22,14 @@ The `Portia` class provides methods to:
 Modules in this file work with different storage backends (memory, disk, cloud) and can handle
 complex queries using various planning and execution agent configurations.
 
+## RunContext Objects
+
+```python
+class RunContext(BaseModel)
+```
+
+Data that is returned from a step.
+
 ## Portia Objects
 
 ```python
@@ -253,7 +261,7 @@ Plans how to do the query given the set of tools and any examples asynchronously
 
 ```python
 def run_plan(
-        plan: Plan | PlanUUID | UUID,
+        plan: Plan | PlanUUID | UUID | PlanV2,
         end_user: str | EndUser | None = None,
         plan_run_inputs: list[PlanInput]
     | list[dict[str, Serializable]]
@@ -266,7 +274,7 @@ Run a plan.
 
 **Arguments**:
 
-- `plan` _Plan | PlanUUID | UUID_ - The plan to run, or the ID of the plan to load from
+- `plan` _Plan | PlanUUID | UUID | PlanV2_ - The plan to run, or the ID of the plan to load from
   storage.
 - `end_user` _str | EndUser | None = None_ - The end user to use.
   plan_run_inputs (list[PlanInput] | list[dict[str, Serializable]] | dict[str, Serializable] | None):
@@ -285,7 +293,7 @@ Run a plan.
 
 ```python
 async def arun_plan(
-        plan: Plan | PlanUUID | UUID,
+        plan: Plan | PlanUUID | UUID | PlanV2,
         end_user: str | EndUser | None = None,
         plan_run_inputs: list[PlanInput]
     | list[dict[str, Serializable]]
@@ -317,7 +325,8 @@ Run a plan asynchronously.
 
 ```python
 def resume(plan_run: PlanRun | None = None,
-           plan_run_id: PlanRunUUID | str | None = None) -> PlanRun
+           plan_run_id: PlanRunUUID | str | None = None,
+           plan: PlanV2 | None = None) -> PlanRun
 ```
 
 Resume a PlanRun.
@@ -333,6 +342,8 @@ by the caller before the plan run is resumed.
 - `plan_run` _PlanRun | None_ - The PlanRun to resume. Defaults to None.
 - `plan_run_id` _RunUUID | str | None_ - The ID of the PlanRun to resume. Defaults to
   None.
+- `plan` _PlanV2 | None_ - If using a plan built with the Plan Builder, the plan must be
+  passed in here in order to resume.
   
 
 **Returns**:
@@ -349,7 +360,8 @@ by the caller before the plan run is resumed.
 
 ```python
 async def aresume(plan_run: PlanRun | None = None,
-                  plan_run_id: PlanRunUUID | str | None = None) -> PlanRun
+                  plan_run_id: PlanRunUUID | str | None = None,
+                  plan: PlanV2 | None = None) -> PlanRun
 ```
 
 Resume a PlanRun.
@@ -365,6 +377,8 @@ by the caller before the plan run is resumed.
 - `plan_run` _PlanRun | None_ - The PlanRun to resume. Defaults to None.
 - `plan_run_id` _RunUUID | str | None_ - The ID of the PlanRun to resume. Defaults to
   None.
+- `plan` _PlanV2 | None_ - If using a plan built with the Plan Builder, the plan must be
+  passed in here in order to resume.
   
 
 **Returns**:
@@ -398,9 +412,8 @@ Execute a plan run and handle any clarifications that are raised.
 #### resolve\_clarification
 
 ```python
-def resolve_clarification(clarification: Clarification,
-                          response: object,
-                          plan_run: PlanRun | None = None) -> PlanRun
+def resolve_clarification(clarification: Clarification, response: object,
+                          plan_run: PlanRun) -> PlanRun
 ```
 
 Resolve a clarification updating the run state as needed.
@@ -419,9 +432,8 @@ Resolve a clarification updating the run state as needed.
 #### error\_clarification
 
 ```python
-def error_clarification(clarification: Clarification,
-                        error: object,
-                        plan_run: PlanRun | None = None) -> PlanRun
+def error_clarification(clarification: Clarification, error: object,
+                        plan_run: PlanRun) -> PlanRun
 ```
 
 Mark that there was an error handling the clarification.
@@ -502,4 +514,59 @@ Create a PlanRun from a Plan.
 **Returns**:
 
 - `PlanRun` - The created PlanRun object.
+
+#### get\_tool
+
+```python
+def get_tool(tool_id: str | None, plan_run: PlanRun) -> Tool | None
+```
+
+Get the tool for a step.
+
+#### get\_agent\_for\_step
+
+```python
+def get_agent_for_step(step: Step, plan: Plan,
+                       plan_run: PlanRun) -> BaseExecutionAgent
+```
+
+Get the appropriate agent for executing a given step.
+
+**Arguments**:
+
+- `step` _Step_ - The step for which the agent is needed.
+- `plan` _Plan_ - The plan associated with the step.
+- `plan_run` _PlanRun_ - The run associated with the step.
+  
+
+**Returns**:
+
+- `BaseAgent` - The agent to execute the step.
+
+#### run\_builder\_plan
+
+```python
+@traceable(name="Portia - Run Plan")
+async def run_builder_plan(
+        plan: PlanV2,
+        end_user: EndUser,
+        plan_run_inputs: list[PlanInput]
+    | list[dict[str, Serializable]]
+    | dict[str, Serializable]
+    | None = None,
+        structured_output_schema: type[BaseModel] | None = None) -> PlanRun
+```
+
+Run a Portia plan.
+
+#### resume\_builder\_plan
+
+```python
+async def resume_builder_plan(plan: PlanV2,
+                              plan_run: PlanRun,
+                              end_user: EndUser | None = None,
+                              legacy_plan: Plan | None = None) -> PlanRun
+```
+
+Resume a Portia plan.
 
