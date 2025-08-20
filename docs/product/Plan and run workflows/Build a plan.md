@@ -59,7 +59,7 @@ plan = (
     .build()
 )
 
-portia.run_plan(plan, plan_run_inputs={"country_name": "France"})
+portia.run_plan(plan, plan_run_inputs={"purchase_quantity": 100, "currency": "GBP"})
 ```
 
 ## Available Step Types
