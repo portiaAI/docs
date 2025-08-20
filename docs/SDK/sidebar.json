@@ -23,6 +23,7 @@
         },
         "SDK/portia/execution_agents/base_execution_agent",
         "SDK/portia/execution_agents/clarification_tool",
+        "SDK/portia/execution_agents/conditional_evaluation_agent",
         "SDK/portia/execution_agents/context",
         "SDK/portia/execution_agents/default_execution_agent",
         "SDK/portia/execution_agents/execution_utils",

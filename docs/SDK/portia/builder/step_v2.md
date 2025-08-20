@@ -231,6 +231,7 @@ Return a description of this step for logging purposes.
 
 ```python
 @override
+@traceable(name="Conditional Step - Run")
 async def run(run_data: RunContext) -> Any
 ```
 
