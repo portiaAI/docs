@@ -257,57 +257,50 @@ The `arun` method is used in context with other async functions like `portia.aru
 For class-based tools, you can implement the `arun` method to provide custom async behavior:
 
 <Tabs>
-  <TabItem value="async_class" label="Async class-based tool">
-    ```python title="custom_tools/async_file_reader_tool.py"
-    from pathlib import Path
-    import pandas as pd
-    import json
+  <TabItem value="async_class" label="Async ping tool">
+    ```python title="custom_tools/async_ping_tool.py"
+    import httpx
     import asyncio
     from pydantic import BaseModel, Field
     from portia.tool import Tool, ToolRunContext
 
-    class AsyncFileReaderToolSchema(BaseModel):
-        """Schema defining the inputs for the AsyncFileReaderTool."""
+    class PingToolSchema(BaseModel):
+        """Schema defining the inputs for the PingTool."""
 
-        filename: str = Field(...,
-            description="The location where the file should be read from",
+        host: str = Field(default="8.8.8.8",
+            description="The host to ping (defaults to Google DNS)",
         )
 
-    class AsyncFileReaderTool(Tool[str]):
-        """Finds and reads content from a local file on Disk asynchronously."""
+    class PingTool(Tool[str]):
+        """Measures network latency to a host using HTTP requests."""
 
-        id: str = "async_file_reader_tool"
-        name: str = "Async file reader tool"
-        description: str = "Finds and reads content from a local file on Disk asynchronously"
-        args_schema: type[BaseModel] = AsyncFileReaderToolSchema
-        output_schema: tuple[str, str] = ("str", "A string dump or JSON of the file content")
+        id: str = "ping_tool"
+        name: str = "Ping tool"
+        description: str = "Measures network latency to a host using HTTP requests"
+        args_schema: type[BaseModel] = PingToolSchema
+        output_schema: tuple[str, str] = ("str", "The latency in milliseconds")
 
-        def run(self, _: ToolRunContext, filename: str) -> str | dict[str,any]:
-            """Run the AsyncFileReaderTool synchronously."""
-            file_path = Path(filename)
-            suffix = file_path.suffix.lower()
+        def run(self, _: ToolRunContext, host: str = "8.8.8.8") -> str:
+            """Run the PingTool synchronously."""
+            # For sync version, we'll use a simple approach
+            return "Sync ping not implemented - use async version"
 
-            if file_path.is_file():
-                if suffix == '.csv':
-                    return pd.read_csv(file_path).to_string()
-                elif suffix == '.json':
-                    with file_path.open('r', encoding='utf-8') as json_file:
-                        data = json.load(json_file)
-                        return data
-                elif suffix in ['.xls', '.xlsx']:
-                    return pd.read_excel(file_path).to_string()
-                elif suffix in ['.txt', '.log']:
-                    return file_path.read_text(encoding="utf-8")
-
-        async def arun(self, ctx: ToolRunContext, filename: str) -> str | dict[str,any]:
-            """Run the AsyncFileReaderTool asynchronously."""
-            # Custom async implementation - in this case, we'll use asyncio.to_thread
-            # to run the sync version in a thread pool
-            return await asyncio.to_thread(self.run, ctx, filename)
+        async def arun(self, ctx: ToolRunContext, host: str = "8.8.8.8") -> str:
+            """Run the PingTool asynchronously."""
+            start_time = asyncio.get_event_loop().time()
+            
+            async with httpx.AsyncClient() as client:
+                try:
+                    response = await client.get(f"http://{host}", timeout=5.0)
+                    end_time = asyncio.get_event_loop().time()
+                    latency_ms = round((end_time - start_time) * 1000, 2)
+                    return f"Latency to {host}: {latency_ms}ms"
+                except Exception as e:
+                    return f"Failed to ping {host}: {str(e)}"
     ```
   </TabItem>
-  <TabItem value="async_class_usage" label="Using async class-based tools">
-    ```python title="custom_tools/async_class_main.py"
+  <TabItem value="async_class_usage" label="Using async tools">
+    ```python title="custom_tools/async_main.py"
     import asyncio
     from dotenv import load_dotenv
     from portia import (
@@ -320,16 +313,18 @@ For class-based tools, you can implement the `arun` method to provide custom asy
     load_dotenv()
 
     async def main():
-        # Load example and custom tool registries into a single one
-        complete_tool_registry = example_tool_registry + custom_tool_registry
-        # Instantiate Portia with the tools above
+        # Create a simple registry with just our ping tool
+        from custom_tools.async_ping_tool import PingTool
+        ping_registry = ToolRegistry([PingTool()])
+        
+        # Instantiate Portia with the ping tool
         portia = Portia(
             Config.from_default(default_log_level=LogLevel.DEBUG),
-            tools=complete_tool_registry,
+            tools=ping_registry,
         )
 
-        # Execute the plan from the user query using async methods
-        plan_run = await portia.arun('Get the weather in London and write it to demo_runs/weather.txt.')
+        # Execute the plan using async methods
+        plan_run = await portia.arun('Check the network latency to Google DNS')
 
         # Serialise into JSON and print the output
         print(plan_run.model_dump_json(indent=2))
