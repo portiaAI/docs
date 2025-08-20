@@ -312,19 +312,15 @@ For class-based tools, you can implement the `arun` method to provide custom asy
 
     load_dotenv()
 
-    async def main():
-        # Create a simple registry with just our ping tool
-        from custom_tools.async_ping_tool import PingTool
-        ping_registry = ToolRegistry([PingTool()])
-        
+    async def main():        
         # Instantiate Portia with the ping tool
         portia = Portia(
             Config.from_default(default_log_level=LogLevel.DEBUG),
-            tools=ping_registry,
+            tools=example_tool_registry,
         )
 
         # Execute the plan using async methods
-        plan_run = await portia.arun('Check the network latency to Google DNS')
+        plan_run = await portia.arun('Get the weather in Tokyo') # Will automatically call the arun method of tool calls
 
         # Serialise into JSON and print the output
         print(plan_run.model_dump_json(indent=2))
