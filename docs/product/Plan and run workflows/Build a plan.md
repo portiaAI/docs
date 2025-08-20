@@ -13,9 +13,9 @@ If you prefer to explicitly define a plan step by step rather than rely on our p
 
 The `PlanBuilderV2` offers methods to create each part of the plan iteratively:
 - `.llm_step()` adds a step that sends a query to the underlying LLM
-- `.tool_call()` adds a step that directly invokes a tool. Requires mapping of step outputs to tool arguments.
-- `.single_tool_agent()` is similar to `.tool_call()` but an LLM call is made to map the inputs to the step to what the tool requires creating flexibility.
-- `.function_call()` is identical to `.tool_call()` but calls a Python function rather than a tool with an ID.
+- `.invoke_tool_step()` adds a step that directly invokes a tool. Requires mapping of step outputs to tool arguments.
+- `.single_tool_agent_step()` is similar to `.invoke_tool_step()` but an LLM call is made to map the inputs to the step to what the tool requires creating flexibility.
+- `.function_step()` is identical to `.invoke_tool_step()` but calls a Python function rather than a tool with an ID.
 
 ## Example
 
@@ -26,7 +26,7 @@ plan = (
     PlanBuilderV2("Write a poem about the price of gold")
     .input(name="purchase_quantity", description="The quantity of gold to purchase in ounces")
     .input(name="currency", description="The currency to purchase the gold in", default_value="GBP")
-    .tool_run(
+    .invoke_tool_step(
         step_name="Search gold price",
         tool="search_tool",
         args={
@@ -34,7 +34,7 @@ plan = (
         },
         output_schema=CommodityPriceWithCurrency,
     )
-    .function_call(
+    .function_step(
         function=lambda price_with_currency, purchase_quantity: (
             price_with_currency.price * purchase_quantity
         ),
@@ -47,7 +47,7 @@ plan = (
         task="Write a poem about the current price of gold",
         inputs=[StepOutput(0), Input("currency")],
     )
-    .single_tool_agent(
+    .single_tool_agent_step(
         task="Send the poem to Robbie in an email at donotemail@portialabs.ai",
         tool="portia:google:gmail:send_email",
         inputs=[StepOutput(2)],
@@ -77,36 +77,36 @@ builder.llm_step(
 
 The `output_schema` is a Pydantic model that is used for the structured output.
 
-### Tool run
-Use `.tool_run()` to add a step that directly invokes a tool:
+### Invoke Tool step
+Use `.invoke_tool_step()` to add a step that directly invokes a tool:
 
 ```python
-builder.tool_run(
+builder.invoke_tool_step(
     tool="portia:tavily::search",
     args={"query": "latest news about AI"},
     name="search_news"
 )
 ```
 
-### Function Call
-Use `.function_call()` to add a step that calls a function. This is useful for manipulating data from other steps using code, streaming updates on the plan as it is run or adding in guardrails.
+### Function step
+Use `.function_step()` to add a step that calls a function. This is useful for manipulating data from other steps using code, streaming updates on the plan as it is run or adding in guardrails.
 
 ```python
 def process_data(data):
     return {"processed": data.upper()}
 
-builder.function_call(
+builder.function_step(
     function=process_data,
     args={"data": StepOutput(0)},
     name="process_raw_data"
 )
 ```
 
-### Single Tool Agent
-Use `.single_tool_agent()` to add a step that calls a tool using arguments that are worked out dynamically from the inputs:
+### Single Tool Agent step
+Use `.single_tool_agent_step()` to add a step that calls a tool using arguments that are worked out dynamically from the inputs:
 
 ```python
-builder.single_tool_agent(
+builder.single_tool_agent_step(
     tool="web_scraper",
     task="Extract key information from the webpage provided",
     inputs=[StepOutput("text_blob_with_url")],
@@ -126,7 +126,7 @@ builder.input(
 )
 ```
 
-You can also provide the value to the input, e.g 
+You can also provide the default value for the input, e.g 
 ```python
 builder.input(
     name="user_query",
@@ -136,7 +136,7 @@ builder.input(
 )
 ```
 
-You can dyamically add the value of the plan at run time, e.g
+You can dynamically add the value of the plan at run time, e.g
 ```python
 portia.run_plan(plan, plan_run_inputs={"user_query": "What is the capital of Peru?"})
 ```
@@ -147,7 +147,7 @@ You can reference outputs from previous steps using `StepOutput`:
 ```python
 from portia import StepOutput
 
-builder.tool_call(
+builder.invoke_tool_step(
     tool="calculator",
     args={"expression": f"This is some string {StepOutput("previous_step")} interpolation"}
 )
@@ -157,7 +157,7 @@ You can also reference previous step outputs using their index:
 ```python
 from portia import StepOutput
 
-builder.tool_call(
+builder.invoke_tool_step(
     tool="calculator",
     args={"expression": StepOutput(1)"}
 )
@@ -195,7 +195,7 @@ The returned `PlanV2` object is ready to be executed with your Portia instance.
 
 :::tip[Deprecation warning]
 
-There is an older form of the plan builder described below which is still functional in the SDK but overtime we will be replacing it will PlanBuilderV2.
+There is an older form of the plan builder described below which is still functional in the SDK but over time we will be replacing it will PlanBuilderV2.
 
 :::
 
