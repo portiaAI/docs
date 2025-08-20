@@ -117,7 +117,7 @@ builder.single_tool_agent_step(
 
 ## Conditionals
 
-Use `.if_()` to start a conditional block for advanced control flow
+Use `.if_()` to start a conditional block for advanced control flow:
 
 ```python
 (
@@ -137,11 +137,13 @@ Use `.if_()` to start a conditional block for advanced control flow
 )
 ```
 
-`if_()` takes a predicate, which can either be a function, or a natural language string.
+`if_()` takes a predicate, which can either be a function, or a natural language string. If it is a function, then the function will be run to return a boolean indicating whether the condition passed. If it is a natural language string, then an LLM will be used to determine whether the string is true or false.
 
-`args` is a dictionary of arguments to pass to the predicate. Like other step types, you can pass references or values (see the [Inputs and Outputs](#inputs-and-outputs) section below for more details).
+`args` is a dictionary of arguments to pass to the predicate (if it a function). Like other step types, you can pass references or values (see the [Inputs and Outputs](#inputs-and-outputs) section below for more details).
 
-Alternative branches can be added to the conditional block using `.else_if_()` and `.else_()`.
+Also note that you need to add an endif() at the end of the flow to indicate the end of the conditional branch.
+
+Alternative branches can be added to the conditional block using `.else_if_()` and `.else_()`:
 
 ```python
 (
