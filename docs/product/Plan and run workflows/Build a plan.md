@@ -16,6 +16,7 @@ The `PlanBuilderV2` offers methods to create each part of the plan iteratively:
 - `.invoke_tool_step()` adds a step that directly invokes a tool. Requires mapping of step outputs to tool arguments.
 - `.single_tool_agent_step()` is similar to `.invoke_tool_step()` but an LLM call is made to map the inputs to the step to what the tool requires creating flexibility.
 - `.function_step()` is identical to `.invoke_tool_step()` but calls a Python function rather than a tool with an ID.
+- `.if_()`, `.else_if_()`, `.else_()` and `.endif()` are used to add conditional branching to the plan.
 
 ## Example
 
@@ -113,6 +114,102 @@ builder.single_tool_agent_step(
     name="scrape_webpage"
 )
 ```
+
+## Conditionals
+
+Use `.if_()` to start a conditional block for advanced control flow
+
+```python
+(
+    builder
+    .if_(
+        condition=lambda web_page: len(web_page) > 100_000,
+        args={
+            "web_page": StepOutput("scrape_webpage")
+        }
+    )
+    .llm_step(
+        task="Summarise the web page",
+        inputs=[StepOutput("scrape_webpage")],
+        name="summarise_webpage"
+    )
+    .endif()
+)
+```
+
+`if_()` takes a predicate, which can either be a function, or a natural language string.
+
+`args` is a dictionary of arguments to pass to the predicate. Like other step types, you can pass references or values (see the [Inputs and Outputs](#inputs-and-outputs) section below for more details).
+
+Alternative branches can be added to the conditional block using `.else_if_()` and `.else_()`.
+
+```python
+(
+    builder
+    .if_(
+        condition=lambda web_page: len(web_page) > 100_000,
+        args={
+            "web_page": StepOutput("scrape_webpage")
+        }
+    )   # ...
+    .else_if_(
+        condition=lambda web_page: len(web_page) < 100,
+        args={
+            "web_page": StepOutput("scrape_webpage")
+        }
+    )
+    .function_step(
+        function=lambda: raise_exception("Web page is too short"),
+    )
+    .else_()
+    .function_step(
+        function=lambda: print("All good!"),
+    )
+    .endif()
+)
+```
+
+As mentioned, the condition can be a natural language string. Just write a statement that can be evaluated to true or false and pass the relevant context via the `args`.
+
+
+```python
+(
+    builder
+    .if_(
+        condition="The web page is about large cats",
+        args={
+            "web_page": StepOutput("scrape_webpage")
+        }
+    )
+)
+```
+
+Conditional blocks can be nested to create _even_ more complex control flow!
+
+```python
+(
+    builder
+    .if_(
+        condition=lambda web_page: len(web_page) > 100_000,
+        args={
+            "web_page": StepOutput("scrape_webpage")
+        }
+    )
+    # Nested conditional block
+    .if_(
+        condition=lambda web_page: len(web_page) > 1_000_000,
+        args={
+            "web_page": StepOutput("scrape_webpage")
+        }
+    )
+    .function_step(
+        function=lambda: raise_exception("Web page is too long"),
+    )
+    .endif()
+    # ... back to the outer conditional block
+)
+```
+
 
 ## Inputs and Outputs
 
