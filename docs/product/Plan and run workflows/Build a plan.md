@@ -108,7 +108,7 @@ Use `.single_tool_agent()` to add a step that calls a tool using arguments that 
 ```python
 builder.single_tool_agent(
     tool="web_scraper",
-    task="Extract key information from the webpage",
+    task="Extract key information from the webpage provided",
     inputs=[StepOutput("text_blob_with_url")],
     name="scrape_webpage"
 )
@@ -136,9 +136,9 @@ builder.input(
 )
 ```
 
-Or you can dyamically add the value of the plan at run time, e.g
+You can dyamically add the value of the plan at run time, e.g
 ```python
-portia.run_plan(plan, plan_run_inputs={"user_query": "What is the capital of France?"})
+portia.run_plan(plan, plan_run_inputs={"user_query": "What is the capital of Peru?"})
 ```
 
 ### Referencing Step Outputs
