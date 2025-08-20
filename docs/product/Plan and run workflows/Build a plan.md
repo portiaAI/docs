@@ -137,7 +137,7 @@ Use `.if_()` to start a conditional block for advanced control flow
 )
 ```
 
-`if_()` takes a predicate, which can either be a function, or a natural language string.
+`if_()` takes a predicate (named `condition`), which can either be a function, or a natural language string.
 
 `args` is a dictionary of arguments to pass to the predicate. Like other step types, you can pass references or values (see the [Inputs and Outputs](#inputs-and-outputs) section below for more details).
 
@@ -259,6 +259,13 @@ builder.invoke_tool_step(
     args={"expression": StepOutput(1)"}
 )
 ```
+
+:::tip[Note]
+
+The index of a step is the order in which it was added to the plan.
+
+Conditional clauses (`.if_()`, `.else_if_()`, `.else_()` and `.endif()`) _are_ counted as steps and do have an index. Steps within a conditional branch are also counted - the step index is the order the steps appear in the plan, not the runtime index.
+:::
 
 ### Final Output Configuration
 Use `.final_output()` to configure the final output:
