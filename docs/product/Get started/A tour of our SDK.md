@@ -471,68 +471,9 @@ with an even more complex and powerful use-case.
 
 ## 5. Sync/Async Support
 
-**File**: [`5_sync_async.py` ↗](https://github.com/portiaAI/portia-agent-examples/blob/main/getting-started/5_sync_async.py)
-
-### Key concepts
-
-* Using async/await with Portia
-* High-level async interfaces via `portia.a{function_name}` methods
-* Running multiple agents concurrently
-
-### Code walkthrough
-
 Portia provides comprehensive support for both synchronous and asynchronous operations. All high-level interfaces support async variants via `portia.a{function_name}` methods, making it easy to integrate Portia into async applications and run multiple agents concurrently.
 
-Here's a simple example showing the async equivalents of the core Portia methods:
-
-```python id=tour_code_15
-import asyncio
-from portia import Portia, Config, StorageClass
-
-# Configure Portia as before
-config = Config.from_default(storage_class=StorageClass.CLOUD)
-portia = Portia(config=config, tools=PortiaToolRegistry(config))
-
-# Sync methods (blocking)
-plan = portia.plan("Research the latest AI trends")
-plan_run = portia.run("Summarize today's weather")
-
-# Async methods (non-blocking)
-async def async_example():
-    # Plan asynchronously
-    plan = await portia.aplan("Research the latest AI trends")
-    
-    # Run asynchronously
-    plan_run = await portia.arun("Summarize today's weather")
-    
-    # Run a specific plan asynchronously
-    plan_run = await portia.arun_plan(plan)
-    
-    return plan_run
-
-# Run the async function
-result = asyncio.run(async_example())
-```
-
-The async support is particularly powerful when you need to run multiple agents concurrently:
-
-```python id=tour_code_16
-async def run_multiple_agents():
-    tasks = [
-        portia.arun("Research AI trends"),
-        portia.arun("Check weather forecast"),
-        portia.arun("Summarize latest tech news")
-    ]
-    
-    # Run all agents concurrently
-    results = await asyncio.gather(*tasks)
-    return results
-
-# Execute multiple agents in parallel
-all_results = asyncio.run(run_multiple_agents())
-```
-
-### Available Async Methods
+### Available Async Implementations
 
 Portia provides async variants for all major operations:
 
@@ -541,6 +482,7 @@ Portia provides async variants for all major operations:
 | `portia.plan()` | `portia.aplan()` | Create a plan asynchronously |
 | `portia.run()` | `portia.arun()` | Plan and execute asynchronously |
 | `portia.run_plan()` | `portia.arun_plan()` | Execute a specific plan asynchronously |
+| `portia.resume()` | `portia.aresume()` | Resume a plan run asynchronously |
 
 This async support makes Portia ideal for building high-performance applications that need to handle multiple concurrent agent operations, such as web services, batch processing systems, or real-time applications.
 
@@ -554,7 +496,6 @@ This async support makes Portia ideal for building high-performance applications
 | `2_tools_end_users_llms.py` | Multi-tool agent  | End users, multi-step reasoning          |
 | `3_mcp.py`                  | Running MCP Tools | MCP format, structured execution         |
 | `4_browser_use.py`          | Web automation    | Browser automation, local & remote modes |
-| `5_sync_async.py`           | Async operations  | Async/await support, concurrent agents   |
 
 These examples form a practical foundation for building agents with Portia.
 Look out for tutorials that take these concepts even further, with some sample web applications, integrating with popular frameworks.
