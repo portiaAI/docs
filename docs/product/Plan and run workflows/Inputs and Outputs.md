@@ -17,7 +17,7 @@ In the planning stage, you would define the list of plan inputs, providing a nam
 
 For example, consider a simple agent that tells you the weather in a particular city, with the city provided as a plan input.
 To set this up, we define the plan input for the planner as follows:
-<Tabs>
+<Tabs groupId="sync-async">
   <TabItem value="sync" label="Sync" default>
 ```python id=plan_with_inputs
 from portia import Portia
@@ -27,13 +27,11 @@ portia = Portia()
 # Specify the inputs you will use in the plan
 plan_input = {"name":"$city", "description": "The city to get the temperature for"}
 plan = portia.plan("Get the temperature for the provided city", plan_inputs=[plan_input])
-```
 
-This will create a single step plan that uses the weather tool with $city as an input to that tool.
-Then, when running the plan, we pass in a value for the input. In this case, we select "London".
-This value will then be used for the `$city` input in the plan and we will find the temperature in London.
+# This will create a single step plan that uses the weather tool with $city as an input to that tool.
+# Then, when running the plan, we pass in a value for the input. In this case, we select "London".
+# This value will then be used for the `$city` input in the plan and we will find the temperature in London.
 
-```python depends_on=plan_with_inputs
 # Specify the values for those inputs when you run the plan
 plan_run_inputs = {"name": "$city", "value": "London"}
 plan_run = portia.run("Get the temperature for the provided city", plan_run_inputs=[plan_run_inputs])

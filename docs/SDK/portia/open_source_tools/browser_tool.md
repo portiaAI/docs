@@ -175,6 +175,19 @@ def run(
 
 Run the BrowserTool.
 
+#### arun
+
+```python
+async def arun(
+    ctx: ToolRunContext,
+    url: str,
+    task: str,
+    task_data: list[Any] | str | None = None
+) -> str | BaseModel | ActionClarification
+```
+
+Run the BrowserTool asynchronously.
+
 ## BrowserToolForUrl Objects
 
 ```python

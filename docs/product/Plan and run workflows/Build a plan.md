@@ -63,15 +63,15 @@ plan = (
 )
 ```
 
-<Tabs>
+<Tabs groupId="sync-async">
   <TabItem value="sync" label="Sync" default>
 ```python
-portia.run_plan(plan, plan_run_inputs={"country_name": "France"})
+portia.run_plan(plan, plan_run_inputs={"purchase_quantity": 100, "currency": "GBP"})
 ```
   </TabItem>
   <TabItem value="async" label="Async">
 ```python
-await portia.arun_plan(plan, plan_run_inputs={"country_name": "France"})
+await portia.arun_plan(plan, plan_run_inputs={"purchase_quantity": 100, "currency": "GBP"})
 ```
   </TabItem>
 </Tabs>
@@ -294,7 +294,7 @@ plan = builder.final_output(
 ).build()
 ```
 
-<Tabs>
+<Tabs groupId="sync-async">
   <TabItem value="sync" label="Sync" default>
 ```python
 plan_run = portia.run(plan)

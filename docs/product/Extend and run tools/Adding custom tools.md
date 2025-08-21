@@ -248,7 +248,7 @@ The `@tool` decorator approach is recommended for most use cases due to its simp
 
 ## Async
 
-Portia tools support both synchronous and asynchronous execution. The `run` method is required for all tools, while `arun` is optional and provides a default implementation that calls an `asyncio.to_thread` version of the `run` method.
+Portia tools support both synchronous and asynchronous execution. The `run` method is required for all tools, while `arun` is optional: if not defined Portia provides a default implementation that calls an `asyncio.to_thread` version of the `run` method.
 
 The `arun` method is used in context with other async functions like `portia.arun`, `portia.aresume`, etc. This allows your tools to work seamlessly in both sync and async workflows.
 
@@ -338,5 +338,3 @@ Use async tools when:
 - You want to integrate with other async functions in your workflow
 - You're using `portia.arun`, `portia.aresume`, or other async Portia methods
 - You need to handle multiple concurrent operations efficiently
-
-The default `arun` implementation using `asyncio.to_thread` is sufficient for most use cases, but you can override it to provide custom async behavior when needed.

@@ -82,3 +82,12 @@ output, latency, and status of the execution, and stores the details in `Additio
 - `Exception` - If an error occurs during execution, the exception is logged, and the
   status is set to `FAILED`.
 
+#### arun
+
+```python
+async def arun(ctx: ToolRunContext, *args: Any,
+               **kwargs: Any) -> Any | Clarification
+```
+
+Async run the child tool and store the outcome.
+
