@@ -168,6 +168,28 @@ Add a step that uses the execution agent with a tool.
 - `output_schema` - The schema of the output.
 - `step_name` - Optional name for the step. If not provided, will be auto-generated.
 
+#### add\_step
+
+```python
+def add_step(step: StepV2) -> PlanBuilderV2
+```
+
+Add a pre-built step to the plan.
+
+This can be used to add custom steps into the plan.
+
+#### add\_steps
+
+```python
+def add_steps(plan: PlanV2 | Iterable[StepV2]) -> PlanBuilderV2
+```
+
+Add steps to the plan.
+
+Step can be provided as a sequence or as a plan. If provided as a plan, we will also take
+plan inputs from the plan, provided there are no duplicates (if there are duplicates, a
+PlanBuilderError will be raised).
+
 #### final\_output
 
 ```python
