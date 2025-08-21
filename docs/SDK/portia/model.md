@@ -368,6 +368,37 @@ async def aget_structured_response_instructor(
 
 Get structured response using instructor asynchronously.
 
+## OpenRouterGenerativeModel Objects
+
+```python
+class OpenRouterGenerativeModel(OpenAIGenerativeModel)
+```
+
+OpenRouter model implementation.
+
+#### \_\_init\_\_
+
+```python
+def __init__(*,
+             model_name: str,
+             api_key: SecretStr,
+             seed: int = 343,
+             max_retries: int = 3,
+             temperature: float = 0,
+             **kwargs: Any) -> None
+```
+
+Initialize with OpenRouter client.
+
+**Arguments**:
+
+- `model_name` - OpenRouter model to use
+- `api_key` - API key for OpenRouter
+- `seed` - Random seed for model generation
+- `max_retries` - Maximum number of retries
+- `temperature` - Temperature parameter
+- `**kwargs` - Additional keyword arguments to pass to ChatOpenAI
+
 ## AzureOpenAIGenerativeModel Objects
 
 ```python
