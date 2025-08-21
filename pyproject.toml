@@ -18,7 +18,7 @@ dev = ["pytest>=7.4.0,<8"]
 package = false
 
 [tool.uv.sources]
-portia-sdk-python = { git = "https://github.com/portiaAI/portia-sdk-python.git", rev = "7755283a8188ef22dcdc108d1af4ad6251255f7b" }
+portia-sdk-python = { git = "https://github.com/portiaAI/portia-sdk-python.git", rev = "95529ae3122ffa451364a5bc632b9b5d5456b128" }
 
 [build-system]
 requires = ["hatchling"]
