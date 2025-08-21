@@ -140,6 +140,15 @@ def to_legacy_step(plan: PlanV2) -> Step
 
 Convert this FunctionStep to a legacy Step.
 
+#### tool\_id\_is\_local\_function
+
+```python
+@classmethod
+def tool_id_is_local_function(cls, tool_id: str) -> bool
+```
+
+Check if the tool id is a local function.
+
 ## SingleToolAgentStep Objects
 
 ```python

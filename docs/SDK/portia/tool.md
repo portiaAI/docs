@@ -125,6 +125,9 @@ async def arun(ctx: ToolRunContext, *args: Any,
 
 Async run the tool.
 
+This is the method that tools should implement if they want to provide an async method for
+running the tool. When calling this method, you should likely call the _arun method instead.
+
 **Arguments**:
 
 - `ctx` _ToolRunContext_ - The context for the tool.
