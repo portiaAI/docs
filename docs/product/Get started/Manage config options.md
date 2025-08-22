@@ -229,7 +229,7 @@ The API keys for the LLM Providers can be set via `Config` class properties or e
         from portia import Config
 
         # NB You must provide (aws_access_key_id, aws_secret_access_key and aws_default_region) OR aws_credentials_profile_name.
-        config = Config.from_default(aws_access_key_id='..', aws_secret_access_key='...', ..)
+        config = Config.from_default(aws_access_key_id='your_access_key', aws_secret_access_key='your_secret_key', aws_default_region='us-east-1')
         ```
     </TabItem>
 </Tabs>
@@ -460,6 +460,7 @@ class MyGenerativeModel(GenerativeModel):
 
     def get_response(self, messages: list[Message]) -> Message:
         """Requires implementation"""
+        pass
 
     def get_structured_response(
         self,
@@ -467,9 +468,11 @@ class MyGenerativeModel(GenerativeModel):
         schema: type[BaseModelT],
     ) -> BaseModelT:
         """Requires implementation"""
+        pass
 
     def to_langchain(self) -> BaseChatModel:
         """Requires implementation"""
+        pass
 
 config = Config.from_default(
     default_model=MyGenerativeModel("my-model-name")

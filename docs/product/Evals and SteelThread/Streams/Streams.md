@@ -40,7 +40,7 @@ load_dotenv(override=True)
 config = Config.from_default()
 
 # Setup SteelThread instance and process stream
-st = SteelThread()
+st = SteelThread(config)
 st.process_stream(
     StreamConfig(
         # The stream name is the name of the stream we created in the dashboard.

@@ -64,7 +64,7 @@ load_dotenv(override=True)
 config = Config.from_default()
 
 # Setup SteelThread instance and process stream
-st = SteelThread()
+st = SteelThread(config)
 st.process_stream(
     StreamConfig(
         # The stream name is the name of the stream we created in the dashboard.
@@ -137,7 +137,7 @@ portia = Portia(
 )
 
 # Run evals with stubs 
-SteelThread().run_evals(
+SteelThread(config).run_evals(
     portia,
     EvalConfig(
         eval_dataset_name="your-dataset-name-here", #TODO: replace with your dataset name

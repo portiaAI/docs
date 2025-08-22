@@ -11,15 +11,18 @@ You can add your own custom evaluators, be it LLM-as-Judge or deterministic ones
 
 ```python
 from portia import Plan, PlanRun
-from steelthread.evals import EvalTestCase, EvalMetric, PlanRunMetadata
+from steelthread.evals import EvalTestCase, EvalMetric, PlanRunMetadata, Evaluator
 
-def eval_test_case(
-    self,
-    test_case: EvalTestCase,
-    final_plan: Plan,
-    final_plan_run: PlanRun,
-    additional_data: PlanRunMetadata,
-) -> list[EvalMetric] | EvalMetric | None:
+class MyEvaluator(Evaluator):
+    def eval_test_case(
+        self,
+        test_case: EvalTestCase,
+        final_plan: Plan,
+        final_plan_run: PlanRun,
+        additional_data: PlanRunMetadata,
+    ) -> list[EvalMetric] | EvalMetric | None:
+        # Implementation goes here
+        pass
 ```
 
 We have seen how to implement a custom LLM-as-Judge as part of the default evaluators from the dashboard so let's focus on using custom assertions to implement a custom, deterministic evaluator. To do that you can attach an assertion to your test case from the dashboard, then use a custom evaluator to assess whether your Eval run complied with it:
@@ -48,7 +51,7 @@ import re
 class EmojiEvaluator(Evaluator):
     def eval_test_case(
         self,
-        test_case: EvalTestCase,
+        test_case: EvalTestCase,  
         final_plan: Plan,  
         final_plan_run: PlanRun,
         additional_data: PlanRunMetadata,  
@@ -79,7 +82,7 @@ class EmojiEvaluator(Evaluator):
             test_case=test_case,
             name="emoji_score",
             score=score,
-            description="Returns a number lower than 1 if the final output is below max emoji count"
+            description="Returns a number lower than 1 if the final output is below max emoji count",
             explanation=f"Target: {expected}, Found: {emoji_count}",
         )
 
@@ -88,7 +91,7 @@ config = Config.from_default()
 portia = Portia(config=config)
 
 # Initialize SteelThread with our custom evaluator to run on your dataset
-st = SteelThread()
+st = SteelThread(config)
 st.run_evals(
     portia,
     EvalConfig(

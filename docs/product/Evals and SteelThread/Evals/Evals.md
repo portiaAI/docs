@@ -46,7 +46,7 @@ config = Config.from_default()
 portia = Portia(config=config)
 
 # Initialize SteelThread with the dataset and evaluators set in the dashboard
-st = SteelThread()
+st = SteelThread(config)
 st.run_evals(
     portia,
     EvalConfig(

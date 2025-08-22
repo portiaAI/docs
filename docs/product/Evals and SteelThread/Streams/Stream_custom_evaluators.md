@@ -14,7 +14,7 @@ Evaluators are responsible for the calculation of metrics. To help you get start
 You can add your own custom Stream evaluators, be it LLM-as-Judge or deterministic ones. `StreamEvaluator` can implement two methods:
 
 ```python
-from steelthread.streams import PlanStreamItem, PlanRunStreamItem, StreamMetric,
+from steelthread.streams import PlanStreamItem, PlanRunStreamItem, StreamMetric, StreamEvaluator
 class MyStreamEvaluator(StreamEvaluator):
     def process_plan(self, stream_item: PlanStreamItem) -> list[StreamMetric] | StreamMetric:
         ...
@@ -75,9 +75,9 @@ class LLMVerbosityJudge(StreamEvaluator):
 config = Config.from_default()
 
 # To use your evaluator, pass it to the runner
-SteelThread().process_stream(
+SteelThread(config).process_stream(
     StreamConfig(
-        eval_dataset_name="your-stream-name-here",
+        dataset_name="your-stream-name-here",
         config=config,
         evaluators=[LLMVerbosityJudge(config)],
     ),
@@ -119,7 +119,7 @@ class JudgeDread(StreamEvaluator):
 config = Config.from_default()
 
 # Process stream
-SteelThread().process_stream(
+SteelThread(config).process_stream(
     StreamConfig(
         stream_name="your-stream-name-here",
         config=config, 
