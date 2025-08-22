@@ -21,7 +21,7 @@ The `PlanBuilderV2` offers methods to create each part of the plan iteratively:
 ## Example
 
 ```python title='plan_builder.py'
-from portia.builder import PlanBuilderV2, StepOutput, Input
+from portia import PlanBuilderV2, StepOutput, Input
 
 plan = (
     PlanBuilderV2("Write a poem about the price of gold")
