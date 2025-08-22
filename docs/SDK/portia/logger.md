@@ -119,6 +119,14 @@ def __init__(child_logger: LoggerInterface) -> None
 
 Initialize the SafeLogger.
 
+#### trace
+
+```python
+def trace(msg: str, *args: Any, **kwargs: Any) -> None
+```
+
+Wrap the child logger&#x27;s trace method to catch exceptions.
+
 #### debug
 
 ```python
