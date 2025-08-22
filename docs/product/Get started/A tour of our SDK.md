@@ -469,6 +469,25 @@ with an even more complex and powerful use-case.
 
 ---
 
+## 5. Sync/Async Support
+
+Portia provides comprehensive support for both synchronous and asynchronous operations. All high-level interfaces support async variants via `portia.a{function_name}` methods, making it easy to integrate Portia into async applications and run multiple agents concurrently.
+
+### Available Async Implementations
+
+Portia provides async variants for all major operations:
+
+| Sync Method | Async Method | Description |
+|-------------|--------------|-------------|
+| `portia.plan()` | `portia.aplan()` | Create a plan asynchronously |
+| `portia.run()` | `portia.arun()` | Plan and execute asynchronously |
+| `portia.run_plan()` | `portia.arun_plan()` | Execute a specific plan asynchronously |
+| `portia.resume()` | `portia.aresume()` | Resume a plan run asynchronously |
+
+This async support makes Portia ideal for building high-performance applications that need to handle multiple concurrent agent operations, such as web services, batch processing systems, or real-time applications.
+
+---
+
 ## Summary table
 
 | Example File                | Focus             | Features Introduced                      |

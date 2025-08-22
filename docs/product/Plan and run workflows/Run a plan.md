@@ -158,6 +158,8 @@ We will use a simple GET endpoint from Tavily in this section. Please sign up to
 </details>
 
 To get to an output that looks like the plan run example above, let's expand on the code we used to generate a plan in the previous section (<a href="/generate-plan" target="_blank">**↗**</a>) by adding code to create and execute a plan run from that plan. This approach gives you the opportunity to serve that plan to the user and get their feedback / iterate on it before running the plan run for example. Here is the code to do that:
+<Tabs>
+  <TabItem value="sync" label="Sync" default>
 ```python title="main.py"
 from dotenv import load_dotenv
 from portia import (
@@ -181,6 +183,38 @@ plan_run = portia.run_plan(plan)
 # Serialise into JSON and print the output
 print(plan_run.model_dump_json(indent=2))
 ```
+  </TabItem>
+  <TabItem value="async" label="Async">
+```python title="main.py"
+import asyncio
+from dotenv import load_dotenv
+from portia import (
+    Portia,
+    example_tool_registry,
+)
+
+load_dotenv()
+
+# Instantiate a Portia instance. Load it with the default config and with the example tools.
+portia = Portia(tools=example_tool_registry)
+
+async def main():
+    # Generate the plan from the user query
+    plan = await portia.aplan('Which stock price grew faster in 2024, Amazon or Google?')
+
+    # [OPTIONAL] INSERT CODE WHERE YOU SERVE THE PLAN TO THE USER OR ITERATE ON IT IN ANY WAY
+
+    # Run the generated plan
+    plan_run = await portia.arun_plan(plan)
+
+    # Serialise into JSON and print the output
+    print(plan_run.model_dump_json(indent=2))
+
+# Run the async function
+asyncio.run(main())
+```
+  </TabItem>
+</Tabs>
 
 Here we are storing the `Plan` object returned by the `plan` method. We then use the `run_plan` method to start a `PlanRun`.
 
@@ -196,6 +230,8 @@ We will use a simple GET endpoint from Tavily in this section. Please sign up to
 </details>
 
 You can also run a plan immediately from the user query, without examining the `Plan` object in between. This would generate a plan as an intermediate step as well but will also immediately spawn a plan run from it. You would simply use the `run` method from your `Portia` instance class like so:
+<Tabs>
+  <TabItem value="sync" label="Sync" default>
 ```python title="main.py"
 from dotenv import load_dotenv
 from portia import (
@@ -214,6 +250,33 @@ plan_run = portia.run('Which stock price grew faster in 2024, Amazon or Google?'
 # Serialise into JSON and print the output
 print(plan_run.model_dump_json(indent=2))
 ```
+  </TabItem>
+  <TabItem value="async" label="Async">
+```python title="main.py"
+import asyncio
+from dotenv import load_dotenv
+from portia import (
+    Portia,
+    example_tool_registry,
+)
+
+load_dotenv()
+
+# Instantiate a Portia instance. Load it with the default config and with the example tools.
+portia = Portia(tools=example_tool_registry)
+
+async def main():
+    # Generate the plan from the user query
+    plan_run = await portia.arun('Which stock price grew faster in 2024, Amazon or Google?')
+
+    # Serialise into JSON and print the output
+    print(plan_run.model_dump_json(indent=2))
+
+# Run the async function
+asyncio.run(main())
+```
+  </TabItem>
+</Tabs>
 :::note[Track plan run states in logs]
 You can track plan run state changes live as they occur through the logs by setting `default_log_level` to DEBUG in the `Config` of your `Portia` instance (<a href="/manage-config#manage-logging" target="_blank">**Manage logging ↗**</a>).
 :::
@@ -239,6 +302,8 @@ except Exception as e:
 ```
 -->
 
+<Tabs>
+  <TabItem value="sync" label="Sync" default>
 ```python depends_on=plan_invisible_setup
 from dotenv import load_dotenv
 from portia import (
@@ -265,5 +330,40 @@ run = portia.run_plan(plan=plan)
 # Or we can use the ID so that the plan is loaded from storage
 run = portia.run_plan(plan=PlanUUID.from_string("plan-f8003b53-9b62-44e2-ac67-887146c07949"))
 ```
+  </TabItem>
+  <TabItem value="async" label="Async">
+```python depends_on=plan_invisible_setup
+import asyncio
+from dotenv import load_dotenv
+from portia import (
+    Portia,
+    default_config,
+    Config,
+    StorageClass,
+    PlanUUID
+)
+
+# Load the Portia API key
+load_dotenv()
+
+# Set up the Portia instance to use cloud storage
+config = Config.from_default(storage_class=StorageClass.CLOUD)
+portia = Portia(config=config)
+
+async def main():
+    # This will create a plan that is stored in Portia Cloud
+    plan = await portia.aplan('Which stock price grew faster in 2024, Amazon or Google?')
+
+    # We can then either run the plan directly from the object...
+    run = await portia.arun_plan(plan=plan)
+
+    # Or we can use the ID so that the plan is loaded from storage
+    run = await portia.arun_plan(plan=PlanUUID.from_string("plan-f8003b53-9b62-44e2-ac67-887146c07949"))
+
+# Run the async function
+asyncio.run(main())
+```
+  </TabItem>
+</Tabs>
 
 This can be very useful if you want to run a plan from a different process to the one that created the plan.
