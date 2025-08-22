@@ -67,7 +67,13 @@ portia.run_plan(plan, plan_run_inputs={"purchase_quantity": 100, "currency": "GB
 ### LLM step
 Use `.llm_step()` to add a step that directly queries the LLM tool:
 
-```python
+<!-- Setup a builder. This won't be rendered on the website
+```python id=builder_invisible_setup
+from portia import PlanBuilderV2
+builder = PlanBuilderV2()
+```
+-->
+```python depends_on=builder_invisible_setup
 builder.llm_step(
     task="Analyze the given data and provide insights",
     inputs=[StepOutput("previous_step")],
@@ -81,7 +87,7 @@ The `output_schema` is a Pydantic model that is used for the structured output.
 ### Invoke Tool step
 Use `.invoke_tool_step()` to add a step that directly invokes a tool:
 
-```python
+```python depends_on=builder_invisible_setup
 builder.invoke_tool_step(
     tool="portia:tavily::search",
     args={"query": "latest news about AI"},
@@ -92,7 +98,7 @@ builder.invoke_tool_step(
 ### Function step
 Use `.function_step()` to add a step that calls a function. This is useful for manipulating data from other steps using code, streaming updates on the plan as it is run or adding in guardrails.
 
-```python
+```python depends_on=builder_invisible_setup
 def process_data(data):
     return {"processed": data.upper()}
 
@@ -106,7 +112,7 @@ builder.function_step(
 ### Single Tool Agent step
 Use `.single_tool_agent_step()` to add a step that calls a tool using arguments that are worked out dynamically from the inputs:
 
-```python
+```python depends_on=builder_invisible_setup
 builder.single_tool_agent_step(
     tool="web_scraper",
     task="Extract key information from the webpage provided",
@@ -119,7 +125,7 @@ builder.single_tool_agent_step(
 
 Use `.if_()` to start a conditional block for advanced control flow:
 
-```python
+```python depends_on=builder_invisible_setup
 (
     builder
     .if_(
@@ -145,7 +151,7 @@ Also note that you need to add an endif() at the end of the flow to indicate the
 
 Alternative branches can be added to the conditional block using `.else_if_()` and `.else_()`:
 
-```python
+```python depends_on=builder_invisible_setup
 (
     builder
     .if_(
@@ -174,7 +180,7 @@ Alternative branches can be added to the conditional block using `.else_if_()` a
 As mentioned, the condition can be a natural language string. Just write a statement that can be evaluated to true or false and pass the relevant context via the `args`.
 
 
-```python
+```python depends_on=builder_invisible_setup
 (
     builder
     .if_(
@@ -188,7 +194,7 @@ As mentioned, the condition can be a natural language string. Just write a state
 
 Conditional blocks can be nested to create _even_ more complex control flow!
 
-```python
+```python depends_on=builder_invisible_setup
 (
     builder
     .if_(
@@ -218,7 +224,7 @@ Conditional blocks can be nested to create _even_ more complex control flow!
 ### Adding Plan Inputs
 Use `.input()` to define inputs that the plan expects:
 
-```python
+```python depends_on=builder_invisible_setup
 builder.input(
     name="user_query",
     description="The user's question or request"
@@ -226,7 +232,7 @@ builder.input(
 ```
 
 You can also provide the default value for the input, e.g 
-```python
+```python depends_on=builder_invisible_setup
 builder.input(
     name="user_query",
     description="The user's question or request"
@@ -236,14 +242,21 @@ builder.input(
 ```
 
 You can dynamically add the value of the plan at run time, e.g
-```python
+<!-- Setup an empty plan. This won't be rendered on the website
+```python id=empty_plan_invisible_setup
+from portia import PlanBuilderV2, Portia
+portia = Portia()
+plan = PlanBuilderV2().build()
+```
+-->
+```python depends_on=empty_plan_invisible_setup
 portia.run_plan(plan, plan_run_inputs={"user_query": "What is the capital of Peru?"})
 ```
 
 ### Referencing Step Outputs
 You can reference outputs from previous steps using `StepOutput`:
 
-```python
+```python depends_on=builder_invisible_setup
 from portia import StepOutput
 
 builder.invoke_tool_step(
@@ -253,7 +266,7 @@ builder.invoke_tool_step(
 ```
 
 You can also reference previous step outputs using their index:
-```python
+```python depends_on=builder_invisible_setup
 from portia import StepOutput
 
 builder.invoke_tool_step(
@@ -272,7 +285,7 @@ Conditional clauses (`.if_()`, `.else_if_()`, `.else_()` and `.endif()`) _are_ c
 ### Final Output Configuration
 Use `.final_output()` to configure the final output:
 
-```python
+```python depends_on=builder_invisible_setup
 plan = builder.final_output(
     output_schema=FinalResult,
     summarize=True
@@ -290,7 +303,7 @@ final_output_summary = plan_run.outputs.final_output.summary
 
 Once you've defined all your steps, call `.build()` to create the final plan:
 
-```python
+```python depends_on=builder_invisible_setup
 plan = builder.build()
 ```
 
