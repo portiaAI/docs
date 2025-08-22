@@ -27,12 +27,7 @@ TEST_CONTAINERS = {
 }
 
 
-@pytest.mark.parametrize(
-    "example",
-    list(find_examples("docs/product/Get started/A tour of our SDK.md")) +
-        list(find_examples("docs/product/Extend and run tools/Adding custom tools.md")),
-    ids=str
-)
+@pytest.mark.parametrize("example", find_examples("docs/product/"), ids=str)
 def test_docstrings(example: CodeExample, eval_example: EvalExample):
     # If the example has depends_on=example1, then we'll look for an example with id=example1
     # and load that code in before the current example.
