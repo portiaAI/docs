@@ -45,6 +45,7 @@ class FinalOutput(BaseModel):
 
 builder = PlanBuilderV2()
 portia = Portia()
+plan = builder.build()
 
 def raise_exception(msg: str):
     pass
@@ -92,13 +93,16 @@ plan = (
 
 <Tabs groupId="sync-async">
   <TabItem value="sync" label="Sync" default>
-```python
+```python depends_on=builder_invisible_setup
 portia.run_plan(plan, plan_run_inputs={"purchase_quantity": 100, "currency": "GBP"})
 ```
   </TabItem>
   <TabItem value="async" label="Async">
-```python
-await portia.arun_plan(plan, plan_run_inputs={"purchase_quantity": 100, "currency": "GBP"})
+```python depends_on=builder_invisible_setup
+import asyncio
+
+async def main():
+    await portia.arun_plan(plan, plan_run_inputs={"purchase_quantity": 100, "currency": "GBP"})
 ```
   </TabItem>
 </Tabs>

@@ -462,7 +462,19 @@ class MyGenerativeModel(GenerativeModel):
         """Requires implementation"""
         pass
 
+    async def aget_response(self, messages: list[Message]) -> Message:
+        """Requires implementation"""
+        pass
+
     def get_structured_response(
+        self,
+        messages: list[Message],
+        schema: type[BaseModelT],
+    ) -> BaseModelT:
+        """Requires implementation"""
+        pass
+
+    async def aget_structured_response(
         self,
         messages: list[Message],
         schema: type[BaseModelT],

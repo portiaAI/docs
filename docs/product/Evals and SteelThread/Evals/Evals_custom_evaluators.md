@@ -91,7 +91,7 @@ config = Config.from_default()
 portia = Portia(config=config)
 
 # Initialize SteelThread with our custom evaluator to run on your dataset
-st = SteelThread(config)
+st = SteelThread()
 st.run_evals(
     portia,
     EvalConfig(

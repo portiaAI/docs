@@ -62,7 +62,7 @@ portia = Portia(
     ),
 )
 
-SteelThread(config).run_evals(
+SteelThread().run_evals(
     portia,
     EvalConfig(
         eval_dataset_name="your-dataset-name-here",

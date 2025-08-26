@@ -107,7 +107,8 @@ Your Portia tool registry is available through the  `PortiaToolRegistry` class (
 ```python
 from portia import Config, Portia, PortiaToolRegistry
 
-portia = Portia(config=Config.from_default(), tools=PortiaToolRegistry())
+config = Config.from_default()
+portia = Portia(config=config, tools=PortiaToolRegistry(config))
 ```
 
 More details can be found on our <a href="/cloud-tool-registry" target="_blank">Cloud tool registry ↗</a> page, including how to enable / disable tools within the registry and how to connect in your own remote MCP server.

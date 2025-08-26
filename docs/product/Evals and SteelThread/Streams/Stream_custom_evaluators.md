@@ -75,7 +75,7 @@ class LLMVerbosityJudge(StreamEvaluator):
 config = Config.from_default()
 
 # To use your evaluator, pass it to the runner
-SteelThread(config).process_stream(
+SteelThread().process_stream(
     StreamConfig(
         dataset_name="your-stream-name-here",
         config=config,
@@ -119,7 +119,7 @@ class JudgeDread(StreamEvaluator):
 config = Config.from_default()
 
 # Process stream
-SteelThread(config).process_stream(
+SteelThread().process_stream(
     StreamConfig(
         stream_name="your-stream-name-here",
         config=config, 
