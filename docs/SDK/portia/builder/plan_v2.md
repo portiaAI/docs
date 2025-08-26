@@ -46,3 +46,15 @@ def idx_by_name(name: str) -> int
 
 Get the index of a step by name.
 
+#### pretty\_print
+
+```python
+def pretty_print() -> str
+```
+
+Return the pretty print representation of the plan.
+
+**Returns**:
+
+- `str` - A pretty print representation of the plan.
+
