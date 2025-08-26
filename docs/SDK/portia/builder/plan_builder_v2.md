@@ -91,7 +91,8 @@ def llm_step(*,
              task: str,
              inputs: list[Any] | None = None,
              output_schema: type[BaseModel] | None = None,
-             step_name: str | None = None) -> PlanBuilderV2
+             step_name: str | None = None,
+             system_prompt: str | None = None) -> PlanBuilderV2
 ```
 
 Add a step that sends a query to the underlying LLM.
@@ -104,6 +105,8 @@ Add a step that sends a query to the underlying LLM.
   additional context to the LLM when it is completing the task.
 - `output_schema` - The schema of the output.
 - `step_name` - Optional name for the step. If not provided, will be auto-generated.
+- `system_prompt` - Optional prompt to use for the LLM. If not provided,
+  uses default from LLMTool.
 
 #### invoke\_tool\_step
 
@@ -167,6 +170,59 @@ Add a step that uses the execution agent with a tool.
   Input, the corresponding values will be substituted in when the plan is run.
 - `output_schema` - The schema of the output.
 - `step_name` - Optional name for the step. If not provided, will be auto-generated.
+
+#### user\_verify
+
+```python
+def user_verify(*,
+                message: str,
+                step_name: str | None = None) -> PlanBuilderV2
+```
+
+Add a step that prompts the user to verify the specified message before continuing.
+
+This step uses a UserVerificationClarification to interact with the user - you must ensure
+you have a clarification handler setup that handles this type of clarification.
+
+If the user accepts, then the plan will continue. If the user rejects, then this step will
+raise a PlanRunExitError.
+
+**Arguments**:
+
+- `message` - The message the user needs to verify. You can use inputs / outputs from
+  previous steps in this message and the corresponding value will be substituted in when
+  the plan is run - e.g.
+  message=f&quot;Are you happy to proceed for user &#x27;{StepOutput(0)}&#x27;?&quot;
+- `step_name` - Optional name for the step. If not provided, will be auto-generated.
+
+#### user\_input
+
+```python
+def user_input(*,
+               message: str,
+               options: list[Serializable] | None = None,
+               step_name: str | None = None) -> PlanBuilderV2
+```
+
+Add a step that requests input from the user and sets the response as the step output.
+
+This step uses a UserInputClarification / MultipleChoiceClarification (depending on whether
+options are specified) to interact with the user - you must ensure you have a clarification
+handler setup that handles this type of clarification.
+
+**Arguments**:
+
+- `message` - The guidance message shown to the user. You can use inputs / outputs from
+  previous steps in this message and the corresponding value will be substituted in when
+  the plan is run - e.g.
+  message=f&quot;Enter the value for user &#x27;{StepOutput(0)}&#x27;:&quot;
+- `options` - Available options for multiple choice. If None, creates text input.
+- `step_name` - Optional name for the step. If not provided, will be auto-generated.
+  
+
+**Returns**:
+
+  Self for method chaining.
 
 #### add\_step
 

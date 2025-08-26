@@ -3,6 +3,9 @@ sidebar_position: 2
 slug: /build-plan
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Build a plan manually
 
 :::tip[Alpha]
@@ -85,8 +88,20 @@ plan = (
     )
     .build()
 )
+```
 
+<Tabs groupId="sync-async">
+  <TabItem value="sync" label="Sync" default>
+```python
 portia.run_plan(plan, plan_run_inputs={"purchase_quantity": 100, "currency": "GBP"})
+```
+  </TabItem>
+  <TabItem value="async" label="Async">
+```python
+await portia.arun_plan(plan, plan_run_inputs={"purchase_quantity": 100, "currency": "GBP"})
+```
+  </TabItem>
+</Tabs>
 ```
 
 ## Available Step Types
@@ -311,8 +326,21 @@ plan = builder.final_output(
     output_schema=FinalResult,
     summarize=True
 ).build()
+```
 
+<Tabs groupId="sync-async">
+  <TabItem value="sync" label="Sync" default>
+```python
 plan_run = portia.run_plan(plan)
+```
+  </TabItem>
+  <TabItem value="async" label="Async">
+```python
+import asyncio
+plan_run = asyncio.run(portia.arun_plan(plan))
+```
+  </TabItem>
+</Tabs>
 # Will match `FinalResult` schema
 final_output_value = plan_run.outputs.final_output.value
 

@@ -366,3 +366,23 @@ def __init__(cause: Exception | str) -> None
 
 Set custom error message.
 
+## PlanRunExitError Objects
+
+```python
+class PlanRunExitError(PortiaBaseError)
+```
+
+Raised when a step ascertains that a plan run should be exited.
+
+**Arguments**:
+
+- `reason` _str_ - The reason for exiting the plan run.
+
+#### \_\_init\_\_
+
+```python
+def __init__(reason: str) -> None
+```
+
+Set custom error message.
+

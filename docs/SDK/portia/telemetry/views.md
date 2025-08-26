@@ -80,3 +80,78 @@ Telemetry event for tracking tool calls.
 
 type: ignore reportIncompatibleMethodOverride
 
+## PlanV2StepExecutionTelemetryEvent Objects
+
+```python
+@dataclass
+class PlanV2StepExecutionTelemetryEvent(BaseTelemetryEvent)
+```
+
+Telemetry event for tracking PlanV2 step execution.
+
+**Attributes**:
+
+- `step_type` - The type of the step being executed.
+- `success` - Whether the step execution was successful.
+- `tool_id` - The identifier of the tool being used, if any.
+
+#### name
+
+type: ignore reportIncompatibleMethodOverride
+
+## PlanV2BuildTelemetryEvent Objects
+
+```python
+@dataclass
+class PlanV2BuildTelemetryEvent(BaseTelemetryEvent)
+```
+
+Telemetry event for tracking PlanV2 builds.
+
+**Attributes**:
+
+- `plan_length` - The number of steps in the plan.
+- `step_type_counts` - A dictionary mapping step types to their counts in the plan.
+
+#### name
+
+type: ignore reportIncompatibleMethodOverride
+
+## LLMToolUsageTelemetryEvent Objects
+
+```python
+@dataclass
+class LLMToolUsageTelemetryEvent(BaseTelemetryEvent)
+```
+
+Telemetry event for tracking LLM tool usage.
+
+**Attributes**:
+
+- `model` - The model being used.
+- `sync` - Whether the tool was called synchronously.
+
+#### name
+
+type: ignore reportIncompatibleMethodOverride
+
+## ExecutionAgentUsageTelemetryEvent Objects
+
+```python
+@dataclass
+class ExecutionAgentUsageTelemetryEvent(BaseTelemetryEvent)
+```
+
+Telemetry event for tracking execution agent usage.
+
+**Attributes**:
+
+- `agent_type` - The type of the execution agent (e.g., &quot;one_shot&quot;, &quot;default&quot;).
+- `model` - The model being used.
+- `sync` - Whether the agent was called synchronously.
+- `tool_id` - The identifier of the tool being used, if any.
+
+#### name
+
+type: ignore reportIncompatibleMethodOverride
+

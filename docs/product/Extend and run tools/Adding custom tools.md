@@ -245,3 +245,96 @@ custom_tool_registry = InMemoryToolRegistry.from_local_tools(
 ```
 
 The `@tool` decorator approach is recommended for most use cases due to its simplicity and ease of use, while the class-based approach provides more flexibility for advanced scenarios.
+
+## Async
+
+Portia tools support both synchronous and asynchronous execution. The `run` method is required for all tools, while `arun` is optional: if not defined Portia provides a default implementation that calls an `asyncio.to_thread` version of the `run` method.
+
+The `arun` method is used in context with other async functions like `portia.arun`, `portia.aresume`, etc. This allows your tools to work seamlessly in both sync and async workflows.
+
+### Async with class-based approach
+
+For class-based tools, you can implement the `arun` method to provide custom async behavior:
+
+<Tabs>
+  <TabItem value="async_class" label="Async ping tool">
+    ```python title="custom_tools/async_ping_tool.py"
+    import httpx
+    import asyncio
+    from pydantic import BaseModel, Field
+    from portia.tool import Tool, ToolRunContext
+
+    class PingToolSchema(BaseModel):
+        """Schema defining the inputs for the PingTool."""
+
+        host: str = Field(default="8.8.8.8",
+            description="The host to ping (defaults to Google DNS)",
+        )
+
+    class PingTool(Tool[str]):
+        """Measures network latency to a host using HTTP requests."""
+
+        id: str = "ping_tool"
+        name: str = "Ping tool"
+        description: str = "Measures network latency to a host using HTTP requests"
+        args_schema: type[BaseModel] = PingToolSchema
+        output_schema: tuple[str, str] = ("str", "The latency in milliseconds")
+
+        def run(self, _: ToolRunContext, host: str = "8.8.8.8") -> str:
+            """Run the PingTool synchronously."""
+            # For sync version, we'll use a simple approach
+            return "Sync ping not implemented - use async version"
+
+        async def arun(self, ctx: ToolRunContext, host: str = "8.8.8.8") -> str:
+            """Run the PingTool asynchronously."""
+            start_time = asyncio.get_event_loop().time()
+            
+            async with httpx.AsyncClient() as client:
+                try:
+                    response = await client.get(f"http://{host}", timeout=5.0)
+                    end_time = asyncio.get_event_loop().time()
+                    latency_ms = round((end_time - start_time) * 1000, 2)
+                    return f"Latency to {host}: {latency_ms}ms"
+                except Exception as e:
+                    return f"Failed to ping {host}: {str(e)}"
+    ```
+  </TabItem>
+  <TabItem value="async_class_usage" label="Using async tools">
+    ```python title="custom_tools/async_main.py"
+    import asyncio
+    from dotenv import load_dotenv
+    from portia import (
+        Portia,
+        example_tool_registry,
+        Config,
+        LogLevel,
+    )
+
+    load_dotenv()
+
+    async def main():        
+        # Instantiate Portia with the ping tool
+        portia = Portia(
+            Config.from_default(default_log_level=LogLevel.DEBUG),
+            tools=example_tool_registry,
+        )
+
+        # Execute the plan using async methods
+        plan_run = await portia.arun('Get the weather in Tokyo') # Will automatically call the arun method of tool calls
+
+        # Serialise into JSON and print the output
+        print(plan_run.model_dump_json(indent=2))
+
+    # Run the async function
+    asyncio.run(main())
+    ```
+  </TabItem>
+</Tabs>
+
+### When to use async tools
+
+Use async tools when:
+- Your tool performs I/O operations (file operations, network requests, database queries)
+- You want to integrate with other async functions in your workflow
+- You're using `portia.arun`, `portia.aresume`, or other async Portia methods
+- You need to handle multiple concurrent operations efficiently
