@@ -187,6 +187,79 @@ def to_legacy_step(plan: PlanV2) -> Step
 
 Convert this SingleToolAgentStep to a Step.
 
+## UserVerifyStep Objects
+
+```python
+class UserVerifyStep(StepV2)
+```
+
+A step that asks the user to verify a message before continuing.
+
+#### \_\_str\_\_
+
+```python
+def __str__() -> str
+```
+
+Return a description of this step for logging purposes.
+
+#### run
+
+```python
+@override
+@traceable(name="User Verify Step - Run")
+async def run(run_data: RunContext) -> bool | UserVerificationClarification
+```
+
+Run the user verification step.
+
+#### to\_legacy\_step
+
+```python
+@override
+def to_legacy_step(plan: PlanV2) -> Step
+```
+
+Convert this UserVerifyStep to a legacy Step.
+
+## UserInputStep Objects
+
+```python
+class UserInputStep(StepV2)
+```
+
+A step that requests input from the user and returns the response.
+
+If options are provided, creates a multiple choice clarification.
+Otherwise, creates a text input clarification.
+
+#### \_\_str\_\_
+
+```python
+def __str__() -> str
+```
+
+Return a description of this step for logging purposes.
+
+#### run
+
+```python
+@override
+@traceable(name="User Input Step - Run")
+async def run(run_data: RunContext) -> Any
+```
+
+Run the user input step.
+
+#### to\_legacy\_step
+
+```python
+@override
+def to_legacy_step(plan: PlanV2) -> Step
+```
+
+Convert this UserInputStep to a legacy Step.
+
 ## ConditionalStep Objects
 
 ```python
