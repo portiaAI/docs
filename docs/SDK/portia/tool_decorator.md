@@ -5,10 +5,42 @@ title: portia.tool_decorator
 
 Tool decorator for creating tools from functions.
 
+## DecoratedTool Objects
+
+```python
+class DecoratedTool(Tool[T])
+```
+
+Decorated tool class.
+
+#### make\_run\_method
+
+```python
+def make_run_method(sig: inspect.Signature, fn: Callable) -> Callable
+```
+
+Make the run method for the tool.
+
+#### make\_arun\_method
+
+```python
+def make_arun_method(sig: inspect.Signature, fn: Callable) -> Callable
+```
+
+Make the arun method for the tool.
+
+#### make\_not\_implemented\_method
+
+```python
+def make_not_implemented_method() -> Callable
+```
+
+Make a run method that raises a NotImplementedError.
+
 #### tool
 
 ```python
-def tool(fn: Callable[..., T]) -> type[Tool[T]]
+def tool(fn: Callable[..., T]) -> type[DecoratedTool]
 ```
 
 Convert a function into a Tool class.
