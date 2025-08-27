@@ -58,6 +58,7 @@ Enum for supported LLM providers.
 - `MISTRALAI` - MistralAI provider.
 - `GOOGLE` - Google Generative AI provider.
 - `AZURE_OPENAI` - Azure OpenAI provider.
+- `GROQ` - Groq provider.
 
 #### GOOGLE\_GENERATIVE\_AI
 
@@ -394,6 +395,37 @@ Initialize with OpenRouter client.
 
 - `model_name` - OpenRouter model to use
 - `api_key` - API key for OpenRouter
+- `seed` - Random seed for model generation
+- `max_retries` - Maximum number of retries
+- `temperature` - Temperature parameter
+- `**kwargs` - Additional keyword arguments to pass to ChatOpenAI
+
+## GroqGenerativeModel Objects
+
+```python
+class GroqGenerativeModel(OpenAIGenerativeModel)
+```
+
+Groq model implementation.
+
+#### \_\_init\_\_
+
+```python
+def __init__(*,
+             model_name: str,
+             api_key: SecretStr,
+             seed: int = 343,
+             max_retries: int = 3,
+             temperature: float = 0,
+             **kwargs: Any) -> None
+```
+
+Initialize with Groq client.
+
+**Arguments**:
+
+- `model_name` - Groq model to use
+- `api_key` - API key for Groq
 - `seed` - Random seed for model generation
 - `max_retries` - Maximum number of retries
 - `temperature` - Temperature parameter
