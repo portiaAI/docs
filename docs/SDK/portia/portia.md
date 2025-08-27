@@ -22,6 +22,14 @@ The `Portia` class provides methods to:
 Modules in this file work with different storage backends (memory, disk, cloud) and can handle
 complex queries using various planning and execution agent configurations.
 
+## StepOutputValue Objects
+
+```python
+class StepOutputValue(ReferenceValue)
+```
+
+Value that can be referenced by name.
+
 ## RunContext Objects
 
 ```python
