@@ -105,53 +105,6 @@ def to_legacy_step(plan: PlanV2) -> Step
 
 Convert this InvokeToolStep to a legacy Step.
 
-## FunctionStep Objects
-
-```python
-class FunctionStep(StepV2)
-```
-
-Calls a function with the given args (no LLM involved, just a direct function call).
-
-The function can be either synchronous or asynchronous. Async functions will be properly
-awaited.
-
-#### \_\_str\_\_
-
-```python
-def __str__() -> str
-```
-
-Return a description of this step for logging purposes.
-
-#### run
-
-```python
-@override
-@traceable(name="Function Step - Run")
-async def run(run_data: RunContext) -> Any
-```
-
-Run the function.
-
-#### to\_legacy\_step
-
-```python
-@override
-def to_legacy_step(plan: PlanV2) -> Step
-```
-
-Convert this FunctionStep to a legacy Step.
-
-#### tool\_id\_is\_local\_function
-
-```python
-@classmethod
-def tool_id_is_local_function(cls, tool_id: str) -> bool
-```
-
-Check if the tool id is a local function.
-
 ## SingleToolAgentStep Objects
 
 ```python
