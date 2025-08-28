@@ -22,22 +22,6 @@ The `Portia` class provides methods to:
 Modules in this file work with different storage backends (memory, disk, cloud) and can handle
 complex queries using various planning and execution agent configurations.
 
-## StepOutputValue Objects
-
-```python
-class StepOutputValue(ReferenceValue)
-```
-
-Value that can be referenced by name.
-
-## RunContext Objects
-
-```python
-class RunContext(BaseModel)
-```
-
-Data that is returned from a step.
-
 ## Portia Objects
 
 ```python
@@ -522,14 +506,6 @@ Create a PlanRun from a Plan.
 **Returns**:
 
 - `PlanRun` - The created PlanRun object.
-
-#### get\_tool
-
-```python
-def get_tool(tool_id: str | None, plan_run: PlanRun) -> Tool | None
-```
-
-Get the tool for a step.
 
 #### get\_agent\_for\_step
 
