@@ -237,7 +237,8 @@ This can be used to add custom steps into the plan.
 #### add\_steps
 
 ```python
-def add_steps(plan: PlanV2 | Iterable[StepV2]) -> PlanBuilderV2
+def add_steps(plan: PlanV2 | Iterable[StepV2],
+              input_values: dict[str, Any] | None = None) -> PlanBuilderV2
 ```
 
 Add steps to the plan.
