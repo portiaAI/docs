@@ -192,7 +192,7 @@ raise a PlanRunExitError.
 - `message` - The message the user needs to verify. You can use inputs / outputs from
   previous steps in this message and the corresponding value will be substituted in when
   the plan is run - e.g.
-  message=f&quot;Are you happy to proceed for user &#x27;{StepOutput(0)}&#x27;?&quot;
+  `message=f"Are you happy to proceed for user '{StepOutput(0)}'?"`
 - `step_name` - Optional name for the step. If not provided, will be auto-generated.
 
 #### user\_input
@@ -215,7 +215,7 @@ handler setup that handles this type of clarification.
 - `message` - The guidance message shown to the user. You can use inputs / outputs from
   previous steps in this message and the corresponding value will be substituted in when
   the plan is run - e.g.
-  message=f&quot;Enter the value for user &#x27;{StepOutput(0)}&#x27;:&quot;
+  `message=f"Enter the value for user '{StepOutput(0)}':"`
 - `options` - Available options for multiple choice. If None, creates text input.
 - `step_name` - Optional name for the step. If not provided, will be auto-generated.
   
