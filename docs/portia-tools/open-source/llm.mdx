@@ -27,6 +27,10 @@ import Intro from '@site/docs/_lib/_tool-intro-open-source.mdx';
     "task_data": {
       "anyOf": [
         {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        {
           "items": {},
           "type": "array"
         },
@@ -38,7 +42,7 @@ import Intro from '@site/docs/_lib/_tool-intro-open-source.mdx';
         }
       ],
       "default": null,
-      "description": "Task data that should be used to complete the task. Can be a string, a list of strings, or a list of objects that will be converted to strings. Important: This should include all relevant data in their entirety, from the first to the last character (i.e. NOT a summary).",
+      "description": "Task data that should be used to complete the task. Can be a string, a list of strings, a dictionary of strings or a list of objects that will be converted to strings. Important: This should include all relevant data in their entirety, from the first to the last character (i.e. NOT a summary).",
       "title": "Task Data"
     }
   },
