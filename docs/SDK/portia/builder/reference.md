@@ -34,7 +34,7 @@ Get the name of the reference to use with legacy Portia plans.
 
 ```python
 @abstractmethod
-def get_value(run_data: RunContext) -> ReferenceValue | None
+def get_value(run_data: RunContext) -> Any | None
 ```
 
 Get the value of the reference.
@@ -81,10 +81,18 @@ Get the string representation of the step output.
 
 ```python
 @override
-def get_value(run_data: RunContext) -> ReferenceValue | None
+def get_value(run_data: RunContext) -> Any | None
 ```
 
 Get the value of the step output.
+
+#### get\_description
+
+```python
+def get_description(run_data: RunContext) -> str
+```
+
+Get the description of the step output.
 
 ## Input Objects
 
@@ -122,7 +130,7 @@ Get the name of the reference to use with legacy Portia plans.
 
 ```python
 @override
-def get_value(run_data: RunContext) -> ReferenceValue | None
+def get_value(run_data: RunContext) -> Any | None
 ```
 
 Get the value of the input.
@@ -134,12 +142,4 @@ def __str__() -> str
 ```
 
 Get the string representation of the input.
-
-## ReferenceValue Objects
-
-```python
-class ReferenceValue(BaseModel)
-```
-
-Value that can be referenced.
 

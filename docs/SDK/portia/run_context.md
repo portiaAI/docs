@@ -8,7 +8,7 @@ Context for a PlanV2 run.
 ## StepOutputValue Objects
 
 ```python
-class StepOutputValue(ReferenceValue)
+class StepOutputValue(BaseModel)
 ```
 
 Value that can be referenced by name.
