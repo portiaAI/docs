@@ -17,7 +17,7 @@ A sequence of steps to be run by Portia.
 
 ```python
 @model_validator(mode="after")
-def validate_plan() -> PlanV2
+def validate_plan() -> Self
 ```
 
 Validate the plan.
