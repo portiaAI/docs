@@ -257,10 +257,7 @@ task2 = (
 ```
 -->
 ```python id=tour_code_7 depends_on=tour_code_5,tour_code_6,tour_code_invisible_1
-plan = portia.plan(task2)
-print(plan.pretty_print())
-
-plan_run = portia.run_plan(plan, end_user="its me, mario")
+plan_run = portia.run(task2, end_user="its me, mario")
 ```
 
 Note that this time, instead of calling `portia.run` to plan and execute in a single step,
@@ -270,13 +267,11 @@ is executed with `run_plan`.
 Separating out these steps is useful in the case when you would like to validate the plan before it's run,
 or even refine the plan before executing.
 
-Note, also, the `end_user` parameter that is passed to `run_plan`.
-You can also provide this variable to Portia's `run` method,
-if you are planning and executing in a single step.
+Note that this time, the `end_user` parameter that is passed to `run`.
 The `end_user` parameter, as a string, identifies the end-user driving the agent's actions.
 It should be a string that uniquely identifies a particular user,
 and will be used within the Portia cloud to look up any stored credentials.
-This means that if you called `run_plan(end_user="end_user_123")`,
+This means that if you called `run(end_user="end_user_123")`,
 and the user authenticated against the Google API,
 future runs of the agent will be authenticated and executed as that user.
 When providing an identifier like this,
@@ -290,6 +285,42 @@ Here:
 * The instruction combines multiple actions: fetch data, generate a message, and send it.
 
 This example shows how Portia agents can become personalized assistants that combine tool outputs into LLM-generated messages.
+
+Finally, up to this point, we have been defining our tasks in English (e.g. the `task2` variable above).
+However, you can also define tasks in code.
+Check out [`2b_tools_end_users_llms.py` ↗](https://github.com/portiaAI/portia-agent-examples/blob/main/getting-started/2b_tools_end_users_llms.py),
+which demonstrates how to do this for the task above:
+```python
+plan2 = (
+    PlanBuilderV2()
+    # Start our plan by using the Tavily search tool to search the web for the gold price in the last 30 days
+    .invoke_tool_step(
+        step_name="research_gold_price",
+        args={"search_query": "gold price in the last 30 days"},
+        tool="search_tool",
+    )
+    # Then us an LLM to create a report on the gold price using the search results
+    .llm_step(
+        step_name="analyze_gold_price",
+        task="Write a report on the gold price in the last 30 days",
+        # We can pass in the search results using StepOutput
+        inputs=[StepOutput("research_gold_price")],
+    )
+    # Finally we use an agent with
+    .single_tool_agent_step(
+        step_name="send_email",
+        task="Send the report about gold price to bob@portialabs.ai",
+        inputs=[StepOutput("analyze_gold_price")],
+        tool="send_email_tool",
+    )
+    .build()
+)
+```
+
+This uses our plan builder interface (`PlanBuilderV2`) to outline in code exactly how the agent should run.
+This gives you more control over the agent and also can make the agent faster, as it does not need to create
+the plan for the task itself.
+You can view a more complete example of our plan builder in the file [`example_builder.py`](https://github.com/portiaAI/portia-sdk-python/blob/main/example_builder.py)
 
 ---
 

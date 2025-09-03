@@ -18,8 +18,12 @@ The `PlanBuilderV2` offers methods to create each part of the plan iteratively:
 - `.llm_step()` adds a step that sends a query to the underlying LLM
 - `.invoke_tool_step()` adds a step that directly invokes a tool. Requires mapping of step outputs to tool arguments.
 - `.single_tool_agent_step()` is similar to `.invoke_tool_step()` but an LLM call is made to map the inputs to the step to what the tool requires creating flexibility.
+- `.react_agent_step()` adds a ReAct (i.e. Reasoning + Acting) agent that is capable of using multiple tools and calling them multiple times in a loop until a task is achieved.
 - `.function_step()` is identical to `.invoke_tool_step()` but calls a Python function rather than a tool with an ID.
 - `.if_()`, `.else_if_()`, `.else_()` and `.endif()` are used to add conditional branching to the plan.
+- `.user_verify()` and `user_input()` allow interacting with the user (via <a href="/understand-clarifications" target="_blank">**clarifications ↗**</a>) for their input and verification
+- `.input()` and `.final_output()` allow specifying inputs into the plan and the format of the plan's output
+- `.add_steps()` allows you to compose a plan by merging multiple smaller plans, while `.add_step()` allows you to add your own custom steps
 
 ## Example
 
@@ -28,8 +32,8 @@ from portia import PlanBuilderV2, StepOutput, Input
 
 plan = (
     PlanBuilderV2("Write a poem about the price of gold")
-    .input(name="purchase_quantity", description="The quantity of gold to purchase in ounces")
-    .input(name="currency", description="The currency to purchase the gold in", default_value="GBP")
+    .input(step_name="purchase_quantity", description="The quantity of gold to purchase in ounces")
+    .input(step_name="currency", description="The currency to purchase the gold in", default_value="GBP")
     .invoke_tool_step(
         step_name="Search gold price",
         tool="search_tool",
@@ -77,6 +81,8 @@ await portia.arun_plan(plan, plan_run_inputs={"purchase_quantity": 100, "currenc
 </Tabs>
 ```
 
+You can also view <a href="/understand-clarifications" target="_blank">**this example ↗**</a> for a more in-depth example.
+
 ## Available Step Types
 
 ### LLM step
@@ -87,7 +93,7 @@ builder.llm_step(
     task="Analyze the given data and provide insights",
     inputs=[StepOutput("previous_step")],
     output_schema=AnalysisResult,
-    name="analyze_data"
+    step_name="analyze_data"
 )
 ```
 
@@ -100,7 +106,7 @@ Use `.invoke_tool_step()` to add a step that directly invokes a tool:
 builder.invoke_tool_step(
     tool="portia:tavily::search",
     args={"query": "latest news about AI"},
-    name="search_news"
+    step_name="search_news"
 )
 ```
 
@@ -114,7 +120,7 @@ def process_data(data):
 builder.function_step(
     function=process_data,
     args={"data": StepOutput(0)},
-    name="process_raw_data"
+    step_name="process_raw_data"
 )
 ```
 
@@ -126,9 +132,22 @@ builder.single_tool_agent_step(
     tool="web_scraper",
     task="Extract key information from the webpage provided",
     inputs=[StepOutput("text_blob_with_url")],
-    name="scrape_webpage"
+    step_name="scrape_webpage"
 )
 ```
+
+### ReAct Tool Agent step
+Use `.react_agent_step()` to add a step that uses a ReAct agent (Reasoning + Acting) to complete a task.
+The ReAct agent can use multiple tools and call them multiple times as needed to complete the task.
+
+```python
+builder.react_agent_step(
+    tools=["search_tool", "weather_tool", "email_tool"],
+    task="Find the weather in the 3 most Southerly countries in Europe and email it to me",
+    step_name="scrape_webpage"
+)
+```
+
 
 ## Conditionals
 
@@ -146,7 +165,7 @@ Use `.if_()` to start a conditional block for advanced control flow:
     .llm_step(
         task="Summarise the web page",
         inputs=[StepOutput("scrape_webpage")],
-        name="summarise_webpage"
+        step_name="summarise_webpage"
     )
     .endif()
 )
@@ -227,6 +246,36 @@ Conditional blocks can be nested to create _even_ more complex control flow!
 )
 ```
 
+## User Interaction
+
+### User Verification
+Use `.user_verify()` when you want to pause plan execution to ask a user to confirm or reject the provided message.
+The plan will only continue if they confirm. If the user rejects, the plan execution will stop with an error.
+The user interaction is handled via clarifications - see <a href="/understand-clarifications" target="_blank">**Understand clarifications ↗**</a> for more details.
+
+```python
+builder.user_verify(
+    message=f"Do you want to proceed with the purchase? Price is {StepOutput('Calculate total price')}")
+```
+
+### User Input
+Use `.user_input()` when you want to pause plan execution for a user to provide input into the plan.
+This input can either be in the form of free text or can be a multiple-choice set of options.
+As with user verification, the user interaction is handled via clarifications - see <a href="/understand-clarifications" target="_blank">**Understand clarifications ↗**</a> for more details.
+
+```python
+# An example with multiple choice options
+builder.user_input(
+    message="How much would you like to purchase?",
+    options=[50, 100, 200],
+)
+
+# An example with a free text input
+builder.user_input(
+    message="Please enter your favourite food:",
+)
+```
+
 
 ## Inputs and Outputs
 
@@ -235,7 +284,7 @@ Use `.input()` to define inputs that the plan expects:
 
 ```python
 builder.input(
-    name="user_query",
+    step_name="user_query",
     description="The user's question or request"
 )
 ```
@@ -243,7 +292,7 @@ builder.input(
 You can also provide the default value for the input, e.g 
 ```python
 builder.input(
-    name="user_query",
+    step_name="user_query",
     description="The user's question or request"
     # Default values can be overriden in plan_run_inputs but will be used as the fallback.
     default_value="What is the capital of France?"
@@ -280,6 +329,7 @@ builder.invoke_tool_step(
 :::tip[Note]
 
 The index of a step is the order in which it was added to the plan.
+They are zero-indexed, so the first step is step 0.
 
 Conditional clauses (`.if_()`, `.else_if_()`, `.else_()` and `.endif()`) _are_ counted as steps and do have an index. Steps within a conditional branch are also counted - the step index is the order the steps appear in the plan, not the runtime index.
 :::
@@ -329,7 +379,7 @@ The returned `PlanV2` object is ready to be executed with your Portia instance.
 
 :::tip[Deprecation warning]
 
-There is an older form of the plan builder described below which is still functional in the SDK but over time we will be replacing it will PlanBuilderV2.
+There is an older form of the plan builder described below which is still functional in the SDK but over time we will be replacing it with PlanBuilderV2.
 
 :::
 
