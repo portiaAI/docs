@@ -3,7 +3,7 @@ sidebar_label: step_v2
 title: portia.builder.step_v2
 ---
 
-Interface for steps that are run as part of a PlanV2.
+Implementation of the various step types used in :class:`PlanV2`.
 
 ## StepV2 Objects
 
@@ -11,7 +11,10 @@ Interface for steps that are run as part of a PlanV2.
 class StepV2(BaseModel, ABC)
 ```
 
-Interface for steps that are run as part of a plan.
+Abstract base class for all steps executed within a plan.
+
+Each step represents an action that can be performed during plan execution,
+such as calling an LLM / agent, invoking a tool, or requesting user input.
 
 #### run
 
@@ -20,7 +23,11 @@ Interface for steps that are run as part of a plan.
 async def run(run_data: RunContext) -> Any
 ```
 
-Execute the step.
+Execute the step and return its output.
+
+**Returns**:
+
+  The step&#x27;s output value, which may be used by subsequent steps.
 
 #### to\_legacy\_step
 
@@ -29,11 +36,10 @@ Execute the step.
 def to_legacy_step(plan: PlanV2) -> Step
 ```
 
-Convert this step to a Step from plan.py.
+Convert this step to the legacy Step format.
 
-A Step is the legacy representation of a step in the plan, and is still used in the
-Portia backend. If this step doesn&#x27;t need to be represented in the plan sent to the Portia
-backend, return None.
+This is primarily used to determine how the steps should be presented in the Portia
+Dashboard.
 
 ## LLMStep Objects
 
@@ -41,7 +47,10 @@ backend, return None.
 class LLMStep(StepV2)
 ```
 
-A step that runs a given task through an LLM (without any tools).
+A step that executes a task using an LLM without any tool access.
+
+This step is used for pure language model tasks like text generation,
+analysis, or transformation that don&#x27;t require external tool calls.
 
 #### \_\_str\_\_
 
@@ -59,7 +68,7 @@ Return a description of this step for logging purposes.
 async def run(run_data: RunContext) -> str | BaseModel
 ```
 
-Run the LLM query.
+Execute the LLM task and return its response.
 
 #### to\_legacy\_step
 
@@ -68,7 +77,7 @@ Run the LLM query.
 def to_legacy_step(plan: PlanV2) -> Step
 ```
 
-Convert this LLMStep to a Step.
+Convert this LLMStep to a legacy Step.
 
 ## InvokeToolStep Objects
 
@@ -76,7 +85,11 @@ Convert this LLMStep to a Step.
 class InvokeToolStep(StepV2)
 ```
 
-A step that calls a tool with the given args (no LLM involved, just a direct tool call).
+A step that directly invokes a tool with specific arguments.
+
+This performs a direct tool call without LLM involvement, making it suitable
+for deterministic operations where you know exactly which tool to call and
+what arguments to pass.
 
 #### \_\_str\_\_
 
@@ -94,7 +107,7 @@ Return a description of this step for logging purposes.
 async def run(run_data: RunContext) -> Any
 ```
 
-Run the tool.
+Execute the tool and return its result.
 
 #### to\_legacy\_step
 
@@ -111,7 +124,11 @@ Convert this InvokeToolStep to a legacy Step.
 class SingleToolAgentStep(StepV2)
 ```
 
-A step where an LLM agent uses a single tool (calling it only once) to complete a task.
+A step where an LLM agent intelligently uses a specific tool to complete a task.
+
+Unlike InvokeToolStep which requires you to specify exact tool arguments, this step
+allows an LLM agent to determine how to use the tool based on the task description
+and available context. The agent will call the tool at most once during execution.
 
 #### \_\_str\_\_
 
@@ -129,7 +146,7 @@ Return a description of this step for logging purposes.
 async def run(run_data: RunContext) -> None
 ```
 
-Run the agent step.
+Run the agent and return its output.
 
 #### to\_legacy\_step
 
@@ -146,7 +163,21 @@ Convert this SingleToolAgentStep to a Step.
 class UserVerifyStep(StepV2)
 ```
 
-A step that asks the user to verify a message before continuing.
+A step that requests user confirmation before proceeding with plan execution.
+
+This step pauses execution to ask the user to verify or approve a message.
+If the user rejects the verification, the plan execution will stop with an error.
+
+This pauses plan execution and asks the user to confirm or reject the provided
+message. The plan will only continue if the user confirms. If the user rejects,
+the plan execution will stop with an error. This is useful for getting user approval before
+taking important actions like sending emails, making purchases, or modifying data.
+
+A UserVerificationClarification is used to get the verification from the user, so ensure you
+have set up handling for this type of clarification in order to use this step. For more
+details, see https://docs.portialabs.ai/understand-clarifications.
+
+This step outputs True if the user confirms.
 
 #### \_\_str\_\_
 
@@ -164,7 +195,13 @@ Return a description of this step for logging purposes.
 async def run(run_data: RunContext) -> bool | UserVerificationClarification
 ```
 
-Run the user verification step.
+Prompt the user for confirmation.
+
+Returns a UserVerificationClarification to get input from the user (if not already
+provided).
+
+If the user has already confirmed, returns True. Otherwise, if the user has rejected the
+verification, raises a PlanRunExitError.
 
 #### to\_legacy\_step
 
@@ -181,10 +218,19 @@ Convert this UserVerifyStep to a legacy Step.
 class UserInputStep(StepV2)
 ```
 
-A step that requests input from the user and returns the response.
+A step that requests input from the user and returns their response.
 
-If options are provided, creates a multiple choice clarification.
-Otherwise, creates a text input clarification.
+This pauses plan execution and prompts the user to provide input. If options are
+provided, the user must choose from the given choices (multiple choice). If no
+options are provided, the user can enter free-form text.
+
+A Clarification (either InputClarification or MultipleChoiceClarification) is used to get
+the input from the user, so ensure you have set up handling for the required type of
+clarification in order to use this step. For more details, see
+https://docs.portialabs.ai/understand-clarifications.
+
+The user&#x27;s response becomes the output of this step and can be referenced by
+subsequent steps in the plan.
 
 #### \_\_str\_\_
 
@@ -202,7 +248,7 @@ Return a description of this step for logging purposes.
 async def run(run_data: RunContext) -> Any
 ```
 
-Run the user input step.
+Request input from the user and return the response.
 
 #### to\_legacy\_step
 
@@ -219,9 +265,10 @@ Convert this UserInputStep to a legacy Step.
 class ConditionalStep(StepV2)
 ```
 
-A step that represents a conditional clause in a conditional block.
+A step that represents a conditional clause within a conditional execution block.
 
-I.E. if, else-if, else, end-if clauses.
+This step handles conditional logic such as if, else-if, else, and end-if statements
+that control which subsequent steps should be executed based on runtime conditions.
 
 #### validate\_conditional\_block
 
@@ -259,7 +306,7 @@ Return a description of this step for logging purposes.
 async def run(run_data: RunContext) -> Any
 ```
 
-Run the conditional step.
+Evaluate the condition and return a ConditionalStepResult.
 
 #### to\_legacy\_step
 
@@ -268,5 +315,5 @@ Run the conditional step.
 def to_legacy_step(plan: PlanV2) -> Step
 ```
 
-Convert this ConditionalStep to a PlanStep.
+Convert this ConditionalStep to a legacy Step.
 

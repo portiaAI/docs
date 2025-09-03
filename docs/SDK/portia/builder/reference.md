@@ -5,13 +5,47 @@ title: portia.builder.reference
 
 References to values in a plan.
 
+This module provides reference classes that allow you to reference variables in your plan whose
+values are not known when the plan is built, such as outputs from previous steps or user-provided
+inputs. When the plan is run, these references are then resolved to their actual values.
+
+The Reference class provides an interface for all reference types. It then has the following
+implementations:
+StepOutput: References the output value from a previous step.
+Input: References a user-provided input value.
+
+**Example**:
+
+    ```python
+    from portia.builder import PlanBuilderV2
+    from portia.builder.reference import StepOutput, Input
+
+    builder = PlanBuilderV2()
+    builder.input("user_query", description="The user's search query")
+
+    # Step 1: Search for information
+    builder.step("search", tools=[search_tool], inputs={"query": Input("user_query")})
+
+    # Step 2: Process the search results
+    builder.step("process", tools=[llm_tool], inputs={"data": StepOutput("search")})
+    ```
+
 #### default\_step\_name
 
 ```python
 def default_step_name(step_index: int) -> str
 ```
 
-Return the default name for the step.
+Generate a default name for a step based on its index.
+
+**Arguments**:
+
+- `step_index` - The zero-based index of the step in the plan.
+  
+
+**Returns**:
+
+  A string in the format &quot;step_{index}&quot; (e.g., &quot;step_0&quot;, &quot;step_1&quot;).
 
 ## Reference Objects
 
@@ -19,7 +53,14 @@ Return the default name for the step.
 class Reference(BaseModel, ABC)
 ```
 
-A reference to a value.
+Abstract base class for all reference types in Portia plans.
+
+References allow you to dynamically reference values that will be resolved at runtime,
+such as outputs from previous steps or user-provided inputs. This enables building
+flexible workflows where later steps can depend on the results of earlier operations.
+
+This is an abstract base class that defines the interface all reference types must
+implement. Concrete implementations include StepOutput and Input.
 
 #### get\_legacy\_name
 
@@ -28,7 +69,11 @@ A reference to a value.
 def get_legacy_name(plan: PlanV2) -> str
 ```
 
-Get the name of the reference to use with legacy Portia plans.
+Get the reference name for compatibility with legacy Portia plans.
+
+**Arguments**:
+
+- `plan` - The PlanV2 instance containing the reference.
 
 #### get\_value
 
@@ -37,7 +82,22 @@ Get the name of the reference to use with legacy Portia plans.
 def get_value(run_data: RunContext) -> Any | None
 ```
 
-Get the value of the reference.
+Resolve and return the value this reference points to.
+
+**Arguments**:
+
+- `run_data` - The runtime context containing step outputs, inputs, and other
+  execution data needed to resolve the reference.
+  
+
+**Returns**:
+
+  The resolved value, or None if the reference cannot be resolved.
+  
+
+**Raises**:
+
+- `NotImplementedError` - This method must be implemented by subclasses.
 
 ## StepOutput Objects
 
@@ -45,12 +105,32 @@ Get the value of the reference.
 class StepOutput(Reference)
 ```
 
-A reference to the output of a previous step.
+A reference to the output of a previous step in the plan.
 
-When building your plan, you can use this class to reference the output of a previous step.
-The output from the specified step will then be substituted in when the plan is run.
+StepOutput allows you to reference the output value produced by an earlier step,
+enabling you to create workflows where later steps depend on the results of
+previous operations. The reference is resolved at runtime during plan execution.
 
-See the example usage in example_builder.py for more details.
+You can reference a step either by its name (string) or by its position (integer index).
+Step indices are zero-based, so the first step is index 0.
+
+**Example**:
+
+    ```python
+    from portia.builder import PlanBuilderV2
+    from portia.builder.reference import StepOutput
+
+    builder = PlanBuilderV2()
+
+    # Create a step that produces some output
+    builder.step("search", tools=[search_tool], inputs={"query": "Python tutorials"})
+
+    # Reference the output by name
+    builder.step("analyze", tools=[llm_tool], inputs={"data": StepOutput("search")})
+
+    # Reference the output by index (0 = first step)
+    builder.step("summarize", tools=[llm_tool], inputs={"data": StepOutput(0)})
+    ```
 
 #### \_\_init\_\_
 
@@ -58,7 +138,7 @@ See the example usage in example_builder.py for more details.
 def __init__(step: str | int) -> None
 ```
 
-Initialize the step output.
+Initialize a reference to a step&#x27;s output.
 
 #### get\_legacy\_name
 
@@ -67,7 +147,7 @@ Initialize the step output.
 def get_legacy_name(plan: PlanV2) -> str
 ```
 
-Get the name of the reference to use with legacy Portia plans.
+Get the reference name for compatibility with legacy Portia plans.
 
 #### \_\_str\_\_
 
@@ -84,7 +164,12 @@ Get the string representation of the step output.
 def get_value(run_data: RunContext) -> Any | None
 ```
 
-Get the value of the step output.
+Resolve and return the output value from the referenced step.
+
+**Notes**:
+
+  If the step cannot be found, a warning is logged and None is returned.
+  The step is matched by either name (string) or index (integer).
 
 #### get\_description
 
@@ -100,14 +185,39 @@ Get the description of the step output.
 class Input(Reference)
 ```
 
-A reference to a plan input.
+A reference to a user-provided plan input.
 
-When building your plan, you can specify plan inputs using the PlanBuilder.input() method. These
-are inputs whose values you provide when running the plan, rather than when building the plan.
-You can then use this to reference those inputs later in your plan. When you do this, the values
-will be substituted in when the plan is run.
+Input allows you to reference values that are provided at runtime when the plan
+is executed, rather than when the plan is built. This enables creating reusable
+plans that can work with different input values each time they run.
 
-See the example usage in example_builder.py for more details.
+Plan inputs are defined using the PlanBuilder.input() method when building your
+plan, and their values are provided when calling portia.run() or portia.arun().
+The Input reference is then resolved to the actual value during execution.
+
+**Example**:
+
+    ```python
+    from portia.builder import PlanBuilderV2
+    from portia.builder.reference import Input
+
+    builder = PlanBuilderV2()
+
+    # Define an input that will be provided at runtime
+    builder.input("user_query", description="The user's search query")
+    builder.input("max_results", description="Maximum number of results")
+
+    # Use the inputs in steps
+    builder.step("search",
+                tools=[search_tool],
+                inputs={
+                    "query": Input("user_query"),
+                    "limit": Input("max_results")
+                })
+
+    # When running the plan, provide the input values:
+    # portia.run(plan, inputs={"user_query": "Python tutorials", "max_results": 10})
+    ```
 
 #### \_\_init\_\_
 
@@ -115,7 +225,7 @@ See the example usage in example_builder.py for more details.
 def __init__(name: str) -> None
 ```
 
-Initialize the input.
+Initialize a reference to a plan input.
 
 #### get\_legacy\_name
 
@@ -124,7 +234,7 @@ Initialize the input.
 def get_legacy_name(plan: PlanV2) -> str
 ```
 
-Get the name of the reference to use with legacy Portia plans.
+Get the reference name for compatibility with legacy Portia plans.
 
 #### get\_value
 
@@ -133,7 +243,16 @@ Get the name of the reference to use with legacy Portia plans.
 def get_value(run_data: RunContext) -> Any | None
 ```
 
-Get the value of the input.
+Resolve and return the user-provided input value.
+
+**Returns**:
+
+  The user-provided value for this input, or None if not found.
+  
+
+**Notes**:
+
+  If the input value is itself a Reference, it will be recursively resolved.
 
 #### \_\_str\_\_
 
