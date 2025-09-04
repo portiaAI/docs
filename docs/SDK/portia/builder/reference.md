@@ -122,20 +122,32 @@ Step indices are zero-based, so the first step is index 0.
 
     builder = PlanBuilderV2()
 
-    # Create a step that produces some output
-    builder.step("search", tools=[search_tool], inputs={"query": "Python tutorials"})
+    # Create a step that produces some output using a search tool
+    builder.single_tool_agent_step("search", "search_tool",
+                                  inputs=["Find Python tutorials"])
 
     # Reference the output by name
-    builder.step("analyze", tools=[llm_tool], inputs={"data": StepOutput("search")})
+    builder.llm_step("analyze", task="Analyze the search results",
+                    inputs=[StepOutput("search")])
 
     # Reference the output by index (0 = first step)
-    builder.step("summarize", tools=[llm_tool], inputs={"data": StepOutput(0)})
+    builder.llm_step("summarize", task="Summarize the data",
+                    inputs=[StepOutput(0)])
+
+    # Access nested fields using path notation (i.e. take the .title attribute from the output
+    # of the search step)
+    builder.llm_step("process", task="Extract title from results",
+                    inputs=[StepOutput("search", path="title")])
+
+    # Access deeply nested fields
+    builder.llm_step("extract", task="Get street address",
+                    inputs=[StepOutput("user_data", path="address.street")])
     ```
 
 #### \_\_init\_\_
 
 ```python
-def __init__(step: str | int) -> None
+def __init__(step: str | int, path: str | None = None) -> None
 ```
 
 Initialize a reference to a step&#x27;s output.
@@ -166,10 +178,14 @@ def get_value(run_data: RunContext) -> Any | None
 
 Resolve and return the output value from the referenced step.
 
+If a path is provided, it will be used to navigate the step output
+to extract the desired substructure.
+
 **Notes**:
 
   If the step cannot be found, a warning is logged and None is returned.
   The step is matched by either name (string) or index (integer).
+  If the path navigation fails, the exception is propagated.
 
 #### get\_description
 
@@ -222,7 +238,7 @@ The Input reference is then resolved to the actual value during execution.
 #### \_\_init\_\_
 
 ```python
-def __init__(name: str) -> None
+def __init__(name: str, path: str | None = None) -> None
 ```
 
 Initialize a reference to a plan input.
