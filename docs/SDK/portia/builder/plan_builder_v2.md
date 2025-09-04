@@ -305,6 +305,35 @@ schema.
 - `step_name` - Optional explicit name for the step. This allows its output to be
   referenced via StepOutput(&quot;name_of_step&quot;) rather than by index.
 
+#### react\_agent\_step
+
+```python
+def react_agent_step(*,
+                     task: str,
+                     tools: list[str] | None = None,
+                     inputs: list[Any] | None = None,
+                     output_schema: type[BaseModel] | None = None,
+                     step_name: str | None = None,
+                     allow_agent_clarifications: bool = False,
+                     tool_call_limit: int = 25) -> PlanBuilderV2
+```
+
+Add a step that uses a ReAct agent with multiple tools.
+
+The ReAct agent uses reasoning and acting cycles to complete complex tasks
+that may require multiple tool calls and decision making.
+
+**Arguments**:
+
+- `task` - The task to perform.
+- `tools` - The list of tool IDs to make available to the agent.
+- `inputs` - The inputs to the task. If any of these values are instances of StepOutput or
+  Input, the corresponding values will be substituted in when the plan is run.
+- `output_schema` - The schema of the output.
+- `step_name` - Optional name for the step. If not provided, will be auto-generated.
+- `allow_agent_clarifications` - Whether to allow the agent to ask clarifying questions.
+- `tool_call_limit` - Maximum number of tool calls the agent can make.
+
 #### user\_verify
 
 ```python
