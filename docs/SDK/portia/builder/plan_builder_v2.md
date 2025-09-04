@@ -63,6 +63,80 @@ with the value.
 - `default_value` - Optional default value to be used if no value is provided when running
   the plan.
 
+#### loop
+
+```python
+def loop(while_: Callable[..., bool] | str | None = None,
+         do_while_: Callable[..., bool] | str | None = None,
+         over: Reference | Sequence[Any] | None = None,
+         args: dict[str, Any] | None = None,
+         step_name: str | None = None) -> PlanBuilderV2
+```
+
+Start a new loop block.
+
+This creates a loop that can iterate over a sequence of values or repeat while a condition
+is true. You must specify exactly one of the loop types: while_, do_while_, or over.
+
+For &#x27;while&#x27; loops, the condition is checked before each iteration:
+PlanBuilderV2()
+.loop(while_=lambda: some_condition)
+.llm_step(task=&quot;Repeats while true&quot;)
+.end_loop()
+
+For &#x27;do_while&#x27; loops, the condition is checked after each iteration:
+PlanBuilderV2()
+.loop(do_while_=lambda: some_condition)
+.llm_step(task=&quot;Runs at least once&quot;)
+.end_loop()
+
+For &#x27;for_each&#x27; loops, iterate over a sequence or reference:
+PlanBuilderV2().loop(over=Input(&quot;items&quot;)).llm_step(task=&quot;Process each item&quot;).end_loop()
+
+After opening a loop block with this loop method, you must close the block with
+.end_loop() later in the plan.
+
+**Arguments**:
+
+- `while_` - Condition function or string to check before each iteration. The loop continues
+  while this condition evaluates to True.
+- `do_while_` - Condition function or string to check after each iteration. The loop
+  continues while this condition evaluates to True, but always runs at least once.
+- `over` - Reference or sequence to iterate over. Each iteration will process one item
+  from this sequence.
+- `args` - Arguments passed to condition functions if they are functions. These are unused
+  if the condition is a string.
+- `step_name` - Optional explicit name for the step. This allows its output to be referenced
+  via StepOutput(&quot;name_of_step&quot;) rather than by index.
+
+#### end\_loop
+
+```python
+def end_loop(step_name: str | None = None) -> PlanBuilderV2
+```
+
+Close the most recently opened loop block.
+
+This method must be called to properly close any loop block that was opened with
+loop(). It marks the end of the loop logic and allows the plan to continue with
+steps outside the loop. For example:
+
+# Simple while loop
+PlanBuilderV2().loop(while_=lambda: some_condition).llm_step(task=&quot;Repeats&quot;).end_loop()
+.llm_step(task=&quot;Runs after loop&quot;)
+
+# For-each loop over input items
+PlanBuilderV2().loop(over=Input(&quot;items&quot;)).llm_step(task=&quot;Process item&quot;).end_loop()
+.llm_step(task=&quot;Runs after all items processed&quot;)
+
+Failing to call end_loop() after opening a loop block with loop() will result in an
+error when building the plan.
+
+**Arguments**:
+
+- `step_name` - Optional explicit name for the step. This allows its output to be referenced
+  via StepOutput(&quot;name_of_step&quot;) rather than by index.
+
 #### if\_
 
 ```python

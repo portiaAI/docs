@@ -357,3 +357,60 @@ def to_legacy_step(plan: PlanV2) -> Step
 
 Convert this ConditionalStep to a legacy Step.
 
+## LoopStep Objects
+
+```python
+class LoopStep(StepV2)
+```
+
+A step that represents a loop in a loop block.
+
+This step handles loop logic such as while, do-while, and for-each loops that
+control which subsequent steps should be executed based on runtime conditions.
+
+#### start\_index\_value
+
+```python
+@property
+def start_index_value() -> int
+```
+
+Get the start index value.
+
+#### end\_index\_value
+
+```python
+@property
+def end_index_value() -> int
+```
+
+Get the end index value.
+
+#### validate\_model
+
+```python
+@model_validator(mode="after")
+def validate_model() -> Self
+```
+
+Validate the start and end indexes.
+
+#### run
+
+```python
+@override
+@traceable(name="Loop Step - Run")
+async def run(run_data: RunContext) -> Any
+```
+
+Run the loop step.
+
+#### to\_legacy\_step
+
+```python
+@override
+def to_legacy_step(plan: PlanV2) -> Step
+```
+
+Convert this LoopStep to a PlanStep.
+

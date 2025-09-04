@@ -3,6 +3,7 @@
     {
       "items": [
         "SDK/portia/builder/conditionals",
+        "SDK/portia/builder/loops",
         "SDK/portia/builder/plan_builder_v2",
         "SDK/portia/builder/plan_v2",
         "SDK/portia/builder/reference",
