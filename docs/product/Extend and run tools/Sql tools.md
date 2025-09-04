@@ -1,6 +1,6 @@
 ---
-sidebar_label: sql_tool
-title: portia.open_source_tools.sql_tool
+sidebar_position: 8
+slug: /sql-tools
 ---
 
 SQL Tools with pluggable adapter and a default SQLite implementation.
@@ -15,10 +15,58 @@ Available tools:
 - GetTableSchemasTool: Get detailed schema information for specified tables
 - CheckSQLTool: Validate SQL queries without executing them
 
-Legacy SQLTool is also available for backward compatibility but is deprecated.
-
 Security note: Only read-only operations are allowed. SQLite authorizer is used to enforce
 read-only access by denying all write operations (INSERT, UPDATE, DELETE, CREATE, etc.).
+
+## Quick Start Example
+
+```python
+from portia.open_source_tools.sql_tool import (
+    ListTablesTool,
+    GetTableSchemasTool,
+    RunSQLTool,
+    CheckSQLTool
+)
+import os
+
+# Configure database path
+os.environ["SQLITE_DB_PATH"] = "/path/to/your/database.db"
+
+# Initialize tools
+list_tool = ListTablesTool()
+schema_tool = GetTableSchemasTool()
+run_tool = RunSQLTool()
+check_tool = CheckSQLTool()
+
+# Explore the database
+tables = list_tool.run(context)
+schemas = schema_tool.run(context, tables=tables[:2])  # Get schema for first 2 tables
+
+# Validate and run a query
+query = "SELECT * FROM users LIMIT 5"
+if check_tool.run(context, query=query)["ok"]:
+    results = run_tool.run(context, query=query)
+    print(f"Found {len(results)} results")
+```
+
+## Configuration Options
+
+### Environment Variables
+- `SQLITE_DB_PATH`: Path to the SQLite database file (defaults to ":memory:" if not set)
+
+### JSON Configuration
+Alternatively, pass configuration as a JSON string:
+
+```python
+import json
+config = {"db_path": "/path/to/database.db"}
+
+result = tool.run(
+    context,
+    query="SELECT COUNT(*) FROM users",
+    config_json=json.dumps(config)
+)
+```
 
 ## SQLAdapter Objects
 
