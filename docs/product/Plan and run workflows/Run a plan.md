@@ -163,7 +163,7 @@ load_dotenv()
 # Instantiate a Portia instance. Load it with the default config and with the example tools.
 portia = Portia(tools=example_tool_registry)
 
-# Generate the plan
+# Build the plan
 plan = (
     PlanBuilderV2()
     .single_tool_agent_step(
