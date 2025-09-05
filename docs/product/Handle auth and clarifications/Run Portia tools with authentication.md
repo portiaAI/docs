@@ -62,12 +62,8 @@ load_dotenv()
 # Instantiate a Portia instance. Load it with the default config and with Portia cloud tools above
 portia = Portia(tools=PortiaToolRegistry(default_config()))
 
-# Generate the plan from the user query and print it
-plan = portia.plan('Find the github repository of PortiaAI and give it a star for me')
-print(f"{plan.model_dump_json(indent=2)}")
-
-# Run the plan
-plan_run = portia.run_plan(plan)
+# Run Portia to star the repository
+plan_run = portia.run('Find the github repository of PortiaAI and give it a star for me')
 
 while plan_run.state == PlanRunState.NEED_CLARIFICATION:
     # If clarifications are needed, resolve them before resuming the plan run
