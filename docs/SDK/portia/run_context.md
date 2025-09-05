@@ -21,3 +21,11 @@ class RunContext(BaseModel)
 
 Data that is returned from a step.
 
+#### get\_tool\_run\_ctx
+
+```python
+def get_tool_run_ctx() -> ToolRunContext
+```
+
+Get the tool run context.
+

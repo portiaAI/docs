@@ -69,6 +69,33 @@ This class serves as the blueprint for all tools. Child classes must implement t
   that fetches the latest news) whereas other tools it&#x27;s not (for example: a tool
   that fetches raw price data).
 
+#### validate\_id\_no\_comma
+
+```python
+@field_validator("id")
+@classmethod
+def validate_id_no_comma(cls, v: str) -> str
+```
+
+Ensure the tool ID does not contain commas.
+
+Commas are used as delimiters in some contexts where multiple tool IDs
+are concatenated, so individual tool IDs cannot contain commas.
+
+**Arguments**:
+
+- `v` - The tool ID to validate.
+  
+
+**Returns**:
+
+- `str` - The validated tool ID.
+  
+
+**Raises**:
+
+- `ValueError` - If the tool ID contains a comma.
+
 #### ready
 
 ```python
@@ -193,6 +220,14 @@ StructuredTool via a partial run function.
 - `StructuredTool` - The LangChain-compatible representation of the tool, including the
   tool&#x27;s name, description, and argument schema, with the execution context baked
   into the function.
+
+#### get\_langchain\_name
+
+```python
+def get_langchain_name() -> str
+```
+
+Get the name of the tool for LangChain.
 
 #### to\_langchain\_with\_artifact
 

@@ -284,7 +284,7 @@ Use `.input()` to define inputs that the plan expects:
 
 ```python
 builder.input(
-    step_name="user_query",
+    name="user_query",
     description="The user's question or request"
 )
 ```
@@ -292,7 +292,7 @@ builder.input(
 You can also provide the default value for the input, e.g 
 ```python
 builder.input(
-    step_name="user_query",
+    name="user_query",
     description="The user's question or request"
     # Default values can be overriden in plan_run_inputs but will be used as the fallback.
     default_value="What is the capital of France?"
@@ -302,6 +302,19 @@ builder.input(
 You can dynamically add the value of the plan at run time, e.g
 ```python
 portia.run_plan(plan, plan_run_inputs={"user_query": "What is the capital of Peru?"})
+```
+
+You can also access nested fields of the input using the path attribute:
+```python
+class UserProfile(BaseModel):
+    name: str
+    email: str
+
+class UserData(BaseModel):
+        profile: UserProfile
+        age: int
+
+builder.input(name="user_data").llm_step(task="Do some task", inputs=[Input("user_data", path="profile.name")])
 ```
 
 ### Referencing Step Outputs
@@ -324,6 +337,13 @@ builder.invoke_tool_step(
     tool="calculator",
     args={"expression": StepOutput(1)"}
 )
+```
+
+As with Input, you can access nested fields of the output using the path attribute
+
+```python
+# Access the .profile.name field of the output from the 'get_user_data' step
+builder..llm_step(task="Do some task", inputs=[StepOutput("get_user_data", path="profile.name")])
 ```
 
 :::tip[Note]
