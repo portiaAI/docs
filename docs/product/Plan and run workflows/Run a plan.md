@@ -183,7 +183,7 @@ plan = (
     .build()
 )
 
-# Run the generated plan
+# Run the plan
 plan_run = portia.run_plan(plan)
 
 # Serialise into JSON and print the output
