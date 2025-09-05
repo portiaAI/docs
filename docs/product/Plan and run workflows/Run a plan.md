@@ -205,7 +205,7 @@ load_dotenv()
 portia = Portia(tools=example_tool_registry)
 
 async def main():
-    # Generate the plan from the user query
+    # Build the plan
     plan = (
       PlanBuilderV2()
       .single_tool_agent_step(
