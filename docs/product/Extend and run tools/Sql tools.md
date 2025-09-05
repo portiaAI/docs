@@ -21,32 +21,117 @@ read-only access by denying all write operations (INSERT, UPDATE, DELETE, CREATE
 ## Quick Start Example
 
 ```python
-from portia.open_source_tools.sql_tool import (
-    ListTablesTool,
-    GetTableSchemasTool,
-    RunSQLTool,
-    CheckSQLTool
-)
+from __future__ import annotations
 import os
+import sqlite3
+import tempfile
+from pathlib import Path
 
-# Configure database path
-os.environ["SQLITE_DB_PATH"] = "/path/to/your/database.db"
+from pydantic import BaseModel
+from portia import PlanBuilderV2, Input, StepOutput
+from portia.portia import Portia
+from portia.tool_registry import ToolRegistry
+from portia.open_source_tools.sql_tool import ListTablesTool, RunSQLTool, GetTableSchemasTool
+from portia.config import Config
+from portia import LLMProvider
 
-# Initialize tools
-list_tool = ListTablesTool()
-schema_tool = GetTableSchemasTool()
-run_tool = RunSQLTool()
-check_tool = CheckSQLTool()
+# -------------------------------------------------------------------
+# 1. Create a  SQLite database with one table
+# -------------------------------------------------------------------
+def create_order_items_db(db_path: str) -> None:
+    conn = sqlite3.connect(db_path)
+    cur = conn.cursor()
+    cur.execute("""
+        CREATE TABLE order_items (
+            item_id INTEGER PRIMARY KEY,
+            product_name TEXT,
+            quantity INTEGER,
+            unit_price DECIMAL(10,2)
+        )
+    """)
+    cur.executemany("""
+        INSERT INTO order_items (item_id, product_name, quantity, unit_price)
+        VALUES (?, ?, ?, ?)
+    """, [
+        (1, "Laptop", 1, 999.99),
+        (2, "Headphones", 2, 199.99),
+        (3, "Water Bottle", 5, 19.99),
+    ])
+    conn.commit()
+    conn.close()
 
-# Explore the database
-tables = list_tool.run(context)
-schemas = schema_tool.run(context, tables=tables[:2])  # Get schema for first 2 tables
+# -------------------------------------------------------------------
+# 2. Define structured outputs
+# -------------------------------------------------------------------
+class QueryResult(BaseModel):
+    rows: list[tuple]
 
-# Validate and run a query
-query = "SELECT * FROM users LIMIT 5"
-if check_tool.run(context, query=query)["ok"]:
-    results = run_tool.run(context, query=query)
-    print(f"Found {len(results)} results")
+class FinalOutput(BaseModel):
+    summary: str
+
+# -------------------------------------------------------------------
+# 3. Build the plan using PlanBuilderV2
+# -------------------------------------------------------------------
+def build_plan():
+    return (
+        PlanBuilderV2("Inspect schema and run a SQL query")
+        # Step 1: list tables
+        .invoke_tool_step(
+            step_name="List tables",
+            tool="list_tables",
+            args={},
+        )
+        # Step 2: get schema for order_items
+        .invoke_tool_step(
+            step_name="Get schema",
+            tool="get_table_schemas",
+            args={"tables": ["order_items"]},
+        )
+        # Step 3: run query
+        .invoke_tool_step(
+            step_name="Run query",
+            tool="run_sql",
+            args={"query": "SELECT product_name, quantity, unit_price FROM order_items"},
+            output_schema=QueryResult,
+        )
+        # Step 4: summarize with LLM
+        .llm_step(
+            task="Summarize the sales from the order_items table",
+            inputs=[StepOutput("Run query")],
+            output_schema=FinalOutput,
+            step_name="Summarize query"
+        )
+        .final_output(FinalOutput)
+        .build()
+    )
+
+def main():
+    tmp_dir = tempfile.mkdtemp()
+    db_path = Path(tmp_dir) / "orders.db"
+    create_order_items_db(str(db_path))
+    os.environ["SQLITE_DB_PATH"] = str(db_path)
+
+    sql_tools = [ListTablesTool(), RunSQLTool(), GetTableSchemasTool()]
+    tool_registry = ToolRegistry(sql_tools)
+
+    config = Config.from_default(
+        llm_provider=LLMProvider.GOOGLE,
+        default_model="google/gemini-2.0-flash"
+    )
+
+    portia = Portia(config=config, tools=tool_registry)
+
+    plan = build_plan()
+    run = portia.run_plan(plan)
+
+    print("Plan state:", run.state)
+    if run.outputs.final_output is not None:
+        print("Summary:", run.outputs.final_output.summary)
+    else:
+        print("Summary: No summary available (final output is None)")
+
+if __name__ == "__main__":
+    main()
 ```
 
 ## Configuration Options
