@@ -303,7 +303,7 @@ plan2 = (
     .llm_step(
         step_name="analyze_gold_price",
         task="Write a report on the gold price in the last 30 days",
-        # We can pass in the search results using StepOutput
+        # We can pass in the search results using StepOutput and referencing the previous step_name
         inputs=[StepOutput("research_gold_price")],
     )
     # Finally we use an agent with
