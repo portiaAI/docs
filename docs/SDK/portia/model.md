@@ -654,6 +654,35 @@ async def aget_structured_response_instructor(
 
 Get structured response using instructor asynchronously.
 
+## GoogleGenAiGenerativeModel Objects
+
+```python
+class GoogleGenAiGenerativeModel(LangChainGenerativeModel)
+```
+
+Google Generative AI (Gemini) model implementation.
+
+#### \_\_init\_\_
+
+```python
+def __init__(*,
+             model_name: str = "gemini-2.0-flash",
+             api_key: SecretStr,
+             max_retries: int = 3,
+             temperature: float | None = None,
+             **kwargs: Any) -> None
+```
+
+Initialize with Google Generative AI client.
+
+**Arguments**:
+
+- `model_name` - Name of the Google Generative AI model
+- `api_key` - API key for Google Generative AI
+- `max_retries` - Maximum number of retries
+- `temperature` - Temperature parameter for model sampling
+- `**kwargs` - Additional keyword arguments to pass to ChatGoogleGenerativeAI
+
 #### map\_message\_to\_instructor
 
 ```python
