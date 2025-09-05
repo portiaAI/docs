@@ -225,7 +225,7 @@ async def main():
       .build()
   )
 
-    # Run the generated plan
+    # Run the plan
     plan_run = await portia.arun_plan(plan)
 
     # Serialise into JSON and print the output
