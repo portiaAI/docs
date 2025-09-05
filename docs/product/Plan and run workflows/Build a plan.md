@@ -81,7 +81,7 @@ await portia.arun_plan(plan, plan_run_inputs={"purchase_quantity": 100, "currenc
 </Tabs>
 ```
 
-You can also view <a href="/understand-clarifications" target="_blank">**this example ↗**</a> for a more in-depth example.
+You can also view <a href="https://github.com/portiaAI/portia-sdk-python/blob/main/example_builder.py" target="_blank">**this example ↗**</a> for a more in-depth example.
 
 ## Available Step Types
 

@@ -306,7 +306,7 @@ plan2 = (
         # We can pass in the search results using StepOutput and referencing the previous step_name
         inputs=[StepOutput("research_gold_price")],
     )
-    # Finally we use an agent with
+    # Finally we use an agent with the send email tool to send the report
     .single_tool_agent_step(
         step_name="send_email",
         task="Send the report about gold price to bob@portialabs.ai",
