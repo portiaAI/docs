@@ -138,7 +138,7 @@ builder.single_tool_agent_step(
 
 ### ReAct Tool Agent step
 Use `.react_agent_step()` to add a step that uses a ReAct agent (Reasoning + Acting) to complete a task.
-The ReAct agent can use multiple tools and call them multiple times as needed to complete the task.
+The ReAct agent can use multiple tools and call them multiple times as needed to complete the task. This allows you to balance deterministic flows with more exploratory goal-based behaviour.
 
 ```python
 builder.react_agent_step(
