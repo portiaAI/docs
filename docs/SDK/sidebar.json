@@ -3,6 +3,7 @@
     {
       "items": [
         "SDK/portia/builder/conditionals",
+        "SDK/portia/builder/loops",
         "SDK/portia/builder/plan_builder_v2",
         "SDK/portia/builder/plan_v2",
         "SDK/portia/builder/reference",
@@ -29,7 +30,9 @@
         "SDK/portia/execution_agents/execution_utils",
         "SDK/portia/execution_agents/memory_extraction",
         "SDK/portia/execution_agents/one_shot_agent",
-        "SDK/portia/execution_agents/output"
+        "SDK/portia/execution_agents/output",
+        "SDK/portia/execution_agents/react_agent",
+        "SDK/portia/execution_agents/react_clarification_tool"
       ],
       "label": "portia.execution_agents",
       "type": "category"
@@ -55,6 +58,7 @@
         "SDK/portia/open_source_tools/map_tool",
         "SDK/portia/open_source_tools/pdf_reader_tool",
         "SDK/portia/open_source_tools/search_tool",
+        "SDK/portia/open_source_tools/sql_tool",
         "SDK/portia/open_source_tools/weather"
       ],
       "label": "portia.open_source_tools",
@@ -91,6 +95,7 @@
     "SDK/portia/plan",
     "SDK/portia/plan_run",
     "SDK/portia/portia",
+    "SDK/portia/run_context",
     "SDK/portia/storage",
     "SDK/portia/token_check",
     "SDK/portia/tool",

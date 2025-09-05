@@ -24,6 +24,7 @@ tools, inputs, and outputs defined in the plan.
 ## PlanBuilder Objects
 
 ```python
+@deprecated("Use PlanBuilderV2 instead")
 class PlanBuilder()
 ```
 
@@ -35,6 +36,8 @@ added to the plan before building it.
 **Example**:
 
   plan = PlanBuilder()                 .step(&quot;Step 1&quot;, &quot;tool_id_1&quot;, &quot;output_1&quot;)                 .step(&quot;Step 2&quot;, &quot;tool_id_2&quot;, &quot;output_2&quot;)                 .input(&quot;input_1&quot;, &quot;value_1&quot;)                 .build()
+  
+  This class is now deprecated. Use PlanBuilderV2 instead.
 
 #### \_\_init\_\_
 

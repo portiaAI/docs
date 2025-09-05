@@ -46,6 +46,17 @@ Initialize parent fields using child_tool&#x27;s attributes.
 - `storage` _AdditionalStorage_ - The storage to save execution records.
 - `plan_run` _PlanRun_ - The PlanRun to execute.
 
+#### from\_tool\_id
+
+```python
+@classmethod
+def from_tool_id(cls, tool_id: str | None, tool_registry: ToolRegistry,
+                 storage: Storage,
+                 plan_run: PlanRun) -> ToolCallWrapper | None
+```
+
+Get a ToolCallWrapper for a tool with specified id.
+
 #### ready
 
 ```python

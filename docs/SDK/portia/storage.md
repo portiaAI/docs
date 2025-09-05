@@ -475,14 +475,6 @@ Get an end user asynchronously using threaded execution.
 
 - `external_id` _str_ - The id of the end user to get.
 
-## Storage Objects
-
-```python
-class Storage(PlanStorage, RunStorage, AdditionalStorage)
-```
-
-Combined base class for Plan Run + Additional storages.
-
 ## AgentMemory Objects
 
 ```python
@@ -581,6 +573,14 @@ Retrieve an Output from agent memory asynchronously using threaded execution.
 
 - `Output` - The retrieved Output object with value filled in from agent memory.
 
+## Storage Objects
+
+```python
+class Storage(PlanStorage, RunStorage, AdditionalStorage, AgentMemory)
+```
+
+Combined base class for Plan Run + Additional storages.
+
 #### log\_tool\_call
 
 ```python
@@ -596,7 +596,7 @@ Log the tool call.
 ## InMemoryStorage Objects
 
 ```python
-class InMemoryStorage(PlanStorage, RunStorage, AdditionalStorage, AgentMemory)
+class InMemoryStorage(Storage)
 ```
 
 Simple storage class that keeps plans + runs in memory.
@@ -801,7 +801,7 @@ Get end_user from dict or init a new one.
 ## DiskFileStorage Objects
 
 ```python
-class DiskFileStorage(PlanStorage, RunStorage, AdditionalStorage, AgentMemory)
+class DiskFileStorage(Storage)
 ```
 
 Disk-based implementation of the Storage interface.
@@ -1014,7 +1014,7 @@ Get end_user from dict or init a new one.
 ## PortiaCloudStorage Objects
 
 ```python
-class PortiaCloudStorage(Storage, AgentMemory)
+class PortiaCloudStorage(Storage)
 ```
 
 Save plans, runs and tool calls to portia cloud.

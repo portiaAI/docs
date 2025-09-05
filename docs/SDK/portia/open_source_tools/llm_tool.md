@@ -25,14 +25,16 @@ General purpose LLM tool. Customizable to user requirements. Won&#x27;t call oth
 
 ```python
 @staticmethod
-def process_task_data(task_data: list[Any] | str | None) -> str
+def process_task_data(
+        task_data: dict[str, Any] | list[Any] | str | None) -> str
 ```
 
 Process task_data into a string, handling different input types.
 
 **Arguments**:
 
-- `task_data` - Data that can be a None, a string or a list of objects.
+- `task_data` - Data that can be a None, a string, a list of objects or
+  a dictionary of objects.
   
 
 **Returns**:
@@ -42,9 +44,11 @@ Process task_data into a string, handling different input types.
 #### run
 
 ```python
-def run(ctx: ToolRunContext,
-        task: str,
-        task_data: list[Any] | str | None = None) -> str | BaseModel
+def run(
+    ctx: ToolRunContext,
+    task: str,
+    task_data: dict[str, Any] | list[Any] | str | None = None
+) -> str | BaseModel
 ```
 
 Run the LLMTool.
@@ -52,9 +56,11 @@ Run the LLMTool.
 #### arun
 
 ```python
-async def arun(ctx: ToolRunContext,
-               task: str,
-               task_data: list[Any] | str | None = None) -> str | BaseModel
+async def arun(
+    ctx: ToolRunContext,
+    task: str,
+    task_data: dict[str, Any] | list[Any] | str | None = None
+) -> str | BaseModel
 ```
 
 Run the LLMTool asynchronously.

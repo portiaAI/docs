@@ -58,6 +58,8 @@ Enum for supported LLM providers.
 - `MISTRALAI` - MistralAI provider.
 - `GOOGLE` - Google Generative AI provider.
 - `AZURE_OPENAI` - Azure OpenAI provider.
+- `GROK` - xAI Grok provider.
+- `GROQ` - Groq provider.
 
 #### GOOGLE\_GENERATIVE\_AI
 
@@ -399,6 +401,37 @@ Initialize with OpenRouter client.
 - `temperature` - Temperature parameter
 - `**kwargs` - Additional keyword arguments to pass to ChatOpenAI
 
+## GroqGenerativeModel Objects
+
+```python
+class GroqGenerativeModel(OpenAIGenerativeModel)
+```
+
+Groq model implementation.
+
+#### \_\_init\_\_
+
+```python
+def __init__(*,
+             model_name: str,
+             api_key: SecretStr,
+             seed: int = 343,
+             max_retries: int = 3,
+             temperature: float = 0,
+             **kwargs: Any) -> None
+```
+
+Initialize with Groq client.
+
+**Arguments**:
+
+- `model_name` - Groq model to use
+- `api_key` - API key for Groq
+- `seed` - Random seed for model generation
+- `max_retries` - Maximum number of retries
+- `temperature` - Temperature parameter
+- `**kwargs` - Additional keyword arguments to pass to ChatOpenAI
+
 ## AzureOpenAIGenerativeModel Objects
 
 ```python
@@ -483,6 +516,37 @@ Call the model in structured output mode targeting the given Pydantic model.
 **Returns**:
 
 - `BaseModelT` - The structured response from the model.
+
+## GrokGenerativeModel Objects
+
+```python
+class GrokGenerativeModel(OpenAIGenerativeModel)
+```
+
+xAI Grok model implementation.
+
+#### \_\_init\_\_
+
+```python
+def __init__(*,
+             model_name: str,
+             api_key: SecretStr,
+             seed: int = 343,
+             max_retries: int = 3,
+             temperature: float = 0,
+             **kwargs: Any) -> None
+```
+
+Initialize with xAI Grok client.
+
+**Arguments**:
+
+- `model_name` - Grok model to use
+- `api_key` - API key for xAI
+- `seed` - Random seed for model generation
+- `max_retries` - Maximum number of retries
+- `temperature` - Temperature parameter
+- `**kwargs` - Additional keyword arguments to pass to ChatOpenAI
 
 ## AnthropicGenerativeModel Objects
 

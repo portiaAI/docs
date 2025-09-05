@@ -269,3 +269,11 @@ Return the active logger.
 
 - `LoggerInterface` - The current active logger being used.
 
+#### truncate\_message
+
+```python
+def truncate_message(msg: Any, max_chars: int = 1000) -> str
+```
+
+Truncate a message for logging.
+
