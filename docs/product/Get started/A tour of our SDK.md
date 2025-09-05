@@ -299,7 +299,7 @@ plan2 = (
         args={"search_query": "gold price in the last 30 days"},
         tool="search_tool",
     )
-    # Then us an LLM to create a report on the gold price using the search results
+    # Then use an LLM to create a report on the gold price using the search results
     .llm_step(
         step_name="analyze_gold_price",
         task="Write a report on the gold price in the last 30 days",
