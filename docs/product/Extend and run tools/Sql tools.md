@@ -142,18 +142,75 @@ if __name__ == "__main__":
 ### JSON Configuration
 Alternatively, pass configuration as a JSON string:
 
-```python
+```python skip=true skip_reason=for example purpose only(actual users table does not exist)
+from portia import PlanBuilderV2, Input
+
+def build_plan_with_config():
+    return (
+        PlanBuilderV2("Query database with custom config")
+        .input(name="db_config", description="Database configuration as JSON string")
+        .invoke_tool_step(
+            step_name="Run query with config",
+            tool="run_sql",
+            args={
+                "query": "SELECT COUNT(*) FROM users",
+                "config_json": Input("db_config")
+            },
+        )
+        .build()
+    )
+
+# Run the plan with configuration
 import json
 config = {"db_path": "/path/to/database.db"}
-
-result = tool.run(
-    context,
-    query="SELECT COUNT(*) FROM users",
-    config_json=json.dumps(config)
+run = portia.run_plan(
+    build_plan_with_config(), 
+    plan_run_inputs={"db_config": json.dumps(config)}
 )
 ```
 
 ## SQLAdapter Objects
+You can override the default SQLite adapter with your own implementation:
+
+```python skip=true skin_reason=for example purpose only
+from portia.open_source_tools.sql_tool import SQLAdapter, RunSQLTool
+from typing import Any, Dict, List
+
+class CustomPostgreSQLAdapter(SQLAdapter):
+    def __init__(self, connection_string: str):
+        self.connection_string = connection_string
+        # Initialize your database connection here
+        
+    def run_sql(self, query: str) -> List[Dict[str, Any]]:
+        # Implement PostgreSQL query execution
+        # This would use psycopg2 or similar library
+        pass
+    
+    def list_tables(self) -> List[str]:
+        # Implement table listing for PostgreSQL
+        query = """
+        SELECT table_name 
+        FROM information_schema.tables 
+        WHERE table_schema = 'public'
+        """
+        # Execute and return results
+        pass
+    
+    def get_table_schemas(self, tables: List[str]) -> Dict[str, List[Dict[str, Any]]]:
+        # Implement schema retrieval for PostgreSQL
+        pass
+    
+    def check_sql(self, query: str) -> Dict[str, Any]:
+        # Implement query validation
+        pass
+
+# Use custom adapter with SQL tools
+custom_adapter = CustomPostgreSQLAdapter("postgresql://user:pass@localhost/db")
+sql_tools = [
+    RunSQLTool(adapter=custom_adapter),
+    # ... other tools with custom adapter
+]
+```
 
 ```python
 class SQLAdapter()
