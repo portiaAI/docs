@@ -229,7 +229,7 @@ The API keys for the LLM Providers can be set via `Config` class properties or e
         from portia import Config
 
         # NB You must provide (aws_access_key_id, aws_secret_access_key and aws_default_region) OR aws_credentials_profile_name.
-        config = Config.from_default(aws_access_key_id='..', aws_secret_access_key='...', ..)
+        config = Config.from_default(aws_access_key_id='your_access_key', aws_secret_access_key='your_secret_key', aws_default_region='us-east-1')
         ```
     </TabItem>
 </Tabs>
@@ -460,6 +460,11 @@ class MyGenerativeModel(GenerativeModel):
 
     def get_response(self, messages: list[Message]) -> Message:
         """Requires implementation"""
+        pass
+
+    async def aget_response(self, messages: list[Message]) -> Message:
+        """Requires implementation"""
+        pass
 
     def get_structured_response(
         self,
@@ -467,9 +472,19 @@ class MyGenerativeModel(GenerativeModel):
         schema: type[BaseModelT],
     ) -> BaseModelT:
         """Requires implementation"""
+        pass
+
+    async def aget_structured_response(
+        self,
+        messages: list[Message],
+        schema: type[BaseModelT],
+    ) -> BaseModelT:
+        """Requires implementation"""
+        pass
 
     def to_langchain(self) -> BaseChatModel:
         """Requires implementation"""
+        pass
 
 config = Config.from_default(
     default_model=MyGenerativeModel("my-model-name")
@@ -516,7 +531,7 @@ Let's test out a couple of these parameters. We will start first by loading the 
 - We will explicitly save plans and runs to disk in a `demo_runs` directory. In the default config the `storage_class` is set to `MEMORY` so we will change it to `DISK`
 - We will set the `default_log_level` to `DEBUG`, which will result in the generated plan, every change in the plan run state and all tool calls appearing in the logs.
 
-```python title="main.py" test_containers=redis
+```python title="main.py" patch=portia_config
 from dotenv import load_dotenv
 from portia import (
     Config,

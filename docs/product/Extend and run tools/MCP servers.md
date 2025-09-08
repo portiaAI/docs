@@ -26,7 +26,7 @@ The `server_name` argument is used by Portia to identify where tools have come f
 
 <Tabs>
   <TabItem value="mcp_stdio" label="STDIO">
-    ```python title="mcp_stdio_example.py"
+    ```python title="mcp_stdio_example.py" patch="mcp_registry_load_tools"
     import os
 
     from portia import (
@@ -74,7 +74,7 @@ The `server_name` argument is used by Portia to identify where tools have come f
     ```
   </TabItem>
   <TabItem value="mcp_streamable_http" label="Streamable HTTP">
-    ```python title="mcp_streamable_http_example.py"
+    ```python title="mcp_streamable_http_example.py" patch="mcp_registry_load_tools"
     from portia import (
         DefaultToolRegistry,
         Portia,
@@ -97,7 +97,7 @@ The `server_name` argument is used by Portia to identify where tools have come f
     ```
   </TabItem>
   <TabItem value="mcp_sse" label="SSE">
-    ```python title="mcp_sse_example.py"
+    ```python title="mcp_sse_example.py" patch="mcp_registry_load_tools"
     from portia import (
         DefaultToolRegistry,
         Portia,

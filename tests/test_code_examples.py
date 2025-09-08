@@ -4,9 +4,8 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 from dotenv import load_dotenv
-from portia import FileReaderTool, FileWriterTool, InMemoryToolRegistry
+from portia import Config, FileReaderTool, FileWriterTool, InMemoryToolRegistry
 from pytest_examples import CodeExample, EvalExample, find_examples
-from testcontainers.redis import RedisContainer
 
 load_dotenv(override=True)
 
@@ -22,17 +21,43 @@ IMPORTS_TO_MOCK = {
     "my_custom_tools.registry": mock_registry_module,
 }
 
-TEST_CONTAINERS = {
-    "redis": RedisContainer,
-}
+
+def get_optional_patch(patch_name: str):
+    """Create fresh patch objects for each test to avoid parallel execution issues."""
+    # Create fresh patches for each invocation to avoid parallel test conflicts
+
+    get_plan_mock = MagicMock()
+    get_plan_mock.pretty_print.return_value = ""
+    get_plan_run_mock = MagicMock()
+    get_plan_run_mock.pretty_print.return_value = ""
+    patch_map = {
+        "st_process_stream": lambda: patch(
+            "steelthread.steelthread.SteelThread.process_stream"
+        ),
+        "st_run_evals": lambda: patch("steelthread.steelthread.SteelThread.run_evals"),
+        "mcp_registry_load_tools": lambda: patch("portia.McpToolRegistry._load_tools"),
+        "portia_run_plan": lambda: patch(
+            "portia.Portia.run_plan", return_value=get_plan_mock
+        ),
+        "portia_get_plan_run": lambda: patch(
+            "portia.storage.PortiaCloudStorage.get_plan_run",
+            return_value=get_plan_run_mock,
+        ),
+        "portia_get_plan_runs": lambda: patch(
+            "portia.storage.PortiaCloudStorage.get_plan_runs", return_value=[]
+        ),
+        "portia_config": lambda: patch(
+            "portia.Config.from_default", return_value=Config.from_default()
+        ),
+    }
+
+    if patch_name in patch_map:
+        return patch_map[patch_name]()
+    else:
+        raise ValueError(f"Unknown patch name: {patch_name}")
 
 
-@pytest.mark.parametrize(
-    "example",
-    list(find_examples("docs/product/Get started/A tour of our SDK.md")) +
-        list(find_examples("docs/product/Extend and run tools/Adding custom tools.md")),
-    ids=str
-)
+@pytest.mark.parametrize("example", find_examples("docs/product/"), ids=str)
 def test_docstrings(example: CodeExample, eval_example: EvalExample):
     # If the example has depends_on=example1, then we'll look for an example with id=example1
     # and load that code in before the current example.
@@ -49,22 +74,11 @@ def test_docstrings(example: CodeExample, eval_example: EvalExample):
         )
         return
 
-    # Bring up any test containers specified for the example
-    test_containers = [
-        tag.split("test_containers=")[1]
-        for tag in example.prefix_tags()
-        if "test_containers=" in tag
-    ]
-    container_contexts = [
-        TEST_CONTAINERS[container_name]() for container_name in test_containers
-    ]
-
     # We mock out some imports that we use in docs that don't actually exist
     original_import = __import__
 
     # Create all the context managers we need
     contexts = [
-        *container_contexts,
         patch(
             "builtins.__import__",
             side_effect=lambda name, *args, **kwargs: mock_import(
@@ -73,6 +87,12 @@ def test_docstrings(example: CodeExample, eval_example: EvalExample):
         ),
         patch("builtins.input", side_effect=mock_input),
     ]
+    # Apply any optional patches specified in test tags
+    patch_tags = [
+        tag.split("patch=")[1] for tag in example.prefix_tags() if "patch=" in tag
+    ]
+    for patch_name in patch_tags:
+        contexts.append(get_optional_patch(patch_name))
 
     # Use ExitStack to handle all context managers
     with ExitStack() as stack:

@@ -53,7 +53,7 @@ Portia().run(query=query)
 
 Below is example code to process a stream. Before running it make sure you set up your stream from the Portia dashboard's Observability tab, **paying special attention to the name you gave your stream** so you can pass it to the `process_stream` method per below. This method will use the built-in set of Stream evaluators to give you data out of the box. 
 
-```python
+```python patch=st_process_stream
 from portia import Config
 from steelthread.steelthread import SteelThread, StreamConfig
 from dotenv import load_dotenv
@@ -83,7 +83,7 @@ Let's push the envelope with some more advanced usage for Evals. Create an Eval 
 
 Feel free to mess around with the output from the tool stub and re-run these Evals a few times to see the progression in scoring.
 
-```python
+```python patch=st_run_evals
 from portia import Portia, Config, DefaultToolRegistry
 from steelthread.steelthread import SteelThread, EvalConfig
 from steelthread.evals import Evaluator, EvalMetric
