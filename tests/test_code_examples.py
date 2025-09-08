@@ -30,21 +30,20 @@ def get_optional_patch(patch_name: str):
     get_plan_mock.pretty_print.return_value = ""
     get_plan_run_mock = MagicMock()
     get_plan_run_mock.pretty_print.return_value = ""
+    get_storage_mock = MagicMock()
+    get_storage_mock.get_plan_run.return_value = get_plan_run_mock
+    get_storage_mock.get_plan.return_value = get_plan_mock
     patch_map = {
         "st_process_stream": lambda: patch(
             "steelthread.steelthread.SteelThread.process_stream"
         ),
         "st_run_evals": lambda: patch("steelthread.steelthread.SteelThread.run_evals"),
         "mcp_registry_load_tools": lambda: patch("portia.McpToolRegistry._load_tools"),
-        "portia_run_plan": lambda: patch(
-            "portia.Portia.run_plan", return_value=get_plan_mock
-        ),
-        "portia_get_plan_run": lambda: patch(
-            "portia.storage.PortiaCloudStorage.get_plan_run",
-            return_value=get_plan_run_mock,
-        ),
-        "portia_get_plan_runs": lambda: patch(
-            "portia.storage.PortiaCloudStorage.get_plan_runs", return_value=[]
+        "portia_run_plan": lambda: patch("portia.Portia.run_plan"),
+        "portia_arun_plan": lambda: patch("portia.Portia.arun_plan"),
+        "portia_cloud_storage": lambda: patch(
+            "portia.storage.PortiaCloudStorage",
+            return_value=get_storage_mock,
         ),
         "portia_config": lambda: patch(
             "portia.Config.from_default", return_value=Config.from_default()

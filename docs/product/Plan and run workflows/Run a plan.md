@@ -332,7 +332,7 @@ run = portia.run_plan(plan=PlanUUID.from_string("plan-f8003b53-9b62-44e2-ac67-88
 ```
   </TabItem>
   <TabItem value="async" label="Async">
-```python depends_on=plan_invisible_setup patch=portia_run_plan
+```python depends_on=plan_invisible_setup patch=portia_run_plan patch=portia_arun_plan
 import asyncio
 from dotenv import load_dotenv
 from portia import (
