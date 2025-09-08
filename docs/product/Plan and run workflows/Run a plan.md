@@ -304,7 +304,7 @@ except Exception as e:
 
 <Tabs>
   <TabItem value="sync" label="Sync" default>
-```python depends_on=plan_invisible_setup
+```python depends_on=plan_invisible_setup patch=portia_run_plan
 from dotenv import load_dotenv
 from portia import (
     Portia,
@@ -332,7 +332,7 @@ run = portia.run_plan(plan=PlanUUID.from_string("plan-f8003b53-9b62-44e2-ac67-88
 ```
   </TabItem>
   <TabItem value="async" label="Async">
-```python depends_on=plan_invisible_setup
+```python depends_on=plan_invisible_setup patch=portia_run_plan
 import asyncio
 from dotenv import load_dotenv
 from portia import (

@@ -29,7 +29,7 @@ Below are two examples of custom evaluators, both using LLM-as-Judge or determin
 <TabItem value="llm_as_judge" label="LLM-as-judge">
 You can use an LLM to score plan runs automatically. When you subclass `StreamEvaluator`, you first initialise your `LLMScorer` and then define how you want to process plans / plan runs with this evaluator.
 
-```python
+```python patch=st_process_stream
 from portia import Config
 
 from steelthread.steelthread import SteelThread
@@ -77,7 +77,7 @@ config = Config.from_default()
 # To use your evaluator, pass it to the runner
 SteelThread().process_stream(
     StreamConfig(
-        dataset_name="your-stream-name-here",
+        stream_name="your-stream-name-here",
         config=config,
         evaluators=[LLMVerbosityJudge(config)],
     ),
@@ -87,7 +87,7 @@ SteelThread().process_stream(
 <TabItem value="deterministic" label="Deterministic">
 You can score plan runs using your own code by subclassing `StreamEvaluator` and writing your own implementation of `process_plan` or `process_plan_run`.
 
-```python
+```python patch=st_process_stream
 from portia import Config
 
 from steelthread.steelthread import (

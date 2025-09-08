@@ -64,7 +64,7 @@ except Exception as e:
   pass
 ```
 -->
-```python title="main.py" id=manage_plan_run_intro depends_on=plan_run_invisible_setup
+```python title="main.py" id=manage_plan_run_intro depends_on=plan_run_invisible_setup patch=portia_get_plan_run patch=portia_get_plan
 from dotenv import load_dotenv
 from portia import Config, StorageClass
 from portia.storage import PortiaCloudStorage
@@ -135,7 +135,7 @@ Retrieved plan:
 
 If you wanted to retrieve plan runs in bulk, you can use the `get_plan_runs` method (plural!) from `StorageClass`. This returns paginated data so you will need to process that information further to cycle through all results. Remember the first page number returned is always 1 (not 0!).
 
-```python depends_on=plan_run_invisible_setup depends_on=manage_plan_run_intro
+```python depends_on=plan_run_invisible_setup depends_on=manage_plan_run_intro patch=portia_get_plan_runs
 plan_run_list_init = my_store.get_plan_runs() # again, plural!
 total_pages = plan_run_list_init.total_pages
 

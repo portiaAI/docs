@@ -40,7 +40,7 @@ We have seen how to implement a custom LLM-as-Judge as part of the default evalu
 
 Next we will write a custom evaluator that detects whenever a test case includes an `expected_emojis` custom assertion so make sure you set that up for one or more test cases in your desired dataset. The custom evaluator loads the value of the custom assertion using the `get_custom_assertion` method and compares the plan run outputs to it. In this case we are counting the emojis in the final plan run output `final_plan_run.outputs.final_output.get_value()`, and comparing it to the `expected_emojis` number entered in the custom assertion via dashboard.
 
-```python
+```python patch=st_run_evals
 from portia import Config, Portia, Plan, PlanRun
 from steelthread.steelthread import SteelThread, EvalConfig
 from steelthread.evals import EvalMetric, Evaluator, EvalTestCase, PlanRunMetadata

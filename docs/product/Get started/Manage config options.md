@@ -531,7 +531,7 @@ Let's test out a couple of these parameters. We will start first by loading the 
 - We will explicitly save plans and runs to disk in a `demo_runs` directory. In the default config the `storage_class` is set to `MEMORY` so we will change it to `DISK`
 - We will set the `default_log_level` to `DEBUG`, which will result in the generated plan, every change in the plan run state and all tool calls appearing in the logs.
 
-```python title="main.py" test_containers=redis
+```python title="main.py" patch=portia_config
 from dotenv import load_dotenv
 from portia import (
     Config,
