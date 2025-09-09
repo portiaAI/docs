@@ -155,6 +155,8 @@ To get to an output that looks like the plan run example above, let's write some
 from dotenv import load_dotenv
 from portia import (
     Portia,
+    PlanBuilderV2,
+    StepOutput,
     example_tool_registry,
 )
 
@@ -196,6 +198,8 @@ import asyncio
 from dotenv import load_dotenv
 from portia import (
     Portia,
+    PlanBuilderV2,
+    StepOutput,
     example_tool_registry,
 )
 

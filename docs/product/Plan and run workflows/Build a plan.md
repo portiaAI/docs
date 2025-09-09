@@ -60,8 +60,8 @@ from portia import PlanBuilderV2, StepOutput, Input
 
 plan = (
     PlanBuilderV2("Write a poem about the price of gold")
-    .input(step_name="purchase_quantity", description="The quantity of gold to purchase in ounces")
-    .input(step_name="currency", description="The currency to purchase the gold in", default_value="GBP")
+    .input(name="purchase_quantity", description="The quantity of gold to purchase in ounces")
+    .input(name="currency", description="The currency to purchase the gold in", default_value="GBP")
     .invoke_tool_step(
         step_name="Search gold price",
         tool="search_tool",

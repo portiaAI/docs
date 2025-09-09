@@ -20,7 +20,7 @@ To set this up, we define the plan input for the planner as follows:
 <Tabs groupId="sync-async">
   <TabItem value="sync" label="Sync" default>
 ```python id=plan_with_inputs
-from portia import Portia
+from portia import Portia, PlanBuilderV2, Input
 
 portia = Portia()
 
@@ -47,7 +47,7 @@ plan_run = portia.run_plan(plan, plan_run_inputs=[plan_run_inputs])
   <TabItem value="async" label="Async">
 ```python id=plan_with_inputs
 import asyncio
-from portia import Portia
+from portia import Portia, PlanBuilderV2, Input
 
 portia = Portia()
 
@@ -84,11 +84,11 @@ For some plans you might want to have a structured output at the end of a plan, 
 <Tabs>
   <TabItem value="sync" label="Sync" default>
 ```python title='plan_structured_output.py'
-from portia.plan import PlanBuilder
 from pydantic import BaseModel
 from dotenv import load_dotenv
 from portia import (
     Portia,
+    PlanBuilderV2,
     default_config,
     example_tool_registry,
 )
@@ -122,11 +122,11 @@ plan_run2 = portia.run("Add 1 + 1", structured_output_schema=FinalPlanOutput)
   <TabItem value="async" label="Async">
 ```python title='plan_structured_output.py'
 import asyncio
-from portia.plan import PlanBuilder
 from pydantic import BaseModel
 from dotenv import load_dotenv
 from portia import (
     Portia,
+    PlanBuilderV2,
     default_config,
     example_tool_registry,
 )
@@ -166,7 +166,7 @@ Run the plan as normal and the final output will be an instance of the attached 
 The LLM step allows structured outputs to be returned from the LLM, and these will be coerced to the type of the BaseModel provided. This follows all the same rules as a pydantic model, including validation and description for fields in the same way as the plan structured output above, but only for an LLM call within the plan. 
 
 ```python title='llm_tool_output.py'
-from portia import Portia, config, PlanBuilder
+from portia import Portia, config, PlanBuilderV2
 from portia.open_source_tools.llm_tool import LLMTool
 from portia.open_source_tools.weather import WeatherTool
 import dotenv

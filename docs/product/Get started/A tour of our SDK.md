@@ -291,6 +291,7 @@ However, you can also define tasks in code.
 Check out [`2b_tools_end_users_llms.py` ↗](https://github.com/portiaAI/portia-agent-examples/blob/main/getting-started/2b_tools_end_users_llms.py),
 which demonstrates how to do this for the task above:
 ```python
+from portia import PlanBuilderV2, StepOutput
 plan2 = (
     PlanBuilderV2()
     # Start our plan by using the Tavily search tool to search the web for the gold price in the last 30 days

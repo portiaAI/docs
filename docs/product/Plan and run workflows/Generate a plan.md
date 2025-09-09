@@ -100,11 +100,11 @@ For some plans you might want to have a structured output at the end of a plan, 
 <Tabs>
   <TabItem value="sync" label="Sync" default>
 ```python title='plan_structured_output.py'
-from portia.plan import PlanBuilder
 from pydantic import BaseModel
 from dotenv import load_dotenv
 from portia import (
     Portia,
+    PlanBuilderV2,
     default_config,
     example_tool_registry,
 )
