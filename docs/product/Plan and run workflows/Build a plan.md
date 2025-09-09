@@ -6,11 +6,7 @@ slug: /build-plan
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Build a plan manually
-
-:::tip[Alpha]
-PlanBuilderV2 is currently in Alpha so please expect changes in this area and we'd love your feedback on our <a href="https://discord.gg/DvAJz9ffaR" target="_blank">**Discord channel (↗)**</a>!
-:::
+# Build a plan
 
 If you prefer to explicitly define a plan step by step rather than rely on our planning agent, e.g. for established processes in your business, you can use the `PlanBuilderV2` interface. This requires outlining all the steps, inputs, outputs and tools for your agent manually.
 
@@ -110,7 +106,6 @@ async def main():
 ```
   </TabItem>
 </Tabs>
-```
 
 You can also view <a href="https://github.com/portiaAI/portia-sdk-python/blob/main/example_builder.py" target="_blank">**this example ↗**</a> for a more in-depth example.
 
@@ -171,7 +166,7 @@ builder.single_tool_agent_step(
 Use `.react_agent_step()` to add a step that uses a ReAct agent (Reasoning + Acting) to complete a task.
 The ReAct agent can use multiple tools and call them multiple times as needed to complete the task. This allows you to balance deterministic flows with more exploratory goal-based behaviour.
 
-```python
+```python depends_on=builder_invisible_setup
 builder.react_agent_step(
     tools=["search_tool", "weather_tool", "email_tool"],
     task="Find the weather in the 3 most Southerly countries in Europe and email it to me",
@@ -277,24 +272,26 @@ Conditional blocks can be nested to create _even_ more complex control flow!
 )
 ```
 
+
 ## User Interaction
 
-### User Verification
+
+### User Verification
 Use `.user_verify()` when you want to pause plan execution to ask a user to confirm or reject the provided message.
 The plan will only continue if they confirm. If the user rejects, the plan execution will stop with an error.
 The user interaction is handled via clarifications - see <a href="/understand-clarifications" target="_blank">**Understand clarifications ↗**</a> for more details.
 
-```python
+```python depends_on=builder_invisible_setup
 builder.user_verify(
     message=f"Do you want to proceed with the purchase? Price is {StepOutput('Calculate total price')}")
 ```
 
-### User Input
+### User Input
 Use `.user_input()` when you want to pause plan execution for a user to provide input into the plan.
 This input can either be in the form of free text or can be a multiple-choice set of options.
 As with user verification, the user interaction is handled via clarifications - see <a href="/understand-clarifications" target="_blank">**Understand clarifications ↗**</a> for more details.
 
-```python
+```python depends_on=builder_invisible_setup
 # An example with multiple choice options
 builder.user_input(
     message="How much would you like to purchase?",
@@ -343,7 +340,7 @@ portia.run_plan(plan, plan_run_inputs={"user_query": "What is the capital of Per
 ```
 
 You can also access nested fields of the input using the path attribute:
-```python
+```python  depends_on=builder_invisible_setup
 class UserProfile(BaseModel):
     name: str
     email: str
@@ -379,9 +376,9 @@ builder.invoke_tool_step(
 
 As with Input, you can access nested fields of the output using the path attribute
 
-```python
+```python depends_on=builder_invisible_setup
 # Access the .profile.name field of the output from the 'get_user_data' step
-builder..llm_step(task="Do some task", inputs=[StepOutput("get_user_data", path="profile.name")])
+builder.llm_step(task="Do some task", inputs=[StepOutput("get_user_data", path="profile.name")])
 ```
 
 :::tip[Note]
@@ -404,12 +401,12 @@ plan = builder.final_output(
 
 <Tabs groupId="sync-async">
   <TabItem value="sync" label="Sync" default>
-```python
+```python depends_on=empty_plan_invisible_setup
 plan_run = portia.run_plan(plan)
 ```
   </TabItem>
   <TabItem value="async" label="Async">
-```python
+```python depends_on=empty_plan_invisible_setup
 import asyncio
 plan_run = asyncio.run(portia.arun_plan(plan))
 ```
