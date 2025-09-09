@@ -9,6 +9,7 @@ dependencies = [
     "portia-sdk-python[all]",
     "pytest-xdist>=3.7.0,<4",
     "testcontainers>=4.10.0,<5",
+    "steel-thread>=0.1.15",
 ]
 
 [dependency-groups]

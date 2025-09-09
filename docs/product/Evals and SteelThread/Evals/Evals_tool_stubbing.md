@@ -26,7 +26,7 @@ Use tool stubs when:
 Steel Thread provides a `ToolStubRegistry` — a drop-in replacement for Portia’s default registry. You can wrap your existing tools and selectively override individual tools by ID. Tool stubs are simple Python functions and the `ToolStubContext` contains all the original tool's context to help you generate realistic stubs. Below is an example where we use use a tool stub for the open source `weather_tool` [available in the Portia SDK](https://docs.portialabs.ai/portia-tools/open-source/weather).
 
 
-```python
+```python patch=st_run_evals
 from portia import Portia, Config, DefaultToolRegistry
 from steelthread.steelthread import SteelThread, EvalConfig
 from steelthread.portia.tools import ToolStubRegistry, ToolStubContext

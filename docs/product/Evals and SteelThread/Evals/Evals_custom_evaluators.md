@@ -11,15 +11,18 @@ You can add your own custom evaluators, be it LLM-as-Judge or deterministic ones
 
 ```python
 from portia import Plan, PlanRun
-from steelthread.evals import EvalTestCase, EvalMetric, PlanRunMetadata
+from steelthread.evals import EvalTestCase, EvalMetric, PlanRunMetadata, Evaluator
 
-def eval_test_case(
-    self,
-    test_case: EvalTestCase,
-    final_plan: Plan,
-    final_plan_run: PlanRun,
-    additional_data: PlanRunMetadata,
-) -> list[EvalMetric] | EvalMetric | None:
+class MyEvaluator(Evaluator):
+    def eval_test_case(
+        self,
+        test_case: EvalTestCase,
+        final_plan: Plan,
+        final_plan_run: PlanRun,
+        additional_data: PlanRunMetadata,
+    ) -> list[EvalMetric] | EvalMetric | None:
+        # Implementation goes here
+        pass
 ```
 
 We have seen how to implement a custom LLM-as-Judge as part of the default evaluators from the dashboard so let's focus on using custom assertions to implement a custom, deterministic evaluator. To do that you can attach an assertion to your test case from the dashboard, then use a custom evaluator to assess whether your Eval run complied with it:
@@ -37,7 +40,7 @@ We have seen how to implement a custom LLM-as-Judge as part of the default evalu
 
 Next we will write a custom evaluator that detects whenever a test case includes an `expected_emojis` custom assertion so make sure you set that up for one or more test cases in your desired dataset. The custom evaluator loads the value of the custom assertion using the `get_custom_assertion` method and compares the plan run outputs to it. In this case we are counting the emojis in the final plan run output `final_plan_run.outputs.final_output.get_value()`, and comparing it to the `expected_emojis` number entered in the custom assertion via dashboard.
 
-```python
+```python patch=st_run_evals
 from portia import Config, Portia, Plan, PlanRun
 from steelthread.steelthread import SteelThread, EvalConfig
 from steelthread.evals import EvalMetric, Evaluator, EvalTestCase, PlanRunMetadata
@@ -48,7 +51,7 @@ import re
 class EmojiEvaluator(Evaluator):
     def eval_test_case(
         self,
-        test_case: EvalTestCase,
+        test_case: EvalTestCase,  
         final_plan: Plan,  
         final_plan_run: PlanRun,
         additional_data: PlanRunMetadata,  
@@ -79,7 +82,7 @@ class EmojiEvaluator(Evaluator):
             test_case=test_case,
             name="emoji_score",
             score=score,
-            description="Returns a number lower than 1 if the final output is below max emoji count"
+            description="Returns a number lower than 1 if the final output is below max emoji count",
             explanation=f"Target: {expected}, Found: {emoji_count}",
         )
 

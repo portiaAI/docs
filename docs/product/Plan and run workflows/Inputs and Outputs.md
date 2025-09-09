@@ -158,8 +158,9 @@ class WeatherOutput(BaseModel):
     description: str = Field(description="A description of the weather")
 
 structured_llm_tool = LLMTool(structured_output_schema=WeatherOutput) # structured output schema attached
+weather_tool =  WeatherTool()
 
-tools = [structured_llm_tool, WeatherTool()] # structured_llm_tool has a structured output schema attached
+tools = [structured_llm_tool,weather_tool] # structured_llm_tool has a structured output schema attached
 portia = Portia(config, tools=tools) # register the tools with the portia instance, including the structured_llm_tool
 
 plan = PlanBuilder(

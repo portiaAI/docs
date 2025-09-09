@@ -29,7 +29,7 @@ Let's create a Stream from the 'Observability' tab in the dashboard:
 
 Now that our Stream is created, it can be used to sample future runs and score based on a number of evaluators. Make sure you have some plan run data generated **after** the stream is created so that we can sample it as shown below.
 
-```python
+```python patch=st_process_stream
 from portia import Config
 from steelthread.steelthread import SteelThread, StreamConfig
 from dotenv import load_dotenv

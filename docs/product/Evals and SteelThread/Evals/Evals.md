@@ -36,7 +36,7 @@ You can add plan runs into an existing Eval dataset directly from the Plan Run v
 :::
 
 With the setup above completed you're now ready to run this basic example.
-```python
+```python patch=st_run_evals
 from portia import Config, Portia
 from steelthread.steelthread import SteelThread, EvalConfig
 
