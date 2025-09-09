@@ -368,24 +368,6 @@ A step that represents a loop in a loop block.
 This step handles loop logic such as while, do-while, and for-each loops that
 control which subsequent steps should be executed based on runtime conditions.
 
-#### start\_index\_value
-
-```python
-@property
-def start_index_value() -> int
-```
-
-Get the start index value.
-
-#### end\_index\_value
-
-```python
-@property
-def end_index_value() -> int
-```
-
-Get the end index value.
-
 #### validate\_model
 
 ```python
@@ -393,7 +375,7 @@ Get the end index value.
 def validate_model() -> Self
 ```
 
-Validate the start and end indexes.
+Validate the loop.
 
 #### run
 

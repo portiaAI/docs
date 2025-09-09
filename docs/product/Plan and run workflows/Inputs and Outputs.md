@@ -32,7 +32,7 @@ plan = (
         task="Get the weather in the provided city",
         tool="weather_tool",
         inputs=[Input("city")],
-    )
+    ).build()
 )
 
 # This will create a single step plan that uses the weather tool with $city as an input to that tool.
@@ -40,7 +40,7 @@ plan = (
 # This value will then be used for the `$city` input in the plan and we will find the temperature in London.
 
 # Specify the values for those inputs when you run the plan
-plan_run_inputs = {"name": "$city", "value": "London"}
+plan_run_inputs = {"name": "city", "value": "London"}
 plan_run = portia.run_plan(plan, plan_run_inputs=[plan_run_inputs])
 ```
   </TabItem>
@@ -60,7 +60,7 @@ async def main():
           task="Get the weather in the provided city",
           tool="weather_tool",
           inputs=[Input("city")],
-      )
+      ).build()
   )
 
     # This will create a single step plan that uses the weather tool with $city as an input to that tool.
@@ -68,7 +68,7 @@ async def main():
     # This value will then be used for the `$city` input in the plan and we will find the temperature in London.
 
     # Specify the values for those inputs when you run the plan
-    plan_run_inputs = {"name": "$city", "value": "London"}
+    plan_run_inputs = {"name": "city", "value": "London"}
     plan_run = await portia.arun_plan(plan, plan_run_inputs=[plan_run_inputs])
 
 # Run the async function
@@ -195,7 +195,7 @@ plan = PlanBuilderV2(
 The BrowserTool allows structured outputs to be returned from a browser tool call, and these will be coerced to the type of the basemodel provided and follows all the same rules as a pydantic model, including validation and description for fields in the same way as the plan structured output above, but only for a browser tool call within the plan. 
 
 ```python title='browser_tool_output.py'
-from portia import Portia, config, PlanBuilder
+from portia import Portia, config, PlanBuilderV2
 from portia.open_source_tools.browser_tool import BrowserTool
 import dotenv
 from pydantic import BaseModel, Field
