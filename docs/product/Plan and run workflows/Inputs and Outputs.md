@@ -13,7 +13,7 @@ Inputs and outputs are the core of any agentic workflow, and Portia provides a f
 
 So far the starting point for all plan runs is a user query for a specific set of inputs e.g. "get the weather in Beirut". This is in contrast to a generalised query e.g. "get the weather for a given city" where the city is provided dynamically per plan run. The PlanInput abstraction allows you to use a generalised query or plan "template" where the input differs with every plan run.
 
-In the planning stage, you define the list of plan inputs, providing a name and optional description for each, and pass them into the plan builder. This creates references that you can use later in your plan, using Input("input_name"). Then, when you run the plan, Portia expects you to provide specific values for the inputs at each run.
+In the planning stage, you define the list of plan inputs, providing a name and optional description for each, and pass them into the plan builder. This creates references that you can use later in your plan, using `Input("input_name")`. Then, when you run the plan, Portia expects you to provide specific values for the inputs at each run.
 
 For example, consider a simple agent that tells you the weather in a particular city, with the city provided as a plan input.
 To set this up, we define the plan input for the planner as follows:
@@ -79,7 +79,7 @@ asyncio.run(main())
 
 ## Plan Structured Outputs
 
-For some plans you might want to have a structured output at the end of a plan, for this we allow the ability to attach a structured output schema to the plan that the summarizer agent will attempt to coerce the results to. This is optional and is based on <a href="https://docs.pydantic.dev/latest/#pydantic-examples" target="_blank">**Pydantic BaseModels ↗**</a>. To use, attach to the Plan object, and any Plan Runs that are created from this will attempt to use structured output for the final result, this can pull information from any point of the plan steps and is not just the final step. To attach a schema, you can do it through the PlanBuilder or the Run interfaces, as below.
+For some plans you might want to have a structured output at the end of a plan, for this we allow the ability to attach a structured output schema to the plan that the summarizer agent will attempt to coerce the results to. This is optional and is based on <a href="https://docs.pydantic.dev/latest/#pydantic-examples" target="_blank">**Pydantic BaseModels ↗**</a>. To use, attach to the Plan object, and any Plan Runs that are created from this will attempt to use structured output for the final result. This can pull information from any point of the plan steps and is not just the final step. To attach a schema, you can do it through the PlanBuilder or the `run()` interfaces, as below.
 
 <Tabs>
   <TabItem value="sync" label="Sync" default>

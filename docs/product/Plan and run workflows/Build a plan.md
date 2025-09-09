@@ -6,11 +6,7 @@ slug: /build-plan
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Build a plan manually
-
-:::tip[Alpha]
-PlanBuilderV2 is currently in Alpha so please expect changes in this area and we'd love your feedback on our <a href="https://discord.gg/DvAJz9ffaR" target="_blank">**Discord channel (↗)**</a>!
-:::
+# Build a plan
 
 If you prefer to explicitly define a plan step by step rather than rely on our planning agent, e.g. for established processes in your business, you can use the `PlanBuilderV2` interface. This requires outlining all the steps, inputs, outputs and tools for your agent manually.
 
@@ -110,7 +106,6 @@ async def main():
 ```
   </TabItem>
 </Tabs>
-```
 
 You can also view <a href="https://github.com/portiaAI/portia-sdk-python/blob/main/example_builder.py" target="_blank">**this example ↗**</a> for a more in-depth example.
 
@@ -277,9 +272,11 @@ Conditional blocks can be nested to create _even_ more complex control flow!
 )
 ```
 
+
 ## User Interaction
 
-### User Verification
+
+### User Verification
 Use `.user_verify()` when you want to pause plan execution to ask a user to confirm or reject the provided message.
 The plan will only continue if they confirm. If the user rejects, the plan execution will stop with an error.
 The user interaction is handled via clarifications - see <a href="/understand-clarifications" target="_blank">**Understand clarifications ↗**</a> for more details.
@@ -289,7 +286,7 @@ builder.user_verify(
     message=f"Do you want to proceed with the purchase? Price is {StepOutput('Calculate total price')}")
 ```
 
-### User Input
+### User Input
 Use `.user_input()` when you want to pause plan execution for a user to provide input into the plan.
 This input can either be in the form of free text or can be a multiple-choice set of options.
 As with user verification, the user interaction is handled via clarifications - see <a href="/understand-clarifications" target="_blank">**Understand clarifications ↗**</a> for more details.

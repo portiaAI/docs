@@ -95,7 +95,7 @@ For a deep dive into this feature and a practical example, check out our <a href
 
 ## Structured Output Schema
 
-For some plans you might want to have a structured output at the end of a plan, for this we allow the ability to attach a structured output schema to the plan that the summarizer agent will attempt to coerce the results to. This is optional. To use, attach to the Plan object, and any Plan Runs that are created from this will attempt to use structured output for the final result, this can pull information from any point of the plan steps and is not just the final step. To attach a schema, you can do it through the PlanBuilderV2 or the Plan interfaces, as below.
+For some plans you might want to have a structured output at the end of a plan, for this we allow the ability to attach a structured output schema to the plan that the summarizer agent will attempt to coerce the results to. This is optional. To use, attach to the Plan object, and any Plan Runs that are created from this will attempt to use structured output for the final result, this can pull information from any point of the plan steps and is not just the final step. To attach a schema, you can do it through the `PlanBuilderV2` or the `run()` interfaces, as below.
 
 <Tabs>
   <TabItem value="sync" label="Sync" default>
