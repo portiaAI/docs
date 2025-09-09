@@ -511,10 +511,13 @@ larger workflows.
   only used when plan is a PlanV2, and is useful if a sub-plan has an input
   and you want to provide a value for it from a step in the top-level plan.
   For example:
-  sub_plan = builder.input(name=&quot;input_name&quot;).build()
-  top_plan = builder.llm_step(step_name=&quot;llm_step&quot;, task=&quot;Task&quot;)
-  .add_steps(sub_plan, input_values={&quot;input_name&quot;: StepOutput(&quot;llm_step&quot;)})
-  .build()
+  
+    ```python
+        sub_plan = builder.input(name="input_name").build()
+        top_plan = builder.llm_step(step_name="llm_step", task="Task")
+                   .add_steps(sub_plan, input_values={"input_name": StepOutput("llm_step")})
+                   .build()
+    ```
   
 - `input_values` - Optional mapping of input names to default values. Only used
   when plan is a PlanV2. These values will be set as default values for
