@@ -10,7 +10,7 @@ import TabItem from '@theme/TabItem';
 Learn how to run a plan run from an existing plan or end-to-end.
 :::tip[TL;DR]
 - A plan run is (uncontroversially) a unique run of a plan. It is represented by the `PlanRun` class (<a href="/SDK/portia/plan_run" target="_blank">**SDK reference ↗**</a>).
-- An agent is spun up to execute every step in the plan run. The `PlanRun` object tracks the state of the plan run and is enriched at every step by the relevant agent.
+- The `PlanRun` object tracks the state of the plan run and is enriched as every step of the plan is completed.
 - A plan run can be generated from a plan using the `run_plan` method. 
 - You can also plan a query response, then create and execute a plan run in one fell swoop using the `run` method of the `Portia` instance class (<a href="/SDK/portia/portia" target="_blank">**SDK reference ↗**</a>).
 :::
@@ -98,15 +98,6 @@ Plan run states are captured in the `PlanRun` class (<a href="/SDK/portia/plan_r
         }
       }
     }
-
-
-
-
-
-
-
-
-
     ```
   </TabItem>
 </Tabs>
@@ -114,7 +105,7 @@ Plan run states are captured in the `PlanRun` class (<a href="/SDK/portia/plan_r
 Every plan run has a unique `id` and relates to a unique `plan_id`. If you were to attempt running the same plan multiple times, you would generate multiple `PlanRun` objects each with a unique `id` but all with the same `plan_id` property.
 
 ## Plan run state changes
-As Portia cycles through a plan run, an execution agent is instantiated at every step and that agent will call the tool designated for that. The plan run state is enriched with step outputs at every step of the execution as well. Note that in this example the main tool used is the 'Search Tool' provided in this SDK in the `example_tool_registry`, and wraps around the Tavily API. We will discuss tools in more depth in the next section.
+As Portia cycles through a plan run, each executed step produces an output. The plan run state is enriched with step outputs at every step of the execution as well. Note that in this example the main tool used is the 'Search Tool' provided in this SDK in the `example_tool_registry`, and wraps around the Tavily API. We will discuss tools in more depth in the next section.
 You should be able to inspect the state changes for the above plan run in the logs when you run the code.
 <div style={{
   overflow: 'hidden',
@@ -157,13 +148,15 @@ You should be able to inspect the state changes for the above plan run in the lo
 We will use a simple GET endpoint from Tavily in this section. Please sign up to obtain an API key from them (<a href="https://tavily.com/" target="_blank">**↗**</a>) and set it in the environment variable `TAVILY_API_KEY`.
 </details>
 
-To get to an output that looks like the plan run example above, let's expand on the code we used to generate a plan in the previous section (<a href="/generate-plan" target="_blank">**↗**</a>) by adding code to create and execute a plan run from that plan. This approach gives you the opportunity to serve that plan to the user and get their feedback / iterate on it before running the plan run for example. Here is the code to do that:
+To get to an output that looks like the plan run example above, let's write some code to create a plan and then execute a plan run from that plan. Here is the code to do that:
 <Tabs>
   <TabItem value="sync" label="Sync" default>
 ```python title="main.py"
 from dotenv import load_dotenv
 from portia import (
     Portia,
+    PlanBuilderV2,
+    StepOutput,
     example_tool_registry,
 )
 
@@ -172,12 +165,27 @@ load_dotenv()
 # Instantiate a Portia instance. Load it with the default config and with the example tools.
 portia = Portia(tools=example_tool_registry)
 
-# Generate the plan from the user query
-plan = portia.plan('Which stock price grew faster in 2024, Amazon or Google?')
+# Build the plan
+plan = (
+    PlanBuilderV2()
+    .single_tool_agent_step(
+        step_name="amazon_stock_price",
+        task="Find the growth of Amazon's stock price since the start of 2024",
+        tool="search_tool",
+    )
+    .single_tool_agent_step(
+        step_name="google_stock_price",
+        task="Find the growth of Google's stock price since the start of 2024",
+        tool="search_tool",
+    )
+    .llm_step(
+        task="Determine which company has grown more since the start of 2024",
+        inputs=[StepOutput("amazon_stock_price"), StepOutput("google_stock_price")],
+    )
+    .build()
+)
 
-# [OPTIONAL] INSERT CODE WHERE YOU SERVE THE PLAN TO THE USER OR ITERATE ON IT IN ANY WAY
-
-# Run the generated plan
+# Run the plan
 plan_run = portia.run_plan(plan)
 
 # Serialise into JSON and print the output
@@ -190,6 +198,8 @@ import asyncio
 from dotenv import load_dotenv
 from portia import (
     Portia,
+    PlanBuilderV2,
+    StepOutput,
     example_tool_registry,
 )
 
@@ -199,12 +209,27 @@ load_dotenv()
 portia = Portia(tools=example_tool_registry)
 
 async def main():
-    # Generate the plan from the user query
-    plan = await portia.aplan('Which stock price grew faster in 2024, Amazon or Google?')
+    # Build the plan
+    plan = (
+      PlanBuilderV2()
+      .single_tool_agent_step(
+          step_name="amazon_stock_price",
+          task="Find the growth of Amazon's stock price since the start of 2024",
+          tool="search_tool",
+      )
+      .single_tool_agent_step(
+          step_name="google_stock_price",
+          task="Find the growth of Google's stock price since the start of 2024",
+          tool="search_tool",
+      )
+      .llm_step(
+          task="Determine which company has grown more since the start of 2024",
+          inputs=[StepOutput("amazon_stock_price"), StepOutput("google_stock_price")],
+      )
+      .build()
+  )
 
-    # [OPTIONAL] INSERT CODE WHERE YOU SERVE THE PLAN TO THE USER OR ITERATE ON IT IN ANY WAY
-
-    # Run the generated plan
+    # Run the plan
     plan_run = await portia.arun_plan(plan)
 
     # Serialise into JSON and print the output
@@ -216,7 +241,7 @@ asyncio.run(main())
   </TabItem>
 </Tabs>
 
-Here we are storing the `Plan` object returned by the `plan` method. We then use the `run_plan` method to start a `PlanRun`.
+Here we are storing the `Plan` object we created, then using the `run_plan` method to start a `PlanRun`.
 
 :::info
 If you want to see an example where a user iterates on a plan before we proceed with plan run, take a look at the intro example in our <a href="https://github.com/portiaAI/portia-agent-examples/blob/main/get_started_google_tools/README.md" target="_blank">**examples repo (↗)**</a>.
@@ -280,90 +305,3 @@ asyncio.run(main())
 :::note[Track plan run states in logs]
 You can track plan run state changes live as they occur through the logs by setting `default_log_level` to DEBUG in the `Config` of your `Portia` instance (<a href="/manage-config#manage-logging" target="_blank">**Manage logging ↗**</a>).
 :::
-
-## Run a plan stored in Portia cloud
-
-When you set the storage_class property to CLOUD in the config of your Portia instance (see <a href="/manage-config##manage-storage-options" target="_blank">**Manage storage options ↗**</a> for more details), plans will automatically be stored in the cloud once created. You can then easily retrieve plans from storage in order to run them:
-
-<!-- Setup a plan with the correct id. This won't be rendered on the website
-```python id=plan_invisible_setup
-from portia.plan import PlanBuilder, PlanUUID
-from portia import Portia
-from uuid import UUID
-portia = Portia()
-plan = PlanBuilder("test").build()
-plan_id = PlanUUID(uuid=UUID("f8003b53-9b62-44e2-ac67-887146c07949"))
-plan.id = plan_id
-try:
-  if not portia.storage.get_plan(plan_id):
-    portia.storage.save_plan(plan)
-except Exception as e:
-  pass
-```
--->
-
-<Tabs>
-  <TabItem value="sync" label="Sync" default>
-```python depends_on=plan_invisible_setup patch=portia_run_plan
-from dotenv import load_dotenv
-from portia import (
-    Portia,
-    default_config,
-    Config,
-    StorageClass,
-    PlanUUID
-)
-
-# Load the Portia API key
-load_dotenv()
-
-# Set up the Portia instance to use cloud storage
-config = Config.from_default(storage_class=StorageClass.CLOUD)
-portia = Portia(config=config)
-
-# This will create a plan that is stored in Portia Cloud
-plan = portia.plan('Which stock price grew faster in 2024, Amazon or Google?')
-
-# We can then either run the plan directly from the object...
-run = portia.run_plan(plan=plan)
-
-# Or we can use the ID so that the plan is loaded from storage
-run = portia.run_plan(plan=PlanUUID.from_string("plan-f8003b53-9b62-44e2-ac67-887146c07949"))
-```
-  </TabItem>
-  <TabItem value="async" label="Async">
-```python depends_on=plan_invisible_setup patch=portia_run_plan patch=portia_arun_plan
-import asyncio
-from dotenv import load_dotenv
-from portia import (
-    Portia,
-    default_config,
-    Config,
-    StorageClass,
-    PlanUUID
-)
-
-# Load the Portia API key
-load_dotenv()
-
-# Set up the Portia instance to use cloud storage
-config = Config.from_default(storage_class=StorageClass.CLOUD)
-portia = Portia(config=config)
-
-async def main():
-    # This will create a plan that is stored in Portia Cloud
-    plan = await portia.aplan('Which stock price grew faster in 2024, Amazon or Google?')
-
-    # We can then either run the plan directly from the object...
-    run = await portia.arun_plan(plan=plan)
-
-    # Or we can use the ID so that the plan is loaded from storage
-    run = await portia.arun_plan(plan=PlanUUID.from_string("plan-f8003b53-9b62-44e2-ac67-887146c07949"))
-
-# Run the async function
-asyncio.run(main())
-```
-  </TabItem>
-</Tabs>
-
-This can be very useful if you want to run a plan from a different process to the one that created the plan.
