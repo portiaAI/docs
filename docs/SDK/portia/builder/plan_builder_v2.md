@@ -348,7 +348,7 @@ an async function.
 
 ```python
 def single_tool_agent_step(*,
-                           tool: str,
+                           tool: str | Tool,
                            task: str,
                            inputs: list[Any] | None = None,
                            output_schema: type[BaseModel] | None = None,
@@ -369,7 +369,7 @@ schema.
 
 **Arguments**:
 
-- `tool` - The id of the tool the agent can use to complete the task.
+- `tool` - The id of the tool or the Tool instance the agent can use to complete the task.
 - `task` - Natural language description of what the agent should accomplish.
 - `inputs` - Optional context data for the agent. This can include references such as
   Input and StepOutput whose values are resolved at runtime and provided as
@@ -384,7 +384,7 @@ schema.
 ```python
 def react_agent_step(*,
                      task: str,
-                     tools: list[str] | None = None,
+                     tools: Sequence[str | Tool] | None = None,
                      inputs: list[Any] | None = None,
                      output_schema: type[BaseModel] | None = None,
                      step_name: str | None = None,
@@ -400,7 +400,7 @@ that may require multiple tool calls and decision making.
 **Arguments**:
 
 - `task` - The task to perform.
-- `tools` - The list of tool IDs to make available to the agent.
+- `tools` - The list of tool IDs or Tool instances to make available to the agent.
 - `inputs` - The inputs to the task. If any of these values are instances of StepOutput or
   Input, the corresponding values will be substituted in when the plan is run.
 - `output_schema` - The schema of the output.
