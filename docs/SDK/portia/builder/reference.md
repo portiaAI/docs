@@ -45,7 +45,7 @@ Generate a default name for a step based on its index.
 
 **Returns**:
 
-  A string in the format &quot;step_{index}&quot; (e.g., &quot;step_0&quot;, &quot;step_1&quot;).
+  A string in the format `"step_{index}" (e.g., "step_0", "step_1")`.
 
 ## Reference Objects
 
