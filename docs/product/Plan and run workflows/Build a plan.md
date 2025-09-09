@@ -166,7 +166,7 @@ builder.single_tool_agent_step(
 Use `.react_agent_step()` to add a step that uses a ReAct agent (Reasoning + Acting) to complete a task.
 The ReAct agent can use multiple tools and call them multiple times as needed to complete the task. This allows you to balance deterministic flows with more exploratory goal-based behaviour.
 
-```python
+```python depends_on=builder_invisible_setup
 builder.react_agent_step(
     tools=["search_tool", "weather_tool", "email_tool"],
     task="Find the weather in the 3 most Southerly countries in Europe and email it to me",
@@ -281,7 +281,7 @@ Use `.user_verify()` when you want to pause plan execution to ask a user to conf
 The plan will only continue if they confirm. If the user rejects, the plan execution will stop with an error.
 The user interaction is handled via clarifications - see <a href="/understand-clarifications" target="_blank">**Understand clarifications ↗**</a> for more details.
 
-```python
+```python depends_on=builder_invisible_setup
 builder.user_verify(
     message=f"Do you want to proceed with the purchase? Price is {StepOutput('Calculate total price')}")
 ```
@@ -291,7 +291,7 @@ Use `.user_input()` when you want to pause plan execution for a user to provide 
 This input can either be in the form of free text or can be a multiple-choice set of options.
 As with user verification, the user interaction is handled via clarifications - see <a href="/understand-clarifications" target="_blank">**Understand clarifications ↗**</a> for more details.
 
-```python
+```python depends_on=builder_invisible_setup
 # An example with multiple choice options
 builder.user_input(
     message="How much would you like to purchase?",
@@ -340,7 +340,7 @@ portia.run_plan(plan, plan_run_inputs={"user_query": "What is the capital of Per
 ```
 
 You can also access nested fields of the input using the path attribute:
-```python
+```python  depends_on=builder_invisible_setup
 class UserProfile(BaseModel):
     name: str
     email: str
@@ -376,9 +376,9 @@ builder.invoke_tool_step(
 
 As with Input, you can access nested fields of the output using the path attribute
 
-```python
+```python depends_on=builder_invisible_setup
 # Access the .profile.name field of the output from the 'get_user_data' step
-builder..llm_step(task="Do some task", inputs=[StepOutput("get_user_data", path="profile.name")])
+builder.llm_step(task="Do some task", inputs=[StepOutput("get_user_data", path="profile.name")])
 ```
 
 :::tip[Note]
@@ -401,12 +401,12 @@ plan = builder.final_output(
 
 <Tabs groupId="sync-async">
   <TabItem value="sync" label="Sync" default>
-```python
+```python depends_on=empty_plan_invisible_setup
 plan_run = portia.run_plan(plan)
 ```
   </TabItem>
   <TabItem value="async" label="Async">
-```python
+```python depends_on=empty_plan_invisible_setup
 import asyncio
 plan_run = asyncio.run(portia.arun_plan(plan))
 ```
