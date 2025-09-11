@@ -47,6 +47,30 @@ Generate a default name for a step based on its index.
 
   A string in the format `"step_{index}" (e.g., "step_0", "step_1")`.
 
+#### string\_to\_none
+
+```python
+def string_to_none(input_str: str) -> None
+```
+
+Convert a string to None.
+
+#### string\_to\_bool
+
+```python
+def string_to_bool(input_str: str) -> bool
+```
+
+Convert a string to a boolean.
+
+#### parenthesis\_string\_to\_str
+
+```python
+def parenthesis_string_to_str(input_str: str) -> str
+```
+
+Convert a parenthesis string to a string.
+
 ## Reference Objects
 
 ```python
@@ -98,6 +122,33 @@ Resolve and return the value this reference points to.
 **Raises**:
 
 - `NotImplementedError` - This method must be implemented by subclasses.
+
+#### from\_str
+
+```python
+@classmethod
+def from_str(cls: type[T], input_str: str) -> T
+```
+
+Create a reference from a string representation.
+
+**Arguments**:
+
+- `input_str` - The string representation of the reference.
+  
+
+**Returns**:
+
+  The reference object.
+  
+
+**Examples**:
+
+    ```python
+    StepOutput.from_str("StepOutput(step_name, path='field.name')")
+    StepOutput.from_str("{{ StepOutput(0, path='field.name') }}")
+    Input.from_str("Input(input_name, path='field.name')")
+    ```
 
 ## StepOutput Objects
 
