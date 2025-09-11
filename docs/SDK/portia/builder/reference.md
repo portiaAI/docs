@@ -198,7 +198,9 @@ Step indices are zero-based, so the first step is index 0.
 #### \_\_init\_\_
 
 ```python
-def __init__(step: str | int, path: str | None = None) -> None
+def __init__(step: str | int,
+             path: str | None = None,
+             full: bool = False) -> None
 ```
 
 Initialize a reference to a step&#x27;s output.
