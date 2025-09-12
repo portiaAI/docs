@@ -2,12 +2,20 @@
   "items": [
     {
       "items": [
+        "SDK/portia/builder/conditional_step",
         "SDK/portia/builder/conditionals",
+        "SDK/portia/builder/invoke_tool_step",
+        "SDK/portia/builder/llm_step",
+        "SDK/portia/builder/loop_step",
         "SDK/portia/builder/loops",
         "SDK/portia/builder/plan_builder_v2",
         "SDK/portia/builder/plan_v2",
+        "SDK/portia/builder/react_agent_step",
         "SDK/portia/builder/reference",
-        "SDK/portia/builder/step_v2"
+        "SDK/portia/builder/single_tool_agent_step",
+        "SDK/portia/builder/step_v2",
+        "SDK/portia/builder/user_input",
+        "SDK/portia/builder/user_verify"
       ],
       "label": "portia.builder",
       "type": "category"
