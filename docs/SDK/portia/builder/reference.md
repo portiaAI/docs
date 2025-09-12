@@ -163,7 +163,9 @@ enabling you to create workflows where later steps depend on the results of
 previous operations. The reference is resolved at runtime during plan execution.
 
 You can reference a step either by its name (string) or by its position (integer index).
-Step indices are zero-based, so the first step is index 0.
+Step indices are zero-based, so the first step is index 0. Negative indices are
+also supported, with -1 referring to the last step in the plan, -2 the second to
+last, and so on.
 
 **Example**:
 

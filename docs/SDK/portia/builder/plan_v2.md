@@ -67,7 +67,7 @@ name.
 **Arguments**:
 
 - `step` - The step to get the output name for. Can be:
-  - int: Index of the step in the plan
+  - int: Index of the step in the plan (negative values count from the end)
   - str: Name of the step
   - StepV2: The step instance itself
 
