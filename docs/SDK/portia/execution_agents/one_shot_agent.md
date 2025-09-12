@@ -127,7 +127,8 @@ def __init__(plan: Plan,
              agent_memory: AgentMemory,
              end_user: EndUser,
              tool: Tool | None = None,
-             execution_hooks: ExecutionHooks | None = None) -> None
+             execution_hooks: ExecutionHooks | None = None,
+             model: GenerativeModel | str | None = None) -> None
 ```
 
 Initialize the OneShotAgent.
@@ -141,6 +142,7 @@ Initialize the OneShotAgent.
 - `end_user` _EndUser_ - The end user for the execution.
 - `tool` _Tool | None_ - The tool to be used for the task (optional).
 - `execution_hooks` _ExecutionHooks | None_ - The execution hooks for the agent.
+- `model` _GenerativeModel | str | None_ - The model to use for the agent.
 
 #### execute\_sync
 

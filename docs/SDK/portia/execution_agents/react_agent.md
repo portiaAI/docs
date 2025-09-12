@@ -108,7 +108,8 @@ def __init__(task: str,
              run_data: RunContext,
              tool_call_limit: int = 25,
              allow_agent_clarifications: bool = False,
-             output_schema: type[BaseModel] | None = None) -> None
+             output_schema: type[BaseModel] | None = None,
+             model: GenerativeModel | str | None = None) -> None
 ```
 
 Initialize the ReActAgent.

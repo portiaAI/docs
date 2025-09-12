@@ -267,7 +267,8 @@ def llm_step(*,
              inputs: list[Any] | None = None,
              output_schema: type[BaseModel] | None = None,
              step_name: str | None = None,
-             system_prompt: str | None = None) -> PlanBuilderV2
+             system_prompt: str | None = None,
+             model: str | GenerativeModel | None = None) -> PlanBuilderV2
 ```
 
 Add a step that sends a task to an LLM.
@@ -288,6 +289,8 @@ a single_tool_agent_step(), a react_agent_step() or an invoke_tool_step().
   via StepOutput(&quot;name_of_step&quot;) rather than by index.
 - `system_prompt` - Optional system prompt for the LLM - allows overriding the default system
   prompt.
+- `model` - Optional model to use for this step. If not provided, the default model from the
+  config will be used.
 
 #### invoke\_tool\_step
 
@@ -347,12 +350,14 @@ an async function.
 #### single\_tool\_agent\_step
 
 ```python
-def single_tool_agent_step(*,
-                           tool: str | Tool,
-                           task: str,
-                           inputs: list[Any] | None = None,
-                           output_schema: type[BaseModel] | None = None,
-                           step_name: str | None = None) -> PlanBuilderV2
+def single_tool_agent_step(
+        *,
+        tool: str | Tool,
+        task: str,
+        inputs: list[Any] | None = None,
+        output_schema: type[BaseModel] | None = None,
+        step_name: str | None = None,
+        model: str | GenerativeModel | None = None) -> PlanBuilderV2
 ```
 
 Add a step where an agent uses a single tool to complete a task.
@@ -378,18 +383,22 @@ schema.
   output to match this schema.
 - `step_name` - Optional explicit name for the step. This allows its output to be
   referenced via StepOutput(&quot;name_of_step&quot;) rather than by index.
+- `model` - Optional model to use for this step. If not provided, the execution model from
+  the config will be used.
 
 #### react\_agent\_step
 
 ```python
-def react_agent_step(*,
-                     task: str,
-                     tools: Sequence[str | Tool] | None = None,
-                     inputs: list[Any] | None = None,
-                     output_schema: type[BaseModel] | None = None,
-                     step_name: str | None = None,
-                     allow_agent_clarifications: bool = False,
-                     tool_call_limit: int = 25) -> PlanBuilderV2
+def react_agent_step(
+        *,
+        task: str,
+        tools: Sequence[str | Tool] | None = None,
+        inputs: list[Any] | None = None,
+        output_schema: type[BaseModel] | None = None,
+        step_name: str | None = None,
+        allow_agent_clarifications: bool = False,
+        tool_call_limit: int = 25,
+        model: str | GenerativeModel | None = None) -> PlanBuilderV2
 ```
 
 Add a step that uses a ReAct agent with multiple tools.
@@ -407,6 +416,8 @@ that may require multiple tool calls and decision making.
 - `step_name` - Optional name for the step. If not provided, will be auto-generated.
 - `allow_agent_clarifications` - Whether to allow the agent to ask clarifying questions.
 - `tool_call_limit` - Maximum number of tool calls the agent can make.
+- `model` - Optional model to use for this step. If not provided, the planning model from the
+  config will be used.
 
 #### user\_verify
 
