@@ -14,6 +14,7 @@
         "SDK/portia/builder/reference",
         "SDK/portia/builder/single_tool_agent_step",
         "SDK/portia/builder/step_v2",
+        "SDK/portia/builder/sub_plan_step",
         "SDK/portia/builder/user_input",
         "SDK/portia/builder/user_verify"
       ],

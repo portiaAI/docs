@@ -498,48 +498,38 @@ to the plan without any modification.
 
 - `step` - A pre-built step instance that inherits from StepV2.
 
-#### add\_steps
+#### add\_sub\_plan
 
 ```python
-def add_steps(plan: PlanV2 | Iterable[StepV2],
-              input_values: dict[str, Any] | None = None) -> PlanBuilderV2
+def add_sub_plan(plan: PlanV2 | Iterable[StepV2],
+                 input_values: dict[str, Any] | None = None,
+                 step_name: str | None = None) -> PlanBuilderV2
 ```
 
-Add multiple steps or merge another plan into this builder.
+Add a step that runs a sub-plan and returns its final output.
 
-This allows you to compose plans by merging smaller plans together, or to add
-a sequence of pre-built steps all at once. When merging a PlanV2, both the
-steps and the plan inputs are merged into the current builder.
-
-This is useful for creating reusable sub-plans that can be incorporated into
-larger workflows.
+The sub-plan executes completely as an independent workflow with its own step sequence.
+From the parent plan&#x27;s perspective, the entire sub-plan execution appears as a single step
+that produces one output value. Inputs for the sub-plan can be provided by the plan run
+inputs when the parent plan is run or via the input_values parameter.
 
 **Arguments**:
 
-- `plan` - Either a complete PlanV2 to merge (including its steps and inputs),
-  or any iterable of StepV2 instances to add to the current plan.
+- `plan` - The sub-plan to run.
 - `input_values` - Optional mapping of inputs in the sub-plan to values. This is
   only used when plan is a PlanV2, and is useful if a sub-plan has an input
   and you want to provide a value for it from a step in the top-level plan.
   For example:
   
-    ```python
-        sub_plan = builder.input(name="input_name").build()
-        top_plan = builder.llm_step(step_name="llm_step", task="Task")
-                   .add_steps(sub_plan, input_values={"input_name": StepOutput("llm_step")})
-                   .build()
-    ```
+   ```python
+       sub_plan = builder.input(name="input_name").build()
+       top_plan = builder.llm_step(step_name="llm_step", task="Task")
+                  .add_sub_plan(sub_plan, input_values={"input": StepOutput("llm_step")})
+                  .build()
+   ```
   
-- `input_values` - Optional mapping of input names to default values. Only used
-  when plan is a PlanV2. These values will be set as default values for
-  the corresponding plan inputs.
-  
-
-**Raises**:
-
-- `PlanBuilderError` - If duplicate input names are detected when merging plans,
-  or if you try to provide values for inputs that don&#x27;t exist in the
-  sub-plan.
+- `step_name` - Optional explicit name for the step. This allows its output to be
+  referenced via StepOutput(&quot;name_of_step&quot;) rather than by index.
 
 #### final\_output
 
