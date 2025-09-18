@@ -67,7 +67,6 @@
         "SDK/portia/open_source_tools/map_tool",
         "SDK/portia/open_source_tools/pdf_reader_tool",
         "SDK/portia/open_source_tools/search_tool",
-        "SDK/portia/open_source_tools/sql_tool",
         "SDK/portia/open_source_tools/weather"
       ],
       "label": "portia.open_source_tools",
