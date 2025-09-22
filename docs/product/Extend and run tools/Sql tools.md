@@ -172,7 +172,7 @@ run = portia.run_plan(
 ## SQLAdapter Objects
 You can override the default SQLite adapter with your own implementation:
 
-```python skip=true skin_reason=for example purpose only
+```python skip=true skip_reason=for example purpose only
 from portia.open_source_tools.sql_tool import SQLAdapter, RunSQLTool
 from typing import Any, Dict, List
 
