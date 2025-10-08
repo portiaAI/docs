@@ -17,6 +17,7 @@ The `PlanBuilderV2` offers methods to create each part of the plan iteratively:
 - `.react_agent_step()` adds a ReAct (i.e. Reasoning + Acting) agent that is capable of using multiple tools and calling them multiple times in a loop until a task is achieved.
 - `.function_step()` is identical to `.invoke_tool_step()` but calls a Python function rather than a tool with an ID.
 - `.if_()`, `.else_if_()`, `.else_()` and `.endif()` are used to add conditional branching to the plan.
+- `.exit()` allows the plan to exit gracefully with optional messages and error flags.
 - `.user_verify()` and `user_input()` allow interacting with the user (via <a href="/understand-clarifications" target="_blank">**clarifications ↗**</a>) for their input and verification
 - `.input()` and `.final_output()` allow specifying inputs into the plan and the format of the plan's output
 - `.add_steps()` allows you to compose a plan by merging multiple smaller plans, while `.add_step()` allows you to add your own custom steps
@@ -84,6 +85,7 @@ plan = (
         tool="portia:google:gmail:send_email",
         inputs=[StepOutput(2)],
     )
+    .exit(message="Email sent successfully - plan complete")
     .final_output(
         output_schema=FinalOutput,
     )
@@ -272,6 +274,65 @@ Conditional blocks can be nested to create _even_ more complex control flow!
 )
 ```
 
+## Exit Step
+
+Use `.exit()` to add a step that causes the plan to exit gracefully when executed. This is useful for early termination based on conditions or errors, providing a clean alternative to throwing exceptions.
+
+### Basic Exit
+```python depends_on=builder_invisible_setup
+plan = (
+    PlanBuilderV2("Process data with early exit")
+    .function_step(function=lambda: "process data")
+    .exit(message="Processing complete")
+    .function_step(function=lambda: "this won't run")
+    .build()
+)
+```
+
+### Error Exit
+```python depends_on=builder_invisible_setup
+plan = (
+    PlanBuilderV2("Error handling example")
+    .function_step(function=lambda: "validate input")
+    .exit(message="Invalid input detected", error=True)
+    .function_step(function=lambda: "this won't run")
+    .build()
+)
+```
+
+### Conditional Exit
+```python depends_on=builder_invisible_setup
+plan = (
+    PlanBuilderV2("Conditional exit example")
+    .function_step(function=lambda: "check condition")
+    .if_(condition=lambda: True)
+        .exit(message="Early exit due to condition")
+    .endif()
+    .function_step(function=lambda: "continue processing")
+    .build()
+)
+```
+
+### Exit with Template References
+```python depends_on=builder_invisible_setup
+plan = (
+    PlanBuilderV2("Exit with references")
+    .function_step(function=lambda: "completed successfully", step_name="process_data")
+    .exit(message="Processing {{ StepOutput('process_data') }} - stopping now")
+    .build()
+)
+```
+
+**Arguments:**
+- `message` - The message to display when exiting. Can include references to previous step outputs using `{{ StepOutput(step_name) }}` syntax.
+- `error` - Whether this exit represents an error condition. If `True`, the plan will be marked as failed.
+- `step_name` - Optional name for the step. If not provided, will be auto-generated.
+
+**Behavior:**
+- **Non-error exits**: Plan completes successfully and skips remaining steps
+- **Error exits**: Plan fails and stops execution
+- **Output storage**: Exit step outputs are properly stored and can be referenced by other steps
+- **Conditional support**: Exit steps work within if/endif blocks for conditional early termination
 
 ## User Interaction
 
