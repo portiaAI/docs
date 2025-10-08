@@ -531,50 +531,6 @@ inputs when the parent plan is run or via the input_values parameter.
 - `step_name` - Optional explicit name for the step. This allows its output to be
   referenced via StepOutput(&quot;name_of_step&quot;) rather than by index.
 
-#### exit
-
-```python
-def exit(*,
-         message: str = "",
-         error: bool = False,
-         step_name: str | None = None) -> PlanBuilderV2
-```
-
-Add an exit step to the plan.
-
-This step will cause the plan to exit gracefully when executed. Useful for early termination based on conditions or errors, providing a clean alternative to throwing exceptions.
-
-**Arguments**:
-
-- `message` - The message to display when exiting. Can include references to previous step outputs using `{{ StepOutput(step_name) }}` syntax.
-- `error` - Whether this exit represents an error condition. If `True`, the plan will be marked as failed.
-- `step_name` - Optional name for the step. If not provided, will be auto-generated.
-
-**Behavior**:
-
-- **Non-error exits**: Plan completes successfully and skips remaining steps
-- **Error exits**: Plan fails and stops execution  
-- **Output storage**: Exit step outputs are properly stored and can be referenced by other steps
-- **Conditional support**: Exit steps work within if/endif blocks for conditional early termination
-
-**Examples**:
-
-```python
-# Basic exit
-builder.exit(message="Processing complete")
-
-# Error exit
-builder.exit(message="Invalid input detected", error=True)
-
-# Exit with template references
-builder.exit(message="Processing {{ StepOutput('previous_step') }} - stopping now")
-
-# Exit within conditional
-builder.if_(condition=lambda: some_condition)
-    .exit(message="Early exit due to condition")
-    .endif()
-```
-
 #### final\_output
 
 ```python
