@@ -67,6 +67,7 @@
         "SDK/portia/open_source_tools/map_tool",
         "SDK/portia/open_source_tools/pdf_reader_tool",
         "SDK/portia/open_source_tools/search_tool",
+        "SDK/portia/open_source_tools/sql_tool",
         "SDK/portia/open_source_tools/weather"
       ],
       "label": "portia.open_source_tools",
@@ -93,6 +94,7 @@
     "SDK/portia/clarification_handler",
     "SDK/portia/cloud",
     "SDK/portia/config",
+    "SDK/portia/cost_estimator",
     "SDK/portia/end_user",
     "SDK/portia/errors",
     "SDK/portia/execution_hooks",
