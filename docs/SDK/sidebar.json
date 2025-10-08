@@ -4,6 +4,8 @@
       "items": [
         "SDK/portia/builder/conditional_step",
         "SDK/portia/builder/conditionals",
+        "SDK/portia/builder/exit",
+        "SDK/portia/builder/exit_step",
         "SDK/portia/builder/invoke_tool_step",
         "SDK/portia/builder/llm_step",
         "SDK/portia/builder/loop_step",

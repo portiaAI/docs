@@ -531,6 +531,27 @@ inputs when the parent plan is run or via the input_values parameter.
 - `step_name` - Optional explicit name for the step. This allows its output to be
   referenced via StepOutput(&quot;name_of_step&quot;) rather than by index.
 
+#### exit
+
+```python
+def exit(*,
+         message: str = "",
+         error: bool = False,
+         step_name: str | None = None) -> PlanBuilderV2
+```
+
+Add an exit step to the plan.
+
+This step will cause the plan to exit gracefully when executed.
+Useful for early termination based on conditions or errors.
+
+**Arguments**:
+
+- `message` - The message to display when exiting. Can include references
+  to previous step outputs using {{ StepOutput(step_name) }} syntax.
+- `error` - Whether this exit represents an error condition.
+- `step_name` - Optional name for the step. If not provided, will be auto-generated.
+
 #### final\_output
 
 ```python
