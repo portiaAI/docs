@@ -1,9 +1,6 @@
 name: Daily Test Code Examples
 
 on:
-  schedule:
-    # Run at 9am UTC daily
-    - cron: '0 9 * * *'
   workflow_dispatch:
 
 jobs:
