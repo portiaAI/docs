@@ -394,6 +394,43 @@ Create a Config instance with default values, allowing overrides.
 
 - `Config` - The default config
 
+#### from\_local\_config
+
+```python
+@classmethod
+def from_local_config(cls,
+                      profile: str = "default",
+                      config_file: Path | None = None,
+                      **overrides: Any) -> Config
+```
+
+Create Config instance from TOML profile with proper precedence.
+
+Precedence order (highest to lowest):
+1. Direct code overrides (**overrides)
+2. Config file values
+3. Environment variables
+
+**Arguments**:
+
+- `profile` - Profile name to load (default: &quot;default&quot;)
+- `config_file` - Optional path to config file
+- `**overrides` - Direct parameter overrides
+  
+
+**Returns**:
+
+  Config instance with merged settings
+  
+
+**Example**:
+
+  config = Config.from_local_config(profile=&quot;openai&quot;)
+  config = Config.from_local_config(
+  profile=&quot;gemini&quot;,
+  default_model=&quot;google/gemini-2.5-pro&quot;,
+  )
+
 #### has\_api\_key
 
 ```python

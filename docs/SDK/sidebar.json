@@ -96,6 +96,7 @@
     "SDK/portia/clarification_handler",
     "SDK/portia/cloud",
     "SDK/portia/config",
+    "SDK/portia/config_loader",
     "SDK/portia/cost_estimator",
     "SDK/portia/end_user",
     "SDK/portia/errors",
